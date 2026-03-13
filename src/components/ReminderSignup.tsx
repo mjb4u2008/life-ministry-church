@@ -49,8 +49,8 @@ export function ReminderSignup() {
 
   if (status === "success") {
     return (
-      <div className="bg-forest/10 rounded-2xl p-6 text-center animate-fade-in">
-        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-forest flex items-center justify-center">
+      <div className="bg-sky rounded-2xl p-6 text-center animate-fade-in">
+        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-water flex items-center justify-center">
           <svg
             className="w-8 h-8 text-white"
             fill="none"
@@ -65,10 +65,10 @@ export function ReminderSignup() {
             />
           </svg>
         </div>
-        <h3 className="font-display text-xl font-semibold text-charcoal mb-2">
+        <h3 className="font-display text-xl font-semibold text-deep mb-2">
           You&apos;re All Set!
         </h3>
-        <p className="text-charcoal-light">
+        <p className="text-text-body">
           We&apos;ll remind you before the next service.
         </p>
       </div>
@@ -76,11 +76,11 @@ export function ReminderSignup() {
   }
 
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-lg">
+    <div className="bg-cloud rounded-2xl p-6 shadow-lg shadow-water/10">
       <div className="text-center mb-6">
-        <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-terracotta/10 flex items-center justify-center">
+        <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-water/10 flex items-center justify-center">
           <svg
-            className="w-6 h-6 text-terracotta"
+            className="w-6 h-6 text-water"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -93,10 +93,10 @@ export function ReminderSignup() {
             />
           </svg>
         </div>
-        <h3 className="font-display text-xl font-semibold text-charcoal">
+        <h3 className="font-display text-xl font-semibold text-deep">
           Get Reminded
         </h3>
-        <p className="text-charcoal-light text-sm mt-1">
+        <p className="text-text-body text-sm mt-1">
           We&apos;ll send you a reminder before we go live
         </p>
       </div>
@@ -108,20 +108,20 @@ export function ReminderSignup() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Your name"
-            className="w-full px-4 py-3 rounded-xl border border-warm-gray-light focus:border-terracotta focus:ring-2 focus:ring-terracotta/20 outline-none transition-colors bg-cream"
+            className="w-full px-4 py-3 rounded-xl border border-border-light focus:border-water focus:ring-2 focus:ring-water/20 outline-none transition-colors bg-white"
             required
           />
         </div>
 
         {/* Contact Type Toggle */}
-        <div className="flex gap-2 p-1 bg-cream rounded-xl">
+        <div className="flex gap-2 p-1 bg-white rounded-xl">
           <button
             type="button"
             onClick={() => setContactType("email")}
             className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
               contactType === "email"
-                ? "bg-terracotta text-white"
-                : "text-charcoal-light hover:text-charcoal"
+                ? "bg-water text-white"
+                : "text-text-body hover:text-deep"
             }`}
           >
             Email
@@ -131,8 +131,8 @@ export function ReminderSignup() {
             onClick={() => setContactType("phone")}
             className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
               contactType === "phone"
-                ? "bg-terracotta text-white"
-                : "text-charcoal-light hover:text-charcoal"
+                ? "bg-water text-white"
+                : "text-text-body hover:text-deep"
             }`}
           >
             Text Me
@@ -145,7 +145,7 @@ export function ReminderSignup() {
             value={contact}
             onChange={(e) => setContact(e.target.value)}
             placeholder={contactType === "email" ? "your@email.com" : "Your phone number"}
-            className="w-full px-4 py-3 rounded-xl border border-warm-gray-light focus:border-terracotta focus:ring-2 focus:ring-terracotta/20 outline-none transition-colors bg-cream"
+            className="w-full px-4 py-3 rounded-xl border border-border-light focus:border-water focus:ring-2 focus:ring-water/20 outline-none transition-colors bg-white"
             required
           />
         </div>
@@ -157,7 +157,7 @@ export function ReminderSignup() {
         <button
           type="submit"
           disabled={isSubmitting || !name.trim() || !contact.trim()}
-          className="w-full bg-terracotta text-white font-semibold py-3 rounded-xl hover:bg-terracotta-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-water text-white font-semibold py-3 rounded-xl hover:bg-water-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? "Signing up..." : "Remind Me"}
         </button>

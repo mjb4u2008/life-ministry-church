@@ -58,25 +58,25 @@ export function TikTokCarousel({ videos, tiktokProfileUrl }: TikTokCarouselProps
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className="text-terracotta font-medium tracking-wider uppercase text-sm">
+            <span className="text-water font-medium tracking-wider uppercase text-sm">
               Daily Encouragement
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-semibold text-charcoal mt-2">
+            <h2 className="text-3xl md:text-4xl font-display font-semibold text-deep mt-2">
               Latest from Pastor Mike
             </h2>
           </div>
 
           <div className="flex justify-center">
-            <div className="bg-white rounded-2xl shadow-sm p-12 text-center max-w-md">
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-charcoal/5 flex items-center justify-center">
-                <svg className="w-10 h-10 text-charcoal/30" fill="currentColor" viewBox="0 0 24 24">
+            <div className="bg-white rounded-2xl shadow-sm shadow-water/10 p-12 text-center max-w-md">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-deep/5 flex items-center justify-center">
+                <svg className="w-10 h-10 text-deep/30" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
                 </svg>
               </div>
-              <p className="text-charcoal-light text-lg mb-2">
+              <p className="text-text-body text-lg mb-2">
                 Videos coming soon
               </p>
-              <p className="text-charcoal-light/70 text-sm">
+              <p className="text-text-body/70 text-sm">
                 Check back for daily encouragement!
               </p>
               {tiktokProfileUrl && (
@@ -84,7 +84,7 @@ export function TikTokCarousel({ videos, tiktokProfileUrl }: TikTokCarouselProps
                   href={tiktokProfileUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-6 text-terracotta hover:text-terracotta-dark font-medium transition-colors"
+                  className="inline-flex items-center gap-2 mt-6 text-water hover:text-water-dark font-medium transition-colors"
                 >
                   Follow on TikTok
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -108,17 +108,17 @@ export function TikTokCarousel({ videos, tiktokProfileUrl }: TikTokCarouselProps
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className="text-terracotta font-medium tracking-wider uppercase text-sm">
+            <span className="text-water font-medium tracking-wider uppercase text-sm">
               Daily Encouragement
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-semibold text-charcoal mt-2">
+            <h2 className="text-3xl md:text-4xl font-display font-semibold text-deep mt-2">
               Latest from Pastor Mike
             </h2>
           </div>
 
           <div className="flex justify-center">
             <div className="w-[300px]">
-              <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+              <div className="bg-white rounded-2xl shadow-md shadow-water/10 overflow-hidden">
                 {videoId ? (
                   <iframe
                     src={`https://www.tiktok.com/embed/v2/${videoId}`}
@@ -127,13 +127,13 @@ export function TikTokCarousel({ videos, tiktokProfileUrl }: TikTokCarouselProps
                     allow="encrypted-media"
                   />
                 ) : (
-                  <div className="w-full h-[530px] bg-charcoal/5 flex items-center justify-center">
-                    <p className="text-charcoal-light text-sm">Invalid video URL</p>
+                  <div className="w-full h-[530px] bg-deep/5 flex items-center justify-center">
+                    <p className="text-text-body text-sm">Invalid video URL</p>
                   </div>
                 )}
                 {video.title && (
-                  <div className="p-4 border-t border-charcoal/5">
-                    <p className="text-charcoal text-sm font-medium line-clamp-2">
+                  <div className="p-4 border-t border-deep/5">
+                    <p className="text-deep text-sm font-medium line-clamp-2">
                       {video.title}
                     </p>
                   </div>
@@ -148,7 +148,7 @@ export function TikTokCarousel({ videos, tiktokProfileUrl }: TikTokCarouselProps
                 href={tiktokProfileUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-terracotta hover:text-terracotta-dark font-medium transition-colors"
+                className="inline-flex items-center gap-2 text-water hover:text-water-dark font-medium transition-colors"
               >
                 Follow @pastormike on TikTok
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -167,13 +167,13 @@ export function TikTokCarousel({ videos, tiktokProfileUrl }: TikTokCarouselProps
     <section className="py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <span className="text-terracotta font-medium tracking-wider uppercase text-sm">
+          <span className="text-water font-medium tracking-wider uppercase text-sm">
             Daily Encouragement
           </span>
-          <h2 className="text-3xl md:text-4xl font-display font-semibold text-charcoal mt-2">
+          <h2 className="text-3xl md:text-4xl font-display font-semibold text-deep mt-2">
             Latest from Pastor Mike
           </h2>
-          <p className="text-charcoal-light text-lg mt-4 max-w-2xl mx-auto">
+          <p className="text-text-body text-lg mt-4 max-w-2xl mx-auto">
             Get daily encouragement and stay connected with our community throughout the week.
           </p>
         </div>
@@ -185,7 +185,7 @@ export function TikTokCarousel({ videos, tiktokProfileUrl }: TikTokCarouselProps
         {canScrollLeft && (
           <button
             onClick={() => scroll("left")}
-            className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg items-center justify-center text-charcoal hover:bg-white hover:text-terracotta transition-all opacity-0 group-hover:opacity-100"
+            className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg shadow-water/10 items-center justify-center text-deep hover:bg-white hover:text-water transition-all opacity-0 group-hover:opacity-100"
             aria-label="Scroll left"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -198,7 +198,7 @@ export function TikTokCarousel({ videos, tiktokProfileUrl }: TikTokCarouselProps
         {canScrollRight && (
           <button
             onClick={() => scroll("right")}
-            className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg items-center justify-center text-charcoal hover:bg-white hover:text-terracotta transition-all opacity-0 group-hover:opacity-100"
+            className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg shadow-water/10 items-center justify-center text-deep hover:bg-white hover:text-water transition-all opacity-0 group-hover:opacity-100"
             aria-label="Scroll right"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -209,12 +209,12 @@ export function TikTokCarousel({ videos, tiktokProfileUrl }: TikTokCarouselProps
 
         {/* Left fade gradient */}
         {canScrollLeft && (
-          <div className="hidden md:block absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-cream to-transparent z-[1] pointer-events-none" />
+          <div className="hidden md:block absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-[1] pointer-events-none" />
         )}
 
         {/* Right fade gradient */}
         {canScrollRight && (
-          <div className="hidden md:block absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-cream to-transparent z-[1] pointer-events-none" />
+          <div className="hidden md:block absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-[1] pointer-events-none" />
         )}
 
         {/* Scrollable container */}
@@ -233,7 +233,7 @@ export function TikTokCarousel({ videos, tiktokProfileUrl }: TikTokCarouselProps
                 key={video.id}
                 className="flex-shrink-0 w-[300px] snap-center"
               >
-                <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                <div className="bg-white rounded-2xl shadow-md shadow-water/10 overflow-hidden hover:shadow-lg hover:shadow-water/15 transition-shadow">
                   {videoId ? (
                     <iframe
                       src={`https://www.tiktok.com/embed/v2/${videoId}`}
@@ -242,13 +242,13 @@ export function TikTokCarousel({ videos, tiktokProfileUrl }: TikTokCarouselProps
                       allow="encrypted-media"
                     />
                   ) : (
-                    <div className="w-full h-[530px] bg-charcoal/5 flex items-center justify-center">
-                      <p className="text-charcoal-light text-sm">Invalid video URL</p>
+                    <div className="w-full h-[530px] bg-deep/5 flex items-center justify-center">
+                      <p className="text-text-body text-sm">Invalid video URL</p>
                     </div>
                   )}
                   {video.title && (
-                    <div className="p-4 border-t border-charcoal/5">
-                      <p className="text-charcoal text-sm font-medium line-clamp-2">
+                    <div className="p-4 border-t border-deep/5">
+                      <p className="text-deep text-sm font-medium line-clamp-2">
                         {video.title}
                       </p>
                     </div>
@@ -265,7 +265,7 @@ export function TikTokCarousel({ videos, tiktokProfileUrl }: TikTokCarouselProps
                 href={tiktokProfileUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block h-full min-h-[530px] bg-gradient-to-br from-charcoal to-charcoal-light rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-all group/card"
+                className="block h-full min-h-[530px] bg-gradient-to-br from-deep to-ocean rounded-2xl shadow-md shadow-water/10 overflow-hidden hover:shadow-lg transition-all group/card"
               >
                 <div className="h-full flex flex-col items-center justify-center p-8 text-center">
                   <div className="w-24 h-24 mb-6 rounded-full bg-white/10 flex items-center justify-center group-hover/card:bg-white/20 transition-colors">
