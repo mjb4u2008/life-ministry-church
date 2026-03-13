@@ -1,1 +1,54 @@
-{"data":"aW1wb3J0IHsgTmV4dFJlcXVlc3QsIE5leHRSZXNwb25zZSB9IGZyb20gIm5leHQvc2VydmVyIjsKaW1wb3J0IHsgdmVyaWZ5UGFzc3dvcmQsIGdlbmVyYXRlVG9rZW4sIHZlcmlmeVRva2VuIH0gZnJvbSAiQC9saWIvYXV0aCI7CgpleHBvcnQgYXN5bmMgZnVuY3Rpb24gUE9TVChyZXF1ZXN0OiBOZXh0UmVxdWVzdCkgewogIHRyeSB7CiAgICBjb25zdCB7IHBhc3N3b3JkIH0gPSBhd2FpdCByZXF1ZXN0Lmpzb24oKTsKCiAgICBpZiAoIXBhc3N3b3JkKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgICB7IGVycm9yOiAiUGFzc3dvcmQgaXMgcmVxdWlyZWQiIH0sCiAgICAgICAgeyBzdGF0dXM6IDQwMCB9CiAgICAgICk7CiAgICB9CgogICAgaWYgKCF2ZXJpZnlQYXNzd29yZChwYXNzd29yZCkpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICAgIHsgZXJyb3I6ICJJbnZhbGlkIHBhc3N3b3JkIiB9LAogICAgICAgIHsgc3RhdHVzOiA0MDEgfQogICAgICApOwogICAgfQoKICAgIGNvbnN0IHRva2VuID0gZ2VuZXJhdGVUb2tlbigpOwoKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IHN1Y2Nlc3M6IHRydWUsIHRva2VuIH0pOwogIH0gY2F0Y2ggKGVycm9yKSB7CiAgICBjb25zb2xlLmVycm9yKCJBdXRoIGVycm9yOiIsIGVycm9yKTsKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgeyBlcnJvcjogIkF1dGhlbnRpY2F0aW9uIGZhaWxlZCIgfSwKICAgICAgeyBzdGF0dXM6IDUwMCB9CiAgICApOwogIH0KfQoKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIEdFVChyZXF1ZXN0OiBOZXh0UmVxdWVzdCkgewogIHRyeSB7CiAgICBjb25zdCBhdXRoSGVhZGVyID0gcmVxdWVzdC5oZWFkZXJzLmdldCgiYXV0aG9yaXphdGlvbiIpOwogICAgY29uc3QgdG9rZW4gPSBhdXRoSGVhZGVyPy5yZXBsYWNlKCJCZWFyZXIgIiwgIiIpOwoKICAgIGlmICghdG9rZW4gfHwgIXZlcmlmeVRva2VuKHRva2VuKSkgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgICAgeyBhdXRoZW50aWNhdGVkOiBmYWxzZSB9LAogICAgICAgIHsgc3RhdHVzOiA0MDEgfQogICAgICApOwogICAgfQoKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGF1dGhlbnRpY2F0ZWQ6IHRydWUgfSk7CiAgfSBjYXRjaCAoZXJyb3IpIHsKICAgIGNvbnNvbGUuZXJyb3IoIkF1dGggY2hlY2sgZXJyb3I6IiwgZXJyb3IpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICB7IGF1dGhlbnRpY2F0ZWQ6IGZhbHNlIH0sCiAgICAgIHsgc3RhdHVzOiA0MDEgfQogICAgKTsKICB9Cn0K"}
+import { NextRequest, NextResponse } from "next/server";
+import { verifyPassword, generateToken, verifyToken } from "@/lib/auth";
+
+export async function POST(request: NextRequest) {
+  try {
+    const { password } = await request.json();
+
+    if (!password) {
+      return NextResponse.json(
+        { error: "Password is required" },
+        { status: 400 }
+      );
+    }
+
+    if (!verifyPassword(password)) {
+      return NextResponse.json(
+        { error: "Invalid password" },
+        { status: 401 }
+      );
+    }
+
+    const token = generateToken();
+
+    return NextResponse.json({ success: true, token });
+  } catch (error) {
+    console.error("Auth error:", error);
+    return NextResponse.json(
+      { error: "Authentication failed" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const authHeader = request.headers.get("authorization");
+    const token = authHeader?.replace("Bearer ", "");
+
+    if (!token || !verifyToken(token)) {
+      return NextResponse.json(
+        { authenticated: false },
+        { status: 401 }
+      );
+    }
+
+    return NextResponse.json({ authenticated: true });
+  } catch (error) {
+    console.error("Auth check error:", error);
+    return NextResponse.json(
+      { authenticated: false },
+      { status: 401 }
+    );
+  }
+}

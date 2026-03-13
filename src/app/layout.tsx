@@ -1,1 +1,44 @@
-{"data":"aW1wb3J0IHR5cGUgeyBNZXRhZGF0YSB9IGZyb20gIm5leHQiOwppbXBvcnQgeyBDb3Jtb3JhbnRfR2FyYW1vbmQsIERNX1NhbnMgfSBmcm9tICJuZXh0L2ZvbnQvZ29vZ2xlIjsKaW1wb3J0ICIuL2dsb2JhbHMuY3NzIjsKaW1wb3J0IHsgSGVhZGVyIH0gZnJvbSAiQC9jb21wb25lbnRzL0hlYWRlciI7CmltcG9ydCB7IEZvb3RlciB9IGZyb20gIkAvY29tcG9uZW50cy9Gb290ZXIiOwoKY29uc3QgY29ybW9yYW50ID0gQ29ybW9yYW50X0dhcmFtb25kKHsKICB2YXJpYWJsZTogIi0tZm9udC1jb3Jtb3JhbnQiLAogIHN1YnNldHM6IFsibGF0aW4iXSwKICB3ZWlnaHQ6IFsiNDAwIiwgIjUwMCIsICI2MDAiLCAiNzAwIl0sCiAgZGlzcGxheTogInN3YXAiLAp9KTsKCmNvbnN0IGRtU2FucyA9IERNX1NhbnMoewogIHZhcmlhYmxlOiAiLS1mb250LWRtLXNhbnMiLAogIHN1YnNldHM6IFsibGF0aW4iXSwKICB3ZWlnaHQ6IFsiNDAwIiwgIjUwMCIsICI2MDAiLCAiNzAwIl0sCiAgZGlzcGxheTogInN3YXAiLAp9KTsKCmV4cG9ydCBjb25zdCBtZXRhZGF0YTogTWV0YWRhdGEgPSB7CiAgdGl0bGU6ICJMLkkuRi5FLiBNaW5pc3RyeSB8IExvcmQgSXMgRm9yZXZlciBFbW1hbnVlbCIsCiAgZGVzY3JpcHRpb246ICJKb2luIEwuSS5GLkUuIE1pbmlzdHJ5IGV2ZXJ5IFN1bmRheSBmb3IgaW50ZXJhY3RpdmUgd29yc2hpcCwgY29ubmVjdGlvbiwgYW5kIGNvbW11bml0eS4gRXhwZXJpZW5jZSBHb2QncyBjb25zdGFudCBwcmVzZW5jZSB0b2dldGhlci4iLAp9OwoKZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24gUm9vdExheW91dCh7CiAgY2hpbGRyZW4sCn06IFJlYWRvbmx5PHsKICBjaGlsZHJlbjogUmVhY3QuUmVhY3ROb2RlOwp9PikgewogIHJldHVybiAoCiAgICA8aHRtbCBsYW5nPSJlbiIgY2xhc3NOYW1lPSJzY3JvbGwtc21vb3RoIj4KICAgICAgPGJvZHkKICAgICAgICBjbGFzc05hbWU9e2Ake2Nvcm1vcmFudC52YXJpYWJsZX0gJHtkbVNhbnMudmFyaWFibGV9IGZvbnQtYm9keSBhbnRpYWxpYXNlZCBiZy1jcmVhbSB0ZXh0LWNoYXJjb2FsYH0KICAgICAgPgogICAgICAgIDxIZWFkZXIgLz4KICAgICAgICA8bWFpbiBjbGFzc05hbWU9Im1pbi1oLXNjcmVlbiI+CiAgICAgICAgICB7Y2hpbGRyZW59CiAgICAgICAgPC9tYWluPgogICAgICAgIDxGb290ZXIgLz4KICAgICAgPC9ib2R5PgogICAgPC9odG1sPgogICk7Cn0K"}
+import type { Metadata } from "next";
+import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import "./globals.css";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  title: "L.I.F.E. Ministry | Lord Is Forever Emmanuel",
+  description: "Join L.I.F.E. Ministry every Sunday for interactive worship, connection, and community. Experience God's constant presence together.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" className="scroll-smooth">
+      <body
+        className={`${cormorant.variable} ${dmSans.variable} font-body antialiased bg-cream text-charcoal`}
+      >
+        <Header />
+        <main className="min-h-screen">
+          {children}
+        </main>
+        <Footer />
+      </body>
+    </html>
+  );
+}

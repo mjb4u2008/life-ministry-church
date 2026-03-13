@@ -1,1 +1,91 @@
-{"data":"aW1wb3J0IExpbmsgZnJvbSAibmV4dC9saW5rIjsKaW1wb3J0IHsgUmVhY3ROb2RlLCBCdXR0b25IVE1MQXR0cmlidXRlcyB9IGZyb20gInJlYWN0IjsKCnR5cGUgQnV0dG9uVmFyaWFudCA9ICJwcmltYXJ5IiB8ICJzZWNvbmRhcnkiIHwgIm91dGxpbmUiIHwgImdob3N0IjsKdHlwZSBCdXR0b25TaXplID0gInNtIiB8ICJtZCIgfCAibGciOwoKaW50ZXJmYWNlIEJ1dHRvblByb3BzIGV4dGVuZHMgQnV0dG9uSFRNTEF0dHJpYnV0ZXM8SFRNTEJ1dHRvbkVsZW1lbnQ+IHsKICB2YXJpYW50PzogQnV0dG9uVmFyaWFudDsKICBzaXplPzogQnV0dG9uU2l6ZTsKICBjaGlsZHJlbjogUmVhY3ROb2RlOwogIGhyZWY/OiBzdHJpbmc7CiAgY2xhc3NOYW1lPzogc3RyaW5nOwogIGlzTG9hZGluZz86IGJvb2xlYW47Cn0KCmNvbnN0IHZhcmlhbnRzOiBSZWNvcmQ8QnV0dG9uVmFyaWFudCwgc3RyaW5nPiA9IHsKICBwcmltYXJ5OgogICAgImJnLXRlcnJhY290dGEgdGV4dC13aGl0ZSBob3ZlcjpiZy10ZXJyYWNvdHRhLWRhcmsgc2hhZG93LWxnIHNoYWRvdy10ZXJyYWNvdHRhLzIwIGhvdmVyOnNoYWRvdy10ZXJyYWNvdHRhLzMwIiwKICBzZWNvbmRhcnk6CiAgICAiYmctZm9yZXN0IHRleHQtd2hpdGUgaG92ZXI6YmctZm9yZXN0LWRhcmsgc2hhZG93LWxnIHNoYWRvdy1mb3Jlc3QvMjAgaG92ZXI6c2hhZG93LWZvcmVzdC8zMCIsCiAgb3V0bGluZToKICAgICJib3JkZXItMiBib3JkZXItdGVycmFjb3R0YSB0ZXh0LXRlcnJhY290dGEgaG92ZXI6YmctdGVycmFjb3R0YSBob3Zlcjp0ZXh0LXdoaXRlIiwKICBnaG9zdDoKICAgICJ0ZXh0LWNoYXJjb2FsIGhvdmVyOmJnLWNyZWFtLWRhcmsiLAp9OwoKY29uc3Qgc2l6ZXM6IFJlY29yZDxCdXR0b25TaXplLCBzdHJpbmc+ID0gewogIHNtOiAicHgtNCBweS0yIHRleHQtc20iLAogIG1kOiAicHgtNiBweS0zIHRleHQtYmFzZSIsCiAgbGc6ICJweC04IHB5LTQgdGV4dC1sZyIsCn07CgpleHBvcnQgZnVuY3Rpb24gQnV0dG9uKHsKICB2YXJpYW50ID0gInByaW1hcnkiLAogIHNpemUgPSAibWQiLAogIGNoaWxkcmVuLAogIGhyZWYsCiAgY2xhc3NOYW1lID0gIiIsCiAgaXNMb2FkaW5nID0gZmFsc2UsCiAgZGlzYWJsZWQsCiAgLi4ucHJvcHMKfTogQnV0dG9uUHJvcHMpIHsKICBjb25zdCBiYXNlU3R5bGVzID0KICAgICJpbmxpbmUtZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgZm9udC1tZWRpdW0gcm91bmRlZC1sZyB0cmFuc2l0aW9uLWFsbCBkdXJhdGlvbi0yMDAgZm9jdXM6b3V0bGluZS1ub25lIGZvY3VzLXZpc2libGU6cmluZy0yIGZvY3VzLXZpc2libGU6cmluZy10ZXJyYWNvdHRhIGZvY3VzLXZpc2libGU6cmluZy1vZmZzZXQtMiBkaXNhYmxlZDpvcGFjaXR5LTUwIGRpc2FibGVkOmN1cnNvci1ub3QtYWxsb3dlZCI7CgogIGNvbnN0IGNvbWJpbmVkQ2xhc3NOYW1lID0gYCR7YmFzZVN0eWxlc30gJHt2YXJpYW50c1t2YXJpYW50XX0gJHtzaXplc1tzaXplXX0gJHtjbGFzc05hbWV9YDsKCiAgaWYgKGhyZWYpIHsKICAgIHJldHVybiAoCiAgICAgIDxMaW5rIGhyZWY9e2hyZWZ9IGNsYXNzTmFtZT17Y29tYmluZWRDbGFzc05hbWV9PgogICAgICAgIHtjaGlsZHJlbn0KICAgICAgPC9MaW5rPgogICAgKTsKICB9CgogIHJldHVybiAoCiAgICA8YnV0dG9uCiAgICAgIGNsYXNzTmFtZT17Y29tYmluZWRDbGFzc05hbWV9CiAgICAgIGRpc2FibGVkPXtkaXNhYmxlZCB8fCBpc0xvYWRpbmd9CiAgICAgIHsuLi5wcm9wc30KICAgID4KICAgICAge2lzTG9hZGluZyA/ICgKICAgICAgICA8PgogICAgICAgICAgPHN2ZwogICAgICAgICAgICBjbGFzc05hbWU9ImFuaW1hdGUtc3BpbiAtbWwtMSBtci0yIGgtNCB3LTQiCiAgICAgICAgICAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgICAgICAgICAgZmlsbD0ibm9uZSIKICAgICAgICAgICAgdmlld0JveD0iMCAwIDI0IDI0IgogICAgICAgICAgPgogICAgICAgICAgICA8Y2lyY2xlCiAgICAgICAgICAgICAgY2xhc3NOYW1lPSJvcGFjaXR5LTI1IgogICAgICAgICAgICAgIGN4PSIxMiIKICAgICAgICAgICAgICBjeT0iMTIiCiAgICAgICAgICAgICAgcj0iMTAiCiAgICAgICAgICAgICAgc3Ryb2tlPSJjdXJyZW50Q29sb3IiCiAgICAgICAgICAgICAgc3Ryb2tlV2lkdGg9IjQiCiAgICAgICAgICAgIC8+CiAgICAgICAgICAgIDxwYXRoCiAgICAgICAgICAgICAgY2xhc3NOYW1lPSJvcGFjaXR5LTc1IgogICAgICAgICAgICAgIGZpbGw9ImN1cnJlbnRDb2xvciIKICAgICAgICAgICAgICBkPSJNNCAxMmE4IDggMCAwMTgtOFYwQzUuMzczIDAgMCA1LjM3MyAwIDEyaDR6bTIgNS4yOTFBNy45NjIgNy45NjIgMCAwMTQgMTJIMGMwIDMuMDQyIDEuMTM1IDUuODI0IDMgNy45MzhsMy0yLjY0N3oiCiAgICAgICAgICAgIC8+CiAgICAgICAgICA8L3N2Zz4KICAgICAgICAgIExvYWRpbmcuLi4KICAgICAgICA8Lz4KICAgICAgKSA6ICgKICAgICAgICBjaGlsZHJlbgogICAgICApfQogICAgPC9idXR0b24+CiAgKTsKfQo="}
+import Link from "next/link";
+import { ReactNode, ButtonHTMLAttributes } from "react";
+
+type ButtonVariant = "primary" | "secondary" | "outline" | "ghost";
+type ButtonSize = "sm" | "md" | "lg";
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  children: ReactNode;
+  href?: string;
+  className?: string;
+  isLoading?: boolean;
+}
+
+const variants: Record<ButtonVariant, string> = {
+  primary:
+    "bg-terracotta text-white hover:bg-terracotta-dark shadow-lg shadow-terracotta/20 hover:shadow-terracotta/30",
+  secondary:
+    "bg-forest text-white hover:bg-forest-dark shadow-lg shadow-forest/20 hover:shadow-forest/30",
+  outline:
+    "border-2 border-terracotta text-terracotta hover:bg-terracotta hover:text-white",
+  ghost:
+    "text-charcoal hover:bg-cream-dark",
+};
+
+const sizes: Record<ButtonSize, string> = {
+  sm: "px-4 py-2 text-sm",
+  md: "px-6 py-3 text-base",
+  lg: "px-8 py-4 text-lg",
+};
+
+export function Button({
+  variant = "primary",
+  size = "md",
+  children,
+  href,
+  className = "",
+  isLoading = false,
+  disabled,
+  ...props
+}: ButtonProps) {
+  const baseStyles =
+    "inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+
+  const combinedClassName = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
+
+  if (href) {
+    return (
+      <Link href={href} className={combinedClassName}>
+        {children}
+      </Link>
+    );
+  }
+
+  return (
+    <button
+      className={combinedClassName}
+      disabled={disabled || isLoading}
+      {...props}
+    >
+      {isLoading ? (
+        <>
+          <svg
+            className="animate-spin -ml-1 mr-2 h-4 w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
+          </svg>
+          Loading...
+        </>
+      ) : (
+        children
+      )}
+    </button>
+  );
+}

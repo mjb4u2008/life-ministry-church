@@ -1,1 +1,299 @@
-{"data":"InVzZSBjbGllbnQiOwoKaW1wb3J0IHsgdXNlUmVmLCB1c2VTdGF0ZSwgdXNlRWZmZWN0IH0gZnJvbSAicmVhY3QiOwoKaW50ZXJmYWNlIFRpa1Rva1ZpZGVvIHsKICBpZDogc3RyaW5nOwogIHVybDogc3RyaW5nOwogIHRpdGxlOiBzdHJpbmc7Cn0KCmludGVyZmFjZSBUaWtUb2tDYXJvdXNlbFByb3BzIHsKICB2aWRlb3M6IFRpa1Rva1ZpZGVvW107CiAgdGlrdG9rUHJvZmlsZVVybD86IHN0cmluZzsKfQoKZnVuY3Rpb24gZXh0cmFjdFZpZGVvSWQodXJsOiBzdHJpbmcpOiBzdHJpbmcgfCBudWxsIHsKICBjb25zdCBtYXRjaCA9IHVybC5tYXRjaCgvXC92aWRlb1wvKFxkKykvKTsKICByZXR1cm4gbWF0Y2ggPyBtYXRjaFsxXSA6IG51bGw7Cn0KCmV4cG9ydCBmdW5jdGlvbiBUaWtUb2tDYXJvdXNlbCh7IHZpZGVvcywgdGlrdG9rUHJvZmlsZVVybCB9OiBUaWtUb2tDYXJvdXNlbFByb3BzKSB7CiAgY29uc3Qgc2Nyb2xsUmVmID0gdXNlUmVmPEhUTUxEaXZFbGVtZW50PihudWxsKTsKICBjb25zdCBbY2FuU2Nyb2xsTGVmdCwgc2V0Q2FuU2Nyb2xsTGVmdF0gPSB1c2VTdGF0ZShmYWxzZSk7CiAgY29uc3QgW2NhblNjcm9sbFJpZ2h0LCBzZXRDYW5TY3JvbGxSaWdodF0gPSB1c2VTdGF0ZShmYWxzZSk7CgogIGNvbnN0IHVwZGF0ZVNjcm9sbEJ1dHRvbnMgPSAoKSA9PiB7CiAgICBpZiAoIXNjcm9sbFJlZi5jdXJyZW50KSByZXR1cm47CiAgICBjb25zdCB7IHNjcm9sbExlZnQsIHNjcm9sbFdpZHRoLCBjbGllbnRXaWR0aCB9ID0gc2Nyb2xsUmVmLmN1cnJlbnQ7CiAgICBzZXRDYW5TY3JvbGxMZWZ0KHNjcm9sbExlZnQgPiAwKTsKICAgIHNldENhblNjcm9sbFJpZ2h0KHNjcm9sbExlZnQgPCBzY3JvbGxXaWR0aCAtIGNsaWVudFdpZHRoIC0gMTApOwogIH07CgogIHVzZUVmZmVjdCgoKSA9PiB7CiAgICB1cGRhdGVTY3JvbGxCdXR0b25zKCk7CiAgICBjb25zdCBjb250YWluZXIgPSBzY3JvbGxSZWYuY3VycmVudDsKICAgIGlmIChjb250YWluZXIpIHsKICAgICAgY29udGFpbmVyLmFkZEV2ZW50TGlzdGVuZXIoInNjcm9sbCIsIHVwZGF0ZVNjcm9sbEJ1dHRvbnMpOwogICAgICB3aW5kb3cuYWRkRXZlbnRMaXN0ZW5lcigicmVzaXplIiwgdXBkYXRlU2Nyb2xsQnV0dG9ucyk7CiAgICAgIHJldHVybiAoKSA9PiB7CiAgICAgICAgY29udGFpbmVyLnJlbW92ZUV2ZW50TGlzdGVuZXIoInNjcm9sbCIsIHVwZGF0ZVNjcm9sbEJ1dHRvbnMpOwogICAgICAgIHdpbmRvdy5yZW1vdmVFdmVudExpc3RlbmVyKCJyZXNpemUiLCB1cGRhdGVTY3JvbGxCdXR0b25zKTsKICAgICAgfTsKICAgIH0KICB9LCBbdmlkZW9zXSk7CgogIGNvbnN0IHNjcm9sbCA9IChkaXJlY3Rpb246ICJsZWZ0IiB8ICJyaWdodCIpID0+IHsKICAgIGlmICghc2Nyb2xsUmVmLmN1cnJlbnQpIHJldHVybjsKICAgIGNvbnN0IHNjcm9sbEFtb3VudCA9IDMyMDsKICAgIHNjcm9sbFJlZi5jdXJyZW50LnNjcm9sbEJ5KHsKICAgICAgbGVmdDogZGlyZWN0aW9uID09PSAibGVmdCIgPyAtc2Nyb2xsQW1vdW50IDogc2Nyb2xsQW1vdW50LAogICAgICBiZWhhdmlvcjogInNtb290aCIsCiAgICB9KTsKICB9OwoKICAvLyBFbXB0eSBzdGF0ZQogIGlmICh2aWRlb3MubGVuZ3RoID09PSAwKSB7CiAgICByZXR1cm4gKAogICAgICA8c2VjdGlvbiBjbGFzc05hbWU9InB5LTI0Ij4KICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ibWF4LXctN3hsIG14LWF1dG8gcHgtNCBzbTpweC02IGxnOnB4LTgiPgogICAgICAgICAgPGRpdiBjbGFzc05hbWU9InRleHQtY2VudGVyIG1iLTEyIj4KICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPSJ0ZXh0LXRlcnJhY290dGEgZm9udC1tZWRpdW0gdHJhY2tpbmctd2lkZXIgdXBwZXJjYXNlIHRleHQtc20iPgogICAgICAgICAgICAgIERhaWx5IEVuY291cmFnZW1lbnQKICAgICAgICAgICAgPC9zcGFuPgogICAgICAgICAgICA8aDIgY2xhc3NOYW1lPSJ0ZXh0LTN4bCBtZDp0ZXh0LTR4bCBmb250LWRpc3BsYXkgZm9udC1zZW1pYm9sZCB0ZXh0LWNoYXJjb2FsIG10LTIiPgogICAgICAgICAgICAgIExhdGVzdCBmcm9tIFBhc3RvciBNaWtlCiAgICAgICAgICAgIDwvaDI+CiAgICAgICAgICA8L2Rpdj4KCiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iZmxleCBqdXN0aWZ5LWNlbnRlciI+CiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJiZy13aGl0ZSByb3VuZGVkLTJ4bCBzaGFkb3ctc20gcC0xMiB0ZXh0LWNlbnRlciBtYXgtdy1tZCI+CiAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9InctMjAgaC0yMCBteC1hdXRvIG1iLTYgcm91bmRlZC1mdWxsIGJnLWNoYXJjb2FsLzUgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIiPgogICAgICAgICAgICAgICAgPHN2ZyBjbGFzc05hbWU9InctMTAgaC0xMCB0ZXh0LWNoYXJjb2FsLzMwIiBmaWxsPSJjdXJyZW50Q29sb3IiIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0xOS41OSA2LjY5YTQuODMgNC44MyAwIDAxLTMuNzctNC4yNVYyaC0zLjQ1djEzLjY3YTIuODkgMi44OSAwIDAxLTUuMiAxLjc0IDIuODkgMi44OSAwIDAxMi4zMS00LjY0IDIuOTMgMi45MyAwIDAxLjg4LjEzVjkuNGE2Ljg0IDYuODQgMCAwMC0xLS4wNUE2LjMzIDYuMzMgMCAwMDUgMjAuMWE2LjM0IDYuMzQgMCAwMDEwLjg2LTQuNDN2LTdhOC4xNiA4LjE2IDAgMDA0Ljc3IDEuNTJ2LTMuNGE0Ljg1IDQuODUgMCAwMS0xLS4xeiIgLz4KICAgICAgICAgICAgICAgIDwvc3ZnPgogICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT0idGV4dC1jaGFyY29hbC1saWdodCB0ZXh0LWxnIG1iLTIiPgogICAgICAgICAgICAgICAgVmlkZW9zIGNvbWluZyBzb29uCiAgICAgICAgICAgICAgPC9wPgogICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT0idGV4dC1jaGFyY29hbC1saWdodC83MCB0ZXh0LXNtIj4KICAgICAgICAgICAgICAgIENoZWNrIGJhY2sgZm9yIGRhaWx5IGVuY291cmFnZW1lbnQhCiAgICAgICAgICAgICAgPC9wPgogICAgICAgICAgICAgIHt0aWt0b2tQcm9maWxlVXJsICYmICgKICAgICAgICAgICAgICAgIDxhCiAgICAgICAgICAgICAgICAgIGhyZWY9e3Rpa3Rva1Byb2ZpbGVVcmx9CiAgICAgICAgICAgICAgICAgIHRhcmdldD0iX2JsYW5rIgogICAgICAgICAgICAgICAgICByZWw9Im5vb3BlbmVyIG5vcmVmZXJyZXIiCiAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT0iaW5saW5lLWZsZXggaXRlbXMtY2VudGVyIGdhcC0yIG10LTYgdGV4dC10ZXJyYWNvdHRhIGhvdmVyOnRleHQtdGVycmFjb3R0YS1kYXJrIGZvbnQtbWVkaXVtIHRyYW5zaXRpb24tY29sb3JzIgogICAgICAgICAgICAgICAgPgogICAgICAgICAgICAgICAgICBGb2xsb3cgb24gVGlrVG9rCiAgICAgICAgICAgICAgICAgIDxzdmcgY2xhc3NOYW1lPSJ3LTQgaC00IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBzdHJva2VMaW5lY2FwPSJyb3VuZCIgc3Ryb2tlTGluZWpvaW49InJvdW5kIiBzdHJva2VXaWR0aD17Mn0gZD0iTTEwIDZINmEyIDIgMCAwMC0yIDJ2MTBhMiAyIDAgMDAyIDJoMTBhMiAyIDAgMDAyLTJ2LTRNMTQgNGg2bTAgMHY2bTAtNkwxMCAxNCIgLz4KICAgICAgICAgICAgICAgICAgPC9zdmc+CiAgICAgICAgICAgICAgICA8L2E+CiAgICAgICAgICAgICAgKX0KICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgPC9zZWN0aW9uPgogICAgKTsKICB9CgogIC8vIFNpbmdsZSB2aWRlbyAtIGNlbnRlcmVkIGRpc3BsYXkKICBpZiAodmlkZW9zLmxlbmd0aCA9PT0gMSkgewogICAgY29uc3QgdmlkZW8gPSB2aWRlb3NbMF07CiAgICBjb25zdCB2aWRlb0lkID0gZXh0cmFjdFZpZGVvSWQodmlkZW8udXJsKTsKCiAgICByZXR1cm4gKAogICAgICA8c2VjdGlvbiBjbGFzc05hbWU9InB5LTI0Ij4KICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ibWF4LXctN3hsIG14LWF1dG8gcHgtNCBzbTpweC02IGxnOnB4LTgiPgogICAgICAgICAgPGRpdiBjbGFzc05hbWU9InRleHQtY2VudGVyIG1iLTEyIj4KICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPSJ0ZXh0LXRlcnJhY290dGEgZm9udC1tZWRpdW0gdHJhY2tpbmctd2lkZXIgdXBwZXJjYXNlIHRleHQtc20iPgogICAgICAgICAgICAgIERhaWx5IEVuY291cmFnZW1lbnQKICAgICAgICAgICAgPC9zcGFuPgogICAgICAgICAgICA8aDIgY2xhc3NOYW1lPSJ0ZXh0LTN4bCBtZDp0ZXh0LTR4bCBmb250LWRpc3BsYXkgZm9udC1zZW1pYm9sZCB0ZXh0LWNoYXJjb2FsIG10LTIiPgogICAgICAgICAgICAgIExhdGVzdCBmcm9tIFBhc3RvciBNaWtlCiAgICAgICAgICAgIDwvaDI+CiAgICAgICAgICA8L2Rpdj4KCiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iZmxleCBqdXN0aWZ5LWNlbnRlciI+CiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJ3LVszMDBweF0iPgogICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJiZy13aGl0ZSByb3VuZGVkLTJ4bCBzaGFkb3ctbWQgb3ZlcmZsb3ctaGlkZGVuIj4KICAgICAgICAgICAgICAgIHt2aWRlb0lkID8gKAogICAgICAgICAgICAgICAgICA8aWZyYW1lCiAgICAgICAgICAgICAgICAgICAgc3JjPXtgaHR0cHM6Ly93d3cudGlrdG9rLmNvbS9lbWJlZC92Mi8ke3ZpZGVvSWR9YH0KICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9InctZnVsbCBoLVs1MzBweF0iCiAgICAgICAgICAgICAgICAgICAgYWxsb3dGdWxsU2NyZWVuCiAgICAgICAgICAgICAgICAgICAgYWxsb3c9ImVuY3J5cHRlZC1tZWRpYSIKICAgICAgICAgICAgICAgICAgLz4KICAgICAgICAgICAgICAgICkgOiAoCiAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJ3LWZ1bGwgaC1bNTMwcHhdIGJnLWNoYXJjb2FsLzUgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIiPgogICAgICAgICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT0idGV4dC1jaGFyY29hbC1saWdodCB0ZXh0LXNtIj5JbnZhbGlkIHZpZGVvIFVSTDwvcD4KICAgICAgICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgICAgICApfQogICAgICAgICAgICAgICAge3ZpZGVvLnRpdGxlICYmICgKICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9InAtNCBib3JkZXItdCBib3JkZXItY2hhcmNvYWwvNSI+CiAgICAgICAgICAgICAgICAgICAgPHAgY2xhc3NOYW1lPSJ0ZXh0LWNoYXJjb2FsIHRleHQtc20gZm9udC1tZWRpdW0gbGluZS1jbGFtcC0yIj4KICAgICAgICAgICAgICAgICAgICAgIHt2aWRlby50aXRsZX0KICAgICAgICAgICAgICAgICAgICA8L3A+CiAgICAgICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICAgICAgKX0KICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICA8L2Rpdj4KCiAgICAgICAgICB7dGlrdG9rUHJvZmlsZVVybCAmJiAoCiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJ0ZXh0LWNlbnRlciBtdC04Ij4KICAgICAgICAgICAgICA8YQogICAgICAgICAgICAgICAgaHJlZj17dGlrdG9rUHJvZmlsZVVybH0KICAgICAgICAgICAgICAgIHRhcmdldD0iX2JsYW5rIgogICAgICAgICAgICAgICAgcmVsPSJub29wZW5lciBub3JlZmVycmVyIgogICAgICAgICAgICAgICAgY2xhc3NOYW1lPSJpbmxpbmUtZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTIgdGV4dC10ZXJyYWNvdHRhIGhvdmVyOnRleHQtdGVycmFjb3R0YS1kYXJrIGZvbnQtbWVkaXVtIHRyYW5zaXRpb24tY29sb3JzIgogICAgICAgICAgICAgID4KICAgICAgICAgICAgICAgIEZvbGxvdyBAcGFzdG9ybWlrZSBvbiBUaWtUb2sKICAgICAgICAgICAgICAgIDxzdmcgY2xhc3NOYW1lPSJ3LTQgaC00IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgICAgICAgICAgICAgICAgPHBhdGggc3Ryb2tlTGluZWNhcD0icm91bmQiIHN0cm9rZUxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlV2lkdGg9ezJ9IGQ9Ik0xMCA2SDZhMiAyIDAgMDAtMiAydjEwYTIgMiAwIDAwMiAyaDEwYTIgMiAwIDAwMi0ydi00TTE0IDRoNm0wIDB2Nm0wLTZMMTAgMTQiIC8+CiAgICAgICAgICAgICAgICA8L3N2Zz4KICAgICAgICAgICAgICA8L2E+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgKX0KICAgICAgICA8L2Rpdj4KICAgICAgPC9zZWN0aW9uPgogICAgKTsKICB9CgogIC8vIE11bHRpcGxlIHZpZGVvcyAtIGNhcm91c2VsCiAgcmV0dXJuICgKICAgIDxzZWN0aW9uIGNsYXNzTmFtZT0icHktMjQiPgogICAgICA8ZGl2IGNsYXNzTmFtZT0ibWF4LXctN3hsIG14LWF1dG8gcHgtNCBzbTpweC02IGxnOnB4LTgiPgogICAgICAgIDxkaXYgY2xhc3NOYW1lPSJ0ZXh0LWNlbnRlciBtYi0xMiI+CiAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9InRleHQtdGVycmFjb3R0YSBmb250LW1lZGl1bSB0cmFja2luZy13aWRlciB1cHBlcmNhc2UgdGV4dC1zbSI+CiAgICAgICAgICAgIERhaWx5IEVuY291cmFnZW1lbnQKICAgICAgICAgIDwvc3Bhbj4KICAgICAgICAgIDxoMiBjbGFzc05hbWU9InRleHQtM3hsIG1kOnRleHQtNHhsIGZvbnQtZGlzcGxheSBmb250LXNlbWlib2xkIHRleHQtY2hhcmNvYWwgbXQtMiI+CiAgICAgICAgICAgIExhdGVzdCBmcm9tIFBhc3RvciBNaWtlCiAgICAgICAgICA8L2gyPgogICAgICAgICAgPHAgY2xhc3NOYW1lPSJ0ZXh0LWNoYXJjb2FsLWxpZ2h0IHRleHQtbGcgbXQtNCBtYXgtdy0yeGwgbXgtYXV0byI+CiAgICAgICAgICAgIEdldCBkYWlseSBlbmNvdXJhZ2VtZW50IGFuZCBzdGF5IGNvbm5lY3RlZCB3aXRoIG91ciBjb21tdW5pdHkgdGhyb3VnaG91dCB0aGUgd2Vlay4KICAgICAgICAgIDwvcD4KICAgICAgICA8L2Rpdj4KICAgICAgPC9kaXY+CgogICAgICB7LyogQ2Fyb3VzZWwgY29udGFpbmVyICovfQogICAgICA8ZGl2IGNsYXNzTmFtZT0icmVsYXRpdmUgZ3JvdXAiPgogICAgICAgIHsvKiBMZWZ0IGFycm93IC0gZGVza3RvcCBvbmx5ICovfQogICAgICAgIHtjYW5TY3JvbGxMZWZ0ICYmICgKICAgICAgICAgIDxidXR0b24KICAgICAgICAgICAgb25DbGljaz17KCkgPT4gc2Nyb2xsKCJsZWZ0Iil9CiAgICAgICAgICAgIGNsYXNzTmFtZT0iaGlkZGVuIG1kOmZsZXggYWJzb2x1dGUgbGVmdC00IHRvcC0xLzIgLXRyYW5zbGF0ZS15LTEvMiB6LTEwIHctMTIgaC0xMiBiZy13aGl0ZS85MCBiYWNrZHJvcC1ibHVyLXNtIHJvdW5kZWQtZnVsbCBzaGFkb3ctbGcgaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIHRleHQtY2hhcmNvYWwgaG92ZXI6Ymctd2hpdGUgaG92ZXI6dGV4dC10ZXJyYWNvdHRhIHRyYW5zaXRpb24tYWxsIG9wYWNpdHktMCBncm91cC1ob3ZlcjpvcGFjaXR5LTEwMCIKICAgICAgICAgICAgYXJpYS1sYWJlbD0iU2Nyb2xsIGxlZnQiCiAgICAgICAgICA+CiAgICAgICAgICAgIDxzdmcgY2xhc3NOYW1lPSJ3LTYgaC02IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgICAgICAgICAgICA8cGF0aCBzdHJva2VMaW5lY2FwPSJyb3VuZCIgc3Ryb2tlTGluZWpvaW49InJvdW5kIiBzdHJva2VXaWR0aD17Mn0gZD0iTTE1IDE5bC03LTcgNy03IiAvPgogICAgICAgICAgICA8L3N2Zz4KICAgICAgICAgIDwvYnV0dG9uPgogICAgICAgICl9CgogICAgICAgIHsvKiBSaWdodCBhcnJvdyAtIGRlc2t0b3Agb25seSAqL30KICAgICAgICB7Y2FuU2Nyb2xsUmlnaHQgJiYgKAogICAgICAgICAgPGJ1dHRvbgogICAgICAgICAgICBvbkNsaWNrPXsoKSA9PiBzY3JvbGwoInJpZ2h0Iil9CiAgICAgICAgICAgIGNsYXNzTmFtZT0iaGlkZGVuIG1kOmZsZXggYWJzb2x1dGUgcmlnaHQtNCB0b3AtMS8yIC10cmFuc2xhdGUteS0xLzIgei0xMCB3LTEyIGgtMTIgYmctd2hpdGUvOTAgYmFja2Ryb3AtYmx1ci1zbSByb3VuZGVkLWZ1bGwgc2hhZG93LWxnIGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciB0ZXh0LWNoYXJjb2FsIGhvdmVyOmJnLXdoaXRlIGhvdmVyOnRleHQtdGVycmFjb3R0YSB0cmFuc2l0aW9uLWFsbCBvcGFjaXR5LTAgZ3JvdXAtaG92ZXI6b3BhY2l0eS0xMDAiCiAgICAgICAgICAgIGFyaWEtbGFiZWw9IlNjcm9sbCByaWdodCIKICAgICAgICAgID4KICAgICAgICAgICAgPHN2ZyBjbGFzc05hbWU9InctNiBoLTYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIwIDAgMjQgMjQiPgogICAgICAgICAgICAgIDxwYXRoIHN0cm9rZUxpbmVjYXA9InJvdW5kIiBzdHJva2VMaW5lam9pbj0icm91bmQiIHN0cm9rZVdpZHRoPXsyfSBkPSJNOSA1bDcgNy03IDciIC8+CiAgICAgICAgICAgIDwvc3ZnPgogICAgICAgICAgPC9idXR0b24+CiAgICAgICAgKX0KCiAgICAgICAgey8qIExlZnQgZmFkZSBncmFkaWVudCAqL30KICAgICAgICB7Y2FuU2Nyb2xsTGVmdCAmJiAoCiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iaGlkZGVuIG1kOmJsb2NrIGFic29sdXRlIGxlZnQtMCB0b3AtMCBib3R0b20tMCB3LTI0IGJnLWdyYWRpZW50LXRvLXIgZnJvbS1jcmVhbSB0by10cmFuc3BhcmVudCB6LVsxXSBwb2ludGVyLWV2ZW50cy1ub25lIiAvPgogICAgICAgICl9CgogICAgICAgIHsvKiBSaWdodCBmYWRlIGdyYWRpZW50ICovfQogICAgICAgIHtjYW5TY3JvbGxSaWdodCAmJiAoCiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iaGlkZGVuIG1kOmJsb2NrIGFic29sdXRlIHJpZ2h0LTAgdG9wLTAgYm90dG9tLTAgdy0yNCBiZy1ncmFkaWVudC10by1sIGZyb20tY3JlYW0gdG8tdHJhbnNwYXJlbnQgei1bMV0gcG9pbnRlci1ldmVudHMtbm9uZSIgLz4KICAgICAgICApfQoKICAgICAgICB7LyogU2Nyb2xsYWJsZSBjb250YWluZXIgKi99CiAgICAgICAgPGRpdgogICAgICAgICAgcmVmPXtzY3JvbGxSZWZ9CiAgICAgICAgICBjbGFzc05hbWU9ImZsZXggZ2FwLTYgb3ZlcmZsb3cteC1hdXRvIHNjcm9sbC1zbW9vdGggc25hcC14IHNuYXAtbWFuZGF0b3J5IHNjcm9sbGJhci1oaWRlIHB4LTQgbWQ6cHgtOCBwYi00IgogICAgICAgICAgc3R5bGU9e3sgc2Nyb2xsYmFyV2lkdGg6ICJub25lIiwgbXNPdmVyZmxvd1N0eWxlOiAibm9uZSIgfX0KICAgICAgICA+CiAgICAgICAgICB7LyogTGVmdCBwYWRkaW5nIGZvciBjZW50ZXJpbmcgb24gbGFyZ2VyIHNjcmVlbnMgKi99CiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iaGlkZGVuIGxnOmJsb2NrIGZsZXgtc2hyaW5rLTAgdy1bY2FsYygoMTAwdnctMTI4MHB4KS8yKzMycHgpXSIgLz4KCiAgICAgICAgICB7dmlkZW9zLm1hcCgodmlkZW8pID0+IHsKICAgICAgICAgICAgY29uc3QgdmlkZW9JZCA9IGV4dHJhY3RWaWRlb0lkKHZpZGVvLnVybCk7CiAgICAgICAgICAgIHJldHVybiAoCiAgICAgICAgICAgICAgPGRpdgogICAgICAgICAgICAgICAga2V5PXt2aWRlby5pZH0KICAgICAgICAgICAgICAgIGNsYXNzTmFtZT0iZmxleC1zaHJpbmstMCB3LVszMDBweF0gc25hcC1jZW50ZXIiCiAgICAgICAgICAgICAgPgogICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImJnLXdoaXRlIHJvdW5kZWQtMnhsIHNoYWRvdy1tZCBvdmVyZmxvdy1oaWRkZW4gaG92ZXI6c2hhZG93LWxnIHRyYW5zaXRpb24tc2hhZG93Ij4KICAgICAgICAgICAgICAgICAge3ZpZGVvSWQgPyAoCiAgICAgICAgICAgICAgICAgICAgPGlmcmFtZQogICAgICAgICAgICAgICAgICAgICAgc3JjPXtgaHR0cHM6Ly93d3cudGlrdG9rLmNvbS9lbWJlZC92Mi8ke3ZpZGVvSWR9YH0KICAgICAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT0idy1mdWxsIGgtWzUzMHB4XSIKICAgICAgICAgICAgICAgICAgICAgIGFsbG93RnVsbFNjcmVlbgogICAgICAgICAgICAgICAgICAgICAgYWxsb3c9ImVuY3J5cHRlZC1tZWRpYSIKICAgICAgICAgICAgICAgICAgICAvPgogICAgICAgICAgICAgICAgICApIDogKAogICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJ3LWZ1bGwgaC1bNTMwcHhdIGJnLWNoYXJjb2FsLzUgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIiPgogICAgICAgICAgICAgICAgICAgICAgPHAgY2xhc3NOYW1lPSJ0ZXh0LWNoYXJjb2FsLWxpZ2h0IHRleHQtc20iPkludmFsaWQgdmlkZW8gVVJMPC9wPgogICAgICAgICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICAgICAgICApfQogICAgICAgICAgICAgICAgICB7dmlkZW8udGl0bGUgJiYgKAogICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJwLTQgYm9yZGVyLXQgYm9yZGVyLWNoYXJjb2FsLzUiPgogICAgICAgICAgICAgICAgICAgICAgPHAgY2xhc3NOYW1lPSJ0ZXh0LWNoYXJjb2FsIHRleHQtc20gZm9udC1tZWRpdW0gbGluZS1jbGFtcC0yIj4KICAgICAgICAgICAgICAgICAgICAgICAge3ZpZGVvLnRpdGxlfQogICAgICAgICAgICAgICAgICAgICAgPC9wPgogICAgICAgICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICAgICAgICApfQogICAgICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgICk7CiAgICAgICAgICB9KX0KCiAgICAgICAgICB7LyogRm9sbG93IGNhcmQgYXQgdGhlIGVuZCAqL30KICAgICAgICAgIHt0aWt0b2tQcm9maWxlVXJsICYmICgKICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImZsZXgtc2hyaW5rLTAgdy1bMzAwcHhdIHNuYXAtY2VudGVyIj4KICAgICAgICAgICAgICA8YQogICAgICAgICAgICAgICAgaHJlZj17dGlrdG9rUHJvZmlsZVVybH0KICAgICAgICAgICAgICAgIHRhcmdldD0iX2JsYW5rIgogICAgICAgICAgICAgICAgcmVsPSJub29wZW5lciBub3JlZmVycmVyIgogICAgICAgICAgICAgICAgY2xhc3NOYW1lPSJibG9jayBoLWZ1bGwgbWluLWgtWzUzMHB4XSBiZy1ncmFkaWVudC10by1iciBmcm9tLWNoYXJjb2FsIHRvLWNoYXJjb2FsLWxpZ2h0IHJvdW5kZWQtMnhsIHNoYWRvdy1tZCBvdmVyZmxvdy1oaWRkZW4gaG92ZXI6c2hhZG93LWxnIHRyYW5zaXRpb24tYWxsIGdyb3VwL2NhcmQiCiAgICAgICAgICAgICAgPgogICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImgtZnVsbCBmbGV4IGZsZXgtY29sIGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciBwLTggdGV4dC1jZW50ZXIiPgogICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0idy0yNCBoLTI0IG1iLTYgcm91bmRlZC1mdWxsIGJnLXdoaXRlLzEwIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIGdyb3VwLWhvdmVyL2NhcmQ6Ymctd2hpdGUvMjAgdHJhbnNpdGlvbi1jb2xvcnMiPgogICAgICAgICAgICAgICAgICAgIDxzdmcgY2xhc3NOYW1lPSJ3LTEyIGgtMTIgdGV4dC13aGl0ZSIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIwIDAgMjQgMjQiPgogICAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTE5LjU5IDYuNjlhNC44MyA0LjgzIDAgMDEtMy43Ny00LjI1VjJoLTMuNDV2MTMuNjdhMi44OSAyLjg5IDAgMDEtNS4yIDEuNzQgMi44OSAyLjg5IDAgMDEyLjMxLTQuNjQgMi45MyAyLjkzIDAgMDEuODguMTNWOS40YTYuODQgNi44NCAwIDAwLTEtLjA1QTYuMzMgNi4zMyAwIDAwNSAyMC4xYTYuMzQgNi4zNCAwIDAwMTAuODYtNC40M3YtN2E4LjE2IDguMTYgMCAwMDQuNzcgMS41MnYtMy40YTQuODUgNC44NSAwIDAxLTEtLjF6IiAvPgogICAgICAgICAgICAgICAgICAgIDwvc3ZnPgogICAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICAgICAgPGgzIGNsYXNzTmFtZT0idGV4dC13aGl0ZSB0ZXh0LXhsIGZvbnQtZGlzcGxheSBmb250LXNlbWlib2xkIG1iLTIiPgogICAgICAgICAgICAgICAgICAgIEZvbGxvdyBvbiBUaWtUb2sKICAgICAgICAgICAgICAgICAgPC9oMz4KICAgICAgICAgICAgICAgICAgPHAgY2xhc3NOYW1lPSJ0ZXh0LXdoaXRlLzcwIHRleHQtc20gbWItNiI+CiAgICAgICAgICAgICAgICAgICAgTW9yZSBlbmNvdXJhZ2VtZW50LCBiZWhpbmQtdGhlLXNjZW5lcywgYW5kIGRhaWx5IGluc3BpcmF0aW9uCiAgICAgICAgICAgICAgICAgIDwvcD4KICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImZsZXggaXRlbXMtY2VudGVyIGdhcC0yIHRleHQtd2hpdGUgZm9udC1tZWRpdW0gZ3JvdXAtaG92ZXIvY2FyZDpnYXAtMyB0cmFuc2l0aW9uLWFsbCI+CiAgICAgICAgICAgICAgICAgICAgQHBhc3Rvcm1pa2UKICAgICAgICAgICAgICAgICAgICA8c3ZnIGNsYXNzTmFtZT0idy01IGgtNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBzdHJva2VMaW5lY2FwPSJyb3VuZCIgc3Ryb2tlTGluZWpvaW49InJvdW5kIiBzdHJva2VXaWR0aD17Mn0gZD0iTTEwIDZINmEyIDIgMCAwMC0yIDJ2MTBhMiAyIDAgMDAyIDJoMTBhMiAyIDAgMDAyLTJ2LTRNMTQgNGg2bTAgMHY2bTAtNkwxMCAxNCIgLz4KICAgICAgICAgICAgICAgICAgICA8L3N2Zz4KICAgICAgICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICA8L2E+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgKX0KCiAgICAgICAgICB7LyogUmlnaHQgcGFkZGluZyBmb3IgY2VudGVyaW5nIG9uIGxhcmdlciBzY3JlZW5zICovfQogICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImhpZGRlbiBsZzpibG9jayBmbGV4LXNocmluay0wIHctW2NhbGMoKDEwMHZ3LTEyODBweCkvMiszMnB4KV0iIC8+CiAgICAgICAgPC9kaXY+CiAgICAgIDwvZGl2PgogICAgPC9zZWN0aW9uPgogICk7Cn0K"}
+"use client";
+
+import { useRef, useState, useEffect } from "react";
+
+interface TikTokVideo {
+  id: string;
+  url: string;
+  title: string;
+}
+
+interface TikTokCarouselProps {
+  videos: TikTokVideo[];
+  tiktokProfileUrl?: string;
+}
+
+function extractVideoId(url: string): string | null {
+  const match = url.match(/\/video\/(\d+)/);
+  return match ? match[1] : null;
+}
+
+export function TikTokCarousel({ videos, tiktokProfileUrl }: TikTokCarouselProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const updateScrollButtons = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    setCanScrollLeft(scrollLeft > 0);
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+  };
+
+  useEffect(() => {
+    updateScrollButtons();
+    const container = scrollRef.current;
+    if (container) {
+      container.addEventListener("scroll", updateScrollButtons);
+      window.addEventListener("resize", updateScrollButtons);
+      return () => {
+        container.removeEventListener("scroll", updateScrollButtons);
+        window.removeEventListener("resize", updateScrollButtons);
+      };
+    }
+  }, [videos]);
+
+  const scroll = (direction: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const scrollAmount = 320;
+    scrollRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
+
+  // Empty state
+  if (videos.length === 0) {
+    return (
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-terracotta font-medium tracking-wider uppercase text-sm">
+              Daily Encouragement
+            </span>
+            <h2 className="text-3xl md:text-4xl font-display font-semibold text-charcoal mt-2">
+              Latest from Pastor Mike
+            </h2>
+          </div>
+
+          <div className="flex justify-center">
+            <div className="bg-white rounded-2xl shadow-sm p-12 text-center max-w-md">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-charcoal/5 flex items-center justify-center">
+                <svg className="w-10 h-10 text-charcoal/30" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
+                </svg>
+              </div>
+              <p className="text-charcoal-light text-lg mb-2">
+                Videos coming soon
+              </p>
+              <p className="text-charcoal-light/70 text-sm">
+                Check back for daily encouragement!
+              </p>
+              {tiktokProfileUrl && (
+                <a
+                  href={tiktokProfileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 mt-6 text-terracotta hover:text-terracotta-dark font-medium transition-colors"
+                >
+                  Follow on TikTok
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Single video - centered display
+  if (videos.length === 1) {
+    const video = videos[0];
+    const videoId = extractVideoId(video.url);
+
+    return (
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-terracotta font-medium tracking-wider uppercase text-sm">
+              Daily Encouragement
+            </span>
+            <h2 className="text-3xl md:text-4xl font-display font-semibold text-charcoal mt-2">
+              Latest from Pastor Mike
+            </h2>
+          </div>
+
+          <div className="flex justify-center">
+            <div className="w-[300px]">
+              <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+                {videoId ? (
+                  <iframe
+                    src={`https://www.tiktok.com/embed/v2/${videoId}`}
+                    className="w-full h-[530px]"
+                    allowFullScreen
+                    allow="encrypted-media"
+                  />
+                ) : (
+                  <div className="w-full h-[530px] bg-charcoal/5 flex items-center justify-center">
+                    <p className="text-charcoal-light text-sm">Invalid video URL</p>
+                  </div>
+                )}
+                {video.title && (
+                  <div className="p-4 border-t border-charcoal/5">
+                    <p className="text-charcoal text-sm font-medium line-clamp-2">
+                      {video.title}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {tiktokProfileUrl && (
+            <div className="text-center mt-8">
+              <a
+                href={tiktokProfileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-terracotta hover:text-terracotta-dark font-medium transition-colors"
+              >
+                Follow @pastormike on TikTok
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            </div>
+          )}
+        </div>
+      </section>
+    );
+  }
+
+  // Multiple videos - carousel
+  return (
+    <section className="py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <span className="text-terracotta font-medium tracking-wider uppercase text-sm">
+            Daily Encouragement
+          </span>
+          <h2 className="text-3xl md:text-4xl font-display font-semibold text-charcoal mt-2">
+            Latest from Pastor Mike
+          </h2>
+          <p className="text-charcoal-light text-lg mt-4 max-w-2xl mx-auto">
+            Get daily encouragement and stay connected with our community throughout the week.
+          </p>
+        </div>
+      </div>
+
+      {/* Carousel container */}
+      <div className="relative group">
+        {/* Left arrow - desktop only */}
+        {canScrollLeft && (
+          <button
+            onClick={() => scroll("left")}
+            className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg items-center justify-center text-charcoal hover:bg-white hover:text-terracotta transition-all opacity-0 group-hover:opacity-100"
+            aria-label="Scroll left"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+        )}
+
+        {/* Right arrow - desktop only */}
+        {canScrollRight && (
+          <button
+            onClick={() => scroll("right")}
+            className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg items-center justify-center text-charcoal hover:bg-white hover:text-terracotta transition-all opacity-0 group-hover:opacity-100"
+            aria-label="Scroll right"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        )}
+
+        {/* Left fade gradient */}
+        {canScrollLeft && (
+          <div className="hidden md:block absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-cream to-transparent z-[1] pointer-events-none" />
+        )}
+
+        {/* Right fade gradient */}
+        {canScrollRight && (
+          <div className="hidden md:block absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-cream to-transparent z-[1] pointer-events-none" />
+        )}
+
+        {/* Scrollable container */}
+        <div
+          ref={scrollRef}
+          className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-hide px-4 md:px-8 pb-4"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {/* Left padding for centering on larger screens */}
+          <div className="hidden lg:block flex-shrink-0 w-[calc((100vw-1280px)/2+32px)]" />
+
+          {videos.map((video) => {
+            const videoId = extractVideoId(video.url);
+            return (
+              <div
+                key={video.id}
+                className="flex-shrink-0 w-[300px] snap-center"
+              >
+                <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                  {videoId ? (
+                    <iframe
+                      src={`https://www.tiktok.com/embed/v2/${videoId}`}
+                      className="w-full h-[530px]"
+                      allowFullScreen
+                      allow="encrypted-media"
+                    />
+                  ) : (
+                    <div className="w-full h-[530px] bg-charcoal/5 flex items-center justify-center">
+                      <p className="text-charcoal-light text-sm">Invalid video URL</p>
+                    </div>
+                  )}
+                  {video.title && (
+                    <div className="p-4 border-t border-charcoal/5">
+                      <p className="text-charcoal text-sm font-medium line-clamp-2">
+                        {video.title}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+
+          {/* Follow card at the end */}
+          {tiktokProfileUrl && (
+            <div className="flex-shrink-0 w-[300px] snap-center">
+              <a
+                href={tiktokProfileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block h-full min-h-[530px] bg-gradient-to-br from-charcoal to-charcoal-light rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-all group/card"
+              >
+                <div className="h-full flex flex-col items-center justify-center p-8 text-center">
+                  <div className="w-24 h-24 mb-6 rounded-full bg-white/10 flex items-center justify-center group-hover/card:bg-white/20 transition-colors">
+                    <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-white text-xl font-display font-semibold mb-2">
+                    Follow on TikTok
+                  </h3>
+                  <p className="text-white/70 text-sm mb-6">
+                    More encouragement, behind-the-scenes, and daily inspiration
+                  </p>
+                  <div className="flex items-center gap-2 text-white font-medium group-hover/card:gap-3 transition-all">
+                    @pastormike
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </div>
+                </div>
+              </a>
+            </div>
+          )}
+
+          {/* Right padding for centering on larger screens */}
+          <div className="hidden lg:block flex-shrink-0 w-[calc((100vw-1280px)/2+32px)]" />
+        </div>
+      </div>
+    </section>
+  );
+}

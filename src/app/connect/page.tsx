@@ -1,1 +1,449 @@
-{"data":"InVzZSBjbGllbnQiOwoKaW1wb3J0IHsgdXNlU3RhdGUsIHVzZUVmZmVjdCB9IGZyb20gInJlYWN0IjsKaW1wb3J0IHsgQnV0dG9uIH0gZnJvbSAiQC9jb21wb25lbnRzL0J1dHRvbiI7CgppbnRlcmZhY2UgUHJheWVyUmVxdWVzdCB7CiAgaWQ6IHN0cmluZzsKICBuYW1lOiBzdHJpbmc7CiAgcmVxdWVzdDogc3RyaW5nOwogIHByYXllckNvdW50OiBudW1iZXI7CiAgY3JlYXRlZEF0OiBzdHJpbmc7CiAgaXNBbm9ueW1vdXM6IGJvb2xlYW47CiAgaGFzUHJheWVkPzogYm9vbGVhbjsKfQoKZnVuY3Rpb24gZm9ybWF0VGltZUFnbyhkYXRlU3RyaW5nOiBzdHJpbmcpOiBzdHJpbmcgewogIGlmICghZGF0ZVN0cmluZykgcmV0dXJuICJSZWNlbnRseSI7CgogIGNvbnN0IGRhdGUgPSBuZXcgRGF0ZShkYXRlU3RyaW5nKTsKICBpZiAoaXNOYU4oZGF0ZS5nZXRUaW1lKCkpKSByZXR1cm4gIlJlY2VudGx5IjsKCiAgY29uc3Qgbm93ID0gbmV3IERhdGUoKTsKICBjb25zdCBkaWZmTXMgPSBub3cuZ2V0VGltZSgpIC0gZGF0ZS5nZXRUaW1lKCk7CiAgY29uc3QgZGlmZk1pbnMgPSBNYXRoLmZsb29yKGRpZmZNcyAvICgxMDAwICogNjApKTsKICBjb25zdCBkaWZmSG91cnMgPSBNYXRoLmZsb29yKGRpZmZNcyAvICgxMDAwICogNjAgKiA2MCkpOwogIGNvbnN0IGRpZmZEYXlzID0gTWF0aC5mbG9vcihkaWZmTXMgLyAoMTAwMCAqIDYwICogNjAgKiAyNCkpOwoKICBpZiAoZGlmZk1pbnMgPCAxKSB7CiAgICByZXR1cm4gIkp1c3Qgbm93IjsKICB9IGVsc2UgaWYgKGRpZmZNaW5zIDwgNjApIHsKICAgIHJldHVybiBgJHtkaWZmTWluc30gJHtkaWZmTWlucyA9PT0gMSA/ICJtaW51dGUiIDogIm1pbnV0ZXMifSBhZ29gOwogIH0gZWxzZSBpZiAoZGlmZkhvdXJzIDwgMjQpIHsKICAgIHJldHVybiBgJHtkaWZmSG91cnN9ICR7ZGlmZkhvdXJzID09PSAxID8gImhvdXIiIDogImhvdXJzIn0gYWdvYDsKICB9IGVsc2UgaWYgKGRpZmZEYXlzID09PSAxKSB7CiAgICByZXR1cm4gIlllc3RlcmRheSI7CiAgfSBlbHNlIGlmIChkaWZmRGF5cyA8IDcpIHsKICAgIHJldHVybiBgJHtkaWZmRGF5c30gZGF5cyBhZ29gOwogIH0gZWxzZSB7CiAgICByZXR1cm4gZGF0ZS50b0xvY2FsZURhdGVTdHJpbmcoImVuLVVTIiwgeyBtb250aDogInNob3J0IiwgZGF5OiAibnVtZXJpYyIgfSk7CiAgfQp9CgpleHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBDb25uZWN0UGFnZSgpIHsKICBjb25zdCBbcHJheWVycywgc2V0UHJheWVyc10gPSB1c2VTdGF0ZTxQcmF5ZXJSZXF1ZXN0W10+KFtdKTsKICBjb25zdCBbcHJheWVkSWRzLCBzZXRQcmF5ZWRJZHNdID0gdXNlU3RhdGU8U2V0PHN0cmluZz4+KG5ldyBTZXQoKSk7CiAgY29uc3QgW2xvYWRpbmcsIHNldExvYWRpbmddID0gdXNlU3RhdGUodHJ1ZSk7CiAgY29uc3QgW3Nob3dGb3JtLCBzZXRTaG93Rm9ybV0gPSB1c2VTdGF0ZShmYWxzZSk7CiAgY29uc3QgW25hbWUsIHNldE5hbWVdID0gdXNlU3RhdGUoIiIpOwogIGNvbnN0IFtyZXF1ZXN0LCBzZXRSZXF1ZXN0XSA9IHVzZVN0YXRlKCIiKTsKICBjb25zdCBbaXNBbm9ueW1vdXMsIHNldElzQW5vbnltb3VzXSA9IHVzZVN0YXRlKGZhbHNlKTsKICBjb25zdCBbaXNTdWJtaXR0aW5nLCBzZXRJc1N1Ym1pdHRpbmddID0gdXNlU3RhdGUoZmFsc2UpOwogIGNvbnN0IFtzaG93U3VjY2Vzcywgc2V0U2hvd1N1Y2Nlc3NdID0gdXNlU3RhdGUoZmFsc2UpOwogIGNvbnN0IFtlcnJvck1lc3NhZ2UsIHNldEVycm9yTWVzc2FnZV0gPSB1c2VTdGF0ZSgiIik7CgogIC8vIExvYWQgcHJheWVkIElEcyBmcm9tIGxvY2FsU3RvcmFnZQogIHVzZUVmZmVjdCgoKSA9PiB7CiAgICBjb25zdCBzdG9yZWQgPSBsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgicHJheWVkSWRzIik7CiAgICBpZiAoc3RvcmVkKSB7CiAgICAgIHNldFByYXllZElkcyhuZXcgU2V0KEpTT04ucGFyc2Uoc3RvcmVkKSkpOwogICAgfQogIH0sIFtdKTsKCiAgLy8gRmV0Y2ggcHJheWVycyBmcm9tIEFQSQogIHVzZUVmZmVjdCgoKSA9PiB7CiAgICBhc3luYyBmdW5jdGlvbiBmZXRjaFByYXllcnMoKSB7CiAgICAgIHRyeSB7CiAgICAgICAgY29uc3QgcmVzID0gYXdhaXQgZmV0Y2goIi9hcGkvcHJheWVycyIpOwogICAgICAgIGlmIChyZXMub2spIHsKICAgICAgICAgIGNvbnN0IGRhdGEgPSBhd2FpdCByZXMuanNvbigpOwogICAgICAgICAgc2V0UHJheWVycyhkYXRhLnByYXllcnMgfHwgW10pOwogICAgICAgIH0KICAgICAgfSBjYXRjaCAoZXJyb3IpIHsKICAgICAgICBjb25zb2xlLmVycm9yKCJGYWlsZWQgdG8gZmV0Y2ggcHJheWVyczoiLCBlcnJvcik7CiAgICAgIH0KICAgICAgc2V0TG9hZGluZyhmYWxzZSk7CiAgICB9CiAgICBmZXRjaFByYXllcnMoKTsKICB9LCBbXSk7CgogIGNvbnN0IGhhbmRsZVN1Ym1pdCA9IGFzeW5jIChlOiBSZWFjdC5Gb3JtRXZlbnQpID0+IHsKICAgIGUucHJldmVudERlZmF1bHQoKTsKICAgIGlmICghcmVxdWVzdC50cmltKCkpIHJldHVybjsKCiAgICBzZXRJc1N1Ym1pdHRpbmcodHJ1ZSk7CiAgICBzZXRFcnJvck1lc3NhZ2UoIiIpOwoKICAgIHRyeSB7CiAgICAgIGNvbnN0IHJlcyA9IGF3YWl0IGZldGNoKCIvYXBpL3ByYXllcnMiLCB7CiAgICAgICAgbWV0aG9kOiAiUE9TVCIsCiAgICAgICAgaGVhZGVyczogeyAiQ29udGVudC1UeXBlIjogImFwcGxpY2F0aW9uL2pzb24iIH0sCiAgICAgICAgYm9keTogSlNPTi5zdHJpbmdpZnkoewogICAgICAgICAgbmFtZTogaXNBbm9ueW1vdXMgPyAiQW5vbnltb3VzIiA6IG5hbWUgfHwgIkFub255bW91cyIsCiAgICAgICAgICByZXF1ZXN0OiByZXF1ZXN0LnRyaW0oKSwKICAgICAgICAgIGlzQW5vbnltb3VzLAogICAgICAgIH0pLAogICAgICB9KTsKCiAgICAgIGlmIChyZXMub2spIHsKICAgICAgICBjb25zdCBuZXdQcmF5ZXIgPSBhd2FpdCByZXMuanNvbigpOwogICAgICAgIHNldFByYXllcnMoW25ld1ByYXllciwgLi4ucHJheWVyc10pOwogICAgICAgIHNldE5hbWUoIiIpOwogICAgICAgIHNldFJlcXVlc3QoIiIpOwogICAgICAgIHNldElzQW5vbnltb3VzKGZhbHNlKTsKICAgICAgICBzZXRTaG93Rm9ybShmYWxzZSk7CiAgICAgICAgc2V0U2hvd1N1Y2Nlc3ModHJ1ZSk7CiAgICAgICAgc2V0VGltZW91dCgoKSA9PiBzZXRTaG93U3VjY2VzcyhmYWxzZSksIDMwMDApOwogICAgICB9IGVsc2UgewogICAgICAgIGNvbnN0IGRhdGEgPSBhd2FpdCByZXMuanNvbigpOwogICAgICAgIHNldEVycm9yTWVzc2FnZShkYXRhLmVycm9yIHx8ICJGYWlsZWQgdG8gc3VibWl0IHByYXllciByZXF1ZXN0Iik7CiAgICAgIH0KICAgIH0gY2F0Y2ggewogICAgICBzZXRFcnJvck1lc3NhZ2UoIkNvbm5lY3Rpb24gZXJyb3IuIFBsZWFzZSB0cnkgYWdhaW4uIik7CiAgICB9CgogICAgc2V0SXNTdWJtaXR0aW5nKGZhbHNlKTsKICB9OwoKICBjb25zdCBoYW5kbGVQcmF5ID0gYXN5bmMgKGlkOiBzdHJpbmcpID0+IHsKICAgIGlmIChwcmF5ZWRJZHMuaGFzKGlkKSkgcmV0dXJuOwoKICAgIC8vIE9wdGltaXN0aWNhbGx5IHVwZGF0ZSBVSQogICAgY29uc3QgbmV3UHJheWVkSWRzID0gbmV3IFNldChwcmF5ZWRJZHMpOwogICAgbmV3UHJheWVkSWRzLmFkZChpZCk7CiAgICBzZXRQcmF5ZWRJZHMobmV3UHJheWVkSWRzKTsKICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKCJwcmF5ZWRJZHMiLCBKU09OLnN0cmluZ2lmeShbLi4ubmV3UHJheWVkSWRzXSkpOwoKICAgIHNldFByYXllcnMoCiAgICAgIHByYXllcnMubWFwKChwcmF5ZXIpID0+CiAgICAgICAgcHJheWVyLmlkID09PSBpZAogICAgICAgICAgPyB7IC4uLnByYXllciwgcHJheWVyQ291bnQ6IHByYXllci5wcmF5ZXJDb3VudCArIDEgfQogICAgICAgICAgOiBwcmF5ZXIKICAgICAgKQogICAgKTsKCiAgICB0cnkgewogICAgICBhd2FpdCBmZXRjaCgiL2FwaS9wcmF5ZXJzIiwgewogICAgICAgIG1ldGhvZDogIlBBVENIIiwKICAgICAgICBoZWFkZXJzOiB7ICJDb250ZW50LVR5cGUiOiAiYXBwbGljYXRpb24vanNvbiIgfSwKICAgICAgICBib2R5OiBKU09OLnN0cmluZ2lmeSh7IGlkLCBpbmNyZW1lbnQ6IHRydWUgfSksCiAgICAgIH0pOwogICAgfSBjYXRjaCAoZXJyb3IpIHsKICAgICAgY29uc29sZS5lcnJvcigiRmFpbGVkIHRvIHVwZGF0ZSBwcmF5ZXIgY291bnQ6IiwgZXJyb3IpOwogICAgfQogIH07CgogIHJldHVybiAoCiAgICA8ZGl2IGNsYXNzTmFtZT0icHQtMjAiPgogICAgICB7LyogSGVybyBTZWN0aW9uICovfQogICAgICA8c2VjdGlvbiBjbGFzc05hbWU9ImJnLWZvcmVzdCB0ZXh0LXdoaXRlIHB5LTE2IG1kOnB5LTI0Ij4KICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ibWF4LXctN3hsIG14LWF1dG8gcHgtNCBzbTpweC02IGxnOnB4LTgiPgogICAgICAgICAgPGRpdiBjbGFzc05hbWU9InRleHQtY2VudGVyIj4KICAgICAgICAgICAgPGgxIGNsYXNzTmFtZT0idGV4dC00eGwgbWQ6dGV4dC01eGwgbGc6dGV4dC02eGwgZm9udC1kaXNwbGF5IGZvbnQtc2VtaWJvbGQgbWItNCI+CiAgICAgICAgICAgICAgUHJheWVyIFdhbGwKICAgICAgICAgICAgPC9oMT4KICAgICAgICAgICAgPHAgY2xhc3NOYW1lPSJ0ZXh0LXdoaXRlLzgwIHRleHQtbGcgbWF4LXctMnhsIG14LWF1dG8gbWItOCI+CiAgICAgICAgICAgICAgU2hhcmUgeW91ciBwcmF5ZXIgcmVxdWVzdHMgYW5kIGxpZnQgdXAgb3RoZXJzIGluIHByYXllci4KICAgICAgICAgICAgICBFdmVyeSByZXF1ZXN0IGlzIHNlZW4sIGV2ZXJ5IHByYXllciBtYXR0ZXJzLgogICAgICAgICAgICA8L3A+CiAgICAgICAgICAgIDxCdXR0b24KICAgICAgICAgICAgICBvbkNsaWNrPXsoKSA9PiBzZXRTaG93Rm9ybSh0cnVlKX0KICAgICAgICAgICAgICBjbGFzc05hbWU9ImJnLXRlcnJhY290dGEgaG92ZXI6YmctdGVycmFjb3R0YS1kYXJrIgogICAgICAgICAgICAgIHNpemU9ImxnIgogICAgICAgICAgICA+CiAgICAgICAgICAgICAgU3VibWl0IGEgUHJheWVyIFJlcXVlc3QKICAgICAgICAgICAgPC9CdXR0b24+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgPC9zZWN0aW9uPgoKICAgICAgey8qIFN1Y2Nlc3MgTWVzc2FnZSAqL30KICAgICAge3Nob3dTdWNjZXNzICYmICgKICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iZml4ZWQgdG9wLTI0IGxlZnQtMS8yIC10cmFuc2xhdGUteC0xLzIgei01MCBhbmltYXRlLWZhZGUtaW4tdXAiPgogICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImJnLWZvcmVzdCB0ZXh0LXdoaXRlIHB4LTYgcHktNCByb3VuZGVkLWxnIHNoYWRvdy1sZyBmbGV4IGl0ZW1zLWNlbnRlciBnYXAtMyI+CiAgICAgICAgICAgIDxzdmcKICAgICAgICAgICAgICBjbGFzc05hbWU9InctNiBoLTYiCiAgICAgICAgICAgICAgZmlsbD0ibm9uZSIKICAgICAgICAgICAgICBzdHJva2U9ImN1cnJlbnRDb2xvciIKICAgICAgICAgICAgICB2aWV3Qm94PSIwIDAgMjQgMjQiCiAgICAgICAgICAgID4KICAgICAgICAgICAgICA8cGF0aAogICAgICAgICAgICAgICAgc3Ryb2tlTGluZWNhcD0icm91bmQiCiAgICAgICAgICAgICAgICBzdHJva2VMaW5lam9pbj0icm91bmQiCiAgICAgICAgICAgICAgICBzdHJva2VXaWR0aD17Mn0KICAgICAgICAgICAgICAgIGQ9Ik01IDEzbDQgNEwxOSA3IgogICAgICAgICAgICAgIC8+CiAgICAgICAgICAgIDwvc3ZnPgogICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9ImZvbnQtbWVkaXVtIj5QcmF5ZXIgcmVxdWVzdCBzdWJtaXR0ZWQhPC9zcGFuPgogICAgICAgICAgPC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgICl9CgogICAgICB7LyogUHJheWVyIEZvcm0gTW9kYWwgKi99CiAgICAgIHtzaG93Rm9ybSAmJiAoCiAgICAgICAgPGRpdiBjbGFzc05hbWU9ImZpeGVkIGluc2V0LTAgYmctYmxhY2svNTAgei01MCBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciBwLTQiPgogICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImJnLXdoaXRlIHJvdW5kZWQtMnhsIG1heC13LWxnIHctZnVsbCBwLTggYW5pbWF0ZS1mYWRlLWluLXVwIj4KICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktYmV0d2VlbiBtYi02Ij4KICAgICAgICAgICAgICA8aDIgY2xhc3NOYW1lPSJ0ZXh0LTJ4bCBmb250LWRpc3BsYXkgZm9udC1zZW1pYm9sZCB0ZXh0LWNoYXJjb2FsIj4KICAgICAgICAgICAgICAgIFNoYXJlIFlvdXIgUHJheWVyIFJlcXVlc3QKICAgICAgICAgICAgICA8L2gyPgogICAgICAgICAgICAgIDxidXR0b24KICAgICAgICAgICAgICAgIG9uQ2xpY2s9eygpID0+IHNldFNob3dGb3JtKGZhbHNlKX0KICAgICAgICAgICAgICAgIGNsYXNzTmFtZT0idGV4dC1jaGFyY29hbC1saWdodCBob3Zlcjp0ZXh0LWNoYXJjb2FsIgogICAgICAgICAgICAgID4KICAgICAgICAgICAgICAgIDxzdmcKICAgICAgICAgICAgICAgICAgY2xhc3NOYW1lPSJ3LTYgaC02IgogICAgICAgICAgICAgICAgICBmaWxsPSJub25lIgogICAgICAgICAgICAgICAgICBzdHJva2U9ImN1cnJlbnRDb2xvciIKICAgICAgICAgICAgICAgICAgdmlld0JveD0iMCAwIDI0IDI0IgogICAgICAgICAgICAgICAgPgogICAgICAgICAgICAgICAgICA8cGF0aAogICAgICAgICAgICAgICAgICAgIHN0cm9rZUxpbmVjYXA9InJvdW5kIgogICAgICAgICAgICAgICAgICAgIHN0cm9rZUxpbmVqb2luPSJyb3VuZCIKICAgICAgICAgICAgICAgICAgICBzdHJva2VXaWR0aD17Mn0KICAgICAgICAgICAgICAgICAgICBkPSJNNiAxOEwxOCA2TTYgNmwxMiAxMiIKICAgICAgICAgICAgICAgICAgLz4KICAgICAgICAgICAgICAgIDwvc3ZnPgogICAgICAgICAgICAgIDwvYnV0dG9uPgogICAgICAgICAgICA8L2Rpdj4KCiAgICAgICAgICAgIDxmb3JtIG9uU3VibWl0PXtoYW5kbGVTdWJtaXR9IGNsYXNzTmFtZT0ic3BhY2UteS02Ij4KICAgICAgICAgICAgICA8ZGl2PgogICAgICAgICAgICAgICAgPGxhYmVsCiAgICAgICAgICAgICAgICAgIGh0bWxGb3I9Im5hbWUiCiAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT0iYmxvY2sgdGV4dC1zbSBmb250LW1lZGl1bSB0ZXh0LWNoYXJjb2FsIG1iLTIiCiAgICAgICAgICAgICAgICA+CiAgICAgICAgICAgICAgICAgIFlvdXIgTmFtZSAob3B0aW9uYWwpCiAgICAgICAgICAgICAgICA8L2xhYmVsPgogICAgICAgICAgICAgICAgPGlucHV0CiAgICAgICAgICAgICAgICAgIHR5cGU9InRleHQiCiAgICAgICAgICAgICAgICAgIGlkPSJuYW1lIgogICAgICAgICAgICAgICAgICB2YWx1ZT17bmFtZX0KICAgICAgICAgICAgICAgICAgb25DaGFuZ2U9eyhlKSA9PiBzZXROYW1lKGUudGFyZ2V0LnZhbHVlKX0KICAgICAgICAgICAgICAgICAgZGlzYWJsZWQ9e2lzQW5vbnltb3VzfQogICAgICAgICAgICAgICAgICBwbGFjZWhvbGRlcj0iRW50ZXIgeW91ciBuYW1lLi4uIgogICAgICAgICAgICAgICAgICBjbGFzc05hbWU9InctZnVsbCBweC00IHB5LTMgcm91bmRlZC1sZyBib3JkZXIgYm9yZGVyLXdhcm0tZ3JheS1saWdodCBmb2N1czpib3JkZXItdGVycmFjb3R0YSBmb2N1czpyaW5nLTIgZm9jdXM6cmluZy10ZXJyYWNvdHRhLzIwIG91dGxpbmUtbm9uZSB0cmFuc2l0aW9uLWNvbG9ycyBiZy1jcmVhbSBkaXNhYmxlZDpvcGFjaXR5LTUwIGRpc2FibGVkOmN1cnNvci1ub3QtYWxsb3dlZCIKICAgICAgICAgICAgICAgIC8+CiAgICAgICAgICAgICAgPC9kaXY+CgogICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJmbGV4IGl0ZW1zLWNlbnRlciBnYXAtMyI+CiAgICAgICAgICAgICAgICA8aW5wdXQKICAgICAgICAgICAgICAgICAgdHlwZT0iY2hlY2tib3giCiAgICAgICAgICAgICAgICAgIGlkPSJhbm9ueW1vdXMiCiAgICAgICAgICAgICAgICAgIGNoZWNrZWQ9e2lzQW5vbnltb3VzfQogICAgICAgICAgICAgICAgICBvbkNoYW5nZT17KGUpID0+IHNldElzQW5vbnltb3VzKGUudGFyZ2V0LmNoZWNrZWQpfQogICAgICAgICAgICAgICAgICBjbGFzc05hbWU9InctNSBoLTUgcm91bmRlZCBib3JkZXItd2FybS1ncmF5LWxpZ2h0IHRleHQtdGVycmFjb3R0YSBmb2N1czpyaW5nLXRlcnJhY290dGEiCiAgICAgICAgICAgICAgICAvPgogICAgICAgICAgICAgICAgPGxhYmVsIGh0bWxGb3I9ImFub255bW91cyIgY2xhc3NOYW1lPSJ0ZXh0LWNoYXJjb2FsLWxpZ2h0Ij4KICAgICAgICAgICAgICAgICAgUG9zdCBhbm9ueW1vdXNseQogICAgICAgICAgICAgICAgPC9sYWJlbD4KICAgICAgICAgICAgICA8L2Rpdj4KCiAgICAgICAgICAgICAgPGRpdj4KICAgICAgICAgICAgICAgIDxsYWJlbAogICAgICAgICAgICAgICAgICBodG1sRm9yPSJyZXF1ZXN0IgogICAgICAgICAgICAgICAgICBjbGFzc05hbWU9ImJsb2NrIHRleHQtc20gZm9udC1tZWRpdW0gdGV4dC1jaGFyY29hbCBtYi0yIgogICAgICAgICAgICAgICAgPgogICAgICAgICAgICAgICAgICBQcmF5ZXIgUmVxdWVzdAogICAgICAgICAgICAgICAgPC9sYWJlbD4KICAgICAgICAgICAgICAgIDx0ZXh0YXJlYQogICAgICAgICAgICAgICAgICBpZD0icmVxdWVzdCIKICAgICAgICAgICAgICAgICAgdmFsdWU9e3JlcXVlc3R9CiAgICAgICAgICAgICAgICAgIG9uQ2hhbmdlPXsoZSkgPT4gc2V0UmVxdWVzdChlLnRhcmdldC52YWx1ZSl9CiAgICAgICAgICAgICAgICAgIHBsYWNlaG9sZGVyPSJTaGFyZSB3aGF0J3Mgb24geW91ciBoZWFydC4uLiIKICAgICAgICAgICAgICAgICAgcm93cz17NH0KICAgICAgICAgICAgICAgICAgY2xhc3NOYW1lPSJ3LWZ1bGwgcHgtNCBweS0zIHJvdW5kZWQtbGcgYm9yZGVyIGJvcmRlci13YXJtLWdyYXktbGlnaHQgZm9jdXM6Ym9yZGVyLXRlcnJhY290dGEgZm9jdXM6cmluZy0yIGZvY3VzOnJpbmctdGVycmFjb3R0YS8yMCBvdXRsaW5lLW5vbmUgdHJhbnNpdGlvbi1jb2xvcnMgYmctY3JlYW0gcmVzaXplLW5vbmUiCiAgICAgICAgICAgICAgICAgIHJlcXVpcmVkCiAgICAgICAgICAgICAgICAvPgogICAgICAgICAgICAgIDwvZGl2PgoKICAgICAgICAgICAgICB7ZXJyb3JNZXNzYWdlICYmICgKICAgICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT0idGV4dC1yZWQtNTAwIHRleHQtc20gdGV4dC1jZW50ZXIiPntlcnJvck1lc3NhZ2V9PC9wPgogICAgICAgICAgICAgICl9CgogICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJmbGV4IGdhcC00Ij4KICAgICAgICAgICAgICAgIDxCdXR0b24KICAgICAgICAgICAgICAgICAgdHlwZT0iYnV0dG9uIgogICAgICAgICAgICAgICAgICB2YXJpYW50PSJnaG9zdCIKICAgICAgICAgICAgICAgICAgb25DbGljaz17KCkgPT4gc2V0U2hvd0Zvcm0oZmFsc2UpfQogICAgICAgICAgICAgICAgICBjbGFzc05hbWU9ImZsZXgtMSIKICAgICAgICAgICAgICAgID4KICAgICAgICAgICAgICAgICAgQ2FuY2VsCiAgICAgICAgICAgICAgICA8L0J1dHRvbj4KICAgICAgICAgICAgICAgIDxCdXR0b24KICAgICAgICAgICAgICAgICAgdHlwZT0ic3VibWl0IgogICAgICAgICAgICAgICAgICBpc0xvYWRpbmc9e2lzU3VibWl0dGluZ30KICAgICAgICAgICAgICAgICAgZGlzYWJsZWQ9eyFyZXF1ZXN0LnRyaW0oKX0KICAgICAgICAgICAgICAgICAgY2xhc3NOYW1lPSJmbGV4LTEiCiAgICAgICAgICAgICAgICA+CiAgICAgICAgICAgICAgICAgIFN1Ym1pdCBSZXF1ZXN0CiAgICAgICAgICAgICAgICA8L0J1dHRvbj4KICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgPC9mb3JtPgogICAgICAgICAgPC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgICl9CgogICAgICB7LyogUHJheWVyIFdhbGwgKi99CiAgICAgIDxzZWN0aW9uIGNsYXNzTmFtZT0icHktMTYgbWQ6cHktMjQiPgogICAgICAgIDxkaXYgY2xhc3NOYW1lPSJtYXgtdy00eGwgbXgtYXV0byBweC00IHNtOnB4LTYgbGc6cHgtOCI+CiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1iZXR3ZWVuIG1iLTgiPgogICAgICAgICAgICA8aDIgY2xhc3NOYW1lPSJ0ZXh0LTJ4bCBmb250LWRpc3BsYXkgZm9udC1zZW1pYm9sZCB0ZXh0LWNoYXJjb2FsIj4KICAgICAgICAgICAgICBDb21tdW5pdHkgUHJheWVycwogICAgICAgICAgICA8L2gyPgogICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9InRleHQtY2hhcmNvYWwtbGlnaHQgdGV4dC1zbSI+CiAgICAgICAgICAgICAge3ByYXllcnMubGVuZ3RofSB7cHJheWVycy5sZW5ndGggPT09IDEgPyAicmVxdWVzdCIgOiAicmVxdWVzdHMifQogICAgICAgICAgICA8L3NwYW4+CiAgICAgICAgICA8L2Rpdj4KCiAgICAgICAgICB7bG9hZGluZyA/ICgKICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9InNwYWNlLXktNiI+CiAgICAgICAgICAgICAge1sxLCAyLCAzXS5tYXAoKGkpID0+ICgKICAgICAgICAgICAgICAgIDxkaXYga2V5PXtpfSBjbGFzc05hbWU9ImJnLXdoaXRlIHJvdW5kZWQtMnhsIHAtNiBzaGFkb3ctc20gYW5pbWF0ZS1wdWxzZSI+CiAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJmbGV4IGl0ZW1zLWNlbnRlciBnYXAtMyBtYi00Ij4KICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0idy0xMCBoLTEwIHJvdW5kZWQtZnVsbCBiZy13YXJtLWdyYXktbGlnaHQiIC8+CiAgICAgICAgICAgICAgICAgICAgPGRpdj4KICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJoLTQgdy0yNCBiZy13YXJtLWdyYXktbGlnaHQgcm91bmRlZCIgLz4KICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJoLTMgdy0xNiBiZy13YXJtLWdyYXktbGlnaHQgcm91bmRlZCBtdC0xIiAvPgogICAgICAgICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImgtNCB3LWZ1bGwgYmctd2FybS1ncmF5LWxpZ2h0IHJvdW5kZWQgbWItMiIgLz4KICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImgtNCB3LTMvNCBiZy13YXJtLWdyYXktbGlnaHQgcm91bmRlZCIgLz4KICAgICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICAgICkpfQogICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICkgOiBwcmF5ZXJzLmxlbmd0aCA9PT0gMCA/ICgKICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9InRleHQtY2VudGVyIHB5LTEyIj4KICAgICAgICAgICAgICA8c3ZnCiAgICAgICAgICAgICAgICBjbGFzc05hbWU9InctMTYgaC0xNiBteC1hdXRvIHRleHQtd2FybS1ncmF5LWxpZ2h0IG1iLTQiCiAgICAgICAgICAgICAgICBmaWxsPSJub25lIgogICAgICAgICAgICAgICAgc3Ryb2tlPSJjdXJyZW50Q29sb3IiCiAgICAgICAgICAgICAgICB2aWV3Qm94PSIwIDAgMjQgMjQiCiAgICAgICAgICAgICAgPgogICAgICAgICAgICAgICAgPHBhdGgKICAgICAgICAgICAgICAgICAgc3Ryb2tlTGluZWNhcD0icm91bmQiCiAgICAgICAgICAgICAgICAgIHN0cm9rZUxpbmVqb2luPSJyb3VuZCIKICAgICAgICAgICAgICAgICAgc3Ryb2tlV2lkdGg9ezEuNX0KICAgICAgICAgICAgICAgICAgZD0iTTQuMzE4IDYuMzE4YTQuNSA0LjUgMCAwMDAgNi4zNjRMMTIgMjAuMzY0bDcuNjgyLTcuNjgyYTQuNSA0LjUgMCAwMC02LjM2NC02LjM2NEwxMiA3LjYzNmwtMS4zMTgtMS4zMThhNC41IDQuNSAwIDAwLTYuMzY0IDB6IgogICAgICAgICAgICAgICAgLz4KICAgICAgICAgICAgICA8L3N2Zz4KICAgICAgICAgICAgICA8aDMgY2xhc3NOYW1lPSJ0ZXh0LXhsIGZvbnQtZGlzcGxheSBmb250LXNlbWlib2xkIHRleHQtY2hhcmNvYWwgbWItMiI+CiAgICAgICAgICAgICAgICBObyBwcmF5ZXIgcmVxdWVzdHMgeWV0CiAgICAgICAgICAgICAgPC9oMz4KICAgICAgICAgICAgICA8cCBjbGFzc05hbWU9InRleHQtY2hhcmNvYWwtbGlnaHQgbWItNiI+CiAgICAgICAgICAgICAgICBCZSB0aGUgZmlyc3QgdG8gc2hhcmUgYSBwcmF5ZXIgcmVxdWVzdCB3aXRoIG91ciBjb21tdW5pdHkuCiAgICAgICAgICAgICAgPC9wPgogICAgICAgICAgICAgIDxCdXR0b24gb25DbGljaz17KCkgPT4gc2V0U2hvd0Zvcm0odHJ1ZSl9PgogICAgICAgICAgICAgICAgU3VibWl0IGEgUHJheWVyIFJlcXVlc3QKICAgICAgICAgICAgICA8L0J1dHRvbj4KICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICApIDogKAogICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ic3BhY2UteS02Ij4KICAgICAgICAgICAgICB7cHJheWVycy5tYXAoKHByYXllcikgPT4gewogICAgICAgICAgICAgICAgY29uc3QgaGFzUHJheWVkID0gcHJheWVkSWRzLmhhcyhwcmF5ZXIuaWQpOwogICAgICAgICAgICAgICAgcmV0dXJuICgKICAgICAgICAgICAgICAgICAgPGRpdgogICAgICAgICAgICAgICAgICAgIGtleT17cHJheWVyLmlkfQogICAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT0iYmctd2hpdGUgcm91bmRlZC0yeGwgcC02IHNoYWRvdy1zbSBob3ZlcjpzaGFkb3ctbWQgdHJhbnNpdGlvbi1zaGFkb3ciCiAgICAgICAgICAgICAgICAgID4KICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iZmxleCBpdGVtcy1zdGFydCBqdXN0aWZ5LWJldHdlZW4gZ2FwLTQiPgogICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImZsZXgtMSI+CiAgICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJmbGV4IGl0ZW1zLWNlbnRlciBnYXAtMyBtYi0zIj4KICAgICAgICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0idy0xMCBoLTEwIHJvdW5kZWQtZnVsbCBiZy1jcmVhbSBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciI+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9ImZvbnQtZGlzcGxheSBmb250LXNlbWlib2xkIHRleHQtdGVycmFjb3R0YSI+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHtwcmF5ZXIuaXNBbm9ueW1vdXMgPyAiPyIgOiBwcmF5ZXIubmFtZS5jaGFyQXQoMCl9CiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L3NwYW4+CiAgICAgICAgICAgICAgICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgICAgICAgICAgICAgICAgPGRpdj4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT0iZm9udC1tZWRpdW0gdGV4dC1jaGFyY29hbCI+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHtwcmF5ZXIuaXNBbm9ueW1vdXMgPyAiQW5vbnltb3VzIiA6IHByYXllci5uYW1lfQogICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9wPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgPHAgY2xhc3NOYW1lPSJ0ZXh0LXhzIHRleHQtY2hhcmNvYWwtbGlnaHQiPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICB7Zm9ybWF0VGltZUFnbyhwcmF5ZXIuY3JlYXRlZEF0KX0KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvcD4KICAgICAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT0idGV4dC1jaGFyY29hbC1saWdodCBsZWFkaW5nLXJlbGF4ZWQiPgogICAgICAgICAgICAgICAgICAgICAgICAgIHtwcmF5ZXIucmVxdWVzdH0KICAgICAgICAgICAgICAgICAgICAgICAgPC9wPgogICAgICAgICAgICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgICAgICAgICAgPC9kaXY+CgogICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJtdC00IHB0LTQgYm9yZGVyLXQgYm9yZGVyLXdhcm0tZ3JheS1saWdodC81MCBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWJldHdlZW4iPgogICAgICAgICAgICAgICAgICAgICAgPGJ1dHRvbgogICAgICAgICAgICAgICAgICAgICAgICBvbkNsaWNrPXsoKSA9PiBoYW5kbGVQcmF5KHByYXllci5pZCl9CiAgICAgICAgICAgICAgICAgICAgICAgIGRpc2FibGVkPXtoYXNQcmF5ZWR9CiAgICAgICAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT17YGZsZXggaXRlbXMtY2VudGVyIGdhcC0yIHB4LTQgcHktMiByb3VuZGVkLWZ1bGwgdGV4dC1zbSBmb250LW1lZGl1bSB0cmFuc2l0aW9uLWNvbG9ycyAkewogICAgICAgICAgICAgICAgICAgICAgICAgIGhhc1ByYXllZAogICAgICAgICAgICAgICAgICAgICAgICAgICAgPyAiYmctZm9yZXN0LzEwIHRleHQtZm9yZXN0IGN1cnNvci1kZWZhdWx0IgogICAgICAgICAgICAgICAgICAgICAgICAgICAgOiAiYmctY3JlYW0gaG92ZXI6YmctdGVycmFjb3R0YSBob3Zlcjp0ZXh0LXdoaXRlIHRleHQtY2hhcmNvYWwtbGlnaHQiCiAgICAgICAgICAgICAgICAgICAgICAgIH1gfQogICAgICAgICAgICAgICAgICAgICAgPgogICAgICAgICAgICAgICAgICAgICAgICA8c3ZnCiAgICAgICAgICAgICAgICAgICAgICAgICAgY2xhc3NOYW1lPSJ3LTQgaC00IgogICAgICAgICAgICAgICAgICAgICAgICAgIGZpbGw9e2hhc1ByYXllZCA/ICJjdXJyZW50Q29sb3IiIDogIm5vbmUifQogICAgICAgICAgICAgICAgICAgICAgICAgIHN0cm9rZT0iY3VycmVudENvbG9yIgogICAgICAgICAgICAgICAgICAgICAgICAgIHZpZXdCb3g9IjAgMCAyNCAyNCIKICAgICAgICAgICAgICAgICAgICAgICAgPgogICAgICAgICAgICAgICAgICAgICAgICAgIDxwYXRoCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJva2VMaW5lY2FwPSJyb3VuZCIKICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cm9rZUxpbmVqb2luPSJyb3VuZCIKICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoPXsyfQogICAgICAgICAgICAgICAgICAgICAgICAgICAgZD0iTTQuMzE4IDYuMzE4YTQuNSA0LjUgMCAwMDAgNi4zNjRMMTIgMjAuMzY0bDcuNjgyLTcuNjgyYTQuNSA0LjUgMCAwMC02LjM2NC02LjM2NEwxMiA3LjYzNmwtMS4zMTgtMS4zMThhNC41IDQuNSAwIDAwLTYuMzY0IDB6IgogICAgICAgICAgICAgICAgICAgICAgICAgIC8+CiAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPgogICAgICAgICAgICAgICAgICAgICAgICB7aGFzUHJheWVkID8gIlByYXllZCIgOiAiSSdtIFByYXlpbmcifQogICAgICAgICAgICAgICAgICAgICAgPC9idXR0b24+CiAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9InRleHQtc20gdGV4dC1jaGFyY29hbC1saWdodCI+CiAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0iZm9udC1zZW1pYm9sZCB0ZXh0LWZvcmVzdCI+e3ByYXllci5wcmF5ZXJDb3VudH08L3NwYW4+eyIgIn0KICAgICAgICAgICAgICAgICAgICAgICAge3ByYXllci5wcmF5ZXJDb3VudCA9PT0gMSA/ICJwZXJzb24iIDogInBlb3BsZSJ9IHByYXlpbmcKICAgICAgICAgICAgICAgICAgICAgIDwvc3Bhbj4KICAgICAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgICAgICApOwogICAgICAgICAgICAgIH0pfQogICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICl9CiAgICAgICAgPC9kaXY+CiAgICAgIDwvc2VjdGlvbj4KCiAgICAgIHsvKiBFbmNvdXJhZ2VtZW50IFNlY3Rpb24gKi99CiAgICAgIDxzZWN0aW9uIGNsYXNzTmFtZT0icHktMTYgYmctY3JlYW0tZGFyayI+CiAgICAgICAgPGRpdiBjbGFzc05hbWU9Im1heC13LTR4bCBteC1hdXRvIHB4LTQgc206cHgtNiBsZzpweC04IHRleHQtY2VudGVyIj4KICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJiZy13aGl0ZSByb3VuZGVkLTJ4bCBwLTggbWQ6cC0xMiBzaGFkb3ctc20iPgogICAgICAgICAgICA8c3ZnCiAgICAgICAgICAgICAgY2xhc3NOYW1lPSJ3LTEyIGgtMTIgbXgtYXV0byBtYi02IHRleHQtdGVycmFjb3R0YSIKICAgICAgICAgICAgICBmaWxsPSJub25lIgogICAgICAgICAgICAgIHN0cm9rZT0iY3VycmVudENvbG9yIgogICAgICAgICAgICAgIHZpZXdCb3g9IjAgMCAyNCAyNCIKICAgICAgICAgICAgPgogICAgICAgICAgICAgIDxwYXRoCiAgICAgICAgICAgICAgICBzdHJva2VMaW5lY2FwPSJyb3VuZCIKICAgICAgICAgICAgICAgIHN0cm9rZUxpbmVqb2luPSJyb3VuZCIKICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoPXsxLjV9CiAgICAgICAgICAgICAgICBkPSJNMTIgNi4yNTN2MTNtMC0xM0MxMC44MzIgNS40NzcgOS4yNDYgNSA3LjUgNVM0LjE2OCA1LjQ3NyAzIDYuMjUzdjEzQzQuMTY4IDE4LjQ3NyA1Ljc1NCAxOCA3LjUgMThzMy4zMzIuNDc3IDQuNSAxLjI1M20wLTEzQzEzLjE2OCA1LjQ3NyAxNC43NTQgNSAxNi41IDVjMS43NDcgMCAzLjMzMi40NzcgNC41IDEuMjUzdjEzQzE5LjgzMiAxOC40NzcgMTguMjQ3IDE4IDE2LjUgMThjLTEuNzQ2IDAtMy4zMzIuNDc3LTQuNSAxLjI1MyIKICAgICAgICAgICAgICAvPgogICAgICAgICAgICA8L3N2Zz4KICAgICAgICAgICAgPGJsb2NrcXVvdGUgY2xhc3NOYW1lPSJ0ZXh0LTJ4bCBtZDp0ZXh0LTN4bCBmb250LWRpc3BsYXkgdGV4dC1jaGFyY29hbCBtYi02Ij4KICAgICAgICAgICAgICAmbGRxdW87RG8gbm90IGJlIGFueGlvdXMgYWJvdXQgYW55dGhpbmcsIGJ1dCBpbiBldmVyeSBzaXR1YXRpb24sIGJ5IHByYXllcgogICAgICAgICAgICAgIGFuZCBwZXRpdGlvbiwgd2l0aCB0aGFua3NnaXZpbmcsIHByZXNlbnQgeW91ciByZXF1ZXN0cyB0byBHb2QuJnJkcXVvOwogICAgICAgICAgICA8L2Jsb2NrcXVvdGU+CiAgICAgICAgICAgIDxjaXRlIGNsYXNzTmFtZT0idGV4dC10ZXJyYWNvdHRhIGZvbnQtbWVkaXVtIj4KICAgICAgICAgICAgICDigJQgUGhpbGlwcGlhbnMgNDo2CiAgICAgICAgICAgIDwvY2l0ZT4KICAgICAgICAgIDwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICA8L3NlY3Rpb24+CiAgICA8L2Rpdj4KICApOwp9Cg=="}
+"use client";
+
+import { useState, useEffect } from "react";
+import { Button } from "@/components/Button";
+
+interface PrayerRequest {
+  id: string;
+  name: string;
+  request: string;
+  prayerCount: number;
+  createdAt: string;
+  isAnonymous: boolean;
+  hasPrayed?: boolean;
+}
+
+function formatTimeAgo(dateString: string): string {
+  if (!dateString) return "Recently";
+
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return "Recently";
+
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffMins = Math.floor(diffMs / (1000 * 60));
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (diffMins < 1) {
+    return "Just now";
+  } else if (diffMins < 60) {
+    return `${diffMins} ${diffMins === 1 ? "minute" : "minutes"} ago`;
+  } else if (diffHours < 24) {
+    return `${diffHours} ${diffHours === 1 ? "hour" : "hours"} ago`;
+  } else if (diffDays === 1) {
+    return "Yesterday";
+  } else if (diffDays < 7) {
+    return `${diffDays} days ago`;
+  } else {
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  }
+}
+
+export default function ConnectPage() {
+  const [prayers, setPrayers] = useState<PrayerRequest[]>([]);
+  const [prayedIds, setPrayedIds] = useState<Set<string>>(new Set());
+  const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [name, setName] = useState("");
+  const [request, setRequest] = useState("");
+  const [isAnonymous, setIsAnonymous] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  // Load prayed IDs from localStorage
+  useEffect(() => {
+    const stored = localStorage.getItem("prayedIds");
+    if (stored) {
+      setPrayedIds(new Set(JSON.parse(stored)));
+    }
+  }, []);
+
+  // Fetch prayers from API
+  useEffect(() => {
+    async function fetchPrayers() {
+      try {
+        const res = await fetch("/api/prayers");
+        if (res.ok) {
+          const data = await res.json();
+          setPrayers(data.prayers || []);
+        }
+      } catch (error) {
+        console.error("Failed to fetch prayers:", error);
+      }
+      setLoading(false);
+    }
+    fetchPrayers();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!request.trim()) return;
+
+    setIsSubmitting(true);
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/prayers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: isAnonymous ? "Anonymous" : name || "Anonymous",
+          request: request.trim(),
+          isAnonymous,
+        }),
+      });
+
+      if (res.ok) {
+        const newPrayer = await res.json();
+        setPrayers([newPrayer, ...prayers]);
+        setName("");
+        setRequest("");
+        setIsAnonymous(false);
+        setShowForm(false);
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 3000);
+      } else {
+        const data = await res.json();
+        setErrorMessage(data.error || "Failed to submit prayer request");
+      }
+    } catch {
+      setErrorMessage("Connection error. Please try again.");
+    }
+
+    setIsSubmitting(false);
+  };
+
+  const handlePray = async (id: string) => {
+    if (prayedIds.has(id)) return;
+
+    // Optimistically update UI
+    const newPrayedIds = new Set(prayedIds);
+    newPrayedIds.add(id);
+    setPrayedIds(newPrayedIds);
+    localStorage.setItem("prayedIds", JSON.stringify([...newPrayedIds]));
+
+    setPrayers(
+      prayers.map((prayer) =>
+        prayer.id === id
+          ? { ...prayer, prayerCount: prayer.prayerCount + 1 }
+          : prayer
+      )
+    );
+
+    try {
+      await fetch("/api/prayers", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, increment: true }),
+      });
+    } catch (error) {
+      console.error("Failed to update prayer count:", error);
+    }
+  };
+
+  return (
+    <div className="pt-20">
+      {/* Hero Section */}
+      <section className="bg-forest text-white py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold mb-4">
+              Prayer Wall
+            </h1>
+            <p className="text-white/80 text-lg max-w-2xl mx-auto mb-8">
+              Share your prayer requests and lift up others in prayer.
+              Every request is seen, every prayer matters.
+            </p>
+            <Button
+              onClick={() => setShowForm(true)}
+              className="bg-terracotta hover:bg-terracotta-dark"
+              size="lg"
+            >
+              Submit a Prayer Request
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Success Message */}
+      {showSuccess && (
+        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 animate-fade-in-up">
+          <div className="bg-forest text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+            <span className="font-medium">Prayer request submitted!</span>
+          </div>
+        </div>
+      )}
+
+      {/* Prayer Form Modal */}
+      {showForm && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-8 animate-fade-in-up">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-display font-semibold text-charcoal">
+                Share Your Prayer Request
+              </h2>
+              <button
+                onClick={() => setShowForm(false)}
+                className="text-charcoal-light hover:text-charcoal"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-charcoal mb-2"
+                >
+                  Your Name (optional)
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  disabled={isAnonymous}
+                  placeholder="Enter your name..."
+                  className="w-full px-4 py-3 rounded-lg border border-warm-gray-light focus:border-terracotta focus:ring-2 focus:ring-terracotta/20 outline-none transition-colors bg-cream disabled:opacity-50 disabled:cursor-not-allowed"
+                />
+              </div>
+
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="anonymous"
+                  checked={isAnonymous}
+                  onChange={(e) => setIsAnonymous(e.target.checked)}
+                  className="w-5 h-5 rounded border-warm-gray-light text-terracotta focus:ring-terracotta"
+                />
+                <label htmlFor="anonymous" className="text-charcoal-light">
+                  Post anonymously
+                </label>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="request"
+                  className="block text-sm font-medium text-charcoal mb-2"
+                >
+                  Prayer Request
+                </label>
+                <textarea
+                  id="request"
+                  value={request}
+                  onChange={(e) => setRequest(e.target.value)}
+                  placeholder="Share what's on your heart..."
+                  rows={4}
+                  className="w-full px-4 py-3 rounded-lg border border-warm-gray-light focus:border-terracotta focus:ring-2 focus:ring-terracotta/20 outline-none transition-colors bg-cream resize-none"
+                  required
+                />
+              </div>
+
+              {errorMessage && (
+                <p className="text-red-500 text-sm text-center">{errorMessage}</p>
+              )}
+
+              <div className="flex gap-4">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => setShowForm(false)}
+                  className="flex-1"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  isLoading={isSubmitting}
+                  disabled={!request.trim()}
+                  className="flex-1"
+                >
+                  Submit Request
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Prayer Wall */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-display font-semibold text-charcoal">
+              Community Prayers
+            </h2>
+            <span className="text-charcoal-light text-sm">
+              {prayers.length} {prayers.length === 1 ? "request" : "requests"}
+            </span>
+          </div>
+
+          {loading ? (
+            <div className="space-y-6">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="bg-white rounded-2xl p-6 shadow-sm animate-pulse">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-full bg-warm-gray-light" />
+                    <div>
+                      <div className="h-4 w-24 bg-warm-gray-light rounded" />
+                      <div className="h-3 w-16 bg-warm-gray-light rounded mt-1" />
+                    </div>
+                  </div>
+                  <div className="h-4 w-full bg-warm-gray-light rounded mb-2" />
+                  <div className="h-4 w-3/4 bg-warm-gray-light rounded" />
+                </div>
+              ))}
+            </div>
+          ) : prayers.length === 0 ? (
+            <div className="text-center py-12">
+              <svg
+                className="w-16 h-16 mx-auto text-warm-gray-light mb-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                />
+              </svg>
+              <h3 className="text-xl font-display font-semibold text-charcoal mb-2">
+                No prayer requests yet
+              </h3>
+              <p className="text-charcoal-light mb-6">
+                Be the first to share a prayer request with our community.
+              </p>
+              <Button onClick={() => setShowForm(true)}>
+                Submit a Prayer Request
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {prayers.map((prayer) => {
+                const hasPrayed = prayedIds.has(prayer.id);
+                return (
+                  <div
+                    key={prayer.id}
+                    className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="w-10 h-10 rounded-full bg-cream flex items-center justify-center">
+                            <span className="font-display font-semibold text-terracotta">
+                              {prayer.isAnonymous ? "?" : prayer.name.charAt(0)}
+                            </span>
+                          </div>
+                          <div>
+                            <p className="font-medium text-charcoal">
+                              {prayer.isAnonymous ? "Anonymous" : prayer.name}
+                            </p>
+                            <p className="text-xs text-charcoal-light">
+                              {formatTimeAgo(prayer.createdAt)}
+                            </p>
+                          </div>
+                        </div>
+                        <p className="text-charcoal-light leading-relaxed">
+                          {prayer.request}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 pt-4 border-t border-warm-gray-light/50 flex items-center justify-between">
+                      <button
+                        onClick={() => handlePray(prayer.id)}
+                        disabled={hasPrayed}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                          hasPrayed
+                            ? "bg-forest/10 text-forest cursor-default"
+                            : "bg-cream hover:bg-terracotta hover:text-white text-charcoal-light"
+                        }`}
+                      >
+                        <svg
+                          className="w-4 h-4"
+                          fill={hasPrayed ? "currentColor" : "none"}
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                          />
+                        </svg>
+                        {hasPrayed ? "Prayed" : "I'm Praying"}
+                      </button>
+                      <span className="text-sm text-charcoal-light">
+                        <span className="font-semibold text-forest">{prayer.prayerCount}</span>{" "}
+                        {prayer.prayerCount === 1 ? "person" : "people"} praying
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Encouragement Section */}
+      <section className="py-16 bg-cream-dark">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm">
+            <svg
+              className="w-12 h-12 mx-auto mb-6 text-terracotta"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+              />
+            </svg>
+            <blockquote className="text-2xl md:text-3xl font-display text-charcoal mb-6">
+              &ldquo;Do not be anxious about anything, but in every situation, by prayer
+              and petition, with thanksgiving, present your requests to God.&rdquo;
+            </blockquote>
+            <cite className="text-terracotta font-medium">
+              — Philippians 4:6
+            </cite>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

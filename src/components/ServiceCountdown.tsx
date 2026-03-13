@@ -1,1 +1,197 @@
-{"data":"InVzZSBjbGllbnQiOwoKaW1wb3J0IHsgdXNlRWZmZWN0LCB1c2VTdGF0ZSB9IGZyb20gInJlYWN0IjsKCmludGVyZmFjZSBUaW1lTGVmdCB7CiAgZGF5czogbnVtYmVyOwogIGhvdXJzOiBudW1iZXI7CiAgbWludXRlczogbnVtYmVyOwogIHNlY29uZHM6IG51bWJlcjsKfQoKaW50ZXJmYWNlIFNlcnZpY2VTY2hlZHVsZSB7CiAgZGF5T2ZXZWVrOiBudW1iZXI7CiAgaG91cjogbnVtYmVyOwogIG1pbnV0ZTogbnVtYmVyOwogIHRpbWV6b25lOiBzdHJpbmc7Cn0KCmZ1bmN0aW9uIGdldE5leHRTZXJ2aWNlKHNjaGVkdWxlOiBTZXJ2aWNlU2NoZWR1bGUpOiBEYXRlIHsKICBjb25zdCBub3cgPSBuZXcgRGF0ZSgpOwogIGNvbnN0IG5leHRTZXJ2aWNlID0gbmV3IERhdGUobm93KTsKCiAgY29uc3QgZGF5c1VudGlsU2VydmljZSA9IChzY2hlZHVsZS5kYXlPZldlZWsgLSBub3cuZ2V0RGF5KCkgKyA3KSAlIDc7CgogIC8vIElmIGl0J3MgdGhlIHNlcnZpY2UgZGF5LCBjaGVjayBpZiB3ZSdyZSBwYXN0IHRoZSBzZXJ2aWNlIHRpbWUKICBpZiAoZGF5c1VudGlsU2VydmljZSA9PT0gMCkgewogICAgY29uc3QgY3VycmVudEhvdXIgPSBub3cuZ2V0SG91cnMoKTsKICAgIGNvbnN0IGN1cnJlbnRNaW51dGUgPSBub3cuZ2V0TWludXRlcygpOwogICAgLy8gSWYgd2UncmUgMisgaG91cnMgcGFzdCBzdGFydCB0aW1lLCBuZXh0IHNlcnZpY2UgaXMgbmV4dCB3ZWVrCiAgICBpZiAoCiAgICAgIGN1cnJlbnRIb3VyID4gc2NoZWR1bGUuaG91ciArIDIgfHwKICAgICAgKGN1cnJlbnRIb3VyID09PSBzY2hlZHVsZS5ob3VyICsgMiAmJiBjdXJyZW50TWludXRlID4gMCkKICAgICkgewogICAgICBuZXh0U2VydmljZS5zZXREYXRlKG5vdy5nZXREYXRlKCkgKyA3KTsKICAgIH0KICB9IGVsc2UgewogICAgbmV4dFNlcnZpY2Uuc2V0RGF0ZShub3cuZ2V0RGF0ZSgpICsgZGF5c1VudGlsU2VydmljZSk7CiAgfQoKICBuZXh0U2VydmljZS5zZXRIb3VycyhzY2hlZHVsZS5ob3VyLCBzY2hlZHVsZS5taW51dGUsIDAsIDApOwogIHJldHVybiBuZXh0U2VydmljZTsKfQoKZnVuY3Rpb24gY2FsY3VsYXRlVGltZUxlZnQodGFyZ2V0RGF0ZTogRGF0ZSk6IFRpbWVMZWZ0IHsKICBjb25zdCBub3cgPSBuZXcgRGF0ZSgpOwogIGNvbnN0IGRpZmZlcmVuY2UgPSB0YXJnZXREYXRlLmdldFRpbWUoKSAtIG5vdy5nZXRUaW1lKCk7CgogIGlmIChkaWZmZXJlbmNlIDw9IDApIHsKICAgIHJldHVybiB7IGRheXM6IDAsIGhvdXJzOiAwLCBtaW51dGVzOiAwLCBzZWNvbmRzOiAwIH07CiAgfQoKICByZXR1cm4gewogICAgZGF5czogTWF0aC5mbG9vcihkaWZmZXJlbmNlIC8gKDEwMDAgKiA2MCAqIDYwICogMjQpKSwKICAgIGhvdXJzOiBNYXRoLmZsb29yKChkaWZmZXJlbmNlIC8gKDEwMDAgKiA2MCAqIDYwKSkgJSAyNCksCiAgICBtaW51dGVzOiBNYXRoLmZsb29yKChkaWZmZXJlbmNlIC8gMTAwMCAvIDYwKSAlIDYwKSwKICAgIHNlY29uZHM6IE1hdGguZmxvb3IoKGRpZmZlcmVuY2UgLyAxMDAwKSAlIDYwKSwKICB9Owp9CgpmdW5jdGlvbiBmb3JtYXRTY2hlZHVsZVRpbWUoc2NoZWR1bGU6IFNlcnZpY2VTY2hlZHVsZSk6IHN0cmluZyB7CiAgY29uc3QgZGF5cyA9IFsiU3VuZGF5cyIsICJNb25kYXlzIiwgIlR1ZXNkYXlzIiwgIldlZG5lc2RheXMiLCAiVGh1cnNkYXlzIiwgIkZyaWRheXMiLCAiU2F0dXJkYXlzIl07CiAgY29uc3QgaG91ciA9IHNjaGVkdWxlLmhvdXIgJSAxMiB8fCAxMjsKICBjb25zdCBhbXBtID0gc2NoZWR1bGUuaG91ciA+PSAxMiA/ICJQTSIgOiAiQU0iOwogIGNvbnN0IG1pbnV0ZSA9IHNjaGVkdWxlLm1pbnV0ZSA+IDAgPyBgOiR7U3RyaW5nKHNjaGVkdWxlLm1pbnV0ZSkucGFkU3RhcnQoMiwgIjAiKX1gIDogIjowMCI7CiAgcmV0dXJuIGAke2RheXNbc2NoZWR1bGUuZGF5T2ZXZWVrXX0gYXQgJHtob3VyfSR7bWludXRlfSAke2FtcG19YDsKfQoKZXhwb3J0IGZ1bmN0aW9uIFNlcnZpY2VDb3VudGRvd24oKSB7CiAgY29uc3QgW3RpbWVMZWZ0LCBzZXRUaW1lTGVmdF0gPSB1c2VTdGF0ZTxUaW1lTGVmdD4oewogICAgZGF5czogMCwKICAgIGhvdXJzOiAwLAogICAgbWludXRlczogMCwKICAgIHNlY29uZHM6IDAsCiAgfSk7CiAgY29uc3QgW2lzTGl2ZSwgc2V0SXNMaXZlXSA9IHVzZVN0YXRlKGZhbHNlKTsKICBjb25zdCBbc2NoZWR1bGUsIHNldFNjaGVkdWxlXSA9IHVzZVN0YXRlPFNlcnZpY2VTY2hlZHVsZT4oewogICAgZGF5T2ZXZWVrOiAwLAogICAgaG91cjogMTAsCiAgICBtaW51dGU6IDAsCiAgICB0aW1lem9uZTogIkFtZXJpY2EvTmV3X1lvcmsiLAogIH0pOwogIGNvbnN0IFttb3VudGVkLCBzZXRNb3VudGVkXSA9IHVzZVN0YXRlKGZhbHNlKTsKCiAgdXNlRWZmZWN0KCgpID0+IHsKICAgIHNldE1vdW50ZWQodHJ1ZSk7CgogICAgLy8gRmV0Y2ggY29udGVudCBmcm9tIEFQSQogICAgYXN5bmMgZnVuY3Rpb24gZmV0Y2hDb250ZW50KCkgewogICAgICB0cnkgewogICAgICAgIGNvbnN0IHJlcyA9IGF3YWl0IGZldGNoKCIvYXBpL2NvbnRlbnQiKTsKICAgICAgICBpZiAocmVzLm9rKSB7CiAgICAgICAgICBjb25zdCBkYXRhID0gYXdhaXQgcmVzLmpzb24oKTsKICAgICAgICAgIHNldElzTGl2ZShkYXRhLnNlcnZpY2VMaXZlIHx8IGZhbHNlKTsKICAgICAgICAgIGlmIChkYXRhLnNlcnZpY2VTY2hlZHVsZSkgewogICAgICAgICAgICBzZXRTY2hlZHVsZShkYXRhLnNlcnZpY2VTY2hlZHVsZSk7CiAgICAgICAgICB9CiAgICAgICAgfQogICAgICB9IGNhdGNoIChlcnJvcikgewogICAgICAgIGNvbnNvbGUuZXJyb3IoIkZhaWxlZCB0byBmZXRjaCBjb250ZW50OiIsIGVycm9yKTsKICAgICAgfQogICAgfQoKICAgIGZldGNoQ29udGVudCgpOwogICAgLy8gUG9sbCBmb3IgbGl2ZSBzdGF0dXMgZXZlcnkgMzAgc2Vjb25kcwogICAgY29uc3QgcG9sbEludGVydmFsID0gc2V0SW50ZXJ2YWwoZmV0Y2hDb250ZW50LCAzMDAwMCk7CgogICAgcmV0dXJuICgpID0+IGNsZWFySW50ZXJ2YWwocG9sbEludGVydmFsKTsKICB9LCBbXSk7CgogIHVzZUVmZmVjdCgoKSA9PiB7CiAgICBpZiAoIW1vdW50ZWQpIHJldHVybjsKCiAgICBjb25zdCB1cGRhdGVDb3VudGRvd24gPSAoKSA9PiB7CiAgICAgIGlmIChpc0xpdmUpIHJldHVybjsKICAgICAgY29uc3QgbmV4dFNlcnZpY2UgPSBnZXROZXh0U2VydmljZShzY2hlZHVsZSk7CiAgICAgIHNldFRpbWVMZWZ0KGNhbGN1bGF0ZVRpbWVMZWZ0KG5leHRTZXJ2aWNlKSk7CiAgICB9OwoKICAgIHVwZGF0ZUNvdW50ZG93bigpOwogICAgY29uc3QgaW50ZXJ2YWwgPSBzZXRJbnRlcnZhbCh1cGRhdGVDb3VudGRvd24sIDEwMDApOwoKICAgIHJldHVybiAoKSA9PiBjbGVhckludGVydmFsKGludGVydmFsKTsKICB9LCBbbW91bnRlZCwgaXNMaXZlLCBzY2hlZHVsZV0pOwoKICBpZiAoIW1vdW50ZWQpIHsKICAgIHJldHVybiAoCiAgICAgIDxkaXYgY2xhc3NOYW1lPSJmbGV4IGZsZXgtY29sIGl0ZW1zLWNlbnRlciI+CiAgICAgICAgPHAgY2xhc3NOYW1lPSJ0ZXh0LXNtIHVwcGVyY2FzZSB0cmFja2luZy13aWRlciB0ZXh0LXdhcm0tZ3JheSBtYi00Ij4KICAgICAgICAgIE5leHQgU2VydmljZQogICAgICAgIDwvcD4KICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iZmxleCBnYXAtNCBtZDpnYXAtNiI+CiAgICAgICAgICB7WzAsIDAsIDAsIDBdLm1hcCgoXywgaSkgPT4gKAogICAgICAgICAgICA8ZGl2IGtleT17aX0gY2xhc3NOYW1lPSJmbGV4IGZsZXgtY29sIGl0ZW1zLWNlbnRlciI+CiAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImJnLXdoaXRlIHJvdW5kZWQteGwgc2hhZG93LW1kIHB4LTQgcHktMyBtZDpweC02IG1kOnB5LTQgbWluLXctWzYwcHhdIG1kOm1pbi13LVs4MHB4XSI+CiAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9ImZvbnQtZGlzcGxheSB0ZXh0LTN4bCBtZDp0ZXh0LTR4bCBmb250LXNlbWlib2xkIHRleHQtY2hhcmNvYWwiPgogICAgICAgICAgICAgICAgICAtLQogICAgICAgICAgICAgICAgPC9zcGFuPgogICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0idGV4dC14cyB1cHBlcmNhc2UgdHJhY2tpbmctd2lkZXIgdGV4dC13YXJtLWdyYXkgbXQtMiI+CiAgICAgICAgICAgICAgICB7WyJEYXlzIiwgIkhvdXJzIiwgIk1pbnMiLCAiU2VjcyJdW2ldfQogICAgICAgICAgICAgIDwvc3Bhbj4KICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICApKX0KICAgICAgICA8L2Rpdj4KICAgICAgPC9kaXY+CiAgICApOwogIH0KCiAgaWYgKGlzTGl2ZSkgewogICAgcmV0dXJuICgKICAgICAgPGRpdiBjbGFzc05hbWU9ImZsZXggZmxleC1jb2wgaXRlbXMtY2VudGVyIj4KICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iaW5saW5lLWZsZXggaXRlbXMtY2VudGVyIGdhcC0zIGJnLXRlcnJhY290dGEgdGV4dC13aGl0ZSBweC02IHB5LTMgcm91bmRlZC1mdWxsIHRleHQtbGcgZm9udC1tZWRpdW0gYW5pbWF0ZS1wdWxzZS1zb2Z0Ij4KICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0icmVsYXRpdmUgZmxleCBoLTMgdy0zIj4KICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPSJhbmltYXRlLXBpbmcgYWJzb2x1dGUgaW5saW5lLWZsZXggaC1mdWxsIHctZnVsbCByb3VuZGVkLWZ1bGwgYmctd2hpdGUgb3BhY2l0eS03NSI+PC9zcGFuPgogICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9InJlbGF0aXZlIGlubGluZS1mbGV4IHJvdW5kZWQtZnVsbCBoLTMgdy0zIGJnLXdoaXRlIj48L3NwYW4+CiAgICAgICAgICA8L3NwYW4+CiAgICAgICAgICBTZXJ2aWNlIGlzIExpdmUhCiAgICAgICAgPC9kaXY+CiAgICAgICAgPHAgY2xhc3NOYW1lPSJtdC00IHRleHQtY2hhcmNvYWwtbGlnaHQiPgogICAgICAgICAgSm9pbiB1cyBub3cgZm9yIFN1bmRheSB3b3JzaGlwCiAgICAgICAgPC9wPgogICAgICA8L2Rpdj4KICAgICk7CiAgfQoKICBjb25zdCB0aW1lVW5pdHMgPSBbCiAgICB7IHZhbHVlOiB0aW1lTGVmdC5kYXlzLCBsYWJlbDogIkRheXMiIH0sCiAgICB7IHZhbHVlOiB0aW1lTGVmdC5ob3VycywgbGFiZWw6ICJIb3VycyIgfSwKICAgIHsgdmFsdWU6IHRpbWVMZWZ0Lm1pbnV0ZXMsIGxhYmVsOiAiTWlucyIgfSwKICAgIHsgdmFsdWU6IHRpbWVMZWZ0LnNlY29uZHMsIGxhYmVsOiAiU2VjcyIgfSwKICBdOwoKICByZXR1cm4gKAogICAgPGRpdiBjbGFzc05hbWU9ImZsZXggZmxleC1jb2wgaXRlbXMtY2VudGVyIj4KICAgICAgPHAgY2xhc3NOYW1lPSJ0ZXh0LXNtIHVwcGVyY2FzZSB0cmFja2luZy13aWRlciB0ZXh0LXdhcm0tZ3JheSBtYi00Ij4KICAgICAgICBOZXh0IFNlcnZpY2UKICAgICAgPC9wPgogICAgICA8ZGl2IGNsYXNzTmFtZT0iZmxleCBnYXAtMyBtZDpnYXAtNCI+CiAgICAgICAge3RpbWVVbml0cy5tYXAoKHsgdmFsdWUsIGxhYmVsIH0pID0+ICgKICAgICAgICAgIDxkaXYga2V5PXtsYWJlbH0gY2xhc3NOYW1lPSJmbGV4IGZsZXgtY29sIGl0ZW1zLWNlbnRlciI+CiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJiZy13aGl0ZSByb3VuZGVkLXhsIHNoYWRvdy1tZCBweC0zIHB5LTIgbWQ6cHgtNSBtZDpweS0zIG1pbi13LVs1MHB4XSBtZDptaW4tdy1bNzBweF0iPgogICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0iZm9udC1kaXNwbGF5IHRleHQtMnhsIG1kOnRleHQtM3hsIGZvbnQtc2VtaWJvbGQgdGV4dC1jaGFyY29hbCI+CiAgICAgICAgICAgICAgICB7U3RyaW5nKHZhbHVlKS5wYWRTdGFydCgyLCAiMCIpfQogICAgICAgICAgICAgIDwvc3Bhbj4KICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0idGV4dC14cyB1cHBlcmNhc2UgdHJhY2tpbmctd2lkZXIgdGV4dC13YXJtLWdyYXkgbXQtMiI+CiAgICAgICAgICAgICAge2xhYmVsfQogICAgICAgICAgICA8L3NwYW4+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICApKX0KICAgICAgPC9kaXY+CiAgICAgIDxwIGNsYXNzTmFtZT0ibXQtNCB0ZXh0LXNtIHRleHQtY2hhcmNvYWwtbGlnaHQiPgogICAgICAgIHtmb3JtYXRTY2hlZHVsZVRpbWUoc2NoZWR1bGUpfQogICAgICA8L3A+CiAgICA8L2Rpdj4KICApOwp9Cg=="}
+"use client";
+
+import { useEffect, useState } from "react";
+
+interface TimeLeft {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
+interface ServiceSchedule {
+  dayOfWeek: number;
+  hour: number;
+  minute: number;
+  timezone: string;
+}
+
+function getNextService(schedule: ServiceSchedule): Date {
+  const now = new Date();
+  const nextService = new Date(now);
+
+  const daysUntilService = (schedule.dayOfWeek - now.getDay() + 7) % 7;
+
+  // If it's the service day, check if we're past the service time
+  if (daysUntilService === 0) {
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    // If we're 2+ hours past start time, next service is next week
+    if (
+      currentHour > schedule.hour + 2 ||
+      (currentHour === schedule.hour + 2 && currentMinute > 0)
+    ) {
+      nextService.setDate(now.getDate() + 7);
+    }
+  } else {
+    nextService.setDate(now.getDate() + daysUntilService);
+  }
+
+  nextService.setHours(schedule.hour, schedule.minute, 0, 0);
+  return nextService;
+}
+
+function calculateTimeLeft(targetDate: Date): TimeLeft {
+  const now = new Date();
+  const difference = targetDate.getTime() - now.getTime();
+
+  if (difference <= 0) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  }
+
+  return {
+    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+    minutes: Math.floor((difference / 1000 / 60) % 60),
+    seconds: Math.floor((difference / 1000) % 60),
+  };
+}
+
+function formatScheduleTime(schedule: ServiceSchedule): string {
+  const days = ["Sundays", "Mondays", "Tuesdays", "Wednesdays", "Thursdays", "Fridays", "Saturdays"];
+  const hour = schedule.hour % 12 || 12;
+  const ampm = schedule.hour >= 12 ? "PM" : "AM";
+  const minute = schedule.minute > 0 ? `:${String(schedule.minute).padStart(2, "0")}` : ":00";
+  return `${days[schedule.dayOfWeek]} at ${hour}${minute} ${ampm}`;
+}
+
+export function ServiceCountdown() {
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+  const [isLive, setIsLive] = useState(false);
+  const [schedule, setSchedule] = useState<ServiceSchedule>({
+    dayOfWeek: 0,
+    hour: 10,
+    minute: 0,
+    timezone: "America/New_York",
+  });
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+
+    // Fetch content from API
+    async function fetchContent() {
+      try {
+        const res = await fetch("/api/content");
+        if (res.ok) {
+          const data = await res.json();
+          setIsLive(data.serviceLive || false);
+          if (data.serviceSchedule) {
+            setSchedule(data.serviceSchedule);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch content:", error);
+      }
+    }
+
+    fetchContent();
+    // Poll for live status every 30 seconds
+    const pollInterval = setInterval(fetchContent, 30000);
+
+    return () => clearInterval(pollInterval);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    const updateCountdown = () => {
+      if (isLive) return;
+      const nextService = getNextService(schedule);
+      setTimeLeft(calculateTimeLeft(nextService));
+    };
+
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+
+    return () => clearInterval(interval);
+  }, [mounted, isLive, schedule]);
+
+  if (!mounted) {
+    return (
+      <div className="flex flex-col items-center">
+        <p className="text-sm uppercase tracking-wider text-warm-gray mb-4">
+          Next Service
+        </p>
+        <div className="flex gap-4 md:gap-6">
+          {[0, 0, 0, 0].map((_, i) => (
+            <div key={i} className="flex flex-col items-center">
+              <div className="bg-white rounded-xl shadow-md px-4 py-3 md:px-6 md:py-4 min-w-[60px] md:min-w-[80px]">
+                <span className="font-display text-3xl md:text-4xl font-semibold text-charcoal">
+                  --
+                </span>
+              </div>
+              <span className="text-xs uppercase tracking-wider text-warm-gray mt-2">
+                {["Days", "Hours", "Mins", "Secs"][i]}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (isLive) {
+    return (
+      <div className="flex flex-col items-center">
+        <div className="inline-flex items-center gap-3 bg-terracotta text-white px-6 py-3 rounded-full text-lg font-medium animate-pulse-soft">
+          <span className="relative flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+          </span>
+          Service is Live!
+        </div>
+        <p className="mt-4 text-charcoal-light">
+          Join us now for Sunday worship
+        </p>
+      </div>
+    );
+  }
+
+  const timeUnits = [
+    { value: timeLeft.days, label: "Days" },
+    { value: timeLeft.hours, label: "Hours" },
+    { value: timeLeft.minutes, label: "Mins" },
+    { value: timeLeft.seconds, label: "Secs" },
+  ];
+
+  return (
+    <div className="flex flex-col items-center">
+      <p className="text-sm uppercase tracking-wider text-warm-gray mb-4">
+        Next Service
+      </p>
+      <div className="flex gap-3 md:gap-4">
+        {timeUnits.map(({ value, label }) => (
+          <div key={label} className="flex flex-col items-center">
+            <div className="bg-white rounded-xl shadow-md px-3 py-2 md:px-5 md:py-3 min-w-[50px] md:min-w-[70px]">
+              <span className="font-display text-2xl md:text-3xl font-semibold text-charcoal">
+                {String(value).padStart(2, "0")}
+              </span>
+            </div>
+            <span className="text-xs uppercase tracking-wider text-warm-gray mt-2">
+              {label}
+            </span>
+          </div>
+        ))}
+      </div>
+      <p className="mt-4 text-sm text-charcoal-light">
+        {formatScheduleTime(schedule)}
+      </p>
+    </div>
+  );
+}

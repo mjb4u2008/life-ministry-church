@@ -1,1 +1,142 @@
-{"data":"aW1wb3J0IHsgTmV4dFJlcXVlc3QsIE5leHRSZXNwb25zZSB9IGZyb20gIm5leHQvc2VydmVyIjsKaW1wb3J0IHsgZ2V0UHJheWVycywgYWRkUHJheWVyLCBkZWxldGVQcmF5ZXIsIGluY3JlbWVudFByYXllckNvdW50LCB1cGRhdGVQcmF5ZXIgfSBmcm9tICJAL2xpYi9kYXRhIjsKaW1wb3J0IHsgdmVyaWZ5VG9rZW4gfSBmcm9tICJAL2xpYi9hdXRoIjsKCi8vIEdFVCBhbGwgcHJheWVycyAocHVibGljKQpleHBvcnQgYXN5bmMgZnVuY3Rpb24gR0VUKCkgewogIHRyeSB7CiAgICBjb25zdCBwcmF5ZXJzID0gYXdhaXQgZ2V0UHJheWVycygpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKHsgcHJheWVycyB9KTsKICB9IGNhdGNoIChlcnJvcikgewogICAgY29uc29sZS5lcnJvcigiRXJyb3IgZmV0Y2hpbmcgcHJheWVyczoiLCBlcnJvcik7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgIHsgZXJyb3I6ICJGYWlsZWQgdG8gZmV0Y2ggcHJheWVycyIgfSwKICAgICAgeyBzdGF0dXM6IDUwMCB9CiAgICApOwogIH0KfQoKLy8gUE9TVCBuZXcgcHJheWVyIChwdWJsaWMpCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBQT1NUKHJlcXVlc3Q6IE5leHRSZXF1ZXN0KSB7CiAgdHJ5IHsKICAgIGNvbnN0IHsgbmFtZSwgcmVxdWVzdDogcHJheWVyUmVxdWVzdCwgaXNBbm9ueW1vdXMgfSA9IGF3YWl0IHJlcXVlc3QuanNvbigpOwoKICAgIGlmICghcHJheWVyUmVxdWVzdCB8fCBwcmF5ZXJSZXF1ZXN0LnRyaW0oKSA9PT0gIiIpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICAgIHsgZXJyb3I6ICJQcmF5ZXIgcmVxdWVzdCBpcyByZXF1aXJlZCIgfSwKICAgICAgICB7IHN0YXR1czogNDAwIH0KICAgICAgKTsKICAgIH0KCiAgICBjb25zdCBuZXdQcmF5ZXIgPSBhd2FpdCBhZGRQcmF5ZXIoewogICAgICBuYW1lOiBpc0Fub255bW91cyA/ICJBbm9ueW1vdXMiIDogKG5hbWUgfHwgIkFub255bW91cyIpLAogICAgICByZXF1ZXN0OiBwcmF5ZXJSZXF1ZXN0LnRyaW0oKSwKICAgICAgaXNBbm9ueW1vdXM6IGlzQW5vbnltb3VzIHx8IGZhbHNlLAogICAgfSk7CgogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKG5ld1ByYXllciwgeyBzdGF0dXM6IDIwMSB9KTsKICB9IGNhdGNoIChlcnJvcikgewogICAgY29uc29sZS5lcnJvcigiRXJyb3IgYWRkaW5nIHByYXllcjoiLCBlcnJvcik7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgIHsgZXJyb3I6ICJGYWlsZWQgdG8gYWRkIHByYXllciIgfSwKICAgICAgeyBzdGF0dXM6IDUwMCB9CiAgICApOwogIH0KfQoKLy8gREVMRVRFIHByYXllciAocmVxdWlyZXMgYXV0aCkKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIERFTEVURShyZXF1ZXN0OiBOZXh0UmVxdWVzdCkgewogIHRyeSB7CiAgICBjb25zdCBhdXRoSGVhZGVyID0gcmVxdWVzdC5oZWFkZXJzLmdldCgiYXV0aG9yaXphdGlvbiIpOwogICAgY29uc3QgdG9rZW4gPSBhdXRoSGVhZGVyPy5yZXBsYWNlKCJCZWFyZXIgIiwgIiIpOwoKICAgIGlmICghdG9rZW4gfHwgIXZlcmlmeVRva2VuKHRva2VuKSkgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgICAgeyBlcnJvcjogIlVuYXV0aG9yaXplZCIgfSwKICAgICAgICB7IHN0YXR1czogNDAxIH0KICAgICAgKTsKICAgIH0KCiAgICBjb25zdCB7IHNlYXJjaFBhcmFtcyB9ID0gbmV3IFVSTChyZXF1ZXN0LnVybCk7CiAgICBjb25zdCBpZCA9IHNlYXJjaFBhcmFtcy5nZXQoImlkIik7CgogICAgaWYgKCFpZCkgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgICAgeyBlcnJvcjogIlByYXllciBJRCBpcyByZXF1aXJlZCIgfSwKICAgICAgICB7IHN0YXR1czogNDAwIH0KICAgICAgKTsKICAgIH0KCiAgICBjb25zdCBkZWxldGVkID0gYXdhaXQgZGVsZXRlUHJheWVyKGlkKTsKCiAgICBpZiAoIWRlbGV0ZWQpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICAgIHsgZXJyb3I6ICJQcmF5ZXIgbm90IGZvdW5kIiB9LAogICAgICAgIHsgc3RhdHVzOiA0MDQgfQogICAgICApOwogICAgfQoKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IHN1Y2Nlc3M6IHRydWUgfSk7CiAgfSBjYXRjaCAoZXJyb3IpIHsKICAgIGNvbnNvbGUuZXJyb3IoIkVycm9yIGRlbGV0aW5nIHByYXllcjoiLCBlcnJvcik7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgIHsgZXJyb3I6ICJGYWlsZWQgdG8gZGVsZXRlIHByYXllciIgfSwKICAgICAgeyBzdGF0dXM6IDUwMCB9CiAgICApOwogIH0KfQoKLy8gUEFUQ0ggdG8gdXBkYXRlIHByYXllciAtIGluY3JlbWVudCBjb3VudCAocHVibGljKSBvciBmdWxsIHVwZGF0ZSAoYWRtaW4pCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBQQVRDSChyZXF1ZXN0OiBOZXh0UmVxdWVzdCkgewogIHRyeSB7CiAgICBjb25zdCBib2R5ID0gYXdhaXQgcmVxdWVzdC5qc29uKCk7CiAgICBjb25zdCB7IGlkLCBpbmNyZW1lbnQsIC4uLnVwZGF0ZXMgfSA9IGJvZHk7CgogICAgaWYgKCFpZCkgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgICAgeyBlcnJvcjogIlByYXllciBJRCBpcyByZXF1aXJlZCIgfSwKICAgICAgICB7IHN0YXR1czogNDAwIH0KICAgICAgKTsKICAgIH0KCiAgICAvLyBJZiBvbmx5IGluY3JlbWVudGluZyBwcmF5ZXIgY291bnQgKHB1YmxpYyBhY3Rpb24pCiAgICBpZiAoaW5jcmVtZW50KSB7CiAgICAgIGNvbnN0IHVwZGF0ZWRQcmF5ZXIgPSBhd2FpdCBpbmNyZW1lbnRQcmF5ZXJDb3VudChpZCk7CiAgICAgIGlmICghdXBkYXRlZFByYXllcikgewogICAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgICAgIHsgZXJyb3I6ICJQcmF5ZXIgbm90IGZvdW5kIiB9LAogICAgICAgICAgeyBzdGF0dXM6IDQwNCB9CiAgICAgICAgKTsKICAgICAgfQogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24odXBkYXRlZFByYXllcik7CiAgICB9CgogICAgLy8gRnVsbCB1cGRhdGUgcmVxdWlyZXMgYXV0aGVudGljYXRpb24KICAgIGNvbnN0IGF1dGhIZWFkZXIgPSByZXF1ZXN0LmhlYWRlcnMuZ2V0KCJhdXRob3JpemF0aW9uIik7CiAgICBjb25zdCB0b2tlbiA9IGF1dGhIZWFkZXI/LnJlcGxhY2UoIkJlYXJlciAiLCAiIik7CgogICAgaWYgKCF0b2tlbiB8fCAhdmVyaWZ5VG9rZW4odG9rZW4pKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgICB7IGVycm9yOiAiVW5hdXRob3JpemVkIiB9LAogICAgICAgIHsgc3RhdHVzOiA0MDEgfQogICAgICApOwogICAgfQoKICAgIGNvbnN0IHVwZGF0ZWRQcmF5ZXIgPSBhd2FpdCB1cGRhdGVQcmF5ZXIoaWQsIHVwZGF0ZXMpOwoKICAgIGlmICghdXBkYXRlZFByYXllcikgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgICAgeyBlcnJvcjogIlByYXllciBub3QgZm91bmQiIH0sCiAgICAgICAgeyBzdGF0dXM6IDQwNCB9CiAgICAgICk7CiAgICB9CgogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKHVwZGF0ZWRQcmF5ZXIpOwogIH0gY2F0Y2ggKGVycm9yKSB7CiAgICBjb25zb2xlLmVycm9yKCJFcnJvciB1cGRhdGluZyBwcmF5ZXI6IiwgZXJyb3IpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICB7IGVycm9yOiAiRmFpbGVkIHRvIHVwZGF0ZSBwcmF5ZXIiIH0sCiAgICAgIHsgc3RhdHVzOiA1MDAgfQogICAgKTsKICB9Cn0K"}
+import { NextRequest, NextResponse } from "next/server";
+import { getPrayers, addPrayer, deletePrayer, incrementPrayerCount, updatePrayer } from "@/lib/data";
+import { verifyToken } from "@/lib/auth";
+
+// GET all prayers (public)
+export async function GET() {
+  try {
+    const prayers = await getPrayers();
+    return NextResponse.json({ prayers });
+  } catch (error) {
+    console.error("Error fetching prayers:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch prayers" },
+      { status: 500 }
+    );
+  }
+}
+
+// POST new prayer (public)
+export async function POST(request: NextRequest) {
+  try {
+    const { name, request: prayerRequest, isAnonymous } = await request.json();
+
+    if (!prayerRequest || prayerRequest.trim() === "") {
+      return NextResponse.json(
+        { error: "Prayer request is required" },
+        { status: 400 }
+      );
+    }
+
+    const newPrayer = await addPrayer({
+      name: isAnonymous ? "Anonymous" : (name || "Anonymous"),
+      request: prayerRequest.trim(),
+      isAnonymous: isAnonymous || false,
+    });
+
+    return NextResponse.json(newPrayer, { status: 201 });
+  } catch (error) {
+    console.error("Error adding prayer:", error);
+    return NextResponse.json(
+      { error: "Failed to add prayer" },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE prayer (requires auth)
+export async function DELETE(request: NextRequest) {
+  try {
+    const authHeader = request.headers.get("authorization");
+    const token = authHeader?.replace("Bearer ", "");
+
+    if (!token || !verifyToken(token)) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "Prayer ID is required" },
+        { status: 400 }
+      );
+    }
+
+    const deleted = await deletePrayer(id);
+
+    if (!deleted) {
+      return NextResponse.json(
+        { error: "Prayer not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Error deleting prayer:", error);
+    return NextResponse.json(
+      { error: "Failed to delete prayer" },
+      { status: 500 }
+    );
+  }
+}
+
+// PATCH to update prayer - increment count (public) or full update (admin)
+export async function PATCH(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { id, increment, ...updates } = body;
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "Prayer ID is required" },
+        { status: 400 }
+      );
+    }
+
+    // If only incrementing prayer count (public action)
+    if (increment) {
+      const updatedPrayer = await incrementPrayerCount(id);
+      if (!updatedPrayer) {
+        return NextResponse.json(
+          { error: "Prayer not found" },
+          { status: 404 }
+        );
+      }
+      return NextResponse.json(updatedPrayer);
+    }
+
+    // Full update requires authentication
+    const authHeader = request.headers.get("authorization");
+    const token = authHeader?.replace("Bearer ", "");
+
+    if (!token || !verifyToken(token)) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const updatedPrayer = await updatePrayer(id, updates);
+
+    if (!updatedPrayer) {
+      return NextResponse.json(
+        { error: "Prayer not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(updatedPrayer);
+  } catch (error) {
+    console.error("Error updating prayer:", error);
+    return NextResponse.json(
+      { error: "Failed to update prayer" },
+      { status: 500 }
+    );
+  }
+}

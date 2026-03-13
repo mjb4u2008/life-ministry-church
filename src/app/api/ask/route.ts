@@ -1,1 +1,153 @@
-{"data":"aW1wb3J0IHsgTmV4dFJlcXVlc3QsIE5leHRSZXNwb25zZSB9IGZyb20gIm5leHQvc2VydmVyIjsKaW1wb3J0IEFudGhyb3BpYyBmcm9tICJAYW50aHJvcGljLWFpL3NkayI7Cgpjb25zdCBTWVNURU1fUFJPTVBUID0gYFlvdSBhcmUgYSBTY3JpcHR1cmUgZ3VpZGUgZm9yIEwuSS5GLkUuIE1pbmlzdHJ5LiBXaGVuIHNvbWVvbmUgc2hhcmVzIHdoYXQncyBvbiB0aGVpciBoZWFydCwgeW91IHJlc3BvbmQgd2l0aCBPTkUgZm9jdXNlZCwgY29tcGxldGUgcmVzcG9uc2UuCgpZT1VSIFJFU1BPTlNFIEZPUk1BVCAoZm9sbG93IGV4YWN0bHkpOgoKWW91IG11c3QgcmVzcG9uZCB3aXRoIHZhbGlkIEpTT04gaW4gdGhpcyBleGFjdCBzdHJ1Y3R1cmU6CnsKICAic2NyaXB0dXJlIjogewogICAgInRleHQiOiAiVGhlIGZ1bGwgdmVyc2UgdGV4dCBoZXJlLi4uIiwKICAgICJyZWZlcmVuY2UiOiAiQm9vayBDaGFwdGVyOlZlcnNlIgogIH0sCiAgInN0b3J5IjogIjItMyBzZW50ZW5jZSBjb25uZWN0aW9uIGhlcmUuLi4iLAogICJleHBsb3JlTW9yZSI6IFsKICAgIHsgInJlZmVyZW5jZSI6ICJCb29rIENoYXB0ZXI6VmVyc2UiLCAiZGVzY3JpcHRpb24iOiAiT25lIHNlbnRlbmNlIGRlc2NyaXB0aW9uIiB9LAogICAgeyAicmVmZXJlbmNlIjogIkJvb2sgQ2hhcHRlcjpWZXJzZSIsICJkZXNjcmlwdGlvbiI6ICJPbmUgc2VudGVuY2UgZGVzY3JpcHRpb24iIH0sCiAgICB7ICJyZWZlcmVuY2UiOiAiQm9vayBDaGFwdGVyOlZlcnNlIiwgImRlc2NyaXB0aW9uIjogIk9uZSBzZW50ZW5jZSBkZXNjcmlwdGlvbiIgfQogIF0KfQoKSU5TVFJVQ1RJT05TOgoKMS4gUFJJTUFSWSBTQ1JJUFRVUkUKLSBDaG9vc2UgT05FIHZlcnNlIG9yIHNob3J0IHBhc3NhZ2UgKDItNCB2ZXJzZXMgbWF4KSB0aGF0IGRpcmVjdGx5IHNwZWFrcyB0byB0aGVpciBzaXR1YXRpb24KLSBQcm92aWRlIHRoZSBGVUxMIHRleHQgb2YgdGhlIHZlcnNlIGluIHRoZSAidGV4dCIgZmllbGQKLSBJbmNsdWRlIHRoZSByZWZlcmVuY2UgKGUuZy4sICJQaGlsaXBwaWFucyA0OjYtNyIpIGluIHRoZSAicmVmZXJlbmNlIiBmaWVsZAoKMi4gVEhFIFNUT1JZICgyLTMgc2VudGVuY2VzIG9ubHkpCi0gQ29ubmVjdCB0aGlzIFNjcmlwdHVyZSB0byB0aGVpciBzcGVjaWZpYyBzaXR1YXRpb24KLSBZb3UgbWF5IGluY2x1ZGUgYnJpZWYgY29udGV4dDogd2hvIHdyb3RlIGl0LCB3aGF0IHRoZXkgd2VyZSBmYWNpbmcsIHdoeSBpdCBtYXR0ZXJzCi0gVG9uZTogd2FybSwgZ2VudGxlLCByZWxhdGFibGUg4oCUIGxpa2UgYSB3aXNlIGZyaWVuZCBzaGFyaW5nIGluc2lnaHQKLSBEbyBOT1QgcHJlYWNoIG9yIGxlY3R1cmUKCjMuIEVYUExPUkUgTU9SRQotIExpc3QgZXhhY3RseSAzIHJlbGF0ZWQgU2NyaXB0dXJlIHJlZmVyZW5jZXMgaW4gdGhlICJleHBsb3JlTW9yZSIgYXJyYXkKLSBFYWNoIG9iamVjdCBoYXMgInJlZmVyZW5jZSIgYW5kICJkZXNjcmlwdGlvbiIgZmllbGRzCi0gQ2hvb3NlIHZlcnNlcyB0aGF0IG9mZmVyIGRpZmZlcmVudCBhbmdsZXMgb24gdGhlIHNhbWUgdGhlbWUKCklNUE9SVEFOVCBSVUxFUzoKLSBEbyBOT1QgYXNrIGZvbGxvdy11cCBxdWVzdGlvbnMKLSBEbyBOT1Qgb2ZmZXIgdG8gY29udGludWUgdGhlIGNvbnZlcnNhdGlvbgotIERvIE5PVCBnaXZlIGdlbmVyaWMgYWR2aWNlIOKAlCBsZWFkIHdpdGggU2NyaXB0dXJlCi0gS2VlcCAic3RvcnkiIHNlY3Rpb24gU0hPUlQg4oCUIHRoZSBTY3JpcHR1cmUgaXMgdGhlIHN0YXIKLSBCZSB3YXJtIGJ1dCBjb25jaXNlCi0gT05MWSByZXNwb25kIHdpdGggdmFsaWQgSlNPTiwgbm8gb3RoZXIgdGV4dCBiZWZvcmUgb3IgYWZ0ZXIKLSBJZiBzb21lb25lIGV4cHJlc3NlcyB0aG91Z2h0cyBvZiBzZWxmLWhhcm0sIGluY2x1ZGUgY3Jpc2lzIHJlc291cmNlcyAoOTg4IExpZmVsaW5lKSBpbiB0aGUgc3Rvcnkgc2VjdGlvbiB3aGlsZSBzdGlsbCBwcm92aWRpbmcgU2NyaXB0dXJlIGFib3V0IGhvcGVgOwoKaW50ZXJmYWNlIFNjcmlwdHVyZVJlc3BvbnNlIHsKICBzY3JpcHR1cmU6IHsKICAgIHRleHQ6IHN0cmluZzsKICAgIHJlZmVyZW5jZTogc3RyaW5nOwogIH07CiAgc3Rvcnk6IHN0cmluZzsKICBleHBsb3JlTW9yZTogewogICAgcmVmZXJlbmNlOiBzdHJpbmc7CiAgICBkZXNjcmlwdGlvbjogc3RyaW5nOwogIH1bXTsKfQoKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIFBPU1QocmVxdWVzdDogTmV4dFJlcXVlc3QpIHsKICB0cnkgewogICAgY29uc3QgeyBtZXNzYWdlIH0gPSBhd2FpdCByZXF1ZXN0Lmpzb24oKTsKCiAgICBpZiAoIW1lc3NhZ2UgfHwgdHlwZW9mIG1lc3NhZ2UgIT09ICJzdHJpbmciIHx8IG1lc3NhZ2UudHJpbSgpID09PSAiIikgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgICAgeyBlcnJvcjogIk1lc3NhZ2UgaXMgcmVxdWlyZWQiIH0sCiAgICAgICAgeyBzdGF0dXM6IDQwMCB9CiAgICAgICk7CiAgICB9CgogICAgY29uc3QgYXBpS2V5ID0gcHJvY2Vzcy5lbnYuQU5USFJPUElDX0FQSV9LRVk7CiAgICBpZiAoIWFwaUtleSkgewogICAgICBjb25zb2xlLmVycm9yKCJBTlRIUk9QSUNfQVBJX0tFWSBub3QgY29uZmlndXJlZCIpOwogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgICAgeyBlcnJvcjogIlNlcnZpY2UgdGVtcG9yYXJpbHkgdW5hdmFpbGFibGUiIH0sCiAgICAgICAgeyBzdGF0dXM6IDUwMyB9CiAgICAgICk7CiAgICB9CgogICAgY29uc3QgY2xpZW50ID0gbmV3IEFudGhyb3BpYyh7IGFwaUtleSB9KTsKCiAgICBjb25zdCByZXNwb25zZSA9IGF3YWl0IGNsaWVudC5tZXNzYWdlcy5jcmVhdGUoewogICAgICBtb2RlbDogImNsYXVkZS1zb25uZXQtNC0yMDI1MDUxNCIsCiAgICAgIG1heF90b2tlbnM6IDEwMDAsCiAgICAgIHRlbXBlcmF0dXJlOiAwLjcsCiAgICAgIHN5c3RlbTogU1lTVEVNX1BST01QVCwKICAgICAgbWVzc2FnZXM6IFsKICAgICAgICB7CiAgICAgICAgICByb2xlOiAidXNlciIsCiAgICAgICAgICBjb250ZW50OiBtZXNzYWdlLnRyaW0oKSwKICAgICAgICB9LAogICAgICBdLAogICAgfSk7CgogICAgLy8gRXh0cmFjdCB0ZXh0IGZyb20gcmVzcG9uc2UKICAgIGNvbnN0IHRleHRDb250ZW50ID0gcmVzcG9uc2UuY29udGVudC5maW5kKChibG9jaykgPT4gYmxvY2sudHlwZSA9PT0gInRleHQiKTsKICAgIGNvbnN0IHJlc3BvbnNlVGV4dCA9IHRleHRDb250ZW50ID8gdGV4dENvbnRlbnQudGV4dCA6ICIiOwoKICAgIC8vIFBhcnNlIHRoZSBKU09OIHJlc3BvbnNlCiAgICB0cnkgewogICAgICAvLyBDbGVhbiB0aGUgcmVzcG9uc2UgaW4gY2FzZSB0aGVyZSdzIGFueSBtYXJrZG93biBmb3JtYXR0aW5nCiAgICAgIGxldCBjbGVhbmVkUmVzcG9uc2UgPSByZXNwb25zZVRleHQudHJpbSgpOwogICAgICBpZiAoY2xlYW5lZFJlc3BvbnNlLnN0YXJ0c1dpdGgoImBgYGpzb24iKSkgewogICAgICAgIGNsZWFuZWRSZXNwb25zZSA9IGNsZWFuZWRSZXNwb25zZS5zbGljZSg3KTsKICAgICAgfQogICAgICBpZiAoY2xlYW5lZFJlc3BvbnNlLnN0YXJ0c1dpdGgoImBgYCIpKSB7CiAgICAgICAgY2xlYW5lZFJlc3BvbnNlID0gY2xlYW5lZFJlc3BvbnNlLnNsaWNlKDMpOwogICAgICB9CiAgICAgIGlmIChjbGVhbmVkUmVzcG9uc2UuZW5kc1dpdGgoImBgYCIpKSB7CiAgICAgICAgY2xlYW5lZFJlc3BvbnNlID0gY2xlYW5lZFJlc3BvbnNlLnNsaWNlKDAsIC0zKTsKICAgICAgfQogICAgICBjbGVhbmVkUmVzcG9uc2UgPSBjbGVhbmVkUmVzcG9uc2UudHJpbSgpOwoKICAgICAgY29uc3QgcGFyc2VkOiBTY3JpcHR1cmVSZXNwb25zZSA9IEpTT04ucGFyc2UoY2xlYW5lZFJlc3BvbnNlKTsKCiAgICAgIC8vIFZhbGlkYXRlIHRoZSBzdHJ1Y3R1cmUKICAgICAgaWYgKCFwYXJzZWQuc2NyaXB0dXJlPy50ZXh0IHx8ICFwYXJzZWQuc2NyaXB0dXJlPy5yZWZlcmVuY2UpIHsKICAgICAgICB0aHJvdyBuZXcgRXJyb3IoIkludmFsaWQgc2NyaXB0dXJlIHN0cnVjdHVyZSIpOwogICAgICB9CiAgICAgIGlmICghcGFyc2VkLnN0b3J5KSB7CiAgICAgICAgdGhyb3cgbmV3IEVycm9yKCJNaXNzaW5nIHN0b3J5Iik7CiAgICAgIH0KICAgICAgaWYgKCFBcnJheS5pc0FycmF5KHBhcnNlZC5leHBsb3JlTW9yZSkgfHwgcGFyc2VkLmV4cGxvcmVNb3JlLmxlbmd0aCA8IDEpIHsKICAgICAgICB0aHJvdyBuZXcgRXJyb3IoIkludmFsaWQgZXhwbG9yZU1vcmUgc3RydWN0dXJlIik7CiAgICAgIH0KCiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbihwYXJzZWQpOwogICAgfSBjYXRjaCAocGFyc2VFcnJvcikgewogICAgICBjb25zb2xlLmVycm9yKCJGYWlsZWQgdG8gcGFyc2UgTExNIHJlc3BvbnNlOiIsIHBhcnNlRXJyb3IsIHJlc3BvbnNlVGV4dCk7CgogICAgICAvLyBGYWxsYmFjazogcmV0dXJuIGEgZGVmYXVsdCBzdHJ1Y3R1cmUgaWYgcGFyc2luZyBmYWlscwogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oewogICAgICAgIHNjcmlwdHVyZTogewogICAgICAgICAgdGV4dDogIlRydXN0IGluIHRoZSBMb3JkIHdpdGggYWxsIHlvdXIgaGVhcnQgYW5kIGxlYW4gbm90IG9uIHlvdXIgb3duIHVuZGVyc3RhbmRpbmc7IGluIGFsbCB5b3VyIHdheXMgc3VibWl0IHRvIGhpbSwgYW5kIGhlIHdpbGwgbWFrZSB5b3VyIHBhdGhzIHN0cmFpZ2h0LiIsCiAgICAgICAgICByZWZlcmVuY2U6ICJQcm92ZXJicyAzOjUtNiIsCiAgICAgICAgfSwKICAgICAgICBzdG9yeTogIlNvbWV0aW1lcyB3aGVuIHdlJ3JlIHNlYXJjaGluZyBmb3IgYW5zd2VycywgdGhlIGZpcnN0IHN0ZXAgaXMgc2ltcGx5IHRydXN0aW5nIHRoYXQgR29kIHNlZXMgdXMgYW5kIGtub3dzIG91ciBzaXR1YXRpb24uIFRoaXMgYW5jaWVudCB3aXNkb20gcmVtaW5kcyB1cyB0aGF0IHdlIGRvbid0IGhhdmUgdG8gZmlndXJlIGV2ZXJ5dGhpbmcgb3V0IG9uIG91ciBvd24uIiwKICAgICAgICBleHBsb3JlTW9yZTogWwogICAgICAgICAgeyByZWZlcmVuY2U6ICJQc2FsbSA0NjoxMCIsIGRlc2NyaXB0aW9uOiAiQmUgc3RpbGwgYW5kIGtub3cgR29kJ3MgcHJlc2VuY2UiIH0sCiAgICAgICAgICB7IHJlZmVyZW5jZTogIklzYWlhaCA0MToxMCIsIGRlc2NyaXB0aW9uOiAiR29kJ3MgcHJvbWlzZSB0byBzdHJlbmd0aGVuIHVzIiB9LAogICAgICAgICAgeyByZWZlcmVuY2U6ICJKZXJlbWlhaCAyOToxMSIsIGRlc2NyaXB0aW9uOiAiR29kJ3MgcGxhbnMgZm9yIHlvdXIgZnV0dXJlIiB9LAogICAgICAgIF0sCiAgICAgIH0pOwogICAgfQogIH0gY2F0Y2ggKGVycm9yKSB7CiAgICBjb25zb2xlLmVycm9yKCJFcnJvciBpbiAvYXBpL2FzazoiLCBlcnJvcik7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgIHsgZXJyb3I6ICJGYWlsZWQgdG8gcHJvY2VzcyByZXF1ZXN0IiB9LAogICAgICB7IHN0YXR1czogNTAwIH0KICAgICk7CiAgfQp9Cg=="}
+import { NextRequest, NextResponse } from "next/server";
+import Anthropic from "@anthropic-ai/sdk";
+
+const SYSTEM_PROMPT = `You are a Scripture guide for L.I.F.E. Ministry. When someone shares what's on their heart, you respond with ONE focused, complete response.
+
+YOUR RESPONSE FORMAT (follow exactly):
+
+You must respond with valid JSON in this exact structure:
+{
+  "scripture": {
+    "text": "The full verse text here...",
+    "reference": "Book Chapter:Verse"
+  },
+  "story": "2-3 sentence connection here...",
+  "exploreMore": [
+    { "reference": "Book Chapter:Verse", "description": "One sentence description" },
+    { "reference": "Book Chapter:Verse", "description": "One sentence description" },
+    { "reference": "Book Chapter:Verse", "description": "One sentence description" }
+  ]
+}
+
+INSTRUCTIONS:
+
+1. PRIMARY SCRIPTURE
+- Choose ONE verse or short passage (2-4 verses max) that directly speaks to their situation
+- Provide the FULL text of the verse in the "text" field
+- Include the reference (e.g., "Philippians 4:6-7") in the "reference" field
+
+2. THE STORY (2-3 sentences only)
+- Connect this Scripture to their specific situation
+- You may include brief context: who wrote it, what they were facing, why it matters
+- Tone: warm, gentle, relatable — like a wise friend sharing insight
+- Do NOT preach or lecture
+
+3. EXPLORE MORE
+- List exactly 3 related Scripture references in the "exploreMore" array
+- Each object has "reference" and "description" fields
+- Choose verses that offer different angles on the same theme
+
+IMPORTANT RULES:
+- Do NOT ask follow-up questions
+- Do NOT offer to continue the conversation
+- Do NOT give generic advice — lead with Scripture
+- Keep "story" section SHORT — the Scripture is the star
+- Be warm but concise
+- ONLY respond with valid JSON, no other text before or after
+- If someone expresses thoughts of self-harm, include crisis resources (988 Lifeline) in the story section while still providing Scripture about hope`;
+
+interface ScriptureResponse {
+  scripture: {
+    text: string;
+    reference: string;
+  };
+  story: string;
+  exploreMore: {
+    reference: string;
+    description: string;
+  }[];
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const { message } = await request.json();
+
+    if (!message || typeof message !== "string" || message.trim() === "") {
+      return NextResponse.json(
+        { error: "Message is required" },
+        { status: 400 }
+      );
+    }
+
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey) {
+      console.error("ANTHROPIC_API_KEY not configured");
+      return NextResponse.json(
+        { error: "Service temporarily unavailable" },
+        { status: 503 }
+      );
+    }
+
+    const client = new Anthropic({ apiKey });
+
+    const response = await client.messages.create({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 1000,
+      temperature: 0.7,
+      system: SYSTEM_PROMPT,
+      messages: [
+        {
+          role: "user",
+          content: message.trim(),
+        },
+      ],
+    });
+
+    // Extract text from response
+    const textContent = response.content.find((block) => block.type === "text");
+    const responseText = textContent ? textContent.text : "";
+
+    // Parse the JSON response
+    try {
+      // Clean the response in case there's any markdown formatting
+      let cleanedResponse = responseText.trim();
+      if (cleanedResponse.startsWith("```json")) {
+        cleanedResponse = cleanedResponse.slice(7);
+      }
+      if (cleanedResponse.startsWith("```")) {
+        cleanedResponse = cleanedResponse.slice(3);
+      }
+      if (cleanedResponse.endsWith("```")) {
+        cleanedResponse = cleanedResponse.slice(0, -3);
+      }
+      cleanedResponse = cleanedResponse.trim();
+
+      const parsed: ScriptureResponse = JSON.parse(cleanedResponse);
+
+      // Validate the structure
+      if (!parsed.scripture?.text || !parsed.scripture?.reference) {
+        throw new Error("Invalid scripture structure");
+      }
+      if (!parsed.story) {
+        throw new Error("Missing story");
+      }
+      if (!Array.isArray(parsed.exploreMore) || parsed.exploreMore.length < 1) {
+        throw new Error("Invalid exploreMore structure");
+      }
+
+      return NextResponse.json(parsed);
+    } catch (parseError) {
+      console.error("Failed to parse LLM response:", parseError, responseText);
+
+      // Fallback: return a default structure if parsing fails
+      return NextResponse.json({
+        scripture: {
+          text: "Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight.",
+          reference: "Proverbs 3:5-6",
+        },
+        story: "Sometimes when we're searching for answers, the first step is simply trusting that God sees us and knows our situation. This ancient wisdom reminds us that we don't have to figure everything out on our own.",
+        exploreMore: [
+          { reference: "Psalm 46:10", description: "Be still and know God's presence" },
+          { reference: "Isaiah 41:10", description: "God's promise to strengthen us" },
+          { reference: "Jeremiah 29:11", description: "God's plans for your future" },
+        ],
+      });
+    }
+  } catch (error) {
+    console.error("Error in /api/ask:", error);
+    return NextResponse.json(
+      { error: "Failed to process request" },
+      { status: 500 }
+    );
+  }
+}

@@ -1,1 +1,55 @@
-{"data":"InVzZSBjbGllbnQiOwoKaW1wb3J0IExpbmsgZnJvbSAibmV4dC9saW5rIjsKaW1wb3J0IHsgdXNlRWZmZWN0LCB1c2VTdGF0ZSB9IGZyb20gInJlYWN0IjsKCmV4cG9ydCBmdW5jdGlvbiBMaXZlSW5kaWNhdG9yKCkgewogIGNvbnN0IFtzZXJ2aWNlTGl2ZSwgc2V0U2VydmljZUxpdmVdID0gdXNlU3RhdGUoZmFsc2UpOwoKICB1c2VFZmZlY3QoKCkgPT4gewogICAgYXN5bmMgZnVuY3Rpb24gY2hlY2tMaXZlU3RhdHVzKCkgewogICAgICB0cnkgewogICAgICAgIGNvbnN0IHJlcyA9IGF3YWl0IGZldGNoKCIvYXBpL2NvbnRlbnQiKTsKICAgICAgICBpZiAocmVzLm9rKSB7CiAgICAgICAgICBjb25zdCBkYXRhID0gYXdhaXQgcmVzLmpzb24oKTsKICAgICAgICAgIHNldFNlcnZpY2VMaXZlKGRhdGEuc2VydmljZUxpdmUgfHwgZmFsc2UpOwogICAgICAgIH0KICAgICAgfSBjYXRjaCAoZXJyb3IpIHsKICAgICAgICBjb25zb2xlLmVycm9yKCJGYWlsZWQgdG8gY2hlY2sgbGl2ZSBzdGF0dXM6IiwgZXJyb3IpOwogICAgICB9CiAgICB9CgogICAgY2hlY2tMaXZlU3RhdHVzKCk7CiAgICAvLyBQb2xsIGV2ZXJ5IDMwIHNlY29uZHMKICAgIGNvbnN0IGludGVydmFsID0gc2V0SW50ZXJ2YWwoY2hlY2tMaXZlU3RhdHVzLCAzMDAwMCk7CgogICAgcmV0dXJuICgpID0+IGNsZWFySW50ZXJ2YWwoaW50ZXJ2YWwpOwogIH0sIFtdKTsKCiAgaWYgKCFzZXJ2aWNlTGl2ZSkgcmV0dXJuIG51bGw7CgogIHJldHVybiAoCiAgICA8TGluawogICAgICBocmVmPSIvd2F0Y2giCiAgICAgIGNsYXNzTmFtZT0iZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTIgYmctdGVycmFjb3R0YSB0ZXh0LXdoaXRlIHB4LTQgcHktMiByb3VuZGVkLWZ1bGwgdGV4dC1zbSBmb250LW1lZGl1bSBob3ZlcjpiZy10ZXJyYWNvdHRhLWRhcmsgdHJhbnNpdGlvbi1jb2xvcnMiCiAgICA+CiAgICAgIDxzcGFuIGNsYXNzTmFtZT0icmVsYXRpdmUgZmxleCBoLTIgdy0yIj4KICAgICAgICA8c3BhbiBjbGFzc05hbWU9ImFuaW1hdGUtcGluZyBhYnNvbHV0ZSBpbmxpbmUtZmxleCBoLWZ1bGwgdy1mdWxsIHJvdW5kZWQtZnVsbCBiZy13aGl0ZSBvcGFjaXR5LTc1Ij48L3NwYW4+CiAgICAgICAgPHNwYW4gY2xhc3NOYW1lPSJyZWxhdGl2ZSBpbmxpbmUtZmxleCByb3VuZGVkLWZ1bGwgaC0yIHctMiBiZy13aGl0ZSI+PC9zcGFuPgogICAgICA8L3NwYW4+CiAgICAgIExpdmUgTm93CiAgICA8L0xpbms+CiAgKTsKfQoKZXhwb3J0IGZ1bmN0aW9uIExpdmVCYWRnZSh7IGNsYXNzTmFtZSA9ICIiIH06IHsgY2xhc3NOYW1lPzogc3RyaW5nIH0pIHsKICByZXR1cm4gKAogICAgPGRpdiBjbGFzc05hbWU9e2BpbmxpbmUtZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTIgYmctdGVycmFjb3R0YSB0ZXh0LXdoaXRlIHB4LTMgcHktMS41IHJvdW5kZWQtZnVsbCB0ZXh0LXNtIGZvbnQtbWVkaXVtICR7Y2xhc3NOYW1lfWB9PgogICAgICA8c3BhbiBjbGFzc05hbWU9InJlbGF0aXZlIGZsZXggaC0yIHctMiI+CiAgICAgICAgPHNwYW4gY2xhc3NOYW1lPSJhbmltYXRlLXBpbmcgYWJzb2x1dGUgaW5saW5lLWZsZXggaC1mdWxsIHctZnVsbCByb3VuZGVkLWZ1bGwgYmctd2hpdGUgb3BhY2l0eS03NSI+PC9zcGFuPgogICAgICAgIDxzcGFuIGNsYXNzTmFtZT0icmVsYXRpdmUgaW5saW5lLWZsZXggcm91bmRlZC1mdWxsIGgtMiB3LTIgYmctd2hpdGUiPjwvc3Bhbj4KICAgICAgPC9zcGFuPgogICAgICBMaXZlIE5vdwogICAgPC9kaXY+CiAgKTsKfQo="}
+"use client";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+export function LiveIndicator() {
+  const [serviceLive, setServiceLive] = useState(false);
+
+  useEffect(() => {
+    async function checkLiveStatus() {
+      try {
+        const res = await fetch("/api/content");
+        if (res.ok) {
+          const data = await res.json();
+          setServiceLive(data.serviceLive || false);
+        }
+      } catch (error) {
+        console.error("Failed to check live status:", error);
+      }
+    }
+
+    checkLiveStatus();
+    // Poll every 30 seconds
+    const interval = setInterval(checkLiveStatus, 30000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!serviceLive) return null;
+
+  return (
+    <Link
+      href="/watch"
+      className="flex items-center gap-2 bg-terracotta text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-terracotta-dark transition-colors"
+    >
+      <span className="relative flex h-2 w-2">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+        <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+      </span>
+      Live Now
+    </Link>
+  );
+}
+
+export function LiveBadge({ className = "" }: { className?: string }) {
+  return (
+    <div className={`inline-flex items-center gap-2 bg-terracotta text-white px-3 py-1.5 rounded-full text-sm font-medium ${className}`}>
+      <span className="relative flex h-2 w-2">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+        <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+      </span>
+      Live Now
+    </div>
+  );
+}

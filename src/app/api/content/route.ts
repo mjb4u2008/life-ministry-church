@@ -1,1 +1,43 @@
-{"data":"aW1wb3J0IHsgTmV4dFJlcXVlc3QsIE5leHRSZXNwb25zZSB9IGZyb20gIm5leHQvc2VydmVyIjsKaW1wb3J0IHsgZ2V0Q29udGVudCwgdXBkYXRlQ29udGVudCB9IGZyb20gIkAvbGliL2RhdGEiOwppbXBvcnQgeyB2ZXJpZnlUb2tlbiB9IGZyb20gIkAvbGliL2F1dGgiOwoKLy8gR0VUIGNvbnRlbnQgKHB1YmxpYykKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIEdFVCgpIHsKICB0cnkgewogICAgY29uc3QgY29udGVudCA9IGF3YWl0IGdldENvbnRlbnQoKTsKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbihjb250ZW50KTsKICB9IGNhdGNoIChlcnJvcikgewogICAgY29uc29sZS5lcnJvcigiRXJyb3IgZmV0Y2hpbmcgY29udGVudDoiLCBlcnJvcik7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgIHsgZXJyb3I6ICJGYWlsZWQgdG8gZmV0Y2ggY29udGVudCIgfSwKICAgICAgeyBzdGF0dXM6IDUwMCB9CiAgICApOwogIH0KfQoKLy8gUFVUL1BBVENIIGNvbnRlbnQgKHJlcXVpcmVzIGF1dGgpCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBQVVQocmVxdWVzdDogTmV4dFJlcXVlc3QpIHsKICB0cnkgewogICAgY29uc3QgYXV0aEhlYWRlciA9IHJlcXVlc3QuaGVhZGVycy5nZXQoImF1dGhvcml6YXRpb24iKTsKICAgIGNvbnN0IHRva2VuID0gYXV0aEhlYWRlcj8ucmVwbGFjZSgiQmVhcmVyICIsICIiKTsKCiAgICBpZiAoIXRva2VuIHx8ICF2ZXJpZnlUb2tlbih0b2tlbikpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICAgIHsgZXJyb3I6ICJVbmF1dGhvcml6ZWQiIH0sCiAgICAgICAgeyBzdGF0dXM6IDQwMSB9CiAgICAgICk7CiAgICB9CgogICAgY29uc3QgdXBkYXRlcyA9IGF3YWl0IHJlcXVlc3QuanNvbigpOwogICAgY29uc3QgdXBkYXRlZENvbnRlbnQgPSBhd2FpdCB1cGRhdGVDb250ZW50KHVwZGF0ZXMpOwoKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih1cGRhdGVkQ29udGVudCk7CiAgfSBjYXRjaCAoZXJyb3IpIHsKICAgIGNvbnNvbGUuZXJyb3IoIkVycm9yIHVwZGF0aW5nIGNvbnRlbnQ6IiwgZXJyb3IpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICB7IGVycm9yOiAiRmFpbGVkIHRvIHVwZGF0ZSBjb250ZW50IiB9LAogICAgICB7IHN0YXR1czogNTAwIH0KICAgICk7CiAgfQp9Cg=="}
+import { NextRequest, NextResponse } from "next/server";
+import { getContent, updateContent } from "@/lib/data";
+import { verifyToken } from "@/lib/auth";
+
+// GET content (public)
+export async function GET() {
+  try {
+    const content = await getContent();
+    return NextResponse.json(content);
+  } catch (error) {
+    console.error("Error fetching content:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch content" },
+      { status: 500 }
+    );
+  }
+}
+
+// PUT/PATCH content (requires auth)
+export async function PUT(request: NextRequest) {
+  try {
+    const authHeader = request.headers.get("authorization");
+    const token = authHeader?.replace("Bearer ", "");
+
+    if (!token || !verifyToken(token)) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const updates = await request.json();
+    const updatedContent = await updateContent(updates);
+
+    return NextResponse.json(updatedContent);
+  } catch (error) {
+    console.error("Error updating content:", error);
+    return NextResponse.json(
+      { error: "Failed to update content" },
+      { status: 500 }
+    );
+  }
+}

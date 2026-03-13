@@ -1,1 +1,104 @@
-{"data":"InVzZSBjbGllbnQiOwoKaW1wb3J0IExpbmsgZnJvbSAibmV4dC9saW5rIjsKaW1wb3J0IHsgdXNlU3RhdGUgfSBmcm9tICJyZWFjdCI7CmltcG9ydCB7IExpdmVJbmRpY2F0b3IgfSBmcm9tICIuL0xpdmVJbmRpY2F0b3IiOwoKY29uc3QgbmF2TGlua3MgPSBbCiAgeyBocmVmOiAiLyIsIGxhYmVsOiAiSG9tZSIgfSwKICB7IGhyZWY6ICIvd2F0Y2giLCBsYWJlbDogIldhdGNoIiB9LAogIHsgaHJlZjogIi9jb25uZWN0IiwgbGFiZWw6ICJQcmF5ZXIgV2FsbCIgfSwKICB7IGhyZWY6ICIvYXNrIiwgbGFiZWw6ICJBc2sgVGhlIFdvcmQiIH0sCiAgeyBocmVmOiAiL2dpdmUiLCBsYWJlbDogIkdpdmUiIH0sCiAgeyBocmVmOiAiL2Fib3V0IiwgbGFiZWw6ICJXaGF0IGlzIEwuSS5GLkUuPyIgfSwKXTsKCmV4cG9ydCBmdW5jdGlvbiBIZWFkZXIoKSB7CiAgY29uc3QgW2lzTWVudU9wZW4sIHNldElzTWVudU9wZW5dID0gdXNlU3RhdGUoZmFsc2UpOwoKICByZXR1cm4gKAogICAgPGhlYWRlciBjbGFzc05hbWU9ImZpeGVkIHRvcC0wIGxlZnQtMCByaWdodC0wIHotNTAgZ2xhc3MgYm9yZGVyLWIgYm9yZGVyLXdhcm0tZ3JheS1saWdodC8yMCI+CiAgICAgIDxkaXYgY2xhc3NOYW1lPSJtYXgtdy03eGwgbXgtYXV0byBweC00IHNtOnB4LTYgbGc6cHgtOCI+CiAgICAgICAgPGRpdiBjbGFzc05hbWU9ImZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktYmV0d2VlbiBoLTE2IG1kOmgtMjAiPgogICAgICAgICAgey8qIExvZ28gKi99CiAgICAgICAgICA8TGluawogICAgICAgICAgICBocmVmPSIvIgogICAgICAgICAgICBjbGFzc05hbWU9ImZsZXggaXRlbXMtY2VudGVyIGdhcC0zIGdyb3VwIgogICAgICAgICAgPgogICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0idy0xMCBoLTEwIHJvdW5kZWQtZnVsbCBiZy10ZXJyYWNvdHRhIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIj4KICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9InRleHQtd2hpdGUgZm9udC1kaXNwbGF5IHRleHQtbGcgZm9udC1zZW1pYm9sZCI+TDwvc3Bhbj4KICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0iZm9udC1kaXNwbGF5IHRleHQteGwgbWQ6dGV4dC0yeGwgZm9udC1zZW1pYm9sZCB0ZXh0LWNoYXJjb2FsIGdyb3VwLWhvdmVyOnRleHQtdGVycmFjb3R0YSI+CiAgICAgICAgICAgICAgTC5JLkYuRS4gTWluaXN0cnkKICAgICAgICAgICAgPC9zcGFuPgogICAgICAgICAgPC9MaW5rPgoKICAgICAgICAgIHsvKiBEZXNrdG9wIE5hdmlnYXRpb24gKi99CiAgICAgICAgICA8bmF2IGNsYXNzTmFtZT0iaGlkZGVuIG1kOmZsZXggaXRlbXMtY2VudGVyIGdhcC04Ij4KICAgICAgICAgICAge25hdkxpbmtzLm1hcCgobGluaykgPT4gKAogICAgICAgICAgICAgIDxMaW5rCiAgICAgICAgICAgICAgICBrZXk9e2xpbmsuaHJlZn0KICAgICAgICAgICAgICAgIGhyZWY9e2xpbmsuaHJlZn0KICAgICAgICAgICAgICAgIGNsYXNzTmFtZT0idGV4dC1jaGFyY29hbC1saWdodCBob3Zlcjp0ZXh0LXRlcnJhY290dGEgZm9udC1tZWRpdW0gdGV4dC1zbSB0cmFja2luZy13aWRlIHVwcGVyY2FzZSIKICAgICAgICAgICAgICA+CiAgICAgICAgICAgICAgICB7bGluay5sYWJlbH0KICAgICAgICAgICAgICA8L0xpbms+CiAgICAgICAgICAgICkpfQogICAgICAgICAgICA8TGl2ZUluZGljYXRvciAvPgogICAgICAgICAgPC9uYXY+CgogICAgICAgICAgey8qIE1vYmlsZSBNZW51IEJ1dHRvbiAqL30KICAgICAgICAgIDxidXR0b24KICAgICAgICAgICAgb25DbGljaz17KCkgPT4gc2V0SXNNZW51T3BlbighaXNNZW51T3Blbil9CiAgICAgICAgICAgIGNsYXNzTmFtZT0ibWQ6aGlkZGVuIHAtMiB0ZXh0LWNoYXJjb2FsIGhvdmVyOnRleHQtdGVycmFjb3R0YSIKICAgICAgICAgICAgYXJpYS1sYWJlbD0iVG9nZ2xlIG1lbnUiCiAgICAgICAgICA+CiAgICAgICAgICAgIDxzdmcKICAgICAgICAgICAgICBjbGFzc05hbWU9InctNiBoLTYiCiAgICAgICAgICAgICAgZmlsbD0ibm9uZSIKICAgICAgICAgICAgICBzdHJva2U9ImN1cnJlbnRDb2xvciIKICAgICAgICAgICAgICB2aWV3Qm94PSIwIDAgMjQgMjQiCiAgICAgICAgICAgID4KICAgICAgICAgICAgICB7aXNNZW51T3BlbiA/ICgKICAgICAgICAgICAgICAgIDxwYXRoCiAgICAgICAgICAgICAgICAgIHN0cm9rZUxpbmVjYXA9InJvdW5kIgogICAgICAgICAgICAgICAgICBzdHJva2VMaW5lam9pbj0icm91bmQiCiAgICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoPXsyfQogICAgICAgICAgICAgICAgICBkPSJNNiAxOEwxOCA2TTYgNmwxMiAxMiIKICAgICAgICAgICAgICAgIC8+CiAgICAgICAgICAgICAgKSA6ICgKICAgICAgICAgICAgICAgIDxwYXRoCiAgICAgICAgICAgICAgICAgIHN0cm9rZUxpbmVjYXA9InJvdW5kIgogICAgICAgICAgICAgICAgICBzdHJva2VMaW5lam9pbj0icm91bmQiCiAgICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoPXsyfQogICAgICAgICAgICAgICAgICBkPSJNNCA2aDE2TTQgMTJoMTZNNCAxOGgxNiIKICAgICAgICAgICAgICAgIC8+CiAgICAgICAgICAgICAgKX0KICAgICAgICAgICAgPC9zdmc+CiAgICAgICAgICA8L2J1dHRvbj4KICAgICAgICA8L2Rpdj4KICAgICAgPC9kaXY+CgogICAgICB7LyogTW9iaWxlIE1lbnUgKi99CiAgICAgIHtpc01lbnVPcGVuICYmICgKICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ibWQ6aGlkZGVuIGJnLXdoaXRlIGJvcmRlci10IGJvcmRlci13YXJtLWdyYXktbGlnaHQvMjAgYW5pbWF0ZS1mYWRlLWluIj4KICAgICAgICAgIDxuYXYgY2xhc3NOYW1lPSJweC00IHB5LTQgc3BhY2UteS00Ij4KICAgICAgICAgICAge25hdkxpbmtzLm1hcCgobGluaykgPT4gKAogICAgICAgICAgICAgIDxMaW5rCiAgICAgICAgICAgICAgICBrZXk9e2xpbmsuaHJlZn0KICAgICAgICAgICAgICAgIGhyZWY9e2xpbmsuaHJlZn0KICAgICAgICAgICAgICAgIG9uQ2xpY2s9eygpID0+IHNldElzTWVudU9wZW4oZmFsc2UpfQogICAgICAgICAgICAgICAgY2xhc3NOYW1lPSJibG9jayB0ZXh0LWNoYXJjb2FsIGhvdmVyOnRleHQtdGVycmFjb3R0YSBmb250LW1lZGl1bSB0ZXh0LXNtIHRyYWNraW5nLXdpZGUgdXBwZXJjYXNlIHB5LTIiCiAgICAgICAgICAgICAgPgogICAgICAgICAgICAgICAge2xpbmsubGFiZWx9CiAgICAgICAgICAgICAgPC9MaW5rPgogICAgICAgICAgICApKX0KICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9InB0LTIiPgogICAgICAgICAgICAgIDxMaXZlSW5kaWNhdG9yIC8+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPC9uYXY+CiAgICAgICAgPC9kaXY+CiAgICAgICl9CiAgICA8L2hlYWRlcj4KICApOwp9Cg=="}
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+import { LiveIndicator } from "./LiveIndicator";
+
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/watch", label: "Watch" },
+  { href: "/connect", label: "Prayer Wall" },
+  { href: "/ask", label: "Ask The Word" },
+  { href: "/give", label: "Give" },
+  { href: "/about", label: "What is L.I.F.E.?" },
+];
+
+export function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-warm-gray-light/20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 md:h-20">
+          {/* Logo */}
+          <Link
+            href="/"
+            className="flex items-center gap-3 group"
+          >
+            <div className="w-10 h-10 rounded-full bg-terracotta flex items-center justify-center">
+              <span className="text-white font-display text-lg font-semibold">L</span>
+            </div>
+            <span className="font-display text-xl md:text-2xl font-semibold text-charcoal group-hover:text-terracotta">
+              L.I.F.E. Ministry
+            </span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-charcoal-light hover:text-terracotta font-medium text-sm tracking-wide uppercase"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <LiveIndicator />
+          </nav>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden p-2 text-charcoal hover:text-terracotta"
+            aria-label="Toggle menu"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              {isMenuOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-white border-t border-warm-gray-light/20 animate-fade-in">
+          <nav className="px-4 py-4 space-y-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setIsMenuOpen(false)}
+                className="block text-charcoal hover:text-terracotta font-medium text-sm tracking-wide uppercase py-2"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="pt-2">
+              <LiveIndicator />
+            </div>
+          </nav>
+        </div>
+      )}
+    </header>
+  );
+}

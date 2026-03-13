@@ -1,1 +1,167 @@
-{"data":"InVzZSBjbGllbnQiOwoKaW1wb3J0IHsgdXNlU3RhdGUgfSBmcm9tICJyZWFjdCI7CgpleHBvcnQgZnVuY3Rpb24gUmVtaW5kZXJTaWdudXAoKSB7CiAgY29uc3QgW25hbWUsIHNldE5hbWVdID0gdXNlU3RhdGUoIiIpOwogIGNvbnN0IFtjb250YWN0LCBzZXRDb250YWN0XSA9IHVzZVN0YXRlKCIiKTsKICBjb25zdCBbY29udGFjdFR5cGUsIHNldENvbnRhY3RUeXBlXSA9IHVzZVN0YXRlPCJlbWFpbCIgfCAicGhvbmUiPigiZW1haWwiKTsKICBjb25zdCBbaXNTdWJtaXR0aW5nLCBzZXRJc1N1Ym1pdHRpbmddID0gdXNlU3RhdGUoZmFsc2UpOwogIGNvbnN0IFtzdGF0dXMsIHNldFN0YXR1c10gPSB1c2VTdGF0ZTwiaWRsZSIgfCAic3VjY2VzcyIgfCAiZXJyb3IiPigiaWRsZSIpOwogIGNvbnN0IFtlcnJvck1lc3NhZ2UsIHNldEVycm9yTWVzc2FnZV0gPSB1c2VTdGF0ZSgiIik7CgogIGNvbnN0IGhhbmRsZVN1Ym1pdCA9IGFzeW5jIChlOiBSZWFjdC5Gb3JtRXZlbnQpID0+IHsKICAgIGUucHJldmVudERlZmF1bHQoKTsKICAgIGlmICghbmFtZS50cmltKCkgfHwgIWNvbnRhY3QudHJpbSgpKSByZXR1cm47CgogICAgc2V0SXNTdWJtaXR0aW5nKHRydWUpOwogICAgc2V0U3RhdHVzKCJpZGxlIik7CiAgICBzZXRFcnJvck1lc3NhZ2UoIiIpOwoKICAgIHRyeSB7CiAgICAgIGNvbnN0IHJlcyA9IGF3YWl0IGZldGNoKCIvYXBpL3N1YnNjcmliZXJzIiwgewogICAgICAgIG1ldGhvZDogIlBPU1QiLAogICAgICAgIGhlYWRlcnM6IHsgIkNvbnRlbnQtVHlwZSI6ICJhcHBsaWNhdGlvbi9qc29uIiB9LAogICAgICAgIGJvZHk6IEpTT04uc3RyaW5naWZ5KHsKICAgICAgICAgIG5hbWU6IG5hbWUudHJpbSgpLAogICAgICAgICAgY29udGFjdFR5cGUsCiAgICAgICAgICBjb250YWN0OiBjb250YWN0LnRyaW0oKSwKICAgICAgICB9KSwKICAgICAgfSk7CgogICAgICBjb25zdCBkYXRhID0gYXdhaXQgcmVzLmpzb24oKTsKCiAgICAgIGlmIChyZXMub2spIHsKICAgICAgICBzZXRTdGF0dXMoInN1Y2Nlc3MiKTsKICAgICAgICBzZXROYW1lKCIiKTsKICAgICAgICBzZXRDb250YWN0KCIiKTsKICAgICAgfSBlbHNlIHsKICAgICAgICBzZXRTdGF0dXMoImVycm9yIik7CiAgICAgICAgc2V0RXJyb3JNZXNzYWdlKGRhdGEuZXJyb3IgfHwgIlNvbWV0aGluZyB3ZW50IHdyb25nIik7CiAgICAgIH0KICAgIH0gY2F0Y2ggewogICAgICBzZXRTdGF0dXMoImVycm9yIik7CiAgICAgIHNldEVycm9yTWVzc2FnZSgiQ29ubmVjdGlvbiBlcnJvci4gUGxlYXNlIHRyeSBhZ2Fpbi4iKTsKICAgIH0KCiAgICBzZXRJc1N1Ym1pdHRpbmcoZmFsc2UpOwogIH07CgogIGlmIChzdGF0dXMgPT09ICJzdWNjZXNzIikgewogICAgcmV0dXJuICgKICAgICAgPGRpdiBjbGFzc05hbWU9ImJnLWZvcmVzdC8xMCByb3VuZGVkLTJ4bCBwLTYgdGV4dC1jZW50ZXIgYW5pbWF0ZS1mYWRlLWluIj4KICAgICAgICA8ZGl2IGNsYXNzTmFtZT0idy0xNiBoLTE2IG14LWF1dG8gbWItNCByb3VuZGVkLWZ1bGwgYmctZm9yZXN0IGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIj4KICAgICAgICAgIDxzdmcKICAgICAgICAgICAgY2xhc3NOYW1lPSJ3LTggaC04IHRleHQtd2hpdGUiCiAgICAgICAgICAgIGZpbGw9Im5vbmUiCiAgICAgICAgICAgIHN0cm9rZT0iY3VycmVudENvbG9yIgogICAgICAgICAgICB2aWV3Qm94PSIwIDAgMjQgMjQiCiAgICAgICAgICA+CiAgICAgICAgICAgIDxwYXRoCiAgICAgICAgICAgICAgc3Ryb2tlTGluZWNhcD0icm91bmQiCiAgICAgICAgICAgICAgc3Ryb2tlTGluZWpvaW49InJvdW5kIgogICAgICAgICAgICAgIHN0cm9rZVdpZHRoPXsyfQogICAgICAgICAgICAgIGQ9Ik01IDEzbDQgNEwxOSA3IgogICAgICAgICAgICAvPgogICAgICAgICAgPC9zdmc+CiAgICAgICAgPC9kaXY+CiAgICAgICAgPGgzIGNsYXNzTmFtZT0iZm9udC1kaXNwbGF5IHRleHQteGwgZm9udC1zZW1pYm9sZCB0ZXh0LWNoYXJjb2FsIG1iLTIiPgogICAgICAgICAgWW91JmFwb3M7cmUgQWxsIFNldCEKICAgICAgICA8L2gzPgogICAgICAgIDxwIGNsYXNzTmFtZT0idGV4dC1jaGFyY29hbC1saWdodCI+CiAgICAgICAgICBXZSZhcG9zO2xsIHJlbWluZCB5b3UgYmVmb3JlIHRoZSBuZXh0IHNlcnZpY2UuCiAgICAgICAgPC9wPgogICAgICA8L2Rpdj4KICAgICk7CiAgfQoKICByZXR1cm4gKAogICAgPGRpdiBjbGFzc05hbWU9ImJnLXdoaXRlIHJvdW5kZWQtMnhsIHAtNiBzaGFkb3ctbGciPgogICAgICA8ZGl2IGNsYXNzTmFtZT0idGV4dC1jZW50ZXIgbWItNiI+CiAgICAgICAgPGRpdiBjbGFzc05hbWU9InctMTIgaC0xMiBteC1hdXRvIG1iLTMgcm91bmRlZC1mdWxsIGJnLXRlcnJhY290dGEvMTAgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIiPgogICAgICAgICAgPHN2ZwogICAgICAgICAgICBjbGFzc05hbWU9InctNiBoLTYgdGV4dC10ZXJyYWNvdHRhIgogICAgICAgICAgICBmaWxsPSJub25lIgogICAgICAgICAgICBzdHJva2U9ImN1cnJlbnRDb2xvciIKICAgICAgICAgICAgdmlld0JveD0iMCAwIDI0IDI0IgogICAgICAgICAgPgogICAgICAgICAgICA8cGF0aAogICAgICAgICAgICAgIHN0cm9rZUxpbmVjYXA9InJvdW5kIgogICAgICAgICAgICAgIHN0cm9rZUxpbmVqb2luPSJyb3VuZCIKICAgICAgICAgICAgICBzdHJva2VXaWR0aD17Mn0KICAgICAgICAgICAgICBkPSJNMTUgMTdoNWwtMS40MDUtMS40MDVBMi4wMzIgMi4wMzIgMCAwMTE4IDE0LjE1OFYxMWE2LjAwMiA2LjAwMiAwIDAwLTQtNS42NTlWNWEyIDIgMCAxMC00IDB2LjM0MUM3LjY3IDYuMTY1IDYgOC4zODggNiAxMXYzLjE1OWMwIC41MzgtLjIxNCAxLjA1NS0uNTk1IDEuNDM2TDQgMTdoNW02IDB2MWEzIDMgMCAxMS02IDB2LTFtNiAwSDkiCiAgICAgICAgICAgIC8+CiAgICAgICAgICA8L3N2Zz4KICAgICAgICA8L2Rpdj4KICAgICAgICA8aDMgY2xhc3NOYW1lPSJmb250LWRpc3BsYXkgdGV4dC14bCBmb250LXNlbWlib2xkIHRleHQtY2hhcmNvYWwiPgogICAgICAgICAgR2V0IFJlbWluZGVkCiAgICAgICAgPC9oMz4KICAgICAgICA8cCBjbGFzc05hbWU9InRleHQtY2hhcmNvYWwtbGlnaHQgdGV4dC1zbSBtdC0xIj4KICAgICAgICAgIFdlJmFwb3M7bGwgc2VuZCB5b3UgYSByZW1pbmRlciBiZWZvcmUgd2UgZ28gbGl2ZQogICAgICAgIDwvcD4KICAgICAgPC9kaXY+CgogICAgICA8Zm9ybSBvblN1Ym1pdD17aGFuZGxlU3VibWl0fSBjbGFzc05hbWU9InNwYWNlLXktNCI+CiAgICAgICAgPGRpdj4KICAgICAgICAgIDxpbnB1dAogICAgICAgICAgICB0eXBlPSJ0ZXh0IgogICAgICAgICAgICB2YWx1ZT17bmFtZX0KICAgICAgICAgICAgb25DaGFuZ2U9eyhlKSA9PiBzZXROYW1lKGUudGFyZ2V0LnZhbHVlKX0KICAgICAgICAgICAgcGxhY2Vob2xkZXI9IllvdXIgbmFtZSIKICAgICAgICAgICAgY2xhc3NOYW1lPSJ3LWZ1bGwgcHgtNCBweS0zIHJvdW5kZWQteGwgYm9yZGVyIGJvcmRlci13YXJtLWdyYXktbGlnaHQgZm9jdXM6Ym9yZGVyLXRlcnJhY290dGEgZm9jdXM6cmluZy0yIGZvY3VzOnJpbmctdGVycmFjb3R0YS8yMCBvdXRsaW5lLW5vbmUgdHJhbnNpdGlvbi1jb2xvcnMgYmctY3JlYW0iCiAgICAgICAgICAgIHJlcXVpcmVkCiAgICAgICAgICAvPgogICAgICAgIDwvZGl2PgoKICAgICAgICB7LyogQ29udGFjdCBUeXBlIFRvZ2dsZSAqL30KICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iZmxleCBnYXAtMiBwLTEgYmctY3JlYW0gcm91bmRlZC14bCI+CiAgICAgICAgICA8YnV0dG9uCiAgICAgICAgICAgIHR5cGU9ImJ1dHRvbiIKICAgICAgICAgICAgb25DbGljaz17KCkgPT4gc2V0Q29udGFjdFR5cGUoImVtYWlsIil9CiAgICAgICAgICAgIGNsYXNzTmFtZT17YGZsZXgtMSBweS0yIHJvdW5kZWQtbGcgdGV4dC1zbSBmb250LW1lZGl1bSB0cmFuc2l0aW9uLWNvbG9ycyAkewogICAgICAgICAgICAgIGNvbnRhY3RUeXBlID09PSAiZW1haWwiCiAgICAgICAgICAgICAgICA/ICJiZy10ZXJyYWNvdHRhIHRleHQtd2hpdGUiCiAgICAgICAgICAgICAgICA6ICJ0ZXh0LWNoYXJjb2FsLWxpZ2h0IGhvdmVyOnRleHQtY2hhcmNvYWwiCiAgICAgICAgICAgIH1gfQogICAgICAgICAgPgogICAgICAgICAgICBFbWFpbAogICAgICAgICAgPC9idXR0b24+CiAgICAgICAgICA8YnV0dG9uCiAgICAgICAgICAgIHR5cGU9ImJ1dHRvbiIKICAgICAgICAgICAgb25DbGljaz17KCkgPT4gc2V0Q29udGFjdFR5cGUoInBob25lIil9CiAgICAgICAgICAgIGNsYXNzTmFtZT17YGZsZXgtMSBweS0yIHJvdW5kZWQtbGcgdGV4dC1zbSBmb250LW1lZGl1bSB0cmFuc2l0aW9uLWNvbG9ycyAkewogICAgICAgICAgICAgIGNvbnRhY3RUeXBlID09PSAicGhvbmUiCiAgICAgICAgICAgICAgICA/ICJiZy10ZXJyYWNvdHRhIHRleHQtd2hpdGUiCiAgICAgICAgICAgICAgICA6ICJ0ZXh0LWNoYXJjb2FsLWxpZ2h0IGhvdmVyOnRleHQtY2hhcmNvYWwiCiAgICAgICAgICAgIH1gfQogICAgICAgICAgPgogICAgICAgICAgICBUZXh0IE1lCiAgICAgICAgICA8L2J1dHRvbj4KICAgICAgICA8L2Rpdj4KCiAgICAgICAgPGRpdj4KICAgICAgICAgIDxpbnB1dAogICAgICAgICAgICB0eXBlPXtjb250YWN0VHlwZSA9PT0gImVtYWlsIiA/ICJlbWFpbCIgOiAidGVsIn0KICAgICAgICAgICAgdmFsdWU9e2NvbnRhY3R9CiAgICAgICAgICAgIG9uQ2hhbmdlPXsoZSkgPT4gc2V0Q29udGFjdChlLnRhcmdldC52YWx1ZSl9CiAgICAgICAgICAgIHBsYWNlaG9sZGVyPXtjb250YWN0VHlwZSA9PT0gImVtYWlsIiA/ICJ5b3VyQGVtYWlsLmNvbSIgOiAiWW91ciBwaG9uZSBudW1iZXIifQogICAgICAgICAgICBjbGFzc05hbWU9InctZnVsbCBweC00IHB5LTMgcm91bmRlZC14bCBib3JkZXIgYm9yZGVyLXdhcm0tZ3JheS1saWdodCBmb2N1czpib3JkZXItdGVycmFjb3R0YSBmb2N1czpyaW5nLTIgZm9jdXM6cmluZy10ZXJyYWNvdHRhLzIwIG91dGxpbmUtbm9uZSB0cmFuc2l0aW9uLWNvbG9ycyBiZy1jcmVhbSIKICAgICAgICAgICAgcmVxdWlyZWQKICAgICAgICAgIC8+CiAgICAgICAgPC9kaXY+CgogICAgICAgIHtzdGF0dXMgPT09ICJlcnJvciIgJiYgKAogICAgICAgICAgPHAgY2xhc3NOYW1lPSJ0ZXh0LXJlZC01MDAgdGV4dC1zbSB0ZXh0LWNlbnRlciI+e2Vycm9yTWVzc2FnZX08L3A+CiAgICAgICAgKX0KCiAgICAgICAgPGJ1dHRvbgogICAgICAgICAgdHlwZT0ic3VibWl0IgogICAgICAgICAgZGlzYWJsZWQ9e2lzU3VibWl0dGluZyB8fCAhbmFtZS50cmltKCkgfHwgIWNvbnRhY3QudHJpbSgpfQogICAgICAgICAgY2xhc3NOYW1lPSJ3LWZ1bGwgYmctdGVycmFjb3R0YSB0ZXh0LXdoaXRlIGZvbnQtc2VtaWJvbGQgcHktMyByb3VuZGVkLXhsIGhvdmVyOmJnLXRlcnJhY290dGEtZGFyayB0cmFuc2l0aW9uLWNvbG9ycyBkaXNhYmxlZDpvcGFjaXR5LTUwIGRpc2FibGVkOmN1cnNvci1ub3QtYWxsb3dlZCIKICAgICAgICA+CiAgICAgICAgICB7aXNTdWJtaXR0aW5nID8gIlNpZ25pbmcgdXAuLi4iIDogIlJlbWluZCBNZSJ9CiAgICAgICAgPC9idXR0b24+CiAgICAgIDwvZm9ybT4KICAgIDwvZGl2PgogICk7Cn0K"}
+"use client";
+
+import { useState } from "react";
+
+export function ReminderSignup() {
+  const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
+  const [contactType, setContactType] = useState<"email" | "phone">("email");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !contact.trim()) return;
+
+    setIsSubmitting(true);
+    setStatus("idle");
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/subscribers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          contactType,
+          contact: contact.trim(),
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setStatus("success");
+        setName("");
+        setContact("");
+      } else {
+        setStatus("error");
+        setErrorMessage(data.error || "Something went wrong");
+      }
+    } catch {
+      setStatus("error");
+      setErrorMessage("Connection error. Please try again.");
+    }
+
+    setIsSubmitting(false);
+  };
+
+  if (status === "success") {
+    return (
+      <div className="bg-forest/10 rounded-2xl p-6 text-center animate-fade-in">
+        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-forest flex items-center justify-center">
+          <svg
+            className="w-8 h-8 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+        </div>
+        <h3 className="font-display text-xl font-semibold text-charcoal mb-2">
+          You&apos;re All Set!
+        </h3>
+        <p className="text-charcoal-light">
+          We&apos;ll remind you before the next service.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-2xl p-6 shadow-lg">
+      <div className="text-center mb-6">
+        <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-terracotta/10 flex items-center justify-center">
+          <svg
+            className="w-6 h-6 text-terracotta"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+            />
+          </svg>
+        </div>
+        <h3 className="font-display text-xl font-semibold text-charcoal">
+          Get Reminded
+        </h3>
+        <p className="text-charcoal-light text-sm mt-1">
+          We&apos;ll send you a reminder before we go live
+        </p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Your name"
+            className="w-full px-4 py-3 rounded-xl border border-warm-gray-light focus:border-terracotta focus:ring-2 focus:ring-terracotta/20 outline-none transition-colors bg-cream"
+            required
+          />
+        </div>
+
+        {/* Contact Type Toggle */}
+        <div className="flex gap-2 p-1 bg-cream rounded-xl">
+          <button
+            type="button"
+            onClick={() => setContactType("email")}
+            className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
+              contactType === "email"
+                ? "bg-terracotta text-white"
+                : "text-charcoal-light hover:text-charcoal"
+            }`}
+          >
+            Email
+          </button>
+          <button
+            type="button"
+            onClick={() => setContactType("phone")}
+            className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
+              contactType === "phone"
+                ? "bg-terracotta text-white"
+                : "text-charcoal-light hover:text-charcoal"
+            }`}
+          >
+            Text Me
+          </button>
+        </div>
+
+        <div>
+          <input
+            type={contactType === "email" ? "email" : "tel"}
+            value={contact}
+            onChange={(e) => setContact(e.target.value)}
+            placeholder={contactType === "email" ? "your@email.com" : "Your phone number"}
+            className="w-full px-4 py-3 rounded-xl border border-warm-gray-light focus:border-terracotta focus:ring-2 focus:ring-terracotta/20 outline-none transition-colors bg-cream"
+            required
+          />
+        </div>
+
+        {status === "error" && (
+          <p className="text-red-500 text-sm text-center">{errorMessage}</p>
+        )}
+
+        <button
+          type="submit"
+          disabled={isSubmitting || !name.trim() || !contact.trim()}
+          className="w-full bg-terracotta text-white font-semibold py-3 rounded-xl hover:bg-terracotta-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? "Signing up..." : "Remind Me"}
+        </button>
+      </form>
+    </div>
+  );
+}

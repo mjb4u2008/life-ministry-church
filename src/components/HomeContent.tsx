@@ -1,1 +1,106 @@
-{"data":"InVzZSBjbGllbnQiOwoKaW1wb3J0IHsgdXNlU3RhdGUsIHVzZUVmZmVjdCB9IGZyb20gInJlYWN0IjsKaW1wb3J0IHsgQnV0dG9uIH0gZnJvbSAiQC9jb21wb25lbnRzL0J1dHRvbiI7CmltcG9ydCB7IFJlbWluZGVyU2lnbnVwIH0gZnJvbSAiQC9jb21wb25lbnRzL1JlbWluZGVyU2lnbnVwIjsKaW1wb3J0IHsgVGlrVG9rQ2Fyb3VzZWwgfSBmcm9tICJAL2NvbXBvbmVudHMvVGlrVG9rQ2Fyb3VzZWwiOwoKaW50ZXJmYWNlIFRpa1Rva1ZpZGVvIHsKICBpZDogc3RyaW5nOwogIHVybDogc3RyaW5nOwogIHRpdGxlOiBzdHJpbmc7Cn0KCmludGVyZmFjZSBTaXRlQ29udGVudCB7CiAgd2Vla2x5TWVzc2FnZTogewogICAgdGl0bGU6IHN0cmluZzsKICAgIHNjcmlwdHVyZTogc3RyaW5nOwogICAgZGVzY3JpcHRpb246IHN0cmluZzsKICB9OwogIHNvY2lhbExpbmtzOiB7CiAgICB0aWt0b2s6IHN0cmluZzsKICAgIGluc3RhZ3JhbTogc3RyaW5nOwogIH07CiAgdGlrdG9rVmlkZW9zOiBUaWtUb2tWaWRlb1tdOwp9CgpleHBvcnQgZnVuY3Rpb24gSG9tZUNvbnRlbnQoKSB7CiAgY29uc3QgW2NvbnRlbnQsIHNldENvbnRlbnRdID0gdXNlU3RhdGU8U2l0ZUNvbnRlbnQgfCBudWxsPihudWxsKTsKICBjb25zdCBbbG9hZGluZywgc2V0TG9hZGluZ10gPSB1c2VTdGF0ZSh0cnVlKTsKCiAgdXNlRWZmZWN0KCgpID0+IHsKICAgIGFzeW5jIGZ1bmN0aW9uIGZldGNoQ29udGVudCgpIHsKICAgICAgdHJ5IHsKICAgICAgICBjb25zdCByZXMgPSBhd2FpdCBmZXRjaCgiL2FwaS9jb250ZW50Iik7CiAgICAgICAgaWYgKHJlcy5vaykgewogICAgICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IHJlcy5qc29uKCk7CiAgICAgICAgICBzZXRDb250ZW50KGRhdGEpOwogICAgICAgIH0KICAgICAgfSBjYXRjaCAoZXJyb3IpIHsKICAgICAgICBjb25zb2xlLmVycm9yKCJGYWlsZWQgdG8gZmV0Y2ggY29udGVudDoiLCBlcnJvcik7CiAgICAgIH0KICAgICAgc2V0TG9hZGluZyhmYWxzZSk7CiAgICB9CiAgICBmZXRjaENvbnRlbnQoKTsKICB9LCBbXSk7CgogIGlmIChsb2FkaW5nKSB7CiAgICByZXR1cm4gKAogICAgICA8ZGl2IGNsYXNzTmFtZT0icHktMjQiPgogICAgICAgIDxkaXYgY2xhc3NOYW1lPSJtYXgtdy03eGwgbXgtYXV0byBweC00IHNtOnB4LTYgbGc6cHgtOCI+CiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iYW5pbWF0ZS1wdWxzZSI+CiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJoLTQgdy0zMiBiZy13YXJtLWdyYXktbGlnaHQgcm91bmRlZCBtYi00IiAvPgogICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iaC04IHctNjQgYmctd2FybS1ncmF5LWxpZ2h0IHJvdW5kZWQgbWItOCIgLz4KICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImdyaWQgbWQ6Z3JpZC1jb2xzLTIgZ2FwLTgiPgogICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJoLTY0IGJnLXdhcm0tZ3JheS1saWdodCByb3VuZGVkLTJ4bCIgLz4KICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iaC02NCBiZy13YXJtLWdyYXktbGlnaHQgcm91bmRlZC0yeGwiIC8+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgIDwvZGl2PgogICAgKTsKICB9CgogIHJldHVybiAoCiAgICA8PgogICAgICB7LyogRmVhdHVyZWQgTWVzc2FnZSBTZWN0aW9uICovfQogICAgICA8c2VjdGlvbiBjbGFzc05hbWU9InB5LTI0IGJnLWNyZWFtLWRhcmsiPgogICAgICAgIDxkaXYgY2xhc3NOYW1lPSJtYXgtdy03eGwgbXgtYXV0byBweC00IHNtOnB4LTYgbGc6cHgtOCI+CiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iZ3JpZCBtZDpncmlkLWNvbHMtMiBnYXAtMTIgaXRlbXMtY2VudGVyIj4KICAgICAgICAgICAgPGRpdj4KICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9InRleHQtdGVycmFjb3R0YSBmb250LW1lZGl1bSB0cmFja2luZy13aWRlciB1cHBlcmNhc2UgdGV4dC1zbSI+CiAgICAgICAgICAgICAgICBUaGlzIFdlZWsmYXBvcztzIE1lc3NhZ2UKICAgICAgICAgICAgICA8L3NwYW4+CiAgICAgICAgICAgICAgPGgyIGNsYXNzTmFtZT0idGV4dC0zeGwgbWQ6dGV4dC00eGwgZm9udC1kaXNwbGF5IGZvbnQtc2VtaWJvbGQgdGV4dC1jaGFyY29hbCBtdC0yIG1iLTQiPgogICAgICAgICAgICAgICAge2NvbnRlbnQ/LndlZWtseU1lc3NhZ2UudGl0bGUgfHwgIkpvaW4gVXMgVGhpcyBTdW5kYXkifQogICAgICAgICAgICAgIDwvaDI+CiAgICAgICAgICAgICAge2NvbnRlbnQ/LndlZWtseU1lc3NhZ2Uuc2NyaXB0dXJlICYmICgKICAgICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT0idGV4dC10ZXJyYWNvdHRhIGZvbnQtbWVkaXVtIG1iLTQiPgogICAgICAgICAgICAgICAgICB7Y29udGVudC53ZWVrbHlNZXNzYWdlLnNjcmlwdHVyZX0KICAgICAgICAgICAgICAgIDwvcD4KICAgICAgICAgICAgICApfQogICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT0idGV4dC1jaGFyY29hbC1saWdodCB0ZXh0LWxnIG1iLTgiPgogICAgICAgICAgICAgICAge2NvbnRlbnQ/LndlZWtseU1lc3NhZ2UuZGVzY3JpcHRpb24gfHwKICAgICAgICAgICAgICAgICAgIkpvaW4gdXMgZm9yIHdvcnNoaXAsIGZlbGxvd3NoaXAsIGFuZCBhbiBlbmNvdXJhZ2luZyB3b3JkLiBFdmVyeW9uZSBpcyB3ZWxjb21lISJ9CiAgICAgICAgICAgICAgPC9wPgogICAgICAgICAgICAgIDxCdXR0b24gaHJlZj0iL3dhdGNoIj5XYXRjaCBMaXZlIFN1bmRheTwvQnV0dG9uPgogICAgICAgICAgICA8L2Rpdj4KCiAgICAgICAgICAgIHsvKiBSZW1pbmRlciBTaWdudXAgQ2FyZCAqL30KICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImZsZXgganVzdGlmeS1jZW50ZXIiPgogICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJ3LWZ1bGwgbWF4LXctc20iPgogICAgICAgICAgICAgICAgPFJlbWluZGVyU2lnbnVwIC8+CiAgICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgIDwvc2VjdGlvbj4KCiAgICAgIHsvKiBUaWtUb2sgQ2Fyb3VzZWwgU2VjdGlvbiAqL30KICAgICAgPFRpa1Rva0Nhcm91c2VsCiAgICAgICAgdmlkZW9zPXtjb250ZW50Py50aWt0b2tWaWRlb3MgfHwgW119CiAgICAgICAgdGlrdG9rUHJvZmlsZVVybD17Y29udGVudD8uc29jaWFsTGlua3MudGlrdG9rfQogICAgICAvPgogICAgPC8+CiAgKTsKfQo="}
+"use client";
+
+import { useState, useEffect } from "react";
+import { Button } from "@/components/Button";
+import { ReminderSignup } from "@/components/ReminderSignup";
+import { TikTokCarousel } from "@/components/TikTokCarousel";
+
+interface TikTokVideo {
+  id: string;
+  url: string;
+  title: string;
+}
+
+interface SiteContent {
+  weeklyMessage: {
+    title: string;
+    scripture: string;
+    description: string;
+  };
+  socialLinks: {
+    tiktok: string;
+    instagram: string;
+  };
+  tiktokVideos: TikTokVideo[];
+}
+
+export function HomeContent() {
+  const [content, setContent] = useState<SiteContent | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchContent() {
+      try {
+        const res = await fetch("/api/content");
+        if (res.ok) {
+          const data = await res.json();
+          setContent(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch content:", error);
+      }
+      setLoading(false);
+    }
+    fetchContent();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="animate-pulse">
+            <div className="h-4 w-32 bg-warm-gray-light rounded mb-4" />
+            <div className="h-8 w-64 bg-warm-gray-light rounded mb-8" />
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="h-64 bg-warm-gray-light rounded-2xl" />
+              <div className="h-64 bg-warm-gray-light rounded-2xl" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      {/* Featured Message Section */}
+      <section className="py-24 bg-cream-dark">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <span className="text-terracotta font-medium tracking-wider uppercase text-sm">
+                This Week&apos;s Message
+              </span>
+              <h2 className="text-3xl md:text-4xl font-display font-semibold text-charcoal mt-2 mb-4">
+                {content?.weeklyMessage.title || "Join Us This Sunday"}
+              </h2>
+              {content?.weeklyMessage.scripture && (
+                <p className="text-terracotta font-medium mb-4">
+                  {content.weeklyMessage.scripture}
+                </p>
+              )}
+              <p className="text-charcoal-light text-lg mb-8">
+                {content?.weeklyMessage.description ||
+                  "Join us for worship, fellowship, and an encouraging word. Everyone is welcome!"}
+              </p>
+              <Button href="/watch">Watch Live Sunday</Button>
+            </div>
+
+            {/* Reminder Signup Card */}
+            <div className="flex justify-center">
+              <div className="w-full max-w-sm">
+                <ReminderSignup />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* TikTok Carousel Section */}
+      <TikTokCarousel
+        videos={content?.tiktokVideos || []}
+        tiktokProfileUrl={content?.socialLinks.tiktok}
+      />
+    </>
+  );
+}

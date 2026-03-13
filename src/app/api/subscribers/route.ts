@@ -1,1 +1,125 @@
-{"data":"aW1wb3J0IHsgTmV4dFJlcXVlc3QsIE5leHRSZXNwb25zZSB9IGZyb20gIm5leHQvc2VydmVyIjsKaW1wb3J0IHsgZ2V0U3Vic2NyaWJlcnMsIGFkZFN1YnNjcmliZXIsIGRlbGV0ZVN1YnNjcmliZXIgfSBmcm9tICJAL2xpYi9kYXRhIjsKaW1wb3J0IHsgdmVyaWZ5VG9rZW4gfSBmcm9tICJAL2xpYi9hdXRoIjsKCi8vIEdFVCBhbGwgc3Vic2NyaWJlcnMgKHJlcXVpcmVzIGF1dGgpCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBHRVQocmVxdWVzdDogTmV4dFJlcXVlc3QpIHsKICB0cnkgewogICAgY29uc3QgYXV0aEhlYWRlciA9IHJlcXVlc3QuaGVhZGVycy5nZXQoImF1dGhvcml6YXRpb24iKTsKICAgIGNvbnN0IHRva2VuID0gYXV0aEhlYWRlcj8ucmVwbGFjZSgiQmVhcmVyICIsICIiKTsKCiAgICBpZiAoIXRva2VuIHx8ICF2ZXJpZnlUb2tlbih0b2tlbikpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICAgIHsgZXJyb3I6ICJVbmF1dGhvcml6ZWQiIH0sCiAgICAgICAgeyBzdGF0dXM6IDQwMSB9CiAgICAgICk7CiAgICB9CgogICAgY29uc3Qgc3Vic2NyaWJlcnMgPSBhd2FpdCBnZXRTdWJzY3JpYmVycygpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKHsgc3Vic2NyaWJlcnMgfSk7CiAgfSBjYXRjaCAoZXJyb3IpIHsKICAgIGNvbnNvbGUuZXJyb3IoIkVycm9yIGZldGNoaW5nIHN1YnNjcmliZXJzOiIsIGVycm9yKTsKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgeyBlcnJvcjogIkZhaWxlZCB0byBmZXRjaCBzdWJzY3JpYmVycyIgfSwKICAgICAgeyBzdGF0dXM6IDUwMCB9CiAgICApOwogIH0KfQoKLy8gUE9TVCBuZXcgc3Vic2NyaWJlciAocHVibGljKQpleHBvcnQgYXN5bmMgZnVuY3Rpb24gUE9TVChyZXF1ZXN0OiBOZXh0UmVxdWVzdCkgewogIHRyeSB7CiAgICBjb25zdCB7IG5hbWUsIGNvbnRhY3RUeXBlLCBjb250YWN0IH0gPSBhd2FpdCByZXF1ZXN0Lmpzb24oKTsKCiAgICBpZiAoIW5hbWUgfHwgbmFtZS50cmltKCkgPT09ICIiKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgICB7IGVycm9yOiAiTmFtZSBpcyByZXF1aXJlZCIgfSwKICAgICAgICB7IHN0YXR1czogNDAwIH0KICAgICAgKTsKICAgIH0KCiAgICBpZiAoIWNvbnRhY3RUeXBlIHx8ICFbImVtYWlsIiwgInBob25lIl0uaW5jbHVkZXMoY29udGFjdFR5cGUpKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgICB7IGVycm9yOiAiQ29udGFjdCB0eXBlIG11c3QgYmUgZW1haWwgb3IgcGhvbmUiIH0sCiAgICAgICAgeyBzdGF0dXM6IDQwMCB9CiAgICAgICk7CiAgICB9CgogICAgaWYgKCFjb250YWN0IHx8IGNvbnRhY3QudHJpbSgpID09PSAiIikgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgICAgeyBlcnJvcjogIkNvbnRhY3QgaW5mb3JtYXRpb24gaXMgcmVxdWlyZWQiIH0sCiAgICAgICAgeyBzdGF0dXM6IDQwMCB9CiAgICAgICk7CiAgICB9CgogICAgLy8gQmFzaWMgdmFsaWRhdGlvbgogICAgaWYgKGNvbnRhY3RUeXBlID09PSAiZW1haWwiICYmICFjb250YWN0LmluY2x1ZGVzKCJAIikpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICAgIHsgZXJyb3I6ICJJbnZhbGlkIGVtYWlsIGFkZHJlc3MiIH0sCiAgICAgICAgeyBzdGF0dXM6IDQwMCB9CiAgICAgICk7CiAgICB9CgogICAgY29uc3QgbmV3U3Vic2NyaWJlciA9IGF3YWl0IGFkZFN1YnNjcmliZXIoewogICAgICBuYW1lOiBuYW1lLnRyaW0oKSwKICAgICAgY29udGFjdFR5cGUsCiAgICAgIGNvbnRhY3Q6IGNvbnRhY3QudHJpbSgpLAogICAgfSk7CgogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKG5ld1N1YnNjcmliZXIsIHsgc3RhdHVzOiAyMDEgfSk7CiAgfSBjYXRjaCAoZXJyb3IpIHsKICAgIGlmIChlcnJvciBpbnN0YW5jZW9mIEVycm9yICYmIGVycm9yLm1lc3NhZ2UgPT09ICJBbHJlYWR5IHN1YnNjcmliZWQiKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgICB7IGVycm9yOiAiWW91J3JlIGFscmVhZHkgc2lnbmVkIHVwIGZvciByZW1pbmRlcnMhIiB9LAogICAgICAgIHsgc3RhdHVzOiA0MDkgfQogICAgICApOwogICAgfQogICAgY29uc29sZS5lcnJvcigiRXJyb3IgYWRkaW5nIHN1YnNjcmliZXI6IiwgZXJyb3IpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICB7IGVycm9yOiAiRmFpbGVkIHRvIHN1YnNjcmliZSIgfSwKICAgICAgeyBzdGF0dXM6IDUwMCB9CiAgICApOwogIH0KfQoKLy8gREVMRVRFIHN1YnNjcmliZXIgKHJlcXVpcmVzIGF1dGgpCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBERUxFVEUocmVxdWVzdDogTmV4dFJlcXVlc3QpIHsKICB0cnkgewogICAgY29uc3QgYXV0aEhlYWRlciA9IHJlcXVlc3QuaGVhZGVycy5nZXQoImF1dGhvcml6YXRpb24iKTsKICAgIGNvbnN0IHRva2VuID0gYXV0aEhlYWRlcj8ucmVwbGFjZSgiQmVhcmVyICIsICIiKTsKCiAgICBpZiAoIXRva2VuIHx8ICF2ZXJpZnlUb2tlbih0b2tlbikpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICAgIHsgZXJyb3I6ICJVbmF1dGhvcml6ZWQiIH0sCiAgICAgICAgeyBzdGF0dXM6IDQwMSB9CiAgICAgICk7CiAgICB9CgogICAgY29uc3QgeyBzZWFyY2hQYXJhbXMgfSA9IG5ldyBVUkwocmVxdWVzdC51cmwpOwogICAgY29uc3QgaWQgPSBzZWFyY2hQYXJhbXMuZ2V0KCJpZCIpOwoKICAgIGlmICghaWQpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICAgIHsgZXJyb3I6ICJTdWJzY3JpYmVyIElEIGlzIHJlcXVpcmVkIiB9LAogICAgICAgIHsgc3RhdHVzOiA0MDAgfQogICAgICApOwogICAgfQoKICAgIGNvbnN0IGRlbGV0ZWQgPSBhd2FpdCBkZWxldGVTdWJzY3JpYmVyKGlkKTsKCiAgICBpZiAoIWRlbGV0ZWQpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICAgIHsgZXJyb3I6ICJTdWJzY3JpYmVyIG5vdCBmb3VuZCIgfSwKICAgICAgICB7IHN0YXR1czogNDA0IH0KICAgICAgKTsKICAgIH0KCiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBzdWNjZXNzOiB0cnVlIH0pOwogIH0gY2F0Y2ggKGVycm9yKSB7CiAgICBjb25zb2xlLmVycm9yKCJFcnJvciBkZWxldGluZyBzdWJzY3JpYmVyOiIsIGVycm9yKTsKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgeyBlcnJvcjogIkZhaWxlZCB0byBkZWxldGUgc3Vic2NyaWJlciIgfSwKICAgICAgeyBzdGF0dXM6IDUwMCB9CiAgICApOwogIH0KfQo="}
+import { NextRequest, NextResponse } from "next/server";
+import { getSubscribers, addSubscriber, deleteSubscriber } from "@/lib/data";
+import { verifyToken } from "@/lib/auth";
+
+// GET all subscribers (requires auth)
+export async function GET(request: NextRequest) {
+  try {
+    const authHeader = request.headers.get("authorization");
+    const token = authHeader?.replace("Bearer ", "");
+
+    if (!token || !verifyToken(token)) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const subscribers = await getSubscribers();
+    return NextResponse.json({ subscribers });
+  } catch (error) {
+    console.error("Error fetching subscribers:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch subscribers" },
+      { status: 500 }
+    );
+  }
+}
+
+// POST new subscriber (public)
+export async function POST(request: NextRequest) {
+  try {
+    const { name, contactType, contact } = await request.json();
+
+    if (!name || name.trim() === "") {
+      return NextResponse.json(
+        { error: "Name is required" },
+        { status: 400 }
+      );
+    }
+
+    if (!contactType || !["email", "phone"].includes(contactType)) {
+      return NextResponse.json(
+        { error: "Contact type must be email or phone" },
+        { status: 400 }
+      );
+    }
+
+    if (!contact || contact.trim() === "") {
+      return NextResponse.json(
+        { error: "Contact information is required" },
+        { status: 400 }
+      );
+    }
+
+    // Basic validation
+    if (contactType === "email" && !contact.includes("@")) {
+      return NextResponse.json(
+        { error: "Invalid email address" },
+        { status: 400 }
+      );
+    }
+
+    const newSubscriber = await addSubscriber({
+      name: name.trim(),
+      contactType,
+      contact: contact.trim(),
+    });
+
+    return NextResponse.json(newSubscriber, { status: 201 });
+  } catch (error) {
+    if (error instanceof Error && error.message === "Already subscribed") {
+      return NextResponse.json(
+        { error: "You're already signed up for reminders!" },
+        { status: 409 }
+      );
+    }
+    console.error("Error adding subscriber:", error);
+    return NextResponse.json(
+      { error: "Failed to subscribe" },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE subscriber (requires auth)
+export async function DELETE(request: NextRequest) {
+  try {
+    const authHeader = request.headers.get("authorization");
+    const token = authHeader?.replace("Bearer ", "");
+
+    if (!token || !verifyToken(token)) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "Subscriber ID is required" },
+        { status: 400 }
+      );
+    }
+
+    const deleted = await deleteSubscriber(id);
+
+    if (!deleted) {
+      return NextResponse.json(
+        { error: "Subscriber not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Error deleting subscriber:", error);
+    return NextResponse.json(
+      { error: "Failed to delete subscriber" },
+      { status: 500 }
+    );
+  }
+}

@@ -1,1 +1,35 @@
-{"data":"Ly8gU2ltcGxlIHBhc3N3b3JkLWJhc2VkIGF1dGhlbnRpY2F0aW9uIGZvciBhZG1pbgovLyBVc2VzIGVudmlyb25tZW50IHZhcmlhYmxlIEFETUlOX1BBU1NXT1JELCBkZWZhdWx0cyB0byAiTElGRTIwMjQiIGZvciBsb2NhbCBkZXYKCmV4cG9ydCBmdW5jdGlvbiBnZXRBZG1pblBhc3N3b3JkKCk6IHN0cmluZyB7CiAgcmV0dXJuIHByb2Nlc3MuZW52LkFETUlOX1BBU1NXT1JEIHx8ICJMSUZFMjAyNCI7Cn0KCmV4cG9ydCBmdW5jdGlvbiB2ZXJpZnlQYXNzd29yZChwYXNzd29yZDogc3RyaW5nKTogYm9vbGVhbiB7CiAgcmV0dXJuIHBhc3N3b3JkID09PSBnZXRBZG1pblBhc3N3b3JkKCk7Cn0KCi8vIFNpbXBsZSB0b2tlbiBnZW5lcmF0aW9uIChpbiBwcm9kdWN0aW9uLCB1c2UgcHJvcGVyIEpXVCkKZXhwb3J0IGZ1bmN0aW9uIGdlbmVyYXRlVG9rZW4oKTogc3RyaW5nIHsKICBjb25zdCB0aW1lc3RhbXAgPSBEYXRlLm5vdygpOwogIGNvbnN0IHJhbmRvbSA9IE1hdGgucmFuZG9tKCkudG9TdHJpbmcoMzYpLnN1YnN0cmluZygyKTsKICByZXR1cm4gQnVmZmVyLmZyb20oYCR7dGltZXN0YW1wfToke3JhbmRvbX06JHtnZXRBZG1pblBhc3N3b3JkKCl9YCkudG9TdHJpbmcoImJhc2U2NCIpOwp9CgpleHBvcnQgZnVuY3Rpb24gdmVyaWZ5VG9rZW4odG9rZW46IHN0cmluZyk6IGJvb2xlYW4gewogIHRyeSB7CiAgICBjb25zdCBkZWNvZGVkID0gQnVmZmVyLmZyb20odG9rZW4sICJiYXNlNjQiKS50b1N0cmluZygidXRmLTgiKTsKICAgIGNvbnN0IHBhcnRzID0gZGVjb2RlZC5zcGxpdCgiOiIpOwogICAgaWYgKHBhcnRzLmxlbmd0aCAhPT0gMykgcmV0dXJuIGZhbHNlOwoKICAgIGNvbnN0IFt0aW1lc3RhbXAsICwgcGFzc3dvcmRdID0gcGFydHM7CiAgICBjb25zdCB0b2tlbkFnZSA9IERhdGUubm93KCkgLSBwYXJzZUludCh0aW1lc3RhbXApOwoKICAgIC8vIFRva2VuIGV4cGlyZXMgYWZ0ZXIgMjQgaG91cnMKICAgIGlmICh0b2tlbkFnZSA+IDI0ICogNjAgKiA2MCAqIDEwMDApIHJldHVybiBmYWxzZTsKCiAgICByZXR1cm4gcGFzc3dvcmQgPT09IGdldEFkbWluUGFzc3dvcmQoKTsKICB9IGNhdGNoIHsKICAgIHJldHVybiBmYWxzZTsKICB9Cn0K"}
+// Simple password-based authentication for admin
+// Uses environment variable ADMIN_PASSWORD, defaults to "LIFE2024" for local dev
+
+export function getAdminPassword(): string {
+  return process.env.ADMIN_PASSWORD || "LIFE2024";
+}
+
+export function verifyPassword(password: string): boolean {
+  return password === getAdminPassword();
+}
+
+// Simple token generation (in production, use proper JWT)
+export function generateToken(): string {
+  const timestamp = Date.now();
+  const random = Math.random().toString(36).substring(2);
+  return Buffer.from(`${timestamp}:${random}:${getAdminPassword()}`).toString("base64");
+}
+
+export function verifyToken(token: string): boolean {
+  try {
+    const decoded = Buffer.from(token, "base64").toString("utf-8");
+    const parts = decoded.split(":");
+    if (parts.length !== 3) return false;
+
+    const [timestamp, , password] = parts;
+    const tokenAge = Date.now() - parseInt(timestamp);
+
+    // Token expires after 24 hours
+    if (tokenAge > 24 * 60 * 60 * 1000) return false;
+
+    return password === getAdminPassword();
+  } catch {
+    return false;
+  }
+}

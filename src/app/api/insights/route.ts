@@ -1,1 +1,69 @@
-{"data":"aW1wb3J0IHsgTmV4dFJlcXVlc3QsIE5leHRSZXNwb25zZSB9IGZyb20gIm5leHQvc2VydmVyIjsKaW1wb3J0IHsgZ2V0SW5zaWdodHMsIGRlbGV0ZUluc2lnaHQgfSBmcm9tICJAL2xpYi9kYXRhIjsKaW1wb3J0IHsgdmVyaWZ5VG9rZW4gfSBmcm9tICJAL2xpYi9hdXRoIjsKCi8vIEdFVCBhbGwgaW5zaWdodHMgKHJlcXVpcmVzIGF1dGgpCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBHRVQocmVxdWVzdDogTmV4dFJlcXVlc3QpIHsKICB0cnkgewogICAgY29uc3QgYXV0aEhlYWRlciA9IHJlcXVlc3QuaGVhZGVycy5nZXQoImF1dGhvcml6YXRpb24iKTsKICAgIGNvbnN0IHRva2VuID0gYXV0aEhlYWRlcj8ucmVwbGFjZSgiQmVhcmVyICIsICIiKTsKCiAgICBpZiAoIXRva2VuIHx8ICF2ZXJpZnlUb2tlbih0b2tlbikpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICAgIHsgZXJyb3I6ICJVbmF1dGhvcml6ZWQiIH0sCiAgICAgICAgeyBzdGF0dXM6IDQwMSB9CiAgICAgICk7CiAgICB9CgogICAgY29uc3QgaW5zaWdodHMgPSBhd2FpdCBnZXRJbnNpZ2h0cygpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKHsgaW5zaWdodHMgfSk7CiAgfSBjYXRjaCAoZXJyb3IpIHsKICAgIGNvbnNvbGUuZXJyb3IoIkVycm9yIGZldGNoaW5nIGluc2lnaHRzOiIsIGVycm9yKTsKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgeyBlcnJvcjogIkZhaWxlZCB0byBmZXRjaCBpbnNpZ2h0cyIgfSwKICAgICAgeyBzdGF0dXM6IDUwMCB9CiAgICApOwogIH0KfQoKLy8gREVMRVRFIGluc2lnaHQgKHJlcXVpcmVzIGF1dGgpCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBERUxFVEUocmVxdWVzdDogTmV4dFJlcXVlc3QpIHsKICB0cnkgewogICAgY29uc3QgYXV0aEhlYWRlciA9IHJlcXVlc3QuaGVhZGVycy5nZXQoImF1dGhvcml6YXRpb24iKTsKICAgIGNvbnN0IHRva2VuID0gYXV0aEhlYWRlcj8ucmVwbGFjZSgiQmVhcmVyICIsICIiKTsKCiAgICBpZiAoIXRva2VuIHx8ICF2ZXJpZnlUb2tlbih0b2tlbikpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICAgIHsgZXJyb3I6ICJVbmF1dGhvcml6ZWQiIH0sCiAgICAgICAgeyBzdGF0dXM6IDQwMSB9CiAgICAgICk7CiAgICB9CgogICAgY29uc3QgeyBzZWFyY2hQYXJhbXMgfSA9IG5ldyBVUkwocmVxdWVzdC51cmwpOwogICAgY29uc3QgaWQgPSBzZWFyY2hQYXJhbXMuZ2V0KCJpZCIpOwoKICAgIGlmICghaWQpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICAgIHsgZXJyb3I6ICJJbnNpZ2h0IElEIGlzIHJlcXVpcmVkIiB9LAogICAgICAgIHsgc3RhdHVzOiA0MDAgfQogICAgICApOwogICAgfQoKICAgIGNvbnN0IGRlbGV0ZWQgPSBhd2FpdCBkZWxldGVJbnNpZ2h0KGlkKTsKCiAgICBpZiAoIWRlbGV0ZWQpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICAgIHsgZXJyb3I6ICJJbnNpZ2h0IG5vdCBmb3VuZCIgfSwKICAgICAgICB7IHN0YXR1czogNDA0IH0KICAgICAgKTsKICAgIH0KCiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBzdWNjZXNzOiB0cnVlIH0pOwogIH0gY2F0Y2ggKGVycm9yKSB7CiAgICBjb25zb2xlLmVycm9yKCJFcnJvciBkZWxldGluZyBpbnNpZ2h0OiIsIGVycm9yKTsKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgeyBlcnJvcjogIkZhaWxlZCB0byBkZWxldGUgaW5zaWdodCIgfSwKICAgICAgeyBzdGF0dXM6IDUwMCB9CiAgICApOwogIH0KfQo="}
+import { NextRequest, NextResponse } from "next/server";
+import { getInsights, deleteInsight } from "@/lib/data";
+import { verifyToken } from "@/lib/auth";
+
+// GET all insights (requires auth)
+export async function GET(request: NextRequest) {
+  try {
+    const authHeader = request.headers.get("authorization");
+    const token = authHeader?.replace("Bearer ", "");
+
+    if (!token || !verifyToken(token)) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const insights = await getInsights();
+    return NextResponse.json({ insights });
+  } catch (error) {
+    console.error("Error fetching insights:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch insights" },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE insight (requires auth)
+export async function DELETE(request: NextRequest) {
+  try {
+    const authHeader = request.headers.get("authorization");
+    const token = authHeader?.replace("Bearer ", "");
+
+    if (!token || !verifyToken(token)) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "Insight ID is required" },
+        { status: 400 }
+      );
+    }
+
+    const deleted = await deleteInsight(id);
+
+    if (!deleted) {
+      return NextResponse.json(
+        { error: "Insight not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Error deleting insight:", error);
+    return NextResponse.json(
+      { error: "Failed to delete insight" },
+      { status: 500 }
+    );
+  }
+}

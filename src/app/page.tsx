@@ -1,1 +1,218 @@
-{"data":"aW1wb3J0IExpbmsgZnJvbSAibmV4dC9saW5rIjsKaW1wb3J0IHsgQnV0dG9uIH0gZnJvbSAiQC9jb21wb25lbnRzL0J1dHRvbiI7CmltcG9ydCB7IFNlcnZpY2VDb3VudGRvd24gfSBmcm9tICJAL2NvbXBvbmVudHMvU2VydmljZUNvdW50ZG93biI7CmltcG9ydCB7IEhvbWVDb250ZW50IH0gZnJvbSAiQC9jb21wb25lbnRzL0hvbWVDb250ZW50IjsKCmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uIEhvbWVQYWdlKCkgewogIHJldHVybiAoCiAgICA8PgogICAgICB7LyogSGVybyBTZWN0aW9uICovfQogICAgICA8c2VjdGlvbiBjbGFzc05hbWU9InJlbGF0aXZlIG1pbi1oLXNjcmVlbiBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciBwdC0yMCBvdmVyZmxvdy1oaWRkZW4iPgogICAgICAgIHsvKiBCYWNrZ3JvdW5kIFBhdHRlcm4gKi99CiAgICAgICAgPGRpdiBjbGFzc05hbWU9ImFic29sdXRlIGluc2V0LTAgb3BhY2l0eS01Ij4KICAgICAgICAgIDxkaXYKICAgICAgICAgICAgY2xhc3NOYW1lPSJhYnNvbHV0ZSBpbnNldC0wIgogICAgICAgICAgICBzdHlsZT17ewogICAgICAgICAgICAgIGJhY2tncm91bmRJbWFnZTogYHJhZGlhbC1ncmFkaWVudChjaXJjbGUgYXQgMnB4IDJweCwgI0M0NzA0QSAxcHgsIHRyYW5zcGFyZW50IDApYCwKICAgICAgICAgICAgICBiYWNrZ3JvdW5kU2l6ZTogIjQwcHggNDBweCIsCiAgICAgICAgICAgIH19CiAgICAgICAgICAvPgogICAgICAgIDwvZGl2PgoKICAgICAgICB7LyogRGVjb3JhdGl2ZSBFbGVtZW50cyAqL30KICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iYWJzb2x1dGUgdG9wLTEvNCAtbGVmdC0yMCB3LTY0IGgtNjQgYmctdGVycmFjb3R0YS8xMCByb3VuZGVkLWZ1bGwgYmx1ci0zeGwiIC8+CiAgICAgICAgPGRpdiBjbGFzc05hbWU9ImFic29sdXRlIGJvdHRvbS0xLzQgLXJpZ2h0LTIwIHctODAgaC04MCBiZy1mb3Jlc3QvMTAgcm91bmRlZC1mdWxsIGJsdXItM3hsIiAvPgoKICAgICAgICA8ZGl2IGNsYXNzTmFtZT0icmVsYXRpdmUgbWF4LXctN3hsIG14LWF1dG8gcHgtNCBzbTpweC02IGxnOnB4LTggcHktMjAgdGV4dC1jZW50ZXIiPgogICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImFuaW1hdGUtZmFkZS1pbi11cCI+CiAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0iaW5saW5lLWJsb2NrIHRleHQtdGVycmFjb3R0YSBmb250LW1lZGl1bSB0cmFja2luZy13aWRlciB1cHBlcmNhc2UgdGV4dC1zbSBtYi02Ij4KICAgICAgICAgICAgICBXZWxjb21lIEhvbWUKICAgICAgICAgICAgPC9zcGFuPgoKICAgICAgICAgICAgPGgxIGNsYXNzTmFtZT0idGV4dC00eGwgc206dGV4dC01eGwgbWQ6dGV4dC02eGwgbGc6dGV4dC03eGwgZm9udC1kaXNwbGF5IGZvbnQtc2VtaWJvbGQgdGV4dC1jaGFyY29hbCBsZWFkaW5nLXRpZ2h0IG1iLTYiPgogICAgICAgICAgICAgIEdhdGhlciBUb2dldGhlciwKICAgICAgICAgICAgICA8YnIgLz4KICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9InRleHQtdGVycmFjb3R0YSI+V2hlcmV2ZXIgWW91IEFyZTwvc3Bhbj4KICAgICAgICAgICAgPC9oMT4KCiAgICAgICAgICAgIDxwIGNsYXNzTmFtZT0ibWF4LXctMnhsIG14LWF1dG8gdGV4dC1sZyBtZDp0ZXh0LXhsIHRleHQtY2hhcmNvYWwtbGlnaHQgbWItMTAiPgogICAgICAgICAgICAgIEpvaW4gb3VyIGludGVyYWN0aXZlIFN1bmRheSBzZXJ2aWNlIGZyb20gYW55d2hlcmUgaW4gdGhlIHdvcmxkLgogICAgICAgICAgICAgIENvbm5lY3QgZmFjZS10by1mYWNlLCBzaGFyZSBpbiB3b3JzaGlwLCBhbmQgYmUgcGFydCBvZiBhCiAgICAgICAgICAgICAgY29tbXVuaXR5IHRoYXQgd2VsY29tZXMgeW91IGFzIHlvdSBhcmUuCiAgICAgICAgICAgIDwvcD4KCiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJmbGV4IGZsZXgtY29sIHNtOmZsZXgtcm93IGdhcC00IGp1c3RpZnktY2VudGVyIG1iLTE2Ij4KICAgICAgICAgICAgICA8QnV0dG9uIGhyZWY9Ii93YXRjaCIgc2l6ZT0ibGciPgogICAgICAgICAgICAgICAgSm9pbiBUaGlzIFN1bmRheQogICAgICAgICAgICAgIDwvQnV0dG9uPgogICAgICAgICAgICAgIDxCdXR0b24gaHJlZj0iL2Fib3V0IiB2YXJpYW50PSJvdXRsaW5lIiBzaXplPSJsZyI+CiAgICAgICAgICAgICAgICBMZWFybiBNb3JlCiAgICAgICAgICAgICAgPC9CdXR0b24+CiAgICAgICAgICAgIDwvZGl2PgoKICAgICAgICAgICAgPFNlcnZpY2VDb3VudGRvd24gLz4KICAgICAgICAgIDwvZGl2PgogICAgICAgIDwvZGl2PgoKICAgICAgICB7LyogU2Nyb2xsIEluZGljYXRvciAqL30KICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iYWJzb2x1dGUgYm90dG9tLTggbGVmdC0xLzIgLXRyYW5zbGF0ZS14LTEvMiBhbmltYXRlLWZsb2F0Ij4KICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJ3LTYgaC0xMCBib3JkZXItMiBib3JkZXItd2FybS1ncmF5LWxpZ2h0IHJvdW5kZWQtZnVsbCBmbGV4IGl0ZW1zLXN0YXJ0IGp1c3RpZnktY2VudGVyIHAtMiI+CiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJ3LTEgaC0yIGJnLXdhcm0tZ3JheSByb3VuZGVkLWZ1bGwgYW5pbWF0ZS1wdWxzZSIgLz4KICAgICAgICAgIDwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICA8L3NlY3Rpb24+CgogICAgICB7LyogRHluYW1pYyBDb250ZW50IFNlY3Rpb25zICovfQogICAgICA8SG9tZUNvbnRlbnQgLz4KCiAgICAgIHsvKiBQcmF5ZXIgQ1RBIFNlY3Rpb24gKi99CiAgICAgIDxzZWN0aW9uIGNsYXNzTmFtZT0icHktMjQgYmctZm9yZXN0IHRleHQtd2hpdGUgcmVsYXRpdmUgb3ZlcmZsb3ctaGlkZGVuIj4KICAgICAgICB7LyogQmFja2dyb3VuZCBQYXR0ZXJuICovfQogICAgICAgIDxkaXYgY2xhc3NOYW1lPSJhYnNvbHV0ZSBpbnNldC0wIG9wYWNpdHktMTAiPgogICAgICAgICAgPGRpdgogICAgICAgICAgICBjbGFzc05hbWU9ImFic29sdXRlIGluc2V0LTAiCiAgICAgICAgICAgIHN0eWxlPXt7CiAgICAgICAgICAgICAgYmFja2dyb3VuZEltYWdlOiBgcmFkaWFsLWdyYWRpZW50KGNpcmNsZSBhdCAycHggMnB4LCAjZmZmZmZmIDFweCwgdHJhbnNwYXJlbnQgMClgLAogICAgICAgICAgICAgIGJhY2tncm91bmRTaXplOiAiMzJweCAzMnB4IiwKICAgICAgICAgICAgfX0KICAgICAgICAgIC8+CiAgICAgICAgPC9kaXY+CgogICAgICAgIDxkaXYgY2xhc3NOYW1lPSJyZWxhdGl2ZSBtYXgtdy00eGwgbXgtYXV0byBweC00IHNtOnB4LTYgbGc6cHgtOCB0ZXh0LWNlbnRlciI+CiAgICAgICAgICA8aDIgY2xhc3NOYW1lPSJ0ZXh0LTN4bCBtZDp0ZXh0LTR4bCBsZzp0ZXh0LTV4bCBmb250LWRpc3BsYXkgZm9udC1zZW1pYm9sZCBtYi02Ij4KICAgICAgICAgICAgTmVlZCBQcmF5ZXI/CiAgICAgICAgICA8L2gyPgogICAgICAgICAgPHAgY2xhc3NOYW1lPSJ0ZXh0LXdoaXRlLzgwIHRleHQtbGcgbWItMTAgbWF4LXctMnhsIG14LWF1dG8iPgogICAgICAgICAgICBZb3UgZG9uJmFwb3M7dCBoYXZlIHRvIGNhcnJ5IHlvdXIgYnVyZGVucyBhbG9uZS4gU2hhcmUgeW91ciBwcmF5ZXIKICAgICAgICAgICAgcmVxdWVzdHMgYW5kIGxldCBvdXIgY29tbXVuaXR5IGxpZnQgeW91IHVwLiBFdmVyeSByZXF1ZXN0IGlzCiAgICAgICAgICAgIHNlZW4sIGV2ZXJ5IHByYXllciBpcyBoZWFyZC4KICAgICAgICAgIDwvcD4KICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJmbGV4IGZsZXgtY29sIHNtOmZsZXgtcm93IGdhcC00IGp1c3RpZnktY2VudGVyIj4KICAgICAgICAgICAgPEJ1dHRvbiBocmVmPSIvY29ubmVjdCIgdmFyaWFudD0icHJpbWFyeSIgc2l6ZT0ibGciPgogICAgICAgICAgICAgIFN1Ym1pdCBhIFByYXllciBSZXF1ZXN0CiAgICAgICAgICAgIDwvQnV0dG9uPgogICAgICAgICAgICA8TGluawogICAgICAgICAgICAgIGhyZWY9Ii9jb25uZWN0IgogICAgICAgICAgICAgIGNsYXNzTmFtZT0iaW5saW5lLWZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIHRleHQtd2hpdGUvODAgaG92ZXI6dGV4dC13aGl0ZSBmb250LW1lZGl1bSBweS0zIHRyYW5zaXRpb24tY29sb3JzIgogICAgICAgICAgICA+CiAgICAgICAgICAgICAgVmlldyBQcmF5ZXIgV2FsbAogICAgICAgICAgICAgIDxzdmcKICAgICAgICAgICAgICAgIGNsYXNzTmFtZT0idy01IGgtNSBtbC0yIgogICAgICAgICAgICAgICAgZmlsbD0ibm9uZSIKICAgICAgICAgICAgICAgIHN0cm9rZT0iY3VycmVudENvbG9yIgogICAgICAgICAgICAgICAgdmlld0JveD0iMCAwIDI0IDI0IgogICAgICAgICAgICAgID4KICAgICAgICAgICAgICAgIDxwYXRoCiAgICAgICAgICAgICAgICAgIHN0cm9rZUxpbmVjYXA9InJvdW5kIgogICAgICAgICAgICAgICAgICBzdHJva2VMaW5lam9pbj0icm91bmQiCiAgICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoPXsyfQogICAgICAgICAgICAgICAgICBkPSJNMTcgOGw0IDRtMCAwbC00IDRtNC00SDMiCiAgICAgICAgICAgICAgICAvPgogICAgICAgICAgICAgIDwvc3ZnPgogICAgICAgICAgICA8L0xpbms+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgPC9zZWN0aW9uPgoKICAgICAgey8qIFVwY29taW5nIEV2ZW50cyBTZWN0aW9uICovfQogICAgICA8c2VjdGlvbiBjbGFzc05hbWU9InB5LTI0Ij4KICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ibWF4LXctN3hsIG14LWF1dG8gcHgtNCBzbTpweC02IGxnOnB4LTgiPgogICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImZsZXggZmxleC1jb2wgbWQ6ZmxleC1yb3cganVzdGlmeS1iZXR3ZWVuIGl0ZW1zLXN0YXJ0IG1kOml0ZW1zLWNlbnRlciBtYi0xMiI+CiAgICAgICAgICAgIDxkaXY+CiAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPSJ0ZXh0LXRlcnJhY290dGEgZm9udC1tZWRpdW0gdHJhY2tpbmctd2lkZXIgdXBwZXJjYXNlIHRleHQtc20iPgogICAgICAgICAgICAgICAgTWFyayBZb3VyIENhbGVuZGFyCiAgICAgICAgICAgICAgPC9zcGFuPgogICAgICAgICAgICAgIDxoMiBjbGFzc05hbWU9InRleHQtM3hsIG1kOnRleHQtNHhsIGZvbnQtZGlzcGxheSBmb250LXNlbWlib2xkIHRleHQtY2hhcmNvYWwgbXQtMiI+CiAgICAgICAgICAgICAgICBVcGNvbWluZyBHYXRoZXJpbmdzCiAgICAgICAgICAgICAgPC9oMj4KICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgIDxCdXR0b24gaHJlZj0iL3dhdGNoIiB2YXJpYW50PSJnaG9zdCIgY2xhc3NOYW1lPSJtdC00IG1kOm10LTAiPgogICAgICAgICAgICAgIFZpZXcgQWxsIFNlcnZpY2VzCiAgICAgICAgICAgICAgPHN2ZwogICAgICAgICAgICAgICAgY2xhc3NOYW1lPSJ3LTUgaC01IG1sLTIiCiAgICAgICAgICAgICAgICBmaWxsPSJub25lIgogICAgICAgICAgICAgICAgc3Ryb2tlPSJjdXJyZW50Q29sb3IiCiAgICAgICAgICAgICAgICB2aWV3Qm94PSIwIDAgMjQgMjQiCiAgICAgICAgICAgICAgPgogICAgICAgICAgICAgICAgPHBhdGgKICAgICAgICAgICAgICAgICAgc3Ryb2tlTGluZWNhcD0icm91bmQiCiAgICAgICAgICAgICAgICAgIHN0cm9rZUxpbmVqb2luPSJyb3VuZCIKICAgICAgICAgICAgICAgICAgc3Ryb2tlV2lkdGg9ezJ9CiAgICAgICAgICAgICAgICAgIGQ9Ik0xNyA4bDQgNG0wIDBsLTQgNG00LTRIMyIKICAgICAgICAgICAgICAgIC8+CiAgICAgICAgICAgICAgPC9zdmc+CiAgICAgICAgICAgIDwvQnV0dG9uPgogICAgICAgICAgPC9kaXY+CgogICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImdyaWQgbWQ6Z3JpZC1jb2xzLTIgbGc6Z3JpZC1jb2xzLTMgZ2FwLTYiPgogICAgICAgICAgICB7WwogICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgIGRheTogIjEyIiwKICAgICAgICAgICAgICAgIG1vbnRoOiAiSmFuIiwKICAgICAgICAgICAgICAgIHRpdGxlOiAiTC5JLkYuRS4gU3VuZGF5IFdvcnNoaXAiLAogICAgICAgICAgICAgICAgdGltZTogIjEwOjAwIEFNIiwKICAgICAgICAgICAgICAgIHR5cGU6ICJXZWVrbHkgU2VydmljZSIsCiAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICBkYXk6ICIxOSIsCiAgICAgICAgICAgICAgICBtb250aDogIkphbiIsCiAgICAgICAgICAgICAgICB0aXRsZTogIkwuSS5GLkUuIFN1bmRheSBXb3JzaGlwIiwKICAgICAgICAgICAgICAgIHRpbWU6ICIxMDowMCBBTSIsCiAgICAgICAgICAgICAgICB0eXBlOiAiV2Vla2x5IFNlcnZpY2UiLAogICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgewogICAgICAgICAgICAgICAgZGF5OiAiMjYiLAogICAgICAgICAgICAgICAgbW9udGg6ICJKYW4iLAogICAgICAgICAgICAgICAgdGl0bGU6ICJMLkkuRi5FLiBTdW5kYXkgV29yc2hpcCIsCiAgICAgICAgICAgICAgICB0aW1lOiAiMTA6MDAgQU0iLAogICAgICAgICAgICAgICAgdHlwZTogIldlZWtseSBTZXJ2aWNlIiwKICAgICAgICAgICAgICB9LAogICAgICAgICAgICBdLm1hcCgoZXZlbnQsIGluZGV4KSA9PiAoCiAgICAgICAgICAgICAgPGRpdgogICAgICAgICAgICAgICAga2V5PXtpbmRleH0KICAgICAgICAgICAgICAgIGNsYXNzTmFtZT0iYmctd2hpdGUgcm91bmRlZC0yeGwgcC02IHNoYWRvdy1zbSBob3ZlcjpzaGFkb3ctbGcgdHJhbnNpdGlvbi1zaGFkb3cgZmxleCBnYXAtNSIKICAgICAgICAgICAgICA+CiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iZmxleC1zaHJpbmstMCB3LTE2IGgtMTYgYmctY3JlYW0gcm91bmRlZC14bCBmbGV4IGZsZXgtY29sIGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciI+CiAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0idGV4dC0yeGwgZm9udC1kaXNwbGF5IGZvbnQtYm9sZCB0ZXh0LXRlcnJhY290dGEiPgogICAgICAgICAgICAgICAgICAgIHtldmVudC5kYXl9CiAgICAgICAgICAgICAgICAgIDwvc3Bhbj4KICAgICAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPSJ0ZXh0LXhzIHVwcGVyY2FzZSB0ZXh0LWNoYXJjb2FsLWxpZ2h0Ij4KICAgICAgICAgICAgICAgICAgICB7ZXZlbnQubW9udGh9CiAgICAgICAgICAgICAgICAgIDwvc3Bhbj4KICAgICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICAgICAgPGRpdj4KICAgICAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPSJ0ZXh0LXhzIHVwcGVyY2FzZSB0cmFja2luZy13aWRlciB0ZXh0LXRlcnJhY290dGEgZm9udC1tZWRpdW0iPgogICAgICAgICAgICAgICAgICAgIHtldmVudC50eXBlfQogICAgICAgICAgICAgICAgICA8L3NwYW4+CiAgICAgICAgICAgICAgICAgIDxoMyBjbGFzc05hbWU9ImZvbnQtZGlzcGxheSB0ZXh0LWxnIGZvbnQtc2VtaWJvbGQgdGV4dC1jaGFyY29hbCBtdC0xIj4KICAgICAgICAgICAgICAgICAgICB7ZXZlbnQudGl0bGV9CiAgICAgICAgICAgICAgICAgIDwvaDM+CiAgICAgICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT0idGV4dC1jaGFyY29hbC1saWdodCB0ZXh0LXNtIG10LTEiPgogICAgICAgICAgICAgICAgICAgIHtldmVudC50aW1lfQogICAgICAgICAgICAgICAgICA8L3A+CiAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgKSl9CiAgICAgICAgICA8L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgPC9zZWN0aW9uPgoKICAgICAgey8qIEZpbmFsIENUQSBTZWN0aW9uICovfQogICAgICA8c2VjdGlvbiBjbGFzc05hbWU9InB5LTI0IGJnLWNyZWFtLWRhcmsiPgogICAgICAgIDxkaXYgY2xhc3NOYW1lPSJtYXgtdy00eGwgbXgtYXV0byBweC00IHNtOnB4LTYgbGc6cHgtOCB0ZXh0LWNlbnRlciI+CiAgICAgICAgICA8aDIgY2xhc3NOYW1lPSJ0ZXh0LTN4bCBtZDp0ZXh0LTR4bCBsZzp0ZXh0LTV4bCBmb250LWRpc3BsYXkgZm9udC1zZW1pYm9sZCB0ZXh0LWNoYXJjb2FsIG1iLTYiPgogICAgICAgICAgICBSZWFkeSB0byBKb2luIFVzPwogICAgICAgICAgPC9oMj4KICAgICAgICAgIDxwIGNsYXNzTmFtZT0idGV4dC1jaGFyY29hbC1saWdodCB0ZXh0LWxnIG1iLTEwIG1heC13LTJ4bCBteC1hdXRvIj4KICAgICAgICAgICAgVGhlcmUmYXBvcztzIGEgcGxhY2UgZm9yIHlvdSBhdCBvdXIgdGFibGUuIFdoZXRoZXIgeW91JmFwb3M7cmUKICAgICAgICAgICAgZXhwbG9yaW5nIGZhaXRoIGZvciB0aGUgZmlyc3QgdGltZSBvciBsb29raW5nIGZvciBhIG5ldyBjaHVyY2gKICAgICAgICAgICAgaG9tZSwgd2UmYXBvcztkIGxvdmUgdG8gbWVldCB5b3UuCiAgICAgICAgICA8L3A+CiAgICAgICAgICA8QnV0dG9uIGhyZWY9Ii93YXRjaCIgc2l6ZT0ibGciPgogICAgICAgICAgICBKb2luIFRoaXMgU3VuZGF5CiAgICAgICAgICA8L0J1dHRvbj4KICAgICAgICA8L2Rpdj4KICAgICAgPC9zZWN0aW9uPgogICAgPC8+CiAgKTsKfQo="}
+import Link from "next/link";
+import { Button } from "@/components/Button";
+import { ServiceCountdown } from "@/components/ServiceCountdown";
+import { HomeContent } from "@/components/HomeContent";
+
+export default function HomePage() {
+  return (
+    <>
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `radial-gradient(circle at 2px 2px, #C4704A 1px, transparent 0)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
+        </div>
+
+        {/* Decorative Elements */}
+        <div className="absolute top-1/4 -left-20 w-64 h-64 bg-terracotta/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-forest/10 rounded-full blur-3xl" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+          <div className="animate-fade-in-up">
+            <span className="inline-block text-terracotta font-medium tracking-wider uppercase text-sm mb-6">
+              Welcome Home
+            </span>
+
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-semibold text-charcoal leading-tight mb-6">
+              Gather Together,
+              <br />
+              <span className="text-terracotta">Wherever You Are</span>
+            </h1>
+
+            <p className="max-w-2xl mx-auto text-lg md:text-xl text-charcoal-light mb-10">
+              Join our interactive Sunday service from anywhere in the world.
+              Connect face-to-face, share in worship, and be part of a
+              community that welcomes you as you are.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+              <Button href="/watch" size="lg">
+                Join This Sunday
+              </Button>
+              <Button href="/about" variant="outline" size="lg">
+                Learn More
+              </Button>
+            </div>
+
+            <ServiceCountdown />
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
+          <div className="w-6 h-10 border-2 border-warm-gray-light rounded-full flex items-start justify-center p-2">
+            <div className="w-1 h-2 bg-warm-gray rounded-full animate-pulse" />
+          </div>
+        </div>
+      </section>
+
+      {/* Dynamic Content Sections */}
+      <HomeContent />
+
+      {/* Prayer CTA Section */}
+      <section className="py-24 bg-forest text-white relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `radial-gradient(circle at 2px 2px, #ffffff 1px, transparent 0)`,
+              backgroundSize: "32px 32px",
+            }}
+          />
+        </div>
+
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold mb-6">
+            Need Prayer?
+          </h2>
+          <p className="text-white/80 text-lg mb-10 max-w-2xl mx-auto">
+            You don&apos;t have to carry your burdens alone. Share your prayer
+            requests and let our community lift you up. Every request is
+            seen, every prayer is heard.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button href="/connect" variant="primary" size="lg">
+              Submit a Prayer Request
+            </Button>
+            <Link
+              href="/connect"
+              className="inline-flex items-center justify-center text-white/80 hover:text-white font-medium py-3 transition-colors"
+            >
+              View Prayer Wall
+              <svg
+                className="w-5 h-5 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Upcoming Events Section */}
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12">
+            <div>
+              <span className="text-terracotta font-medium tracking-wider uppercase text-sm">
+                Mark Your Calendar
+              </span>
+              <h2 className="text-3xl md:text-4xl font-display font-semibold text-charcoal mt-2">
+                Upcoming Gatherings
+              </h2>
+            </div>
+            <Button href="/watch" variant="ghost" className="mt-4 md:mt-0">
+              View All Services
+              <svg
+                className="w-5 h-5 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </Button>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                day: "12",
+                month: "Jan",
+                title: "L.I.F.E. Sunday Worship",
+                time: "10:00 AM",
+                type: "Weekly Service",
+              },
+              {
+                day: "19",
+                month: "Jan",
+                title: "L.I.F.E. Sunday Worship",
+                time: "10:00 AM",
+                type: "Weekly Service",
+              },
+              {
+                day: "26",
+                month: "Jan",
+                title: "L.I.F.E. Sunday Worship",
+                time: "10:00 AM",
+                type: "Weekly Service",
+              },
+            ].map((event, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-shadow flex gap-5"
+              >
+                <div className="flex-shrink-0 w-16 h-16 bg-cream rounded-xl flex flex-col items-center justify-center">
+                  <span className="text-2xl font-display font-bold text-terracotta">
+                    {event.day}
+                  </span>
+                  <span className="text-xs uppercase text-charcoal-light">
+                    {event.month}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-xs uppercase tracking-wider text-terracotta font-medium">
+                    {event.type}
+                  </span>
+                  <h3 className="font-display text-lg font-semibold text-charcoal mt-1">
+                    {event.title}
+                  </h3>
+                  <p className="text-charcoal-light text-sm mt-1">
+                    {event.time}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA Section */}
+      <section className="py-24 bg-cream-dark">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-charcoal mb-6">
+            Ready to Join Us?
+          </h2>
+          <p className="text-charcoal-light text-lg mb-10 max-w-2xl mx-auto">
+            There&apos;s a place for you at our table. Whether you&apos;re
+            exploring faith for the first time or looking for a new church
+            home, we&apos;d love to meet you.
+          </p>
+          <Button href="/watch" size="lg">
+            Join This Sunday
+          </Button>
+        </div>
+      </section>
+    </>
+  );
+}

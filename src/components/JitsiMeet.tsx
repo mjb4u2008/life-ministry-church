@@ -1,1 +1,271 @@
-{"data":"InVzZSBjbGllbnQiOwoKaW1wb3J0IHsgdXNlRWZmZWN0LCB1c2VSZWYsIHVzZVN0YXRlIH0gZnJvbSAicmVhY3QiOwoKaW50ZXJmYWNlIEppdHNpTWVldFByb3BzIHsKICByb29tTmFtZTogc3RyaW5nOwogIGRpc3BsYXlOYW1lPzogc3RyaW5nOwogIG9uUmVhZHk/OiAoKSA9PiB2b2lkOwp9CgppbnRlcmZhY2UgSml0c2lBUEkgewogIGRpc3Bvc2U6ICgpID0+IHZvaWQ7CiAgZXhlY3V0ZUNvbW1hbmQ6IChjb21tYW5kOiBzdHJpbmcsIC4uLmFyZ3M6IHVua25vd25bXSkgPT4gdm9pZDsKICBhZGRMaXN0ZW5lcjogKGV2ZW50OiBzdHJpbmcsIGNhbGxiYWNrOiAoLi4uYXJnczogdW5rbm93bltdKSA9PiB2b2lkKSA9PiB2b2lkOwogIHJlbW92ZUxpc3RlbmVyOiAoZXZlbnQ6IHN0cmluZywgY2FsbGJhY2s6ICguLi5hcmdzOiB1bmtub3duW10pID0+IHZvaWQpID0+IHZvaWQ7Cn0KCmludGVyZmFjZSBKaXRzaU1lZXRFeHRlcm5hbEFQSUNvbnN0cnVjdG9yIHsKICBuZXcgKAogICAgZG9tYWluOiBzdHJpbmcsCiAgICBvcHRpb25zOiB7CiAgICAgIHJvb21OYW1lOiBzdHJpbmc7CiAgICAgIHBhcmVudE5vZGU6IEhUTUxFbGVtZW50OwogICAgICB3aWR0aD86IHN0cmluZyB8IG51bWJlcjsKICAgICAgaGVpZ2h0Pzogc3RyaW5nIHwgbnVtYmVyOwogICAgICBjb25maWdPdmVyd3JpdGU/OiBSZWNvcmQ8c3RyaW5nLCB1bmtub3duPjsKICAgICAgaW50ZXJmYWNlQ29uZmlnT3ZlcndyaXRlPzogUmVjb3JkPHN0cmluZywgdW5rbm93bj47CiAgICAgIHVzZXJJbmZvPzogewogICAgICAgIGRpc3BsYXlOYW1lPzogc3RyaW5nOwogICAgICB9OwogICAgfQogICk6IEppdHNpQVBJOwp9CgpkZWNsYXJlIGdsb2JhbCB7CiAgaW50ZXJmYWNlIFdpbmRvdyB7CiAgICBKaXRzaU1lZXRFeHRlcm5hbEFQST86IEppdHNpTWVldEV4dGVybmFsQVBJQ29uc3RydWN0b3I7CiAgfQp9CgpleHBvcnQgZnVuY3Rpb24gSml0c2lNZWV0KHsgcm9vbU5hbWUsIGRpc3BsYXlOYW1lLCBvblJlYWR5IH06IEppdHNpTWVldFByb3BzKSB7CiAgY29uc3QgY29udGFpbmVyUmVmID0gdXNlUmVmPEhUTUxEaXZFbGVtZW50PihudWxsKTsKICBjb25zdCBhcGlSZWYgPSB1c2VSZWY8Sml0c2lBUEkgfCBudWxsPihudWxsKTsKICBjb25zdCBbaXNMb2FkaW5nLCBzZXRJc0xvYWRpbmddID0gdXNlU3RhdGUodHJ1ZSk7CiAgY29uc3QgW2Vycm9yLCBzZXRFcnJvcl0gPSB1c2VTdGF0ZTxzdHJpbmcgfCBudWxsPihudWxsKTsKICBjb25zdCBpbml0QXR0ZW1wdGVkUmVmID0gdXNlUmVmKGZhbHNlKTsKCiAgdXNlRWZmZWN0KCgpID0+IHsKICAgIC8vIFByZXZlbnQgZG91YmxlIGluaXRpYWxpemF0aW9uIGluIHN0cmljdCBtb2RlCiAgICBpZiAoaW5pdEF0dGVtcHRlZFJlZi5jdXJyZW50KSByZXR1cm47CiAgICBpbml0QXR0ZW1wdGVkUmVmLmN1cnJlbnQgPSB0cnVlOwoKICAgIC8vIENsZWFuIHJvb20gbmFtZSAtIHJlbW92ZSBzcGFjZXMgYW5kIHNwZWNpYWwgY2hhcmFjdGVycwogICAgY29uc3QgY2xlYW5Sb29tTmFtZSA9IHJvb21OYW1lLnJlcGxhY2UoL1teYS16QS1aMC05XS9nLCAiIik7CgogICAgY29uc3QgbG9hZEppdHNpU2NyaXB0ID0gKCk6IFByb21pc2U8dm9pZD4gPT4gewogICAgICByZXR1cm4gbmV3IFByb21pc2UoKHJlc29sdmUsIHJlamVjdCkgPT4gewogICAgICAgIC8vIENoZWNrIGlmIGFscmVhZHkgbG9hZGVkCiAgICAgICAgaWYgKHdpbmRvdy5KaXRzaU1lZXRFeHRlcm5hbEFQSSkgewogICAgICAgICAgcmVzb2x2ZSgpOwogICAgICAgICAgcmV0dXJuOwogICAgICAgIH0KCiAgICAgICAgLy8gQ2hlY2sgaWYgc2NyaXB0IGlzIGFscmVhZHkgaW4gRE9NCiAgICAgICAgY29uc3QgZXhpc3RpbmdTY3JpcHQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKAogICAgICAgICAgJ3NjcmlwdFtzcmM9Imh0dHBzOi8vbWVldC5qaXQuc2kvZXh0ZXJuYWxfYXBpLmpzIl0nCiAgICAgICAgKTsKICAgICAgICBpZiAoZXhpc3RpbmdTY3JpcHQpIHsKICAgICAgICAgIC8vIFdhaXQgZm9yIGl0IHRvIGxvYWQKICAgICAgICAgIGNvbnN0IGNoZWNrQVBJID0gc2V0SW50ZXJ2YWwoKCkgPT4gewogICAgICAgICAgICBpZiAod2luZG93LkppdHNpTWVldEV4dGVybmFsQVBJKSB7CiAgICAgICAgICAgICAgY2xlYXJJbnRlcnZhbChjaGVja0FQSSk7CiAgICAgICAgICAgICAgcmVzb2x2ZSgpOwogICAgICAgICAgICB9CiAgICAgICAgICB9LCAxMDApOwogICAgICAgICAgLy8gVGltZW91dCBhZnRlciAxMCBzZWNvbmRzCiAgICAgICAgICBzZXRUaW1lb3V0KCgpID0+IHsKICAgICAgICAgICAgY2xlYXJJbnRlcnZhbChjaGVja0FQSSk7CiAgICAgICAgICAgIGlmICghd2luZG93LkppdHNpTWVldEV4dGVybmFsQVBJKSB7CiAgICAgICAgICAgICAgcmVqZWN0KG5ldyBFcnJvcigiSml0c2kgc2NyaXB0IGxvYWQgdGltZW91dCIpKTsKICAgICAgICAgICAgfQogICAgICAgICAgfSwgMTAwMDApOwogICAgICAgICAgcmV0dXJuOwogICAgICAgIH0KCiAgICAgICAgY29uc3Qgc2NyaXB0ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7CiAgICAgICAgc2NyaXB0LnNyYyA9ICJodHRwczovL21lZXQuaml0LnNpL2V4dGVybmFsX2FwaS5qcyI7CiAgICAgICAgc2NyaXB0LmFzeW5jID0gdHJ1ZTsKICAgICAgICBzY3JpcHQub25sb2FkID0gKCkgPT4gewogICAgICAgICAgLy8gU21hbGwgZGVsYXkgdG8gZW5zdXJlIEFQSSBpcyBmdWxseSBpbml0aWFsaXplZAogICAgICAgICAgc2V0VGltZW91dCgoKSA9PiB7CiAgICAgICAgICAgIGlmICh3aW5kb3cuSml0c2lNZWV0RXh0ZXJuYWxBUEkpIHsKICAgICAgICAgICAgICByZXNvbHZlKCk7CiAgICAgICAgICAgIH0gZWxzZSB7CiAgICAgICAgICAgICAgcmVqZWN0KG5ldyBFcnJvcigiSml0c2kgQVBJIG5vdCBhdmFpbGFibGUgYWZ0ZXIgc2NyaXB0IGxvYWQiKSk7CiAgICAgICAgICAgIH0KICAgICAgICAgIH0sIDEwMCk7CiAgICAgICAgfTsKICAgICAgICBzY3JpcHQub25lcnJvciA9ICgpID0+IHJlamVjdChuZXcgRXJyb3IoIkZhaWxlZCB0byBsb2FkIEppdHNpIHNjcmlwdCIpKTsKICAgICAgICBkb2N1bWVudC5oZWFkLmFwcGVuZENoaWxkKHNjcmlwdCk7CiAgICAgIH0pOwogICAgfTsKCiAgICBjb25zdCBpbml0Sml0c2kgPSBhc3luYyAoKSA9PiB7CiAgICAgIHRyeSB7CiAgICAgICAgY29uc29sZS5sb2coIkxvYWRpbmcgSml0c2kgc2NyaXB0Li4uIik7CiAgICAgICAgYXdhaXQgbG9hZEppdHNpU2NyaXB0KCk7CiAgICAgICAgY29uc29sZS5sb2coIkppdHNpIHNjcmlwdCBsb2FkZWQsIEFQSSBhdmFpbGFibGU6IiwgISF3aW5kb3cuSml0c2lNZWV0RXh0ZXJuYWxBUEkpOwoKICAgICAgICBpZiAoIWNvbnRhaW5lclJlZi5jdXJyZW50KSB7CiAgICAgICAgICBjb25zb2xlLmVycm9yKCJDb250YWluZXIgcmVmIG5vdCBhdmFpbGFibGUiKTsKICAgICAgICAgIHNldEVycm9yKCJGYWlsZWQgdG8gaW5pdGlhbGl6ZSB2aWRlbyBjb250YWluZXIiKTsKICAgICAgICAgIHNldElzTG9hZGluZyhmYWxzZSk7CiAgICAgICAgICByZXR1cm47CiAgICAgICAgfQoKICAgICAgICBpZiAoIXdpbmRvdy5KaXRzaU1lZXRFeHRlcm5hbEFQSSkgewogICAgICAgICAgY29uc29sZS5lcnJvcigiSml0c2lNZWV0RXh0ZXJuYWxBUEkgbm90IGF2YWlsYWJsZSIpOwogICAgICAgICAgc2V0RXJyb3IoIkZhaWxlZCB0byBsb2FkIHZpZGVvIGNvbmZlcmVuY2UgbGlicmFyeSIpOwogICAgICAgICAgc2V0SXNMb2FkaW5nKGZhbHNlKTsKICAgICAgICAgIHJldHVybjsKICAgICAgICB9CgogICAgICAgIGNvbnNvbGUubG9nKCJJbml0aWFsaXppbmcgSml0c2kgd2l0aCByb29tOiIsIGNsZWFuUm9vbU5hbWUsICJkaXNwbGF5TmFtZToiLCBkaXNwbGF5TmFtZSk7CgogICAgICAgIGNvbnN0IGFwaSA9IG5ldyB3aW5kb3cuSml0c2lNZWV0RXh0ZXJuYWxBUEkoIm1lZXQuaml0LnNpIiwgewogICAgICAgICAgcm9vbU5hbWU6IGNsZWFuUm9vbU5hbWUsCiAgICAgICAgICBwYXJlbnROb2RlOiBjb250YWluZXJSZWYuY3VycmVudCwKICAgICAgICAgIHdpZHRoOiAiMTAwJSIsCiAgICAgICAgICBoZWlnaHQ6ICIxMDAlIiwKICAgICAgICAgIGNvbmZpZ092ZXJ3cml0ZTogewogICAgICAgICAgICBzdGFydFdpdGhBdWRpb011dGVkOiB0cnVlLAogICAgICAgICAgICBzdGFydFdpdGhWaWRlb011dGVkOiBmYWxzZSwKICAgICAgICAgICAgcHJlam9pblBhZ2VFbmFibGVkOiBmYWxzZSwKICAgICAgICAgICAgZGlzYWJsZURlZXBMaW5raW5nOiB0cnVlLAogICAgICAgICAgICBlbmFibGVXZWxjb21lUGFnZTogZmFsc2UsCiAgICAgICAgICAgIGVuYWJsZUNsb3NlUGFnZTogZmFsc2UsCiAgICAgICAgICAgIGRlZmF1bHRMYW5ndWFnZTogImVuIiwKICAgICAgICAgICAgdG9vbGJhckJ1dHRvbnM6IFsKICAgICAgICAgICAgICAiY2FtZXJhIiwKICAgICAgICAgICAgICAiY2hhdCIsCiAgICAgICAgICAgICAgImNsb3NlZGNhcHRpb25zIiwKICAgICAgICAgICAgICAiZGVza3RvcCIsCiAgICAgICAgICAgICAgImZ1bGxzY3JlZW4iLAogICAgICAgICAgICAgICJoYW5ndXAiLAogICAgICAgICAgICAgICJtaWNyb3Bob25lIiwKICAgICAgICAgICAgICAicGFydGljaXBhbnRzLXBhbmUiLAogICAgICAgICAgICAgICJyYWlzZWhhbmQiLAogICAgICAgICAgICAgICJzZXR0aW5ncyIsCiAgICAgICAgICAgICAgInRpbGV2aWV3IiwKICAgICAgICAgICAgICAidG9nZ2xlLWNhbWVyYSIsCiAgICAgICAgICAgIF0sCiAgICAgICAgICB9LAogICAgICAgICAgaW50ZXJmYWNlQ29uZmlnT3ZlcndyaXRlOiB7CiAgICAgICAgICAgIFNIT1dfSklUU0lfV0FURVJNQVJLOiBmYWxzZSwKICAgICAgICAgICAgU0hPV19XQVRFUk1BUktfRk9SX0dVRVNUUzogZmFsc2UsCiAgICAgICAgICAgIFNIT1dfQlJBTkRfV0FURVJNQVJLOiBmYWxzZSwKICAgICAgICAgICAgQlJBTkRfV0FURVJNQVJLX0xJTks6ICIiLAogICAgICAgICAgICBTSE9XX1BPV0VSRURfQlk6IGZhbHNlLAogICAgICAgICAgICBTSE9XX1BST01PVElPTkFMX0NMT1NFX1BBR0U6IGZhbHNlLAogICAgICAgICAgICBESVNBQkxFX0pPSU5fTEVBVkVfTk9USUZJQ0FUSU9OUzogZmFsc2UsCiAgICAgICAgICAgIE1PQklMRV9BUFBfUFJPTU86IGZhbHNlLAogICAgICAgICAgICBISURFX0lOVklURV9NT1JFX0hFQURFUjogdHJ1ZSwKICAgICAgICAgICAgVE9PTEJBUl9BTFdBWVNfVklTSUJMRTogdHJ1ZSwKICAgICAgICAgICAgRklMTV9TVFJJUF9NQVhfSEVJR0hUOiAxMjAsCiAgICAgICAgICAgIFZJREVPX1FVQUxJVFlfTEFCRUxfRElTQUJMRUQ6IHRydWUsCiAgICAgICAgICB9LAogICAgICAgICAgdXNlckluZm86IHsKICAgICAgICAgICAgZGlzcGxheU5hbWU6IGRpc3BsYXlOYW1lIHx8ICJHdWVzdCIsCiAgICAgICAgICB9LAogICAgICAgIH0pOwoKICAgICAgICBhcGlSZWYuY3VycmVudCA9IGFwaTsKCiAgICAgICAgLy8gTGlzdGVuIGZvciBjb25mZXJlbmNlIGpvaW5lZAogICAgICAgIGFwaS5hZGRMaXN0ZW5lcigidmlkZW9Db25mZXJlbmNlSm9pbmVkIiwgKCkgPT4gewogICAgICAgICAgY29uc29sZS5sb2coIlZpZGVvIGNvbmZlcmVuY2Ugam9pbmVkISIpOwogICAgICAgICAgc2V0SXNMb2FkaW5nKGZhbHNlKTsKICAgICAgICAgIG9uUmVhZHk/LigpOwogICAgICAgIH0pOwoKICAgICAgICAvLyBMaXN0ZW4gZm9yIGlmcmFtZSByZWFkeSAtIHRoaXMgZmlyZXMgd2hlbiB0aGUgaWZyYW1lIGxvYWRzCiAgICAgICAgYXBpLmFkZExpc3RlbmVyKCJicm93c2VyU3VwcG9ydCIsICgpID0+IHsKICAgICAgICAgIGNvbnNvbGUubG9nKCJCcm93c2VyIHN1cHBvcnQgY2hlY2sgY29tcGxldGUiKTsKICAgICAgICB9KTsKCiAgICAgICAgLy8gRmFsbGJhY2s6IEhpZGUgbG9hZGluZyBhZnRlciB0aW1lb3V0IChpZnJhbWUgbWlnaHQgYmUgcmVhZHkgZXZlbiBpZiBldmVudCBkb2Vzbid0IGZpcmUpCiAgICAgICAgY29uc3QgbG9hZGluZ1RpbWVvdXQgPSBzZXRUaW1lb3V0KCgpID0+IHsKICAgICAgICAgIGNvbnNvbGUubG9nKCJMb2FkaW5nIHRpbWVvdXQgcmVhY2hlZCwgaGlkaW5nIGxvYWRlciIpOwogICAgICAgICAgc2V0SXNMb2FkaW5nKGZhbHNlKTsKICAgICAgICB9LCA4MDAwKTsKCiAgICAgICAgLy8gQ2xlYXIgdGltZW91dCBpZiB3ZSBqb2luIHN1Y2Nlc3NmdWxseQogICAgICAgIGFwaS5hZGRMaXN0ZW5lcigidmlkZW9Db25mZXJlbmNlSm9pbmVkIiwgKCkgPT4gewogICAgICAgICAgY2xlYXJUaW1lb3V0KGxvYWRpbmdUaW1lb3V0KTsKICAgICAgICB9KTsKCiAgICAgICAgLy8gSGFuZGxlIGVycm9ycwogICAgICAgIGFwaS5hZGRMaXN0ZW5lcigiZXJyb3JPY2N1cnJlZCIsIChlcnJvcjogdW5rbm93bikgPT4gewogICAgICAgICAgY29uc29sZS5lcnJvcigiSml0c2kgZXJyb3I6IiwgZXJyb3IpOwogICAgICAgIH0pOwoKICAgICAgfSBjYXRjaCAoZXJyKSB7CiAgICAgICAgY29uc29sZS5lcnJvcigiRmFpbGVkIHRvIGluaXRpYWxpemUgSml0c2k6IiwgZXJyKTsKICAgICAgICBzZXRFcnJvcigiRmFpbGVkIHRvIGxvYWQgdGhlIHZpZGVvIGNvbmZlcmVuY2UuIFBsZWFzZSByZWZyZXNoIHRoZSBwYWdlLiIpOwogICAgICAgIHNldElzTG9hZGluZyhmYWxzZSk7CiAgICAgIH0KICAgIH07CgogICAgaW5pdEppdHNpKCk7CgogICAgcmV0dXJuICgpID0+IHsKICAgICAgaWYgKGFwaVJlZi5jdXJyZW50KSB7CiAgICAgICAgdHJ5IHsKICAgICAgICAgIGFwaVJlZi5jdXJyZW50LmRpc3Bvc2UoKTsKICAgICAgICB9IGNhdGNoIChlKSB7CiAgICAgICAgICBjb25zb2xlLmVycm9yKCJFcnJvciBkaXNwb3NpbmcgSml0c2k6IiwgZSk7CiAgICAgICAgfQogICAgICAgIGFwaVJlZi5jdXJyZW50ID0gbnVsbDsKICAgICAgfQogICAgfTsKICB9LCBbcm9vbU5hbWUsIGRpc3BsYXlOYW1lLCBvblJlYWR5XSk7CgogIGlmIChlcnJvcikgewogICAgcmV0dXJuICgKICAgICAgPGRpdiBjbGFzc05hbWU9InctZnVsbCBoLWZ1bGwgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgYmctY2hhcmNvYWwvMTAgcm91bmRlZC0yeGwiPgogICAgICAgIDxkaXYgY2xhc3NOYW1lPSJ0ZXh0LWNlbnRlciBwLTgiPgogICAgICAgICAgPHN2ZwogICAgICAgICAgICBjbGFzc05hbWU9InctMTYgaC0xNiB0ZXh0LXRlcnJhY290dGEgbXgtYXV0byBtYi00IgogICAgICAgICAgICBmaWxsPSJub25lIgogICAgICAgICAgICBzdHJva2U9ImN1cnJlbnRDb2xvciIKICAgICAgICAgICAgdmlld0JveD0iMCAwIDI0IDI0IgogICAgICAgICAgPgogICAgICAgICAgICA8cGF0aAogICAgICAgICAgICAgIHN0cm9rZUxpbmVjYXA9InJvdW5kIgogICAgICAgICAgICAgIHN0cm9rZUxpbmVqb2luPSJyb3VuZCIKICAgICAgICAgICAgICBzdHJva2VXaWR0aD17MS41fQogICAgICAgICAgICAgIGQ9Ik0xMiA5djJtMCA0aC4wMW0tNi45MzggNGgxMy44NTZjMS41NCAwIDIuNTAyLTEuNjY3IDEuNzMyLTNMMTMuNzMyIDRjLS43Ny0xLjMzMy0yLjY5NC0xLjMzMy0zLjQ2NCAwTDMuMzQgMTZjLS43NyAxLjMzMy4xOTIgMyAxLjczMiAzeiIKICAgICAgICAgICAgLz4KICAgICAgICAgIDwvc3ZnPgogICAgICAgICAgPHAgY2xhc3NOYW1lPSJ0ZXh0LWNoYXJjb2FsIGZvbnQtbWVkaXVtIG1iLTIiPntlcnJvcn08L3A+CiAgICAgICAgICA8YnV0dG9uCiAgICAgICAgICAgIG9uQ2xpY2s9eygpID0+IHdpbmRvdy5sb2NhdGlvbi5yZWxvYWQoKX0KICAgICAgICAgICAgY2xhc3NOYW1lPSJ0ZXh0LXRlcnJhY290dGEgaG92ZXI6dGV4dC10ZXJyYWNvdHRhLWRhcmsgZm9udC1tZWRpdW0iCiAgICAgICAgICA+CiAgICAgICAgICAgIFJlZnJlc2ggUGFnZQogICAgICAgICAgPC9idXR0b24+CiAgICAgICAgPC9kaXY+CiAgICAgIDwvZGl2PgogICAgKTsKICB9CgogIHJldHVybiAoCiAgICA8ZGl2IGNsYXNzTmFtZT0icmVsYXRpdmUgdy1mdWxsIGgtZnVsbCI+CiAgICAgIHtpc0xvYWRpbmcgJiYgKAogICAgICAgIDxkaXYgY2xhc3NOYW1lPSJhYnNvbHV0ZSBpbnNldC0wIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIGJnLWZvcmVzdCB6LTEwIj4KICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJ0ZXh0LWNlbnRlciI+CiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJ3LTEyIGgtMTIgYm9yZGVyLTQgYm9yZGVyLXdoaXRlLzIwIGJvcmRlci10LXdoaXRlIHJvdW5kZWQtZnVsbCBhbmltYXRlLXNwaW4gbXgtYXV0byBtYi00IiAvPgogICAgICAgICAgICA8cCBjbGFzc05hbWU9InRleHQtd2hpdGUgZm9udC1tZWRpdW0iPkNvbm5lY3RpbmcgdG8gdmlkZW8gY29uZmVyZW5jZS4uLjwvcD4KICAgICAgICAgICAgPHAgY2xhc3NOYW1lPSJ0ZXh0LXdoaXRlLzYwIHRleHQtc20gbXQtMiI+VGhpcyBtYXkgdGFrZSBhIGZldyBzZWNvbmRzPC9wPgogICAgICAgICAgPC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgICl9CiAgICAgIDxkaXYKICAgICAgICByZWY9e2NvbnRhaW5lclJlZn0KICAgICAgICBjbGFzc05hbWU9InctZnVsbCBoLWZ1bGwgb3ZlcmZsb3ctaGlkZGVuIgogICAgICAgIHN0eWxlPXt7IG1pbkhlaWdodDogIjQwMHB4IiB9fQogICAgICAvPgogICAgPC9kaXY+CiAgKTsKfQo="}
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
+interface JitsiMeetProps {
+  roomName: string;
+  displayName?: string;
+  onReady?: () => void;
+}
+
+interface JitsiAPI {
+  dispose: () => void;
+  executeCommand: (command: string, ...args: unknown[]) => void;
+  addListener: (event: string, callback: (...args: unknown[]) => void) => void;
+  removeListener: (event: string, callback: (...args: unknown[]) => void) => void;
+}
+
+interface JitsiMeetExternalAPIConstructor {
+  new (
+    domain: string,
+    options: {
+      roomName: string;
+      parentNode: HTMLElement;
+      width?: string | number;
+      height?: string | number;
+      configOverwrite?: Record<string, unknown>;
+      interfaceConfigOverwrite?: Record<string, unknown>;
+      userInfo?: {
+        displayName?: string;
+      };
+    }
+  ): JitsiAPI;
+}
+
+declare global {
+  interface Window {
+    JitsiMeetExternalAPI?: JitsiMeetExternalAPIConstructor;
+  }
+}
+
+export function JitsiMeet({ roomName, displayName, onReady }: JitsiMeetProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const apiRef = useRef<JitsiAPI | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const initAttemptedRef = useRef(false);
+
+  useEffect(() => {
+    // Prevent double initialization in strict mode
+    if (initAttemptedRef.current) return;
+    initAttemptedRef.current = true;
+
+    // Clean room name - remove spaces and special characters
+    const cleanRoomName = roomName.replace(/[^a-zA-Z0-9]/g, "");
+
+    const loadJitsiScript = (): Promise<void> => {
+      return new Promise((resolve, reject) => {
+        // Check if already loaded
+        if (window.JitsiMeetExternalAPI) {
+          resolve();
+          return;
+        }
+
+        // Check if script is already in DOM
+        const existingScript = document.querySelector(
+          'script[src="https://meet.jit.si/external_api.js"]'
+        );
+        if (existingScript) {
+          // Wait for it to load
+          const checkAPI = setInterval(() => {
+            if (window.JitsiMeetExternalAPI) {
+              clearInterval(checkAPI);
+              resolve();
+            }
+          }, 100);
+          // Timeout after 10 seconds
+          setTimeout(() => {
+            clearInterval(checkAPI);
+            if (!window.JitsiMeetExternalAPI) {
+              reject(new Error("Jitsi script load timeout"));
+            }
+          }, 10000);
+          return;
+        }
+
+        const script = document.createElement("script");
+        script.src = "https://meet.jit.si/external_api.js";
+        script.async = true;
+        script.onload = () => {
+          // Small delay to ensure API is fully initialized
+          setTimeout(() => {
+            if (window.JitsiMeetExternalAPI) {
+              resolve();
+            } else {
+              reject(new Error("Jitsi API not available after script load"));
+            }
+          }, 100);
+        };
+        script.onerror = () => reject(new Error("Failed to load Jitsi script"));
+        document.head.appendChild(script);
+      });
+    };
+
+    const initJitsi = async () => {
+      try {
+        console.log("Loading Jitsi script...");
+        await loadJitsiScript();
+        console.log("Jitsi script loaded, API available:", !!window.JitsiMeetExternalAPI);
+
+        if (!containerRef.current) {
+          console.error("Container ref not available");
+          setError("Failed to initialize video container");
+          setIsLoading(false);
+          return;
+        }
+
+        if (!window.JitsiMeetExternalAPI) {
+          console.error("JitsiMeetExternalAPI not available");
+          setError("Failed to load video conference library");
+          setIsLoading(false);
+          return;
+        }
+
+        console.log("Initializing Jitsi with room:", cleanRoomName, "displayName:", displayName);
+
+        const api = new window.JitsiMeetExternalAPI("meet.jit.si", {
+          roomName: cleanRoomName,
+          parentNode: containerRef.current,
+          width: "100%",
+          height: "100%",
+          configOverwrite: {
+            startWithAudioMuted: true,
+            startWithVideoMuted: false,
+            prejoinPageEnabled: false,
+            disableDeepLinking: true,
+            enableWelcomePage: false,
+            enableClosePage: false,
+            defaultLanguage: "en",
+            toolbarButtons: [
+              "camera",
+              "chat",
+              "closedcaptions",
+              "desktop",
+              "fullscreen",
+              "hangup",
+              "microphone",
+              "participants-pane",
+              "raisehand",
+              "settings",
+              "tileview",
+              "toggle-camera",
+            ],
+          },
+          interfaceConfigOverwrite: {
+            SHOW_JITSI_WATERMARK: false,
+            SHOW_WATERMARK_FOR_GUESTS: false,
+            SHOW_BRAND_WATERMARK: false,
+            BRAND_WATERMARK_LINK: "",
+            SHOW_POWERED_BY: false,
+            SHOW_PROMOTIONAL_CLOSE_PAGE: false,
+            DISABLE_JOIN_LEAVE_NOTIFICATIONS: false,
+            MOBILE_APP_PROMO: false,
+            HIDE_INVITE_MORE_HEADER: true,
+            TOOLBAR_ALWAYS_VISIBLE: true,
+            FILM_STRIP_MAX_HEIGHT: 120,
+            VIDEO_QUALITY_LABEL_DISABLED: true,
+          },
+          userInfo: {
+            displayName: displayName || "Guest",
+          },
+        });
+
+        apiRef.current = api;
+
+        // Listen for conference joined
+        api.addListener("videoConferenceJoined", () => {
+          console.log("Video conference joined!");
+          setIsLoading(false);
+          onReady?.();
+        });
+
+        // Listen for iframe ready - this fires when the iframe loads
+        api.addListener("browserSupport", () => {
+          console.log("Browser support check complete");
+        });
+
+        // Fallback: Hide loading after timeout (iframe might be ready even if event doesn't fire)
+        const loadingTimeout = setTimeout(() => {
+          console.log("Loading timeout reached, hiding loader");
+          setIsLoading(false);
+        }, 8000);
+
+        // Clear timeout if we join successfully
+        api.addListener("videoConferenceJoined", () => {
+          clearTimeout(loadingTimeout);
+        });
+
+        // Handle errors
+        api.addListener("errorOccurred", (error: unknown) => {
+          console.error("Jitsi error:", error);
+        });
+
+      } catch (err) {
+        console.error("Failed to initialize Jitsi:", err);
+        setError("Failed to load the video conference. Please refresh the page.");
+        setIsLoading(false);
+      }
+    };
+
+    initJitsi();
+
+    return () => {
+      if (apiRef.current) {
+        try {
+          apiRef.current.dispose();
+        } catch (e) {
+          console.error("Error disposing Jitsi:", e);
+        }
+        apiRef.current = null;
+      }
+    };
+  }, [roomName, displayName, onReady]);
+
+  if (error) {
+    return (
+      <div className="w-full h-full flex items-center justify-center bg-charcoal/10 rounded-2xl">
+        <div className="text-center p-8">
+          <svg
+            className="w-16 h-16 text-terracotta mx-auto mb-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+            />
+          </svg>
+          <p className="text-charcoal font-medium mb-2">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="text-terracotta hover:text-terracotta-dark font-medium"
+          >
+            Refresh Page
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative w-full h-full">
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-forest z-10">
+          <div className="text-center">
+            <div className="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-white font-medium">Connecting to video conference...</p>
+            <p className="text-white/60 text-sm mt-2">This may take a few seconds</p>
+          </div>
+        </div>
+      )}
+      <div
+        ref={containerRef}
+        className="w-full h-full overflow-hidden"
+        style={{ minHeight: "400px" }}
+      />
+    </div>
+  );
+}

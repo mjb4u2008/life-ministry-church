@@ -1,1 +1,288 @@
-{"data":"aW1wb3J0IHsgcHJvbWlzZXMgYXMgZnMgfSBmcm9tICJmcyI7CmltcG9ydCBwYXRoIGZyb20gInBhdGgiOwoKY29uc3QgREFUQV9ESVIgPSBwYXRoLmpvaW4ocHJvY2Vzcy5jd2QoKSwgImRhdGEiKTsKCmV4cG9ydCBpbnRlcmZhY2UgV2Vla2x5TWVzc2FnZSB7CiAgdGl0bGU6IHN0cmluZzsKICBzY3JpcHR1cmU6IHN0cmluZzsKICBkZXNjcmlwdGlvbjogc3RyaW5nOwp9CgpleHBvcnQgaW50ZXJmYWNlIFNlcnZpY2VTY2hlZHVsZSB7CiAgZGF5T2ZXZWVrOiBudW1iZXI7IC8vIDAgPSBTdW5kYXkKICBob3VyOiBudW1iZXI7CiAgbWludXRlOiBudW1iZXI7CiAgdGltZXpvbmU6IHN0cmluZzsKfQoKZXhwb3J0IGludGVyZmFjZSBTb2NpYWxMaW5rcyB7CiAgdGlrdG9rOiBzdHJpbmc7CiAgaW5zdGFncmFtOiBzdHJpbmc7Cn0KCmV4cG9ydCBpbnRlcmZhY2UgVGlrVG9rVmlkZW8gewogIGlkOiBzdHJpbmc7CiAgdXJsOiBzdHJpbmc7CiAgdGl0bGU6IHN0cmluZzsKfQoKZXhwb3J0IGludGVyZmFjZSBTaXRlQ29udGVudCB7CiAgd2Vla2x5TWVzc2FnZTogV2Vla2x5TWVzc2FnZTsKICBzZXJ2aWNlU2NoZWR1bGU6IFNlcnZpY2VTY2hlZHVsZTsKICBsb2JieU9wZW46IGJvb2xlYW47CiAgc2VydmljZUxpdmU6IGJvb2xlYW47CiAgcm9vbU5hbWU6IHN0cmluZzsKICB0ZXN0TW9kZTogYm9vbGVhbjsKICBzb2NpYWxMaW5rczogU29jaWFsTGlua3M7CiAgdGlrdG9rVmlkZW9zOiBUaWtUb2tWaWRlb1tdOwogIGxhc3RVcGRhdGVkOiBzdHJpbmc7Cn0KCmV4cG9ydCBpbnRlcmZhY2UgUHJheWVyIHsKICBpZDogc3RyaW5nOwogIG5hbWU6IHN0cmluZzsKICByZXF1ZXN0OiBzdHJpbmc7CiAgcHJheWVyQ291bnQ6IG51bWJlcjsKICBjcmVhdGVkQXQ6IHN0cmluZzsKICBpc0Fub255bW91czogYm9vbGVhbjsKfQoKZXhwb3J0IGludGVyZmFjZSBQcmF5ZXJzRGF0YSB7CiAgcHJheWVyczogUHJheWVyW107Cn0KCmV4cG9ydCBpbnRlcmZhY2UgU3Vic2NyaWJlciB7CiAgaWQ6IHN0cmluZzsKICBuYW1lOiBzdHJpbmc7CiAgY29udGFjdFR5cGU6ICJlbWFpbCIgfCAicGhvbmUiOwogIGNvbnRhY3Q6IHN0cmluZzsKICB0aW1lc3RhbXA6IHN0cmluZzsKfQoKZXhwb3J0IGludGVyZmFjZSBTdWJzY3JpYmVyc0RhdGEgewogIHN1YnNjcmliZXJzOiBTdWJzY3JpYmVyW107Cn0KCi8vIENvbnRlbnQgZnVuY3Rpb25zCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBnZXRDb250ZW50KCk6IFByb21pc2U8U2l0ZUNvbnRlbnQ+IHsKICB0cnkgewogICAgY29uc3QgZmlsZVBhdGggPSBwYXRoLmpvaW4oREFUQV9ESVIsICJjb250ZW50Lmpzb24iKTsKICAgIGNvbnN0IGRhdGEgPSBhd2FpdCBmcy5yZWFkRmlsZShmaWxlUGF0aCwgInV0Zi04Iik7CiAgICByZXR1cm4gSlNPTi5wYXJzZShkYXRhKTsKICB9IGNhdGNoIChlcnJvcikgewogICAgY29uc29sZS5lcnJvcigiRXJyb3IgcmVhZGluZyBjb250ZW50OiIsIGVycm9yKTsKICAgIC8vIFJldHVybiBkZWZhdWx0IGNvbnRlbnQgaWYgZmlsZSBkb2Vzbid0IGV4aXN0CiAgICByZXR1cm4gewogICAgICB3ZWVrbHlNZXNzYWdlOiB7CiAgICAgICAgdGl0bGU6ICJXZWxjb21lIHRvIEwuSS5GLkUuIE1pbmlzdHJ5IiwKICAgICAgICBzY3JpcHR1cmU6ICJNYXR0aGV3IDI4OjIwIiwKICAgICAgICBkZXNjcmlwdGlvbjogIkpvaW4gdXMgdGhpcyBTdW5kYXkgZm9yIHdvcnNoaXAgYW5kIGZlbGxvd3NoaXAuIiwKICAgICAgfSwKICAgICAgc2VydmljZVNjaGVkdWxlOiB7CiAgICAgICAgZGF5T2ZXZWVrOiAwLAogICAgICAgIGhvdXI6IDEwLAogICAgICAgIG1pbnV0ZTogMCwKICAgICAgICB0aW1lem9uZTogIkFtZXJpY2EvTmV3X1lvcmsiLAogICAgICB9LAogICAgICBsb2JieU9wZW46IGZhbHNlLAogICAgICBzZXJ2aWNlTGl2ZTogZmFsc2UsCiAgICAgIHJvb21OYW1lOiAiTElGRU1pbmlzdHJ5U2VydmljZSIsCiAgICAgIHRlc3RNb2RlOiBmYWxzZSwKICAgICAgc29jaWFsTGlua3M6IHsKICAgICAgICB0aWt0b2s6ICIiLAogICAgICAgIGluc3RhZ3JhbTogIiIsCiAgICAgIH0sCiAgICAgIHRpa3Rva1ZpZGVvczogW10sCiAgICAgIGxhc3RVcGRhdGVkOiBuZXcgRGF0ZSgpLnRvSVNPU3RyaW5nKCksCiAgICB9OwogIH0KfQoKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIHVwZGF0ZUNvbnRlbnQoY29udGVudDogUGFydGlhbDxTaXRlQ29udGVudD4pOiBQcm9taXNlPFNpdGVDb250ZW50PiB7CiAgY29uc3QgY3VycmVudENvbnRlbnQgPSBhd2FpdCBnZXRDb250ZW50KCk7CiAgY29uc3QgdXBkYXRlZENvbnRlbnQgPSB7CiAgICAuLi5jdXJyZW50Q29udGVudCwKICAgIC4uLmNvbnRlbnQsCiAgICBsYXN0VXBkYXRlZDogbmV3IERhdGUoKS50b0lTT1N0cmluZygpLAogIH07CgogIGNvbnN0IGZpbGVQYXRoID0gcGF0aC5qb2luKERBVEFfRElSLCAiY29udGVudC5qc29uIik7CiAgYXdhaXQgZnMud3JpdGVGaWxlKGZpbGVQYXRoLCBKU09OLnN0cmluZ2lmeSh1cGRhdGVkQ29udGVudCwgbnVsbCwgMikpOwogIHJldHVybiB1cGRhdGVkQ29udGVudDsKfQoKLy8gUHJheWVyIGZ1bmN0aW9ucwpleHBvcnQgYXN5bmMgZnVuY3Rpb24gZ2V0UHJheWVycygpOiBQcm9taXNlPFByYXllcltdPiB7CiAgdHJ5IHsKICAgIGNvbnN0IGZpbGVQYXRoID0gcGF0aC5qb2luKERBVEFfRElSLCAicHJheWVycy5qc29uIik7CiAgICBjb25zdCBkYXRhID0gYXdhaXQgZnMucmVhZEZpbGUoZmlsZVBhdGgsICJ1dGYtOCIpOwogICAgY29uc3QgcGFyc2VkOiBQcmF5ZXJzRGF0YSA9IEpTT04ucGFyc2UoZGF0YSk7CiAgICByZXR1cm4gcGFyc2VkLnByYXllcnM7CiAgfSBjYXRjaCAoZXJyb3IpIHsKICAgIGNvbnNvbGUuZXJyb3IoIkVycm9yIHJlYWRpbmcgcHJheWVyczoiLCBlcnJvcik7CiAgICByZXR1cm4gW107CiAgfQp9CgpleHBvcnQgYXN5bmMgZnVuY3Rpb24gYWRkUHJheWVyKHByYXllcjogT21pdDxQcmF5ZXIsICJpZCIgfCAiY3JlYXRlZEF0IiB8ICJwcmF5ZXJDb3VudCI+KTogUHJvbWlzZTxQcmF5ZXI+IHsKICBjb25zdCBwcmF5ZXJzID0gYXdhaXQgZ2V0UHJheWVycygpOwogIGNvbnN0IG5ld1ByYXllcjogUHJheWVyID0gewogICAgLi4ucHJheWVyLAogICAgaWQ6IERhdGUubm93KCkudG9TdHJpbmcoKSwKICAgIHByYXllckNvdW50OiAwLAogICAgY3JlYXRlZEF0OiBuZXcgRGF0ZSgpLnRvSVNPU3RyaW5nKCksCiAgfTsKCiAgcHJheWVycy51bnNoaWZ0KG5ld1ByYXllcik7CgogIGNvbnN0IGZpbGVQYXRoID0gcGF0aC5qb2luKERBVEFfRElSLCAicHJheWVycy5qc29uIik7CiAgYXdhaXQgZnMud3JpdGVGaWxlKGZpbGVQYXRoLCBKU09OLnN0cmluZ2lmeSh7IHByYXllcnMgfSwgbnVsbCwgMikpOwogIHJldHVybiBuZXdQcmF5ZXI7Cn0KCmV4cG9ydCBhc3luYyBmdW5jdGlvbiB1cGRhdGVQcmF5ZXIoaWQ6IHN0cmluZywgdXBkYXRlczogUGFydGlhbDxPbWl0PFByYXllciwgImlkIj4+KTogUHJvbWlzZTxQcmF5ZXIgfCBudWxsPiB7CiAgY29uc3QgcHJheWVycyA9IGF3YWl0IGdldFByYXllcnMoKTsKICBjb25zdCBwcmF5ZXJJbmRleCA9IHByYXllcnMuZmluZEluZGV4KChwKSA9PiBwLmlkID09PSBpZCk7CgogIGlmIChwcmF5ZXJJbmRleCA9PT0gLTEpIHsKICAgIHJldHVybiBudWxsOwogIH0KCiAgcHJheWVyc1twcmF5ZXJJbmRleF0gPSB7IC4uLnByYXllcnNbcHJheWVySW5kZXhdLCAuLi51cGRhdGVzIH07CgogIGNvbnN0IGZpbGVQYXRoID0gcGF0aC5qb2luKERBVEFfRElSLCAicHJheWVycy5qc29uIik7CiAgYXdhaXQgZnMud3JpdGVGaWxlKGZpbGVQYXRoLCBKU09OLnN0cmluZ2lmeSh7IHByYXllcnMgfSwgbnVsbCwgMikpOwogIHJldHVybiBwcmF5ZXJzW3ByYXllckluZGV4XTsKfQoKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIGRlbGV0ZVByYXllcihpZDogc3RyaW5nKTogUHJvbWlzZTxib29sZWFuPiB7CiAgY29uc3QgcHJheWVycyA9IGF3YWl0IGdldFByYXllcnMoKTsKICBjb25zdCBmaWx0ZXJlZFByYXllcnMgPSBwcmF5ZXJzLmZpbHRlcigocCkgPT4gcC5pZCAhPT0gaWQpOwoKICBpZiAoZmlsdGVyZWRQcmF5ZXJzLmxlbmd0aCA9PT0gcHJheWVycy5sZW5ndGgpIHsKICAgIHJldHVybiBmYWxzZTsgLy8gUHJheWVyIG5vdCBmb3VuZAogIH0KCiAgY29uc3QgZmlsZVBhdGggPSBwYXRoLmpvaW4oREFUQV9ESVIsICJwcmF5ZXJzLmpzb24iKTsKICBhd2FpdCBmcy53cml0ZUZpbGUoZmlsZVBhdGgsIEpTT04uc3RyaW5naWZ5KHsgcHJheWVyczogZmlsdGVyZWRQcmF5ZXJzIH0sIG51bGwsIDIpKTsKICByZXR1cm4gdHJ1ZTsKfQoKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIGluY3JlbWVudFByYXllckNvdW50KGlkOiBzdHJpbmcpOiBQcm9taXNlPFByYXllciB8IG51bGw+IHsKICBjb25zdCBwcmF5ZXJzID0gYXdhaXQgZ2V0UHJheWVycygpOwogIGNvbnN0IHByYXllckluZGV4ID0gcHJheWVycy5maW5kSW5kZXgoKHApID0+IHAuaWQgPT09IGlkKTsKCiAgaWYgKHByYXllckluZGV4ID09PSAtMSkgewogICAgcmV0dXJuIG51bGw7CiAgfQoKICBwcmF5ZXJzW3ByYXllckluZGV4XS5wcmF5ZXJDb3VudCArPSAxOwoKICBjb25zdCBmaWxlUGF0aCA9IHBhdGguam9pbihEQVRBX0RJUiwgInByYXllcnMuanNvbiIpOwogIGF3YWl0IGZzLndyaXRlRmlsZShmaWxlUGF0aCwgSlNPTi5zdHJpbmdpZnkoeyBwcmF5ZXJzIH0sIG51bGwsIDIpKTsKICByZXR1cm4gcHJheWVyc1twcmF5ZXJJbmRleF07Cn0KCi8vIFN1YnNjcmliZXIgZnVuY3Rpb25zCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBnZXRTdWJzY3JpYmVycygpOiBQcm9taXNlPFN1YnNjcmliZXJbXT4gewogIHRyeSB7CiAgICBjb25zdCBmaWxlUGF0aCA9IHBhdGguam9pbihEQVRBX0RJUiwgInN1YnNjcmliZXJzLmpzb24iKTsKICAgIGNvbnN0IGRhdGEgPSBhd2FpdCBmcy5yZWFkRmlsZShmaWxlUGF0aCwgInV0Zi04Iik7CiAgICBjb25zdCBwYXJzZWQ6IFN1YnNjcmliZXJzRGF0YSA9IEpTT04ucGFyc2UoZGF0YSk7CiAgICByZXR1cm4gcGFyc2VkLnN1YnNjcmliZXJzOwogIH0gY2F0Y2ggKGVycm9yKSB7CiAgICBjb25zb2xlLmVycm9yKCJFcnJvciByZWFkaW5nIHN1YnNjcmliZXJzOiIsIGVycm9yKTsKICAgIHJldHVybiBbXTsKICB9Cn0KCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBhZGRTdWJzY3JpYmVyKHN1YnNjcmliZXI6IE9taXQ8U3Vic2NyaWJlciwgImlkIiB8ICJ0aW1lc3RhbXAiPik6IFByb21pc2U8U3Vic2NyaWJlcj4gewogIGNvbnN0IHN1YnNjcmliZXJzID0gYXdhaXQgZ2V0U3Vic2NyaWJlcnMoKTsKCiAgLy8gQ2hlY2sgaWYgYWxyZWFkeSBzdWJzY3JpYmVkCiAgY29uc3QgZXhpc3RzID0gc3Vic2NyaWJlcnMuc29tZSgKICAgIChzKSA9PiBzLmNvbnRhY3QudG9Mb3dlckNhc2UoKSA9PT0gc3Vic2NyaWJlci5jb250YWN0LnRvTG93ZXJDYXNlKCkKICApOwoKICBpZiAoZXhpc3RzKSB7CiAgICB0aHJvdyBuZXcgRXJyb3IoIkFscmVhZHkgc3Vic2NyaWJlZCIpOwogIH0KCiAgY29uc3QgbmV3U3Vic2NyaWJlcjogU3Vic2NyaWJlciA9IHsKICAgIC4uLnN1YnNjcmliZXIsCiAgICBpZDogRGF0ZS5ub3coKS50b1N0cmluZygpLAogICAgdGltZXN0YW1wOiBuZXcgRGF0ZSgpLnRvSVNPU3RyaW5nKCksCiAgfTsKCiAgc3Vic2NyaWJlcnMucHVzaChuZXdTdWJzY3JpYmVyKTsKCiAgY29uc3QgZmlsZVBhdGggPSBwYXRoLmpvaW4oREFUQV9ESVIsICJzdWJzY3JpYmVycy5qc29uIik7CiAgYXdhaXQgZnMud3JpdGVGaWxlKGZpbGVQYXRoLCBKU09OLnN0cmluZ2lmeSh7IHN1YnNjcmliZXJzIH0sIG51bGwsIDIpKTsKICByZXR1cm4gbmV3U3Vic2NyaWJlcjsKfQoKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIGRlbGV0ZVN1YnNjcmliZXIoaWQ6IHN0cmluZyk6IFByb21pc2U8Ym9vbGVhbj4gewogIGNvbnN0IHN1YnNjcmliZXJzID0gYXdhaXQgZ2V0U3Vic2NyaWJlcnMoKTsKICBjb25zdCBmaWx0ZXJlZFN1YnNjcmliZXJzID0gc3Vic2NyaWJlcnMuZmlsdGVyKChzKSA9PiBzLmlkICE9PSBpZCk7CgogIGlmIChmaWx0ZXJlZFN1YnNjcmliZXJzLmxlbmd0aCA9PT0gc3Vic2NyaWJlcnMubGVuZ3RoKSB7CiAgICByZXR1cm4gZmFsc2U7CiAgfQoKICBjb25zdCBmaWxlUGF0aCA9IHBhdGguam9pbihEQVRBX0RJUiwgInN1YnNjcmliZXJzLmpzb24iKTsKICBhd2FpdCBmcy53cml0ZUZpbGUoZmlsZVBhdGgsIEpTT04uc3RyaW5naWZ5KHsgc3Vic2NyaWJlcnM6IGZpbHRlcmVkU3Vic2NyaWJlcnMgfSwgbnVsbCwgMikpOwogIHJldHVybiB0cnVlOwp9CgovLyBJbnNpZ2h0IHR5cGVzIGFuZCBmdW5jdGlvbnMKZXhwb3J0IGludGVyZmFjZSBJbnNpZ2h0IHsKICBpZDogc3RyaW5nOwogIHRvcGljOiBzdHJpbmc7CiAgc2NyaXB0dXJlOiBzdHJpbmc7CiAgdGltZXN0YW1wOiBzdHJpbmc7Cn0KCmV4cG9ydCBpbnRlcmZhY2UgSW5zaWdodHNEYXRhIHsKICBpbnNpZ2h0czogSW5zaWdodFtdOwp9CgpleHBvcnQgYXN5bmMgZnVuY3Rpb24gZ2V0SW5zaWdodHMoKTogUHJvbWlzZTxJbnNpZ2h0W10+IHsKICB0cnkgewogICAgY29uc3QgZmlsZVBhdGggPSBwYXRoLmpvaW4oREFUQV9ESVIsICJpbnNpZ2h0cy5qc29uIik7CiAgICBjb25zdCBkYXRhID0gYXdhaXQgZnMucmVhZEZpbGUoZmlsZVBhdGgsICJ1dGYtOCIpOwogICAgY29uc3QgcGFyc2VkOiBJbnNpZ2h0c0RhdGEgPSBKU09OLnBhcnNlKGRhdGEpOwogICAgcmV0dXJuIHBhcnNlZC5pbnNpZ2h0czsKICB9IGNhdGNoIChlcnJvcikgewogICAgY29uc29sZS5lcnJvcigiRXJyb3IgcmVhZGluZyBpbnNpZ2h0czoiLCBlcnJvcik7CiAgICByZXR1cm4gW107CiAgfQp9CgpleHBvcnQgYXN5bmMgZnVuY3Rpb24gYWRkSW5zaWdodChpbnNpZ2h0OiBPbWl0PEluc2lnaHQsICJpZCIgfCAidGltZXN0YW1wIj4pOiBQcm9taXNlPEluc2lnaHQ+IHsKICBjb25zdCBpbnNpZ2h0cyA9IGF3YWl0IGdldEluc2lnaHRzKCk7CiAgY29uc3QgbmV3SW5zaWdodDogSW5zaWdodCA9IHsKICAgIC4uLmluc2lnaHQsCiAgICBpZDogRGF0ZS5ub3coKS50b1N0cmluZygpLAogICAgdGltZXN0YW1wOiBuZXcgRGF0ZSgpLnRvSVNPU3RyaW5nKCksCiAgfTsKCiAgaW5zaWdodHMudW5zaGlmdChuZXdJbnNpZ2h0KTsKCiAgY29uc3QgZmlsZVBhdGggPSBwYXRoLmpvaW4oREFUQV9ESVIsICJpbnNpZ2h0cy5qc29uIik7CiAgYXdhaXQgZnMud3JpdGVGaWxlKGZpbGVQYXRoLCBKU09OLnN0cmluZ2lmeSh7IGluc2lnaHRzIH0sIG51bGwsIDIpKTsKICByZXR1cm4gbmV3SW5zaWdodDsKfQoKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIGRlbGV0ZUluc2lnaHQoaWQ6IHN0cmluZyk6IFByb21pc2U8Ym9vbGVhbj4gewogIGNvbnN0IGluc2lnaHRzID0gYXdhaXQgZ2V0SW5zaWdodHMoKTsKICBjb25zdCBmaWx0ZXJlZEluc2lnaHRzID0gaW5zaWdodHMuZmlsdGVyKChpKSA9PiBpLmlkICE9PSBpZCk7CgogIGlmIChmaWx0ZXJlZEluc2lnaHRzLmxlbmd0aCA9PT0gaW5zaWdodHMubGVuZ3RoKSB7CiAgICByZXR1cm4gZmFsc2U7CiAgfQoKICBjb25zdCBmaWxlUGF0aCA9IHBhdGguam9pbihEQVRBX0RJUiwgImluc2lnaHRzLmpzb24iKTsKICBhd2FpdCBmcy53cml0ZUZpbGUoZmlsZVBhdGgsIEpTT04uc3RyaW5naWZ5KHsgaW5zaWdodHM6IGZpbHRlcmVkSW5zaWdodHMgfSwgbnVsbCwgMikpOwogIHJldHVybiB0cnVlOwp9Cg=="}
+import { promises as fs } from "fs";
+import path from "path";
+
+const DATA_DIR = path.join(process.cwd(), "data");
+
+export interface WeeklyMessage {
+  title: string;
+  scripture: string;
+  description: string;
+}
+
+export interface ServiceSchedule {
+  dayOfWeek: number; // 0 = Sunday
+  hour: number;
+  minute: number;
+  timezone: string;
+}
+
+export interface SocialLinks {
+  tiktok: string;
+  instagram: string;
+}
+
+export interface TikTokVideo {
+  id: string;
+  url: string;
+  title: string;
+}
+
+export interface SiteContent {
+  weeklyMessage: WeeklyMessage;
+  serviceSchedule: ServiceSchedule;
+  lobbyOpen: boolean;
+  serviceLive: boolean;
+  roomName: string;
+  testMode: boolean;
+  socialLinks: SocialLinks;
+  tiktokVideos: TikTokVideo[];
+  lastUpdated: string;
+}
+
+export interface Prayer {
+  id: string;
+  name: string;
+  request: string;
+  prayerCount: number;
+  createdAt: string;
+  isAnonymous: boolean;
+}
+
+export interface PrayersData {
+  prayers: Prayer[];
+}
+
+export interface Subscriber {
+  id: string;
+  name: string;
+  contactType: "email" | "phone";
+  contact: string;
+  timestamp: string;
+}
+
+export interface SubscribersData {
+  subscribers: Subscriber[];
+}
+
+// Content functions
+export async function getContent(): Promise<SiteContent> {
+  try {
+    const filePath = path.join(DATA_DIR, "content.json");
+    const data = await fs.readFile(filePath, "utf-8");
+    return JSON.parse(data);
+  } catch (error) {
+    console.error("Error reading content:", error);
+    // Return default content if file doesn't exist
+    return {
+      weeklyMessage: {
+        title: "Welcome to L.I.F.E. Ministry",
+        scripture: "Matthew 28:20",
+        description: "Join us this Sunday for worship and fellowship.",
+      },
+      serviceSchedule: {
+        dayOfWeek: 0,
+        hour: 10,
+        minute: 0,
+        timezone: "America/New_York",
+      },
+      lobbyOpen: false,
+      serviceLive: false,
+      roomName: "LIFEMinistryService",
+      testMode: false,
+      socialLinks: {
+        tiktok: "",
+        instagram: "",
+      },
+      tiktokVideos: [],
+      lastUpdated: new Date().toISOString(),
+    };
+  }
+}
+
+export async function updateContent(content: Partial<SiteContent>): Promise<SiteContent> {
+  const currentContent = await getContent();
+  const updatedContent = {
+    ...currentContent,
+    ...content,
+    lastUpdated: new Date().toISOString(),
+  };
+
+  const filePath = path.join(DATA_DIR, "content.json");
+  await fs.writeFile(filePath, JSON.stringify(updatedContent, null, 2));
+  return updatedContent;
+}
+
+// Prayer functions
+export async function getPrayers(): Promise<Prayer[]> {
+  try {
+    const filePath = path.join(DATA_DIR, "prayers.json");
+    const data = await fs.readFile(filePath, "utf-8");
+    const parsed: PrayersData = JSON.parse(data);
+    return parsed.prayers;
+  } catch (error) {
+    console.error("Error reading prayers:", error);
+    return [];
+  }
+}
+
+export async function addPrayer(prayer: Omit<Prayer, "id" | "createdAt" | "prayerCount">): Promise<Prayer> {
+  const prayers = await getPrayers();
+  const newPrayer: Prayer = {
+    ...prayer,
+    id: Date.now().toString(),
+    prayerCount: 0,
+    createdAt: new Date().toISOString(),
+  };
+
+  prayers.unshift(newPrayer);
+
+  const filePath = path.join(DATA_DIR, "prayers.json");
+  await fs.writeFile(filePath, JSON.stringify({ prayers }, null, 2));
+  return newPrayer;
+}
+
+export async function updatePrayer(id: string, updates: Partial<Omit<Prayer, "id">>): Promise<Prayer | null> {
+  const prayers = await getPrayers();
+  const prayerIndex = prayers.findIndex((p) => p.id === id);
+
+  if (prayerIndex === -1) {
+    return null;
+  }
+
+  prayers[prayerIndex] = { ...prayers[prayerIndex], ...updates };
+
+  const filePath = path.join(DATA_DIR, "prayers.json");
+  await fs.writeFile(filePath, JSON.stringify({ prayers }, null, 2));
+  return prayers[prayerIndex];
+}
+
+export async function deletePrayer(id: string): Promise<boolean> {
+  const prayers = await getPrayers();
+  const filteredPrayers = prayers.filter((p) => p.id !== id);
+
+  if (filteredPrayers.length === prayers.length) {
+    return false; // Prayer not found
+  }
+
+  const filePath = path.join(DATA_DIR, "prayers.json");
+  await fs.writeFile(filePath, JSON.stringify({ prayers: filteredPrayers }, null, 2));
+  return true;
+}
+
+export async function incrementPrayerCount(id: string): Promise<Prayer | null> {
+  const prayers = await getPrayers();
+  const prayerIndex = prayers.findIndex((p) => p.id === id);
+
+  if (prayerIndex === -1) {
+    return null;
+  }
+
+  prayers[prayerIndex].prayerCount += 1;
+
+  const filePath = path.join(DATA_DIR, "prayers.json");
+  await fs.writeFile(filePath, JSON.stringify({ prayers }, null, 2));
+  return prayers[prayerIndex];
+}
+
+// Subscriber functions
+export async function getSubscribers(): Promise<Subscriber[]> {
+  try {
+    const filePath = path.join(DATA_DIR, "subscribers.json");
+    const data = await fs.readFile(filePath, "utf-8");
+    const parsed: SubscribersData = JSON.parse(data);
+    return parsed.subscribers;
+  } catch (error) {
+    console.error("Error reading subscribers:", error);
+    return [];
+  }
+}
+
+export async function addSubscriber(subscriber: Omit<Subscriber, "id" | "timestamp">): Promise<Subscriber> {
+  const subscribers = await getSubscribers();
+
+  // Check if already subscribed
+  const exists = subscribers.some(
+    (s) => s.contact.toLowerCase() === subscriber.contact.toLowerCase()
+  );
+
+  if (exists) {
+    throw new Error("Already subscribed");
+  }
+
+  const newSubscriber: Subscriber = {
+    ...subscriber,
+    id: Date.now().toString(),
+    timestamp: new Date().toISOString(),
+  };
+
+  subscribers.push(newSubscriber);
+
+  const filePath = path.join(DATA_DIR, "subscribers.json");
+  await fs.writeFile(filePath, JSON.stringify({ subscribers }, null, 2));
+  return newSubscriber;
+}
+
+export async function deleteSubscriber(id: string): Promise<boolean> {
+  const subscribers = await getSubscribers();
+  const filteredSubscribers = subscribers.filter((s) => s.id !== id);
+
+  if (filteredSubscribers.length === subscribers.length) {
+    return false;
+  }
+
+  const filePath = path.join(DATA_DIR, "subscribers.json");
+  await fs.writeFile(filePath, JSON.stringify({ subscribers: filteredSubscribers }, null, 2));
+  return true;
+}
+
+// Insight types and functions
+export interface Insight {
+  id: string;
+  topic: string;
+  scripture: string;
+  timestamp: string;
+}
+
+export interface InsightsData {
+  insights: Insight[];
+}
+
+export async function getInsights(): Promise<Insight[]> {
+  try {
+    const filePath = path.join(DATA_DIR, "insights.json");
+    const data = await fs.readFile(filePath, "utf-8");
+    const parsed: InsightsData = JSON.parse(data);
+    return parsed.insights;
+  } catch (error) {
+    console.error("Error reading insights:", error);
+    return [];
+  }
+}
+
+export async function addInsight(insight: Omit<Insight, "id" | "timestamp">): Promise<Insight> {
+  const insights = await getInsights();
+  const newInsight: Insight = {
+    ...insight,
+    id: Date.now().toString(),
+    timestamp: new Date().toISOString(),
+  };
+
+  insights.unshift(newInsight);
+
+  const filePath = path.join(DATA_DIR, "insights.json");
+  await fs.writeFile(filePath, JSON.stringify({ insights }, null, 2));
+  return newInsight;
+}
+
+export async function deleteInsight(id: string): Promise<boolean> {
+  const insights = await getInsights();
+  const filteredInsights = insights.filter((i) => i.id !== id);
+
+  if (filteredInsights.length === insights.length) {
+    return false;
+  }
+
+  const filePath = path.join(DATA_DIR, "insights.json");
+  await fs.writeFile(filePath, JSON.stringify({ insights: filteredInsights }, null, 2));
+  return true;
+}

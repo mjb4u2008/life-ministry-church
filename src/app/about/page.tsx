@@ -1,1 +1,380 @@
-{"data":"aW1wb3J0IHsgQnV0dG9uIH0gZnJvbSAiQC9jb21wb25lbnRzL0J1dHRvbiI7Cgpjb25zdCBiZWxpZWZzID0gWwogIHsKICAgIHRpdGxlOiAiVGhlIEJpYmxlIiwKICAgIGRlc2NyaXB0aW9uOiAiV2UgYmVsaWV2ZSB0aGUgQmlibGUgaXMgR29kJ3MgaW5zcGlyZWQgV29yZCBhbmQgb3VyIGd1aWRlIGZvciBmYWl0aCBhbmQgbGlmZS4iLAogIH0sCiAgewogICAgdGl0bGU6ICJHb2QiLAogICAgZGVzY3JpcHRpb246ICJXZSBiZWxpZXZlIGluIG9uZSBHb2QsIGV0ZXJuYWxseSBleGlzdGluZyBpbiB0aHJlZSBwZXJzb25zOiBGYXRoZXIsIFNvbiwgYW5kIEhvbHkgU3Bpcml0LiIsCiAgfSwKICB7CiAgICB0aXRsZTogIkplc3VzIENocmlzdCIsCiAgICBkZXNjcmlwdGlvbjogIldlIGJlbGlldmUgSmVzdXMgaXMgZnVsbHkgR29kIGFuZCBmdWxseSBtYW4sIGJvcm4gb2YgYSB2aXJnaW4sIGFuZCB0aGF0IEhlIGRpZWQgZm9yIG91ciBzaW5zIGFuZCByb3NlIGFnYWluLiIsCiAgfSwKICB7CiAgICB0aXRsZTogIlNhbHZhdGlvbiIsCiAgICBkZXNjcmlwdGlvbjogIldlIGJlbGlldmUgc2FsdmF0aW9uIGlzIGEgZ2lmdCBvZiBncmFjZSByZWNlaXZlZCB0aHJvdWdoIGZhaXRoIGluIEplc3VzIENocmlzdCBhbG9uZS4iLAogIH0sCiAgewogICAgdGl0bGU6ICJUaGUgQ2h1cmNoIiwKICAgIGRlc2NyaXB0aW9uOiAiV2UgYmVsaWV2ZSB0aGUgY2h1cmNoIGlzIHRoZSBib2R5IG9mIENocmlzdCwgY2FsbGVkIHRvIHdvcnNoaXAsIGZlbGxvd3NoaXAsIGFuZCBzZXJ2ZS4iLAogIH0sCiAgewogICAgdGl0bGU6ICJFdGVybml0eSIsCiAgICBkZXNjcmlwdGlvbjogIldlIGJlbGlldmUgaW4gdGhlIHJlc3VycmVjdGlvbiBvZiB0aGUgZGVhZCBhbmQgZXRlcm5hbCBsaWZlIHdpdGggR29kIGZvciBhbGwgd2hvIGJlbGlldmUuIiwKICB9LApdOwoKY29uc3QgbGlmZUxldHRlcnMgPSBbCiAgewogICAgbGV0dGVyOiAiTCIsCiAgICB3b3JkOiAiTG9yZCIsCiAgICBkZXNjcmlwdGlvbjogIk91ciBldGVybmFsIEdvZCwgdGhlIGJlZ2lubmluZyBhbmQgdGhlIGVuZCwgdW5jaGFuZ2luZyB0aHJvdWdoIGFsbCBnZW5lcmF0aW9ucy4iLAogIH0sCiAgewogICAgbGV0dGVyOiAiSSIsCiAgICB3b3JkOiAiSXMiLAogICAgZGVzY3JpcHRpb246ICJOb3Qgd2FzLCBub3Qgd2lsbCBiZSDigJQgYnV0IElTLiBIZSBpcyBwcmVzZW50LCBhY3RpdmUsIGFuZCBhbGl2ZSByaWdodCBub3cuIiwKICB9LAogIHsKICAgIGxldHRlcjogIkYiLAogICAgd29yZDogIkZvcmV2ZXIiLAogICAgZGVzY3JpcHRpb246ICJIaXMgcHJlc2VuY2UgZW5kdXJlcyBldGVybmFsbHkuIFllc3RlcmRheSwgdG9kYXksIGFuZCBmb3JldmVyIHRoZSBzYW1lLiIsCiAgfSwKICB7CiAgICBsZXR0ZXI6ICJFIiwKICAgIHdvcmQ6ICJFbW1hbnVlbCIsCiAgICBkZXNjcmlwdGlvbjogIlwiR29kIHdpdGggdXNcIiDigJQgdGhlIHByb21pc2UgZnVsZmlsbGVkIGluIEplc3VzLCBvdXIgZXZlci1wcmVzZW50IGNvbXBhbmlvbi4iLAogIH0sCl07CgpleHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBBYm91dFBhZ2UoKSB7CiAgcmV0dXJuICgKICAgIDxkaXYgY2xhc3NOYW1lPSJwdC0yMCI+CiAgICAgIHsvKiBIZXJvIFNlY3Rpb24gKi99CiAgICAgIDxzZWN0aW9uIGNsYXNzTmFtZT0iYmctZm9yZXN0IHRleHQtd2hpdGUgcHktMTYgbWQ6cHktMjQiPgogICAgICAgIDxkaXYgY2xhc3NOYW1lPSJtYXgtdy03eGwgbXgtYXV0byBweC00IHNtOnB4LTYgbGc6cHgtOCI+CiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0idGV4dC1jZW50ZXIiPgogICAgICAgICAgICA8aDEgY2xhc3NOYW1lPSJ0ZXh0LTR4bCBtZDp0ZXh0LTV4bCBsZzp0ZXh0LTZ4bCBmb250LWRpc3BsYXkgZm9udC1zZW1pYm9sZCBtYi00Ij4KICAgICAgICAgICAgICBXaGF0IGlzIEwuSS5GLkUuPwogICAgICAgICAgICA8L2gxPgogICAgICAgICAgICA8cCBjbGFzc05hbWU9InRleHQtd2hpdGUvODAgdGV4dC1sZyBtYXgtdy0yeGwgbXgtYXV0byI+CiAgICAgICAgICAgICAgTW9yZSB0aGFuIGEgbmFtZSDigJQgaXQmYXBvcztzIGEgZGVjbGFyYXRpb24gb2Ygd2hvIEdvZCBpcwogICAgICAgICAgICAgIGFuZCBIaXMgcHJvbWlzZSB0byBhbHdheXMgYmUgd2l0aCB1cy4KICAgICAgICAgICAgPC9wPgogICAgICAgICAgPC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgIDwvc2VjdGlvbj4KCiAgICAgIHsvKiBMLkkuRi5FLiBNZWFuaW5nIFNlY3Rpb24gLSBUaGUgSGVhcnQgb2YgdGhlIFBhZ2UgKi99CiAgICAgIDxzZWN0aW9uIGNsYXNzTmFtZT0icHktMTYgbWQ6cHktMjQiPgogICAgICAgIDxkaXYgY2xhc3NOYW1lPSJtYXgtdy03eGwgbXgtYXV0byBweC00IHNtOnB4LTYgbGc6cHgtOCI+CiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ibWF4LXctM3hsIG14LWF1dG8gdGV4dC1jZW50ZXIgbWItMTYiPgogICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9InRleHQtdGVycmFjb3R0YSBmb250LW1lZGl1bSB0cmFja2luZy13aWRlciB1cHBlcmNhc2UgdGV4dC1zbSI+CiAgICAgICAgICAgICAgVGhlIEhlYXJ0IG9mIE91ciBNaW5pc3RyeQogICAgICAgICAgICA8L3NwYW4+CiAgICAgICAgICAgIDxoMiBjbGFzc05hbWU9InRleHQtM3hsIG1kOnRleHQtNHhsIGxnOnRleHQtNXhsIGZvbnQtZGlzcGxheSBmb250LXNlbWlib2xkIHRleHQtY2hhcmNvYWwgbXQtNCBtYi02Ij4KICAgICAgICAgICAgICBMb3JkIElzIEZvcmV2ZXIgRW1tYW51ZWwKICAgICAgICAgICAgPC9oMj4KICAgICAgICAgICAgPHAgY2xhc3NOYW1lPSJ0ZXh0LWNoYXJjb2FsLWxpZ2h0IHRleHQtbGcgbGVhZGluZy1yZWxheGVkIj4KICAgICAgICAgICAgICBMLkkuRi5FLiBNaW5pc3RyeSBpcyBidWlsdCBvbiBhIGJlYXV0aWZ1bCB0cnV0aCB0aGF0IHNwYW5zIGZyb20gYW5jaWVudAogICAgICAgICAgICAgIHByb3BoZWN5IHRvIHByZXNlbnQgcmVhbGl0eTogR29kIGhhcyBhbHdheXMgYmVlbiwgYW5kIHdpbGwgYWx3YXlzIGJlLAogICAgICAgICAgICAgIHdpdGggSGlzIHBlb3BsZS4KICAgICAgICAgICAgPC9wPgogICAgICAgICAgPC9kaXY+CgogICAgICAgICAgey8qIEwuSS5GLkUuIExldHRlciBCcmVha2Rvd24gKi99CiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iZ3JpZCBtZDpncmlkLWNvbHMtNCBnYXAtNiBtYi0xNiI+CiAgICAgICAgICAgIHtsaWZlTGV0dGVycy5tYXAoKGl0ZW0sIGluZGV4KSA9PiAoCiAgICAgICAgICAgICAgPGRpdgogICAgICAgICAgICAgICAga2V5PXtpbmRleH0KICAgICAgICAgICAgICAgIGNsYXNzTmFtZT0iYmctd2hpdGUgcm91bmRlZC0yeGwgcC04IHNoYWRvdy1zbSBob3ZlcjpzaGFkb3ctbGcgdHJhbnNpdGlvbi1hbGwgdGV4dC1jZW50ZXIgZ3JvdXAiCiAgICAgICAgICAgICAgPgogICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9InctMjAgaC0yMCBteC1hdXRvIHJvdW5kZWQtZnVsbCBiZy10ZXJyYWNvdHRhIHRleHQtd2hpdGUgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgbWItNCBncm91cC1ob3ZlcjpzY2FsZS0xMTAgdHJhbnNpdGlvbi10cmFuc2Zvcm0iPgogICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9ImZvbnQtZGlzcGxheSB0ZXh0LTR4bCBmb250LWJvbGQiPntpdGVtLmxldHRlcn08L3NwYW4+CiAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICAgIDxoMyBjbGFzc05hbWU9ImZvbnQtZGlzcGxheSB0ZXh0LTJ4bCBmb250LXNlbWlib2xkIHRleHQtY2hhcmNvYWwgbWItMiI+CiAgICAgICAgICAgICAgICAgIHtpdGVtLndvcmR9CiAgICAgICAgICAgICAgICA8L2gzPgogICAgICAgICAgICAgICAgPHAgY2xhc3NOYW1lPSJ0ZXh0LWNoYXJjb2FsLWxpZ2h0IHRleHQtc20gbGVhZGluZy1yZWxheGVkIj4KICAgICAgICAgICAgICAgICAge2l0ZW0uZGVzY3JpcHRpb259CiAgICAgICAgICAgICAgICA8L3A+CiAgICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgICkpfQogICAgICAgICAgPC9kaXY+CgogICAgICAgICAgey8qIFNjcmlwdHVyZSBDb25uZWN0aW9uICovfQogICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImJnLWNyZWFtLWRhcmsgcm91bmRlZC0zeGwgcC04IG1kOnAtMTIiPgogICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iZ3JpZCBtZDpncmlkLWNvbHMtMiBnYXAtMTIgaXRlbXMtY2VudGVyIj4KICAgICAgICAgICAgICA8ZGl2PgogICAgICAgICAgICAgICAgPGgzIGNsYXNzTmFtZT0idGV4dC0yeGwgbWQ6dGV4dC0zeGwgZm9udC1kaXNwbGF5IGZvbnQtc2VtaWJvbGQgdGV4dC1jaGFyY29hbCBtYi02Ij4KICAgICAgICAgICAgICAgICAgQSBQcm9taXNlIEZ1bGZpbGxlZAogICAgICAgICAgICAgICAgPC9oMz4KICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJzcGFjZS15LTQgdGV4dC1jaGFyY29hbC1saWdodCBsZWFkaW5nLXJlbGF4ZWQiPgogICAgICAgICAgICAgICAgICA8cD4KICAgICAgICAgICAgICAgICAgICBJbiA8c3Ryb25nIGNsYXNzTmFtZT0idGV4dC1jaGFyY29hbCI+SXNhaWFoIDc6MTQ8L3N0cm9uZz4sIHRoZSBwcm9waGV0CiAgICAgICAgICAgICAgICAgICAgc3Bva2Ugb2YgYSBjb21pbmcgc2lnbjogPGVtPiZxdW90O1RoZSB2aXJnaW4gd2lsbCBjb25jZWl2ZSBhbmQgZ2l2ZSBiaXJ0aAogICAgICAgICAgICAgICAgICAgIHRvIGEgc29uLCBhbmQgd2lsbCBjYWxsIGhpbSBJbW1hbnVlbC4mcXVvdDs8L2VtPgogICAgICAgICAgICAgICAgICA8L3A+CiAgICAgICAgICAgICAgICAgIDxwPgogICAgICAgICAgICAgICAgICAgIENlbnR1cmllcyBsYXRlciwgPHN0cm9uZyBjbGFzc05hbWU9InRleHQtY2hhcmNvYWwiPk1hdHRoZXcgMToyMzwvc3Ryb25nPiByZXZlYWxzCiAgICAgICAgICAgICAgICAgICAgdGhlIGZ1bGZpbGxtZW50IG9mIHRoaXMgcHJvcGhlY3kgaW4gSmVzdXMgQ2hyaXN0IOKAlCBFbW1hbnVlbCwgd2hpY2ggbWVhbnMKICAgICAgICAgICAgICAgICAgICA8ZW0+JnF1b3Q7R29kIHdpdGggdXMuJnF1b3Q7PC9lbT4KICAgICAgICAgICAgICAgICAgPC9wPgogICAgICAgICAgICAgICAgICA8cD4KICAgICAgICAgICAgICAgICAgICBUaGlzIGlzIHRoZSBmb3VuZGF0aW9uIG9mIEwuSS5GLkUuIE1pbmlzdHJ5OiB0aGUgZXRlcm5hbCBHb2QgY2hvc2UgdG8KICAgICAgICAgICAgICAgICAgICBkd2VsbCBhbW9uZyB1cywgYW5kIHRocm91Z2ggSmVzdXMsIEhlIGNvbnRpbnVlcyB0byBiZSBwcmVzZW50IHdpdGgKICAgICAgICAgICAgICAgICAgICBIaXMgcGVvcGxlIOKAlCBpbmNsdWRpbmcgeW91LCByaWdodCB3aGVyZSB5b3UgYXJlLgogICAgICAgICAgICAgICAgICA8L3A+CiAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iYmctd2hpdGUgcm91bmRlZC0yeGwgcC04IHNoYWRvdy1zbSI+CiAgICAgICAgICAgICAgICA8c3ZnCiAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT0idy0xMiBoLTEyIHRleHQtdGVycmFjb3R0YSBtYi02IgogICAgICAgICAgICAgICAgICBmaWxsPSJub25lIgogICAgICAgICAgICAgICAgICBzdHJva2U9ImN1cnJlbnRDb2xvciIKICAgICAgICAgICAgICAgICAgdmlld0JveD0iMCAwIDI0IDI0IgogICAgICAgICAgICAgICAgPgogICAgICAgICAgICAgICAgICA8cGF0aAogICAgICAgICAgICAgICAgICAgIHN0cm9rZUxpbmVjYXA9InJvdW5kIgogICAgICAgICAgICAgICAgICAgIHN0cm9rZUxpbmVqb2luPSJyb3VuZCIKICAgICAgICAgICAgICAgICAgICBzdHJva2VXaWR0aD17MS41fQogICAgICAgICAgICAgICAgICAgIGQ9Ik0xMiA2LjI1M3YxM20wLTEzQzEwLjgzMiA1LjQ3NyA5LjI0NiA1IDcuNSA1UzQuMTY4IDUuNDc3IDMgNi4yNTN2MTNDNC4xNjggMTguNDc3IDUuNzU0IDE4IDcuNSAxOHMzLjMzMi40NzcgNC41IDEuMjUzbTAtMTNDMTMuMTY4IDUuNDc3IDE0Ljc1NCA1IDE2LjUgNWMxLjc0NyAwIDMuMzMyLjQ3NyA0LjUgMS4yNTN2MTNDMTkuODMyIDE4LjQ3NyAxOC4yNDcgMTggMTYuNSAxOGMtMS43NDYgMC0zLjMzMi40NzctNC41IDEuMjUzIgogICAgICAgICAgICAgICAgICAvPgogICAgICAgICAgICAgICAgPC9zdmc+CiAgICAgICAgICAgICAgICA8YmxvY2txdW90ZSBjbGFzc05hbWU9ImZvbnQtZGlzcGxheSB0ZXh0LXhsIG1kOnRleHQtMnhsIHRleHQtY2hhcmNvYWwgbGVhZGluZy1yZWxheGVkIG1iLTQiPgogICAgICAgICAgICAgICAgICAmbGRxdW87QW5kIHN1cmVseSBJIGFtIHdpdGggeW91IGFsd2F5cywgdG8gdGhlIHZlcnkgZW5kIG9mIHRoZSBhZ2UuJnJkcXVvOwogICAgICAgICAgICAgICAgPC9ibG9ja3F1b3RlPgogICAgICAgICAgICAgICAgPGNpdGUgY2xhc3NOYW1lPSJ0ZXh0LXRlcnJhY290dGEgZm9udC1tZWRpdW0iPuKAlCBNYXR0aGV3IDI4OjIwPC9jaXRlPgogICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgIDwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICA8L3NlY3Rpb24+CgogICAgICB7LyogV2hhdCBUaGlzIE1lYW5zIEZvciBZb3UgKi99CiAgICAgIDxzZWN0aW9uIGNsYXNzTmFtZT0icHktMTYgbWQ6cHktMjQgYmctZm9yZXN0IHRleHQtd2hpdGUiPgogICAgICAgIDxkaXYgY2xhc3NOYW1lPSJtYXgtdy03eGwgbXgtYXV0byBweC00IHNtOnB4LTYgbGc6cHgtOCI+CiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0idGV4dC1jZW50ZXIgbWItMTIiPgogICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9InRleHQtdGVycmFjb3R0YS1saWdodCBmb250LW1lZGl1bSB0cmFja2luZy13aWRlciB1cHBlcmNhc2UgdGV4dC1zbSI+CiAgICAgICAgICAgICAgR29kJmFwb3M7cyBDb25zdGFudCBQcmVzZW5jZQogICAgICAgICAgICA8L3NwYW4+CiAgICAgICAgICAgIDxoMiBjbGFzc05hbWU9InRleHQtM3hsIG1kOnRleHQtNHhsIGZvbnQtZGlzcGxheSBmb250LXNlbWlib2xkIG10LTIiPgogICAgICAgICAgICAgIFdoYXQgVGhpcyBNZWFucyBmb3IgWW91CiAgICAgICAgICAgIDwvaDI+CiAgICAgICAgICA8L2Rpdj4KCiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iZ3JpZCBtZDpncmlkLWNvbHMtMyBnYXAtOCI+CiAgICAgICAgICAgIHtbCiAgICAgICAgICAgICAgewogICAgICAgICAgICAgICAgaWNvbjogKAogICAgICAgICAgICAgICAgICA8c3ZnIGNsYXNzTmFtZT0idy04IGgtOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgICAgICAgICAgICAgICAgICAgPHBhdGggc3Ryb2tlTGluZWNhcD0icm91bmQiIHN0cm9rZUxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlV2lkdGg9ezEuNX0gZD0iTTEyIDN2MW0wIDE2djFtOS05aC0xTTQgMTJIM20xNS4zNjQgNi4zNjRsLS43MDctLjcwN002LjM0MyA2LjM0M2wtLjcwNy0uNzA3bTEyLjcyOCAwbC0uNzA3LjcwN002LjM0MyAxNy42NTdsLS43MDcuNzA3TTE2IDEyYTQgNCAwIDExLTggMCA0IDQgMCAwMTggMHoiIC8+CiAgICAgICAgICAgICAgICAgIDwvc3ZnPgogICAgICAgICAgICAgICAgKSwKICAgICAgICAgICAgICAgIHRpdGxlOiAiWW91IEFyZSBOZXZlciBBbG9uZSIsCiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbjogIkluIHlvdXIgYnJpZ2h0ZXN0IG1vbWVudHMgYW5kIGRhcmtlc3QgdmFsbGV5cywgRW1tYW51ZWwg4oCUIEdvZCB3aXRoIHVzIOKAlCBpcyByaWdodCB0aGVyZSBiZXNpZGUgeW91LiIsCiAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICBpY29uOiAoCiAgICAgICAgICAgICAgICAgIDxzdmcgY2xhc3NOYW1lPSJ3LTggaC04IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBzdHJva2VMaW5lY2FwPSJyb3VuZCIgc3Ryb2tlTGluZWpvaW49InJvdW5kIiBzdHJva2VXaWR0aD17MS41fSBkPSJNNC4zMTggNi4zMThhNC41IDQuNSAwIDAwMCA2LjM2NEwxMiAyMC4zNjRsNy42ODItNy42ODJhNC41IDQuNSAwIDAwLTYuMzY0LTYuMzY0TDEyIDcuNjM2bC0xLjMxOC0xLjMxOGE0LjUgNC41IDAgMDAtNi4zNjQgMHoiIC8+CiAgICAgICAgICAgICAgICAgIDwvc3ZnPgogICAgICAgICAgICAgICAgKSwKICAgICAgICAgICAgICAgIHRpdGxlOiAiWW91IEFyZSBEZWVwbHkgTG92ZWQiLAogICAgICAgICAgICAgICAgZGVzY3JpcHRpb246ICJUaGUgR29kIG9mIHRoZSB1bml2ZXJzZSBjaG9zZSB0byBiZSB3aXRoIHlvdS4gTm90IHdhdGNoaW5nIGZyb20gYSBkaXN0YW5jZSwgYnV0IGludGltYXRlbHkgcHJlc2VudCBpbiB5b3VyIGxpZmUuIiwKICAgICAgICAgICAgICB9LAogICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgIGljb246ICgKICAgICAgICAgICAgICAgICAgPHN2ZyBjbGFzc05hbWU9InctOCBoLTgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIwIDAgMjQgMjQiPgogICAgICAgICAgICAgICAgICAgIDxwYXRoIHN0cm9rZUxpbmVjYXA9InJvdW5kIiBzdHJva2VMaW5lam9pbj0icm91bmQiIHN0cm9rZVdpZHRoPXsxLjV9IGQ9Ik0xMiA4djRsMyAzbTYtM2E5IDkgMCAxMS0xOCAwIDkgOSAwIDAxMTggMHoiIC8+CiAgICAgICAgICAgICAgICAgIDwvc3ZnPgogICAgICAgICAgICAgICAgKSwKICAgICAgICAgICAgICAgIHRpdGxlOiAiSGlzIFByZXNlbmNlIElzIEV0ZXJuYWwiLAogICAgICAgICAgICAgICAgZGVzY3JpcHRpb246ICJUaGUgTG9yZCBJUyDigJQgcHJlc2VudCB0ZW5zZSwgYWx3YXlzLiBIaXMgZmFpdGhmdWxuZXNzIGV4dGVuZHMgdG8gZXZlcnkgZ2VuZXJhdGlvbiwgaW5jbHVkaW5nIHlvdXJzLiIsCiAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgXS5tYXAoKGl0ZW0sIGluZGV4KSA9PiAoCiAgICAgICAgICAgICAgPGRpdgogICAgICAgICAgICAgICAga2V5PXtpbmRleH0KICAgICAgICAgICAgICAgIGNsYXNzTmFtZT0iYmctd2hpdGUvMTAgcm91bmRlZC0yeGwgcC04IGhvdmVyOmJnLXdoaXRlLzE1IHRyYW5zaXRpb24tY29sb3JzIHRleHQtY2VudGVyIgogICAgICAgICAgICAgID4KICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJ3LTE2IGgtMTYgbXgtYXV0byByb3VuZGVkLXhsIGJnLXRlcnJhY290dGEvMjAgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgdGV4dC10ZXJyYWNvdHRhLWxpZ2h0IG1iLTQiPgogICAgICAgICAgICAgICAgICB7aXRlbS5pY29ufQogICAgICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgICAgICA8aDMgY2xhc3NOYW1lPSJmb250LWRpc3BsYXkgdGV4dC14bCBmb250LXNlbWlib2xkIG1iLTMiPgogICAgICAgICAgICAgICAgICB7aXRlbS50aXRsZX0KICAgICAgICAgICAgICAgIDwvaDM+CiAgICAgICAgICAgICAgICA8cCBjbGFzc05hbWU9InRleHQtd2hpdGUvODAgdGV4dC1zbSBsZWFkaW5nLXJlbGF4ZWQiPgogICAgICAgICAgICAgICAgICB7aXRlbS5kZXNjcmlwdGlvbn0KICAgICAgICAgICAgICAgIDwvcD4KICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgKSl9CiAgICAgICAgICA8L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgPC9zZWN0aW9uPgoKICAgICAgey8qIFBhc3RvciBTZWN0aW9uICovfQogICAgICA8c2VjdGlvbiBpZD0icGFzdG9yIiBjbGFzc05hbWU9InB5LTE2IG1kOnB5LTI0IGJnLWNyZWFtLWRhcmsiPgogICAgICAgIDxkaXYgY2xhc3NOYW1lPSJtYXgtdy03eGwgbXgtYXV0byBweC00IHNtOnB4LTYgbGc6cHgtOCI+CiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iZ3JpZCBtZDpncmlkLWNvbHMtMiBnYXAtMTIgaXRlbXMtY2VudGVyIj4KICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9Im9yZGVyLTIgbWQ6b3JkZXItMSI+CiAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPSJ0ZXh0LXRlcnJhY290dGEgZm9udC1tZWRpdW0gdHJhY2tpbmctd2lkZXIgdXBwZXJjYXNlIHRleHQtc20iPgogICAgICAgICAgICAgICAgTWVldCB0aGUgUGFzdG9yCiAgICAgICAgICAgICAgPC9zcGFuPgogICAgICAgICAgICAgIDxoMiBjbGFzc05hbWU9InRleHQtM3hsIG1kOnRleHQtNHhsIGZvbnQtZGlzcGxheSBmb250LXNlbWlib2xkIHRleHQtY2hhcmNvYWwgbXQtMiBtYi02Ij4KICAgICAgICAgICAgICAgIFBhc3RvciBNaWtlCiAgICAgICAgICAgICAgPC9oMj4KICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ic3BhY2UteS00IHRleHQtY2hhcmNvYWwtbGlnaHQgbGVhZGluZy1yZWxheGVkIj4KICAgICAgICAgICAgICAgIDxwPgogICAgICAgICAgICAgICAgICBQYXN0b3IgTWlrZSBmb3VuZGVkIEwuSS5GLkUuIE1pbmlzdHJ5IHdpdGggYSBzaW1wbGUgdmlzaW9uOiB0byBjcmVhdGUKICAgICAgICAgICAgICAgICAgYSB3ZWxjb21pbmcgc3BhY2Ugd2hlcmUgcGVvcGxlIGNhbiBleHBlcmllbmNlIEdvZCZhcG9zO3MgcHJlc2VuY2UgdG9nZXRoZXIsCiAgICAgICAgICAgICAgICAgIG5vIG1hdHRlciB3aGVyZSB0aGV5IGFyZSBpbiB0aGUgd29ybGQuCiAgICAgICAgICAgICAgICA8L3A+CiAgICAgICAgICAgICAgICA8cD4KICAgICAgICAgICAgICAgICAgV2l0aCBhIGhlYXJ0IGZvciB0ZWFjaGluZyBhbmQgYSBwYXNzaW9uIGZvciBhdXRoZW50aWMgY29ubmVjdGlvbiwKICAgICAgICAgICAgICAgICAgUGFzdG9yIE1pa2UgYnJpbmdzIFNjcmlwdHVyZSB0byBsaWZlIGluIGEgd2F5IHRoYXQmYXBvcztzIGFjY2Vzc2libGUsCiAgICAgICAgICAgICAgICAgIHByYWN0aWNhbCwgYW5kIGZpbGxlZCB3aXRoIHdhcm10aC4gSGlzIGNvbnZlcnNhdGlvbmFsIHN0eWxlIG1ha2VzCiAgICAgICAgICAgICAgICAgIGV2ZXJ5b25lIGZlZWwgbGlrZSBmYW1pbHkuCiAgICAgICAgICAgICAgICA8L3A+CiAgICAgICAgICAgICAgICA8cD4KICAgICAgICAgICAgICAgICAgQmV5b25kIFN1bmRheSBzZXJ2aWNlcywgeW91IGNhbiBmaW5kIFBhc3RvciBNaWtlIHNoYXJpbmcgZGFpbHkKICAgICAgICAgICAgICAgICAgZW5jb3VyYWdlbWVudCBvbiBUaWtUb2sgYW5kIEluc3RhZ3JhbSwgd2hlcmUgaGUgY29ubmVjdHMgd2l0aAogICAgICAgICAgICAgICAgICB0aG91c2FuZHMgdGhyb3VnaCBzaG9ydCwgcG93ZXJmdWwgbWVzc2FnZXMgb2YgZmFpdGggYW5kIGhvcGUuCiAgICAgICAgICAgICAgICA8L3A+CiAgICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgICAgPGJsb2NrcXVvdGUgY2xhc3NOYW1lPSJtdC04IGJvcmRlci1sLTQgYm9yZGVyLXRlcnJhY290dGEgcGwtNiBpdGFsaWMgdGV4dC1jaGFyY29hbCI+CiAgICAgICAgICAgICAgICAmbGRxdW87R29kIGlzIHdpdGggeW91IHJpZ2h0IG5vdywgcmlnaHQgd2hlcmUgeW91IGFyZS4gVGhhdCZhcG9zO3Mgbm90IGp1c3QKICAgICAgICAgICAgICAgIGEgbmljZSB0aG91Z2h0IOKAlCBpdCZhcG9zO3MgdGhlIHRydXRoIHRoYXQgY2hhbmdlcyBldmVyeXRoaW5nLiZyZHF1bzsKICAgICAgICAgICAgICA8L2Jsb2NrcXVvdGU+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ib3JkZXItMSBtZDpvcmRlci0yIj4KICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iYXNwZWN0LVs0LzVdIHJvdW5kZWQtMnhsIGJnLWdyYWRpZW50LXRvLWJyIGZyb20tZm9yZXN0IHRvLWZvcmVzdC1kYXJrIG92ZXJmbG93LWhpZGRlbiBzaGFkb3cteGwiPgogICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9InctZnVsbCBoLWZ1bGwgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIiPgogICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0idGV4dC1jZW50ZXIgdGV4dC13aGl0ZS82MCI+CiAgICAgICAgICAgICAgICAgICAgPHN2ZwogICAgICAgICAgICAgICAgICAgICAgY2xhc3NOYW1lPSJ3LTI0IGgtMjQgbXgtYXV0byBtYi00IgogICAgICAgICAgICAgICAgICAgICAgZmlsbD0ibm9uZSIKICAgICAgICAgICAgICAgICAgICAgIHN0cm9rZT0iY3VycmVudENvbG9yIgogICAgICAgICAgICAgICAgICAgICAgdmlld0JveD0iMCAwIDI0IDI0IgogICAgICAgICAgICAgICAgICAgID4KICAgICAgICAgICAgICAgICAgICAgIDxwYXRoCiAgICAgICAgICAgICAgICAgICAgICAgIHN0cm9rZUxpbmVjYXA9InJvdW5kIgogICAgICAgICAgICAgICAgICAgICAgICBzdHJva2VMaW5lam9pbj0icm91bmQiCiAgICAgICAgICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoPXsxfQogICAgICAgICAgICAgICAgICAgICAgICBkPSJNMTYgN2E0IDQgMCAxMS04IDAgNCA0IDAgMDE4IDB6TTEyIDE0YTcgNyAwIDAwLTcgN2gxNGE3IDcgMCAwMC03LTd6IgogICAgICAgICAgICAgICAgICAgICAgLz4KICAgICAgICAgICAgICAgICAgICA8L3N2Zz4KICAgICAgICAgICAgICAgICAgICA8cCBjbGFzc05hbWU9InRleHQtc20iPlBhc3RvciBNaWtlIFBob3RvPC9wPgogICAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgIDwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICA8L3NlY3Rpb24+CgogICAgICB7LyogQmVsaWVmcyBTZWN0aW9uICovfQogICAgICA8c2VjdGlvbiBpZD0iYmVsaWVmcyIgY2xhc3NOYW1lPSJweS0xNiBtZDpweS0yNCI+CiAgICAgICAgPGRpdiBjbGFzc05hbWU9Im1heC13LTd4bCBteC1hdXRvIHB4LTQgc206cHgtNiBsZzpweC04Ij4KICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJ0ZXh0LWNlbnRlciBtYi0xMiI+CiAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0idGV4dC10ZXJyYWNvdHRhIGZvbnQtbWVkaXVtIHRyYWNraW5nLXdpZGVyIHVwcGVyY2FzZSB0ZXh0LXNtIj4KICAgICAgICAgICAgICBPdXIgRm91bmRhdGlvbgogICAgICAgICAgICA8L3NwYW4+CiAgICAgICAgICAgIDxoMiBjbGFzc05hbWU9InRleHQtM3hsIG1kOnRleHQtNHhsIGZvbnQtZGlzcGxheSBmb250LXNlbWlib2xkIHRleHQtY2hhcmNvYWwgbXQtMiI+CiAgICAgICAgICAgICAgV2hhdCBXZSBCZWxpZXZlCiAgICAgICAgICAgIDwvaDI+CiAgICAgICAgICA8L2Rpdj4KCiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iZ3JpZCBtZDpncmlkLWNvbHMtMiBsZzpncmlkLWNvbHMtMyBnYXAtNiI+CiAgICAgICAgICAgIHtiZWxpZWZzLm1hcCgoYmVsaWVmLCBpbmRleCkgPT4gKAogICAgICAgICAgICAgIDxkaXYKICAgICAgICAgICAgICAgIGtleT17aW5kZXh9CiAgICAgICAgICAgICAgICBjbGFzc05hbWU9ImJnLXdoaXRlIHJvdW5kZWQtMnhsIHAtNiBzaGFkb3ctc20gaG92ZXI6c2hhZG93LWxnIHRyYW5zaXRpb24tc2hhZG93IgogICAgICAgICAgICAgID4KICAgICAgICAgICAgICAgIDxoMyBjbGFzc05hbWU9ImZvbnQtZGlzcGxheSB0ZXh0LXhsIGZvbnQtc2VtaWJvbGQgdGV4dC1jaGFyY29hbCBtYi0zIj4KICAgICAgICAgICAgICAgICAge2JlbGllZi50aXRsZX0KICAgICAgICAgICAgICAgIDwvaDM+CiAgICAgICAgICAgICAgICA8cCBjbGFzc05hbWU9InRleHQtY2hhcmNvYWwtbGlnaHQgdGV4dC1zbSBsZWFkaW5nLXJlbGF4ZWQiPgogICAgICAgICAgICAgICAgICB7YmVsaWVmLmRlc2NyaXB0aW9ufQogICAgICAgICAgICAgICAgPC9wPgogICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICApKX0KICAgICAgICAgIDwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICA8L3NlY3Rpb24+CgogICAgICB7LyogRkFRIFNlY3Rpb24gKi99CiAgICAgIDxzZWN0aW9uIGNsYXNzTmFtZT0icHktMTYgbWQ6cHktMjQgYmctY3JlYW0tZGFyayI+CiAgICAgICAgPGRpdiBjbGFzc05hbWU9Im1heC13LTN4bCBteC1hdXRvIHB4LTQgc206cHgtNiBsZzpweC04Ij4KICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJ0ZXh0LWNlbnRlciBtYi0xMiI+CiAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0idGV4dC10ZXJyYWNvdHRhIGZvbnQtbWVkaXVtIHRyYWNraW5nLXdpZGVyIHVwcGVyY2FzZSB0ZXh0LXNtIj4KICAgICAgICAgICAgICBDb21tb24gUXVlc3Rpb25zCiAgICAgICAgICAgIDwvc3Bhbj4KICAgICAgICAgICAgPGgyIGNsYXNzTmFtZT0idGV4dC0zeGwgbWQ6dGV4dC00eGwgZm9udC1kaXNwbGF5IGZvbnQtc2VtaWJvbGQgdGV4dC1jaGFyY29hbCBtdC0yIj4KICAgICAgICAgICAgICBGQVFzCiAgICAgICAgICAgIDwvaDI+CiAgICAgICAgICA8L2Rpdj4KCiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ic3BhY2UteS02Ij4KICAgICAgICAgICAge1sKICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICBxOiAiV2hhdCB0aW1lIGlzIHRoZSBzZXJ2aWNlPyIsCiAgICAgICAgICAgICAgICBhOiAiV2UgZ2F0aGVyIGV2ZXJ5IFN1bmRheSBhdCAxMDowMCBBTSBFYXN0ZXJuIFRpbWUuIFRoZSBzZXJ2aWNlIHR5cGljYWxseSBsYXN0cyBhYm91dCBhbiBob3VyLiIsCiAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICBxOiAiRG8gSSBuZWVkIHRvIHR1cm4gb24gbXkgY2FtZXJhPyIsCiAgICAgICAgICAgICAgICBhOiAiQ2FtZXJhcyBhbmQgbWljcm9waG9uZXMgYXJlIGNvbXBsZXRlbHkgb3B0aW9uYWwuIFlvdSdyZSB3ZWxjb21lIHRvIHBhcnRpY2lwYXRlIGhvd2V2ZXIgeW91J3JlIGNvbWZvcnRhYmxlIOKAlCB3aGV0aGVyIHRoYXQncyBvbiB2aWRlbywgYXVkaW8gb25seSwgb3IganVzdCB3YXRjaGluZy4iLAogICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgewogICAgICAgICAgICAgICAgcTogIklzIHRoaXMgYSByZWFsIGNodXJjaD8iLAogICAgICAgICAgICAgICAgYTogIkFic29sdXRlbHkhIFdoaWxlIHdlIG1lZXQgb25saW5lIHJhdGhlciB0aGFuIGluIGEgcGh5c2ljYWwgYnVpbGRpbmcsIHdlJ3JlIGEgZ2VudWluZSBjb21tdW5pdHkgb2YgYmVsaWV2ZXJzIGNvbW1pdHRlZCB0byB3b3JzaGlwLCB0ZWFjaGluZywgcHJheWVyLCBhbmQgZmVsbG93c2hpcCB0b2dldGhlci4iLAogICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgewogICAgICAgICAgICAgICAgcTogIkNhbiBJIGpvaW4gZnJvbSBhbnl3aGVyZT8iLAogICAgICAgICAgICAgICAgYTogIlllcyEgV2UgaGF2ZSBtZW1iZXJzIGZyb20gYWxsIG92ZXIgdGhlIHdvcmxkLiBBcyBsb25nIGFzIHlvdSBoYXZlIGFuIGludGVybmV0IGNvbm5lY3Rpb24sIHlvdSdyZSB3ZWxjb21lIHRvIGpvaW4gdXMuIiwKICAgICAgICAgICAgICB9LAogICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgIHE6ICJXaGF0IGFib3V0IG15IGtpZHM/IiwKICAgICAgICAgICAgICAgIGE6ICJXZSB3ZWxjb21lIGZhbWlsaWVzISBNYW55IHBhcmVudHMgd2F0Y2ggd2l0aCB0aGVpciBjaGlsZHJlbiBhbmQgdXNlIHRoZSBzZXJ2aWNlIGFzIGEgdGVhY2hpbmcgbW9tZW50LiBXZSBrZWVwIG91ciBtZXNzYWdlcyBhY2Nlc3NpYmxlIHRvIGFsbCBhZ2VzLiIsCiAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgXS5tYXAoKGZhcSwgaW5kZXgpID0+ICgKICAgICAgICAgICAgICA8ZGl2CiAgICAgICAgICAgICAgICBrZXk9e2luZGV4fQogICAgICAgICAgICAgICAgY2xhc3NOYW1lPSJiZy13aGl0ZSByb3VuZGVkLTJ4bCBwLTYgc2hhZG93LXNtIgogICAgICAgICAgICAgID4KICAgICAgICAgICAgICAgIDxoMyBjbGFzc05hbWU9ImZvbnQtZGlzcGxheSB0ZXh0LWxnIGZvbnQtc2VtaWJvbGQgdGV4dC1jaGFyY29hbCBtYi0yIj4KICAgICAgICAgICAgICAgICAge2ZhcS5xfQogICAgICAgICAgICAgICAgPC9oMz4KICAgICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT0idGV4dC1jaGFyY29hbC1saWdodCI+e2ZhcS5hfTwvcD4KICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgKSl9CiAgICAgICAgICA8L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgPC9zZWN0aW9uPgoKICAgICAgey8qIENUQSBTZWN0aW9uICovfQogICAgICA8c2VjdGlvbiBjbGFzc05hbWU9InB5LTE2Ij4KICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ibWF4LXctNHhsIG14LWF1dG8gcHgtNCBzbTpweC02IGxnOnB4LTggdGV4dC1jZW50ZXIiPgogICAgICAgICAgPGgyIGNsYXNzTmFtZT0idGV4dC0zeGwgbWQ6dGV4dC00eGwgZm9udC1kaXNwbGF5IGZvbnQtc2VtaWJvbGQgdGV4dC1jaGFyY29hbCBtYi02Ij4KICAgICAgICAgICAgRXhwZXJpZW5jZSBHb2QmYXBvcztzIFByZXNlbmNlIFdpdGggVXMKICAgICAgICAgIDwvaDI+CiAgICAgICAgICA8cCBjbGFzc05hbWU9InRleHQtY2hhcmNvYWwtbGlnaHQgdGV4dC1sZyBtYi04IG1heC13LTJ4bCBteC1hdXRvIj4KICAgICAgICAgICAgTC5JLkYuRS4gTWluaXN0cnkgaXMgYSBwbGFjZSB3aGVyZSB5b3UgY2FuIGVuY291bnRlciB0aGUgR29kIHdobyBpcwogICAgICAgICAgICBmb3JldmVyIEVtbWFudWVsIOKAlCBmb3JldmVyIHdpdGggdXMuIEpvaW4gdXMgdGhpcyBTdW5kYXkgYW5kIGV4cGVyaWVuY2UKICAgICAgICAgICAgSGlzIHByZXNlbmNlIGluIGNvbW11bml0eS4KICAgICAgICAgIDwvcD4KICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSJmbGV4IGZsZXgtY29sIHNtOmZsZXgtcm93IGdhcC00IGp1c3RpZnktY2VudGVyIj4KICAgICAgICAgICAgPEJ1dHRvbiBocmVmPSIvd2F0Y2giIHNpemU9ImxnIj4KICAgICAgICAgICAgICBKb2luIFRoaXMgU3VuZGF5CiAgICAgICAgICAgIDwvQnV0dG9uPgogICAgICAgICAgICA8QnV0dG9uIGhyZWY9Ii9jb25uZWN0IiB2YXJpYW50PSJvdXRsaW5lIiBzaXplPSJsZyI+CiAgICAgICAgICAgICAgU3VibWl0IGEgUHJheWVyIFJlcXVlc3QKICAgICAgICAgICAgPC9CdXR0b24+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgPC9zZWN0aW9uPgogICAgPC9kaXY+CiAgKTsKfQo="}
+import { Button } from "@/components/Button";
+
+const beliefs = [
+  {
+    title: "The Bible",
+    description: "We believe the Bible is God's inspired Word and our guide for faith and life.",
+  },
+  {
+    title: "God",
+    description: "We believe in one God, eternally existing in three persons: Father, Son, and Holy Spirit.",
+  },
+  {
+    title: "Jesus Christ",
+    description: "We believe Jesus is fully God and fully man, born of a virgin, and that He died for our sins and rose again.",
+  },
+  {
+    title: "Salvation",
+    description: "We believe salvation is a gift of grace received through faith in Jesus Christ alone.",
+  },
+  {
+    title: "The Church",
+    description: "We believe the church is the body of Christ, called to worship, fellowship, and serve.",
+  },
+  {
+    title: "Eternity",
+    description: "We believe in the resurrection of the dead and eternal life with God for all who believe.",
+  },
+];
+
+const lifeLetters = [
+  {
+    letter: "L",
+    word: "Lord",
+    description: "Our eternal God, the beginning and the end, unchanging through all generations.",
+  },
+  {
+    letter: "I",
+    word: "Is",
+    description: "Not was, not will be — but IS. He is present, active, and alive right now.",
+  },
+  {
+    letter: "F",
+    word: "Forever",
+    description: "His presence endures eternally. Yesterday, today, and forever the same.",
+  },
+  {
+    letter: "E",
+    word: "Emmanuel",
+    description: "\"God with us\" — the promise fulfilled in Jesus, our ever-present companion.",
+  },
+];
+
+export default function AboutPage() {
+  return (
+    <div className="pt-20">
+      {/* Hero Section */}
+      <section className="bg-forest text-white py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold mb-4">
+              What is L.I.F.E.?
+            </h1>
+            <p className="text-white/80 text-lg max-w-2xl mx-auto">
+              More than a name — it&apos;s a declaration of who God is
+              and His promise to always be with us.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* L.I.F.E. Meaning Section - The Heart of the Page */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <span className="text-terracotta font-medium tracking-wider uppercase text-sm">
+              The Heart of Our Ministry
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-charcoal mt-4 mb-6">
+              Lord Is Forever Emmanuel
+            </h2>
+            <p className="text-charcoal-light text-lg leading-relaxed">
+              L.I.F.E. Ministry is built on a beautiful truth that spans from ancient
+              prophecy to present reality: God has always been, and will always be,
+              with His people.
+            </p>
+          </div>
+
+          {/* L.I.F.E. Letter Breakdown */}
+          <div className="grid md:grid-cols-4 gap-6 mb-16">
+            {lifeLetters.map((item, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all text-center group"
+              >
+                <div className="w-20 h-20 mx-auto rounded-full bg-terracotta text-white flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <span className="font-display text-4xl font-bold">{item.letter}</span>
+                </div>
+                <h3 className="font-display text-2xl font-semibold text-charcoal mb-2">
+                  {item.word}
+                </h3>
+                <p className="text-charcoal-light text-sm leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Scripture Connection */}
+          <div className="bg-cream-dark rounded-3xl p-8 md:p-12">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <h3 className="text-2xl md:text-3xl font-display font-semibold text-charcoal mb-6">
+                  A Promise Fulfilled
+                </h3>
+                <div className="space-y-4 text-charcoal-light leading-relaxed">
+                  <p>
+                    In <strong className="text-charcoal">Isaiah 7:14</strong>, the prophet
+                    spoke of a coming sign: <em>&quot;The virgin will conceive and give birth
+                    to a son, and will call him Immanuel.&quot;</em>
+                  </p>
+                  <p>
+                    Centuries later, <strong className="text-charcoal">Matthew 1:23</strong> reveals
+                    the fulfillment of this prophecy in Jesus Christ — Emmanuel, which means
+                    <em>&quot;God with us.&quot;</em>
+                  </p>
+                  <p>
+                    This is the foundation of L.I.F.E. Ministry: the eternal God chose to
+                    dwell among us, and through Jesus, He continues to be present with
+                    His people — including you, right where you are.
+                  </p>
+                </div>
+              </div>
+              <div className="bg-white rounded-2xl p-8 shadow-sm">
+                <svg
+                  className="w-12 h-12 text-terracotta mb-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                  />
+                </svg>
+                <blockquote className="font-display text-xl md:text-2xl text-charcoal leading-relaxed mb-4">
+                  &ldquo;And surely I am with you always, to the very end of the age.&rdquo;
+                </blockquote>
+                <cite className="text-terracotta font-medium">— Matthew 28:20</cite>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What This Means For You */}
+      <section className="py-16 md:py-24 bg-forest text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-terracotta-light font-medium tracking-wider uppercase text-sm">
+              God&apos;s Constant Presence
+            </span>
+            <h2 className="text-3xl md:text-4xl font-display font-semibold mt-2">
+              What This Means for You
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                ),
+                title: "You Are Never Alone",
+                description: "In your brightest moments and darkest valleys, Emmanuel — God with us — is right there beside you.",
+              },
+              {
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                ),
+                title: "You Are Deeply Loved",
+                description: "The God of the universe chose to be with you. Not watching from a distance, but intimately present in your life.",
+              },
+              {
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                ),
+                title: "His Presence Is Eternal",
+                description: "The Lord IS — present tense, always. His faithfulness extends to every generation, including yours.",
+              },
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="bg-white/10 rounded-2xl p-8 hover:bg-white/15 transition-colors text-center"
+              >
+                <div className="w-16 h-16 mx-auto rounded-xl bg-terracotta/20 flex items-center justify-center text-terracotta-light mb-4">
+                  {item.icon}
+                </div>
+                <h3 className="font-display text-xl font-semibold mb-3">
+                  {item.title}
+                </h3>
+                <p className="text-white/80 text-sm leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pastor Section */}
+      <section id="pastor" className="py-16 md:py-24 bg-cream-dark">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="order-2 md:order-1">
+              <span className="text-terracotta font-medium tracking-wider uppercase text-sm">
+                Meet the Pastor
+              </span>
+              <h2 className="text-3xl md:text-4xl font-display font-semibold text-charcoal mt-2 mb-6">
+                Pastor Mike
+              </h2>
+              <div className="space-y-4 text-charcoal-light leading-relaxed">
+                <p>
+                  Pastor Mike founded L.I.F.E. Ministry with a simple vision: to create
+                  a welcoming space where people can experience God&apos;s presence together,
+                  no matter where they are in the world.
+                </p>
+                <p>
+                  With a heart for teaching and a passion for authentic connection,
+                  Pastor Mike brings Scripture to life in a way that&apos;s accessible,
+                  practical, and filled with warmth. His conversational style makes
+                  everyone feel like family.
+                </p>
+                <p>
+                  Beyond Sunday services, you can find Pastor Mike sharing daily
+                  encouragement on TikTok and Instagram, where he connects with
+                  thousands through short, powerful messages of faith and hope.
+                </p>
+              </div>
+              <blockquote className="mt-8 border-l-4 border-terracotta pl-6 italic text-charcoal">
+                &ldquo;God is with you right now, right where you are. That&apos;s not just
+                a nice thought — it&apos;s the truth that changes everything.&rdquo;
+              </blockquote>
+            </div>
+            <div className="order-1 md:order-2">
+              <div className="aspect-[4/5] rounded-2xl bg-gradient-to-br from-forest to-forest-dark overflow-hidden shadow-xl">
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="text-center text-white/60">
+                    <svg
+                      className="w-24 h-24 mx-auto mb-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1}
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
+                    </svg>
+                    <p className="text-sm">Pastor Mike Photo</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Beliefs Section */}
+      <section id="beliefs" className="py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-terracotta font-medium tracking-wider uppercase text-sm">
+              Our Foundation
+            </span>
+            <h2 className="text-3xl md:text-4xl font-display font-semibold text-charcoal mt-2">
+              What We Believe
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {beliefs.map((belief, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-shadow"
+              >
+                <h3 className="font-display text-xl font-semibold text-charcoal mb-3">
+                  {belief.title}
+                </h3>
+                <p className="text-charcoal-light text-sm leading-relaxed">
+                  {belief.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-16 md:py-24 bg-cream-dark">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-terracotta font-medium tracking-wider uppercase text-sm">
+              Common Questions
+            </span>
+            <h2 className="text-3xl md:text-4xl font-display font-semibold text-charcoal mt-2">
+              FAQs
+            </h2>
+          </div>
+
+          <div className="space-y-6">
+            {[
+              {
+                q: "What time is the service?",
+                a: "We gather every Sunday at 10:00 AM Eastern Time. The service typically lasts about an hour.",
+              },
+              {
+                q: "Do I need to turn on my camera?",
+                a: "Cameras and microphones are completely optional. You're welcome to participate however you're comfortable — whether that's on video, audio only, or just watching.",
+              },
+              {
+                q: "Is this a real church?",
+                a: "Absolutely! While we meet online rather than in a physical building, we're a genuine community of believers committed to worship, teaching, prayer, and fellowship together.",
+              },
+              {
+                q: "Can I join from anywhere?",
+                a: "Yes! We have members from all over the world. As long as you have an internet connection, you're welcome to join us.",
+              },
+              {
+                q: "What about my kids?",
+                a: "We welcome families! Many parents watch with their children and use the service as a teaching moment. We keep our messages accessible to all ages.",
+              },
+            ].map((faq, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl p-6 shadow-sm"
+              >
+                <h3 className="font-display text-lg font-semibold text-charcoal mb-2">
+                  {faq.q}
+                </h3>
+                <p className="text-charcoal-light">{faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-display font-semibold text-charcoal mb-6">
+            Experience God&apos;s Presence With Us
+          </h2>
+          <p className="text-charcoal-light text-lg mb-8 max-w-2xl mx-auto">
+            L.I.F.E. Ministry is a place where you can encounter the God who is
+            forever Emmanuel — forever with us. Join us this Sunday and experience
+            His presence in community.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button href="/watch" size="lg">
+              Join This Sunday
+            </Button>
+            <Button href="/connect" variant="outline" size="lg">
+              Submit a Prayer Request
+            </Button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

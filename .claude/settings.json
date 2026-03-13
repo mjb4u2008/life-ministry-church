@@ -1,1 +1,7 @@
-{"data":"ewogICJlbmFibGVkUGx1Z2lucyI6IHsKICAgICJmcm9udGVuZC1kZXNpZ25AY2xhdWRlLXBsdWdpbnMtb2ZmaWNpYWwiOiB0cnVlLAogICAgImZlYXR1cmUtZGV2QGNsYXVkZS1wbHVnaW5zLW9mZmljaWFsIjogdHJ1ZSwKICAgICJjb2RlLXNpbXBsaWZpZXJAY2xhdWRlLXBsdWdpbnMtb2ZmaWNpYWwiOiB0cnVlCiAgfQp9Cg=="}
+{
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true
+  }
+}

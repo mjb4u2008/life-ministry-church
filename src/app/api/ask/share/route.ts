@@ -1,1 +1,28 @@
-{"data":"aW1wb3J0IHsgTmV4dFJlcXVlc3QsIE5leHRSZXNwb25zZSB9IGZyb20gIm5leHQvc2VydmVyIjsKaW1wb3J0IHsgYWRkSW5zaWdodCB9IGZyb20gIkAvbGliL2RhdGEiOwoKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIFBPU1QocmVxdWVzdDogTmV4dFJlcXVlc3QpIHsKICB0cnkgewogICAgY29uc3QgeyB0b3BpYywgc2NyaXB0dXJlIH0gPSBhd2FpdCByZXF1ZXN0Lmpzb24oKTsKCiAgICBpZiAoIXRvcGljIHx8IHR5cGVvZiB0b3BpYyAhPT0gInN0cmluZyIgfHwgdG9waWMudHJpbSgpID09PSAiIikgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgICAgeyBlcnJvcjogIlRvcGljIGlzIHJlcXVpcmVkIiB9LAogICAgICAgIHsgc3RhdHVzOiA0MDAgfQogICAgICApOwogICAgfQoKICAgIGNvbnN0IG5ld0luc2lnaHQgPSBhd2FpdCBhZGRJbnNpZ2h0KHsKICAgICAgdG9waWM6IHRvcGljLnRyaW0oKS5zdWJzdHJpbmcoMCwgMjAwKSwgLy8gTGltaXQgdG9waWMgbGVuZ3RoCiAgICAgIHNjcmlwdHVyZTogc2NyaXB0dXJlPy50cmltKCkuc3Vic3RyaW5nKDAsIDEwMCkgfHwgIiIsIC8vIE9wdGlvbmFsIHNjcmlwdHVyZSByZWZlcmVuY2UKICAgIH0pOwoKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IHN1Y2Nlc3M6IHRydWUsIGluc2lnaHQ6IG5ld0luc2lnaHQgfSwgeyBzdGF0dXM6IDIwMSB9KTsKICB9IGNhdGNoIChlcnJvcikgewogICAgY29uc29sZS5lcnJvcigiRXJyb3IgaW4gL2FwaS9hc2svc2hhcmU6IiwgZXJyb3IpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICB7IGVycm9yOiAiRmFpbGVkIHRvIHNhdmUgaW5zaWdodCIgfSwKICAgICAgeyBzdGF0dXM6IDUwMCB9CiAgICApOwogIH0KfQo="}
+import { NextRequest, NextResponse } from "next/server";
+import { addInsight } from "@/lib/data";
+
+export async function POST(request: NextRequest) {
+  try {
+    const { topic, scripture } = await request.json();
+
+    if (!topic || typeof topic !== "string" || topic.trim() === "") {
+      return NextResponse.json(
+        { error: "Topic is required" },
+        { status: 400 }
+      );
+    }
+
+    const newInsight = await addInsight({
+      topic: topic.trim().substring(0, 200), // Limit topic length
+      scripture: scripture?.trim().substring(0, 100) || "", // Optional scripture reference
+    });
+
+    return NextResponse.json({ success: true, insight: newInsight }, { status: 201 });
+  } catch (error) {
+    console.error("Error in /api/ask/share:", error);
+    return NextResponse.json(
+      { error: "Failed to save insight" },
+      { status: 500 }
+    );
+  }
+}

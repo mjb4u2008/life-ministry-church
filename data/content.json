@@ -1,1 +1,39 @@
-{"data":"ewogICJ3ZWVrbHlNZXNzYWdlIjogewogICAgInRpdGxlIjogIkZpbmRpbmcgUmVzdCBpbiBSZXN0bGVzcyBUaW1lcyIsCiAgICAic2NyaXB0dXJlIjogIk1hdHRoZXcgMTE6MjgtMzAiLAogICAgImRlc2NyaXB0aW9uIjogIkluIGEgd29ybGQgdGhhdCBuZXZlciBzdG9wcyBtb3ZpbmcsIGhvdyBkbyB3ZSBmaW5kIHRoZSBwZWFjZSB0aGF0IEplc3VzIHByb21pc2VkPyBUaGlzIFN1bmRheSwgd2UgZXhwbG9yZSB3aGF0IGl0IHRydWx5IG1lYW5zIHRvIHJlc3QgaW4gR29kJ3MgcHJlc2VuY2UgYW5kIHRydXN0IGluIEhpcyB0aW1pbmcuIgogIH0sCiAgInNlcnZpY2VTY2hlZHVsZSI6IHsKICAgICJkYXlPZldlZWsiOiAwLAogICAgImhvdXIiOiAxMCwKICAgICJtaW51dGUiOiAwLAogICAgInRpbWV6b25lIjogIkFtZXJpY2EvTmV3X1lvcmsiCiAgfSwKICAibG9iYnlPcGVuIjogZmFsc2UsCiAgInNlcnZpY2VMaXZlIjogZmFsc2UsCiAgInJvb21OYW1lIjogIkxJRkVNaW5pc3RyeVNlcnZpY2UiLAogICJ0ZXN0TW9kZSI6IGZhbHNlLAogICJzb2NpYWxMaW5rcyI6IHsKICAgICJ0aWt0b2siOiAiaHR0cHM6Ly93d3cudGlrdG9rLmNvbS9AbC5pLmYuZS5taW5pc3RyeSIsCiAgICAiaW5zdGFncmFtIjogImh0dHBzOi8vd3d3Lmluc3RhZ3JhbS5jb20vd21ibWlrZS8/aGw9ZW4iCiAgfSwKICAidGlrdG9rVmlkZW9zIjogWwogICAgewogICAgICAiaWQiOiAiMTc2ODE4MTIyMTU4MyIsCiAgICAgICJ1cmwiOiAiaHR0cHM6Ly93d3cudGlrdG9rLmNvbS9AbC5pLmYuZS5taW5pc3RyeS92aWRlby83NDY4MTY3OTgwMzkyNzYyNjU0IiwKICAgICAgInRpdGxlIjogIktpbmdkb20gT2YgR29kIElzIEhlcmUhIgogICAgfSwKICAgIHsKICAgICAgImlkIjogIjE3NjgxODEyMzQ4MDMiLAogICAgICAidXJsIjogImh0dHBzOi8vd3d3LnRpa3Rvay5jb20vQGwuaS5mLmUubWluaXN0cnkvdmlkZW8vNzU0NTE4MjQwNTA3NDczNDM2NyIsCiAgICAgICJ0aXRsZSI6ICJCZWNhdXNlIE9mIEplc3VzIEkgQW0iCiAgICB9LAogICAgewogICAgICAiaWQiOiAiMTc2ODE4MTMzNTQyNSIsCiAgICAgICJ1cmwiOiAiaHR0cHM6Ly93d3cudGlrdG9rLmNvbS9AbC5pLmYuZS5taW5pc3RyeS92aWRlby83NTI5NzI3MjMxMTQ5NjI0NjA3IiwKICAgICAgInRpdGxlIjogIkkgU3BlYWsgJiBMaXZlIEplc3VzIgogICAgfQogIF0sCiAgImxhc3RVcGRhdGVkIjogIjIwMjYtMDEtMTJUMDE6Mjg6NTUuNDM5WiIKfQ=="}
+{
+  "weeklyMessage": {
+    "title": "Finding Rest in Restless Times",
+    "scripture": "Matthew 11:28-30",
+    "description": "In a world that never stops moving, how do we find the peace that Jesus promised? This Sunday, we explore what it truly means to rest in God's presence and trust in His timing."
+  },
+  "serviceSchedule": {
+    "dayOfWeek": 0,
+    "hour": 10,
+    "minute": 0,
+    "timezone": "America/New_York"
+  },
+  "lobbyOpen": false,
+  "serviceLive": false,
+  "roomName": "LIFEMinistryService",
+  "testMode": false,
+  "socialLinks": {
+    "tiktok": "https://www.tiktok.com/@l.i.f.e.ministry",
+    "instagram": "https://www.instagram.com/wmbmike/?hl=en"
+  },
+  "tiktokVideos": [
+    {
+      "id": "1768181221583",
+      "url": "https://www.tiktok.com/@l.i.f.e.ministry/video/7468167980392762654",
+      "title": "Kingdom Of God Is Here!"
+    },
+    {
+      "id": "1768181234803",
+      "url": "https://www.tiktok.com/@l.i.f.e.ministry/video/7545182405074734367",
+      "title": "Because Of Jesus I Am"
+    },
+    {
+      "id": "1768181335425",
+      "url": "https://www.tiktok.com/@l.i.f.e.ministry/video/7529727231149624607",
+      "title": "I Speak & Live Jesus"
+    }
+  ],
+  "lastUpdated": "2026-01-12T01:28:55.439Z"
+}
