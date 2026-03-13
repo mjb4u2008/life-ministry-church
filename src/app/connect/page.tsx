@@ -146,19 +146,19 @@ export default function ConnectPage() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="bg-forest text-white py-16 md:py-24">
+      <section className="bg-deep text-white py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold mb-4">
               Prayer Wall
             </h1>
-            <p className="text-white/80 text-lg max-w-2xl mx-auto mb-8">
+            <p className="text-white/70 text-lg max-w-2xl mx-auto mb-8">
               Share your prayer requests and lift up others in prayer.
               Every request is seen, every prayer matters.
             </p>
             <Button
               onClick={() => setShowForm(true)}
-              className="bg-terracotta hover:bg-terracotta-dark"
+              className="bg-water hover:bg-water-dark"
               size="lg"
             >
               Submit a Prayer Request
@@ -170,7 +170,7 @@ export default function ConnectPage() {
       {/* Success Message */}
       {showSuccess && (
         <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 animate-fade-in-up">
-          <div className="bg-forest text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3">
+          <div className="bg-deep text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3">
             <svg
               className="w-6 h-6"
               fill="none"
@@ -194,12 +194,12 @@ export default function ConnectPage() {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-lg w-full p-8 animate-fade-in-up">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-display font-semibold text-charcoal">
+              <h2 className="text-2xl font-display font-semibold text-deep">
                 Share Your Prayer Request
               </h2>
               <button
                 onClick={() => setShowForm(false)}
-                className="text-charcoal-light hover:text-charcoal"
+                className="text-text-body hover:text-deep"
               >
                 <svg
                   className="w-6 h-6"
@@ -221,7 +221,7 @@ export default function ConnectPage() {
               <div>
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium text-charcoal mb-2"
+                  className="block text-sm font-medium text-deep mb-2"
                 >
                   Your Name (optional)
                 </label>
@@ -232,7 +232,7 @@ export default function ConnectPage() {
                   onChange={(e) => setName(e.target.value)}
                   disabled={isAnonymous}
                   placeholder="Enter your name..."
-                  className="w-full px-4 py-3 rounded-lg border border-warm-gray-light focus:border-terracotta focus:ring-2 focus:ring-terracotta/20 outline-none transition-colors bg-cream disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full px-4 py-3 rounded-lg border border-border-light focus:border-water focus:ring-2 focus:ring-water/20 outline-none transition-colors bg-cloud disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
 
@@ -242,9 +242,9 @@ export default function ConnectPage() {
                   id="anonymous"
                   checked={isAnonymous}
                   onChange={(e) => setIsAnonymous(e.target.checked)}
-                  className="w-5 h-5 rounded border-warm-gray-light text-terracotta focus:ring-terracotta"
+                  className="w-5 h-5 rounded border-border-light text-water focus:ring-water"
                 />
-                <label htmlFor="anonymous" className="text-charcoal-light">
+                <label htmlFor="anonymous" className="text-text-body">
                   Post anonymously
                 </label>
               </div>
@@ -252,7 +252,7 @@ export default function ConnectPage() {
               <div>
                 <label
                   htmlFor="request"
-                  className="block text-sm font-medium text-charcoal mb-2"
+                  className="block text-sm font-medium text-deep mb-2"
                 >
                   Prayer Request
                 </label>
@@ -262,7 +262,7 @@ export default function ConnectPage() {
                   onChange={(e) => setRequest(e.target.value)}
                   placeholder="Share what's on your heart..."
                   rows={4}
-                  className="w-full px-4 py-3 rounded-lg border border-warm-gray-light focus:border-terracotta focus:ring-2 focus:ring-terracotta/20 outline-none transition-colors bg-cream resize-none"
+                  className="w-full px-4 py-3 rounded-lg border border-border-light focus:border-water focus:ring-2 focus:ring-water/20 outline-none transition-colors bg-cloud resize-none"
                   required
                 />
               </div>
@@ -298,10 +298,10 @@ export default function ConnectPage() {
       <section className="py-16 md:py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-display font-semibold text-charcoal">
+            <h2 className="text-2xl font-display font-semibold text-deep">
               Community Prayers
             </h2>
-            <span className="text-charcoal-light text-sm">
+            <span className="text-text-body text-sm">
               {prayers.length} {prayers.length === 1 ? "request" : "requests"}
             </span>
           </div>
@@ -311,21 +311,21 @@ export default function ConnectPage() {
               {[1, 2, 3].map((i) => (
                 <div key={i} className="bg-white rounded-2xl p-6 shadow-sm animate-pulse">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-full bg-warm-gray-light" />
+                    <div className="w-10 h-10 rounded-full bg-border-light" />
                     <div>
-                      <div className="h-4 w-24 bg-warm-gray-light rounded" />
-                      <div className="h-3 w-16 bg-warm-gray-light rounded mt-1" />
+                      <div className="h-4 w-24 bg-border-light rounded" />
+                      <div className="h-3 w-16 bg-border-light rounded mt-1" />
                     </div>
                   </div>
-                  <div className="h-4 w-full bg-warm-gray-light rounded mb-2" />
-                  <div className="h-4 w-3/4 bg-warm-gray-light rounded" />
+                  <div className="h-4 w-full bg-border-light rounded mb-2" />
+                  <div className="h-4 w-3/4 bg-border-light rounded" />
                 </div>
               ))}
             </div>
           ) : prayers.length === 0 ? (
             <div className="text-center py-12">
               <svg
-                className="w-16 h-16 mx-auto text-warm-gray-light mb-4"
+                className="w-16 h-16 mx-auto text-text-light mb-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -337,10 +337,10 @@ export default function ConnectPage() {
                   d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                 />
               </svg>
-              <h3 className="text-xl font-display font-semibold text-charcoal mb-2">
+              <h3 className="text-xl font-display font-semibold text-deep mb-2">
                 No prayer requests yet
               </h3>
-              <p className="text-charcoal-light mb-6">
+              <p className="text-text-body mb-6">
                 Be the first to share a prayer request with our community.
               </p>
               <Button onClick={() => setShowForm(true)}>
@@ -354,39 +354,39 @@ export default function ConnectPage() {
                 return (
                   <div
                     key={prayer.id}
-                    className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow"
+                    className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow card-glow"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-3">
-                          <div className="w-10 h-10 rounded-full bg-cream flex items-center justify-center">
-                            <span className="font-display font-semibold text-terracotta">
+                          <div className="w-10 h-10 rounded-full bg-cloud flex items-center justify-center">
+                            <span className="font-display font-semibold text-water">
                               {prayer.isAnonymous ? "?" : prayer.name.charAt(0)}
                             </span>
                           </div>
                           <div>
-                            <p className="font-medium text-charcoal">
+                            <p className="font-medium text-deep">
                               {prayer.isAnonymous ? "Anonymous" : prayer.name}
                             </p>
-                            <p className="text-xs text-charcoal-light">
+                            <p className="text-xs text-text-body">
                               {formatTimeAgo(prayer.createdAt)}
                             </p>
                           </div>
                         </div>
-                        <p className="text-charcoal-light leading-relaxed">
+                        <p className="text-text-body leading-relaxed">
                           {prayer.request}
                         </p>
                       </div>
                     </div>
 
-                    <div className="mt-4 pt-4 border-t border-warm-gray-light/50 flex items-center justify-between">
+                    <div className="mt-4 pt-4 border-t border-border-light/50 flex items-center justify-between">
                       <button
                         onClick={() => handlePray(prayer.id)}
                         disabled={hasPrayed}
                         className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                           hasPrayed
-                            ? "bg-forest/10 text-forest cursor-default"
-                            : "bg-cream hover:bg-terracotta hover:text-white text-charcoal-light"
+                            ? "bg-water/10 text-water cursor-default"
+                            : "bg-cloud hover:bg-water hover:text-white text-text-body"
                         }`}
                       >
                         <svg
@@ -404,8 +404,8 @@ export default function ConnectPage() {
                         </svg>
                         {hasPrayed ? "Prayed" : "I'm Praying"}
                       </button>
-                      <span className="text-sm text-charcoal-light">
-                        <span className="font-semibold text-forest">{prayer.prayerCount}</span>{" "}
+                      <span className="text-sm text-text-body">
+                        <span className="font-semibold text-water">{prayer.prayerCount}</span>{" "}
                         {prayer.prayerCount === 1 ? "person" : "people"} praying
                       </span>
                     </div>
@@ -418,11 +418,11 @@ export default function ConnectPage() {
       </section>
 
       {/* Encouragement Section */}
-      <section className="py-16 bg-cream-dark">
+      <section className="py-16 bg-sky">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm">
             <svg
-              className="w-12 h-12 mx-auto mb-6 text-terracotta"
+              className="w-12 h-12 mx-auto mb-6 text-water"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -434,11 +434,11 @@ export default function ConnectPage() {
                 d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
               />
             </svg>
-            <blockquote className="text-2xl md:text-3xl font-display text-charcoal mb-6">
+            <blockquote className="text-2xl md:text-3xl font-display text-deep mb-6">
               &ldquo;Do not be anxious about anything, but in every situation, by prayer
               and petition, with thanksgiving, present your requests to God.&rdquo;
             </blockquote>
-            <cite className="text-terracotta font-medium">
+            <cite className="text-water font-medium">
               — Philippians 4:6
             </cite>
           </div>
