@@ -1,20 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  /* Color Palette */
-  --cream: #FAF7F2;
-  --cream-dark: #F5F0E8;
-  --terracotta: #C4704A;
-  --terracotta-light: #D4896A;
-  --terracotta-dark: #A85A38;
-  --forest: #3D5A47;
-  --forest-light: #4E7159;
-  --forest-dark: #2D4435;
-  --charcoal: #2D2D2D;
-  --charcoal-light: #4A4A4A;
-  --warm-gray: #8B8680;
-  --warm-gray-light: #B5B0A8;
-  --white: #FFFFFF;
+  /* Color Palette — Living Water Theme */
+  --white: #ffffff;
+  --cloud: #f0f6ff;
+  --sky: #e8f4fd;
+  --water: #3b9dd9;
+  --water-dark: #2d7fb5;
+  --deep: #1a5276;
+  --ocean: #0c2d48;
+  --cyan: #00d4ff;
+  --text-body: #5a7a94;
+  --text-light: #8aabc4;
+  --border-light: #d4e6f1;
 
   /* Fonts */
   --font-display: var(--font-cormorant), Georgia, serif;
@@ -23,18 +21,17 @@
 
 @theme inline {
   /* Colors */
-  --color-cream: var(--cream);
-  --color-cream-dark: var(--cream-dark);
-  --color-terracotta: var(--terracotta);
-  --color-terracotta-light: var(--terracotta-light);
-  --color-terracotta-dark: var(--terracotta-dark);
-  --color-forest: var(--forest);
-  --color-forest-light: var(--forest-light);
-  --color-forest-dark: var(--forest-dark);
-  --color-charcoal: var(--charcoal);
-  --color-charcoal-light: var(--charcoal-light);
-  --color-warm-gray: var(--warm-gray);
-  --color-warm-gray-light: var(--warm-gray-light);
+  --color-white: var(--white);
+  --color-cloud: var(--cloud);
+  --color-sky: var(--sky);
+  --color-water: var(--water);
+  --color-water-dark: var(--water-dark);
+  --color-deep: var(--deep);
+  --color-ocean: var(--ocean);
+  --color-cyan: var(--cyan);
+  --color-text-body: var(--text-body);
+  --color-text-light: var(--text-light);
+  --color-border-light: var(--border-light);
 
   /* Font Families */
   --font-display: var(--font-cormorant), Georgia, serif;
@@ -43,8 +40,8 @@
 
 /* Base Styles */
 body {
-  background: var(--cream);
-  color: var(--charcoal);
+  background: var(--white);
+  color: var(--deep);
   font-family: var(--font-body);
   line-height: 1.6;
 }
@@ -65,13 +62,13 @@ h1, h2, h3, h4 {
 
 /* Focus Styles */
 :focus-visible {
-  outline: 2px solid var(--terracotta);
+  outline: 2px solid var(--water);
   outline-offset: 2px;
 }
 
 /* Selection */
 ::selection {
-  background: var(--terracotta-light);
+  background: var(--water);
   color: var(--white);
 }
 
@@ -82,19 +79,22 @@ h1, h2, h3, h4 {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--cream-dark);
+  background: var(--cloud);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--warm-gray-light);
+  background: var(--border-light);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--warm-gray);
+  background: var(--text-light);
 }
 
-/* Animation Keyframes */
+/* ===========================
+   Animation Keyframes
+   =========================== */
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -111,6 +111,59 @@ h1, h2, h3, h4 {
   }
 }
 
+@keyframes wave {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-25%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes glow-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 @keyframes pulse-soft {
   0%, 100% {
     opacity: 1;
@@ -120,16 +173,19 @@ h1, h2, h3, h4 {
   }
 }
 
-@keyframes float {
+@keyframes live-pulse {
   0%, 100% {
-    transform: translateY(0);
+    box-shadow: 0 0 0 0 rgba(59, 157, 217, 0.7);
   }
   50% {
-    transform: translateY(-10px);
+    box-shadow: 0 0 0 8px rgba(59, 157, 217, 0);
   }
 }
 
-/* Animation Utilities */
+/* ===========================
+   Animation Utilities
+   =========================== */
+
 .animate-fade-in {
   animation: fadeIn 0.5s ease-out forwards;
 }
@@ -152,32 +208,150 @@ h1, h2, h3, h4 {
 .animation-delay-300 { animation-delay: 300ms; }
 .animation-delay-400 { animation-delay: 400ms; }
 .animation-delay-500 { animation-delay: 500ms; }
+.animation-delay-600 { animation-delay: 600ms; }
+.animation-delay-700 { animation-delay: 700ms; }
+.animation-delay-800 { animation-delay: 800ms; }
 
-/* Gradient Overlays */
-.gradient-overlay {
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(45, 45, 45, 0.4) 100%
-  );
+/* ===========================
+   Wave Divider
+   =========================== */
+
+.wave-divider {
+  position: relative;
+  overflow: hidden;
+  height: 60px;
 }
 
-/* Glass Effect */
+.wave-divider::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background-repeat: repeat-x;
+  background-size: 50% 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0 C150,80 350,0 600,40 C850,80 1050,0 1200,40 L1200,120 L0,120 Z' fill='%23f0f6ff'/%3E%3C/svg%3E");
+  animation: wave 8s ease-in-out infinite;
+}
+
+/* ===========================
+   Glass Effect — Light
+   =========================== */
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Legacy glass class alias */
 .glass {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
 
-/* Live Indicator Pulse */
-@keyframes live-pulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(196, 112, 74, 0.7);
-  }
-  50% {
-    box-shadow: 0 0 0 8px rgba(196, 112, 74, 0);
-  }
+/* ===========================
+   Text Gradient — Water
+   =========================== */
+
+.text-gradient-water {
+  background: linear-gradient(135deg, var(--water), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
+
+/* ===========================
+   Card Glow
+   =========================== */
+
+.card-glow {
+  transition: box-shadow 0.3s ease;
+}
+
+.card-glow:hover {
+  box-shadow: 0 8px 30px rgba(59, 157, 217, 0.15);
+}
+
+/* ===========================
+   Button Ripple
+   =========================== */
+
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-ripple::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+}
+
+.btn-ripple:hover::after {
+  animation: ripple 0.6s ease-out;
+}
+
+/* ===========================
+   Scroll Reveal
+   =========================== */
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===========================
+   Marquee Track
+   =========================== */
+
+.marquee-track {
+  display: flex;
+  animation: marquee 30s linear infinite;
+}
+
+/* ===========================
+   Statement Heading
+   =========================== */
+
+.statement-heading {
+  font-size: clamp(3rem, 10vw, 8rem);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+/* ===========================
+   Gradient Overlay
+   =========================== */
+
+.gradient-overlay {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(12, 45, 72, 0.4) 100%
+  );
+}
+
+/* ===========================
+   Live Indicator
+   =========================== */
 
 .live-indicator {
   animation: live-pulse 2s infinite;

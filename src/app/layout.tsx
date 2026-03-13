@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${cormorant.variable} ${dmSans.variable} font-body antialiased bg-cream text-charcoal`}
+        className={`${cormorant.variable} ${dmSans.variable} font-body antialiased bg-white text-deep`}
       >
         <Header />
         <main className="min-h-screen">
