@@ -283,6 +283,45 @@ export default function HomePage() {
       </section>
 
       {/* ========================================
+          H. LATEST FROM PASTOR MIKE
+          ======================================== */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-water font-medium tracking-wider uppercase text-sm">
+              Daily Encouragement
+            </span>
+            <h2 className="text-3xl md:text-4xl font-display font-semibold text-deep mt-2">
+              Latest from Pastor Mike
+            </h2>
+            <p className="text-text-body text-lg mt-4 max-w-2xl mx-auto">
+              Get daily encouragement and stay connected with our community throughout the week.
+            </p>
+          </div>
+
+          {/* TikTok videos will be populated from admin content */}
+          <div className="flex justify-center">
+            <div className="bg-cloud rounded-2xl shadow-sm p-12 text-center max-w-md">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-deep/5 flex items-center justify-center">
+                <svg className="w-10 h-10 text-deep/30" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
+                </svg>
+              </div>
+              <p className="text-deep text-lg font-display font-semibold mb-2">
+                Follow Pastor Mike
+              </p>
+              <p className="text-text-body text-sm mb-6">
+                Daily inspiration and behind-the-scenes from ministry life
+              </p>
+              <Button href="#" external variant="outline" size="sm">
+                Follow on TikTok
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================
           I. TESTIMONIES PREVIEW
           ======================================== */}
       <section className="py-24 bg-sky">
