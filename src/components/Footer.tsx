@@ -1,44 +1,103 @@
 import Link from "next/link";
+import Image from "next/image";
 
-const footerLinks = {
-  connect: [
-    { href: "/watch", label: "Join Service" },
-    { href: "/connect", label: "Prayer Wall" },
-    { href: "/give", label: "Give" },
-  ],
-  about: [
-    { href: "/about", label: "What is L.I.F.E.?" },
-    { href: "/about#pastor", label: "Meet Pastor Mike" },
-    { href: "/about#beliefs", label: "What We Believe" },
-  ],
-};
+const quickLinks = [
+  { href: "/", label: "Home" },
+  { href: "/watch", label: "Watch" },
+  { href: "/connect", label: "Prayer Wall" },
+  { href: "/testimonies", label: "Testimonies" },
+  { href: "/give", label: "Give" },
+];
+
+const connectLinks = [
+  { href: "/about", label: "About Us" },
+  { href: "/about#pastor", label: "Meet Pastor Mike" },
+  { href: "/about#beliefs", label: "What We Believe" },
+  { href: "/about#contact", label: "Contact" },
+  { href: "/ask", label: "Ask The Word" },
+];
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-forest text-white">
+    <footer className="bg-ocean text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-          {/* Brand */}
-          <div className="md:col-span-2">
+          {/* Brand Column */}
+          <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-terracotta flex items-center justify-center">
-                <span className="text-white font-display text-lg font-semibold">L</span>
-              </div>
-              <span className="font-display text-2xl font-semibold">
+              <Image
+                src="/logo-water-cross.png"
+                alt="L.I.F.E. Ministry"
+                width={60}
+                height={60}
+                className="rounded-full"
+              />
+              <span className="text-2xl font-semibold">
                 L.I.F.E. Ministry
               </span>
             </div>
-            <p className="text-white/70 max-w-md leading-relaxed">
+            <p className="text-white/60 leading-relaxed text-sm">
               Lord Is Forever Emmanuel — experiencing God&apos;s constant
               presence together. Join us for worship, prayer, and genuine
               connection wherever you are.
             </p>
-            <div className="flex gap-4 mt-6">
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 className="text-sm font-semibold uppercase tracking-wider mb-4">
+              <span className="text-white/40">(</span>{" "}
+              Quick Links{" "}
+              <span className="text-white/40">)</span>
+            </h4>
+            <ul className="space-y-3">
+              {quickLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-white/60 hover:text-cyan transition-colors text-sm"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Connect */}
+          <div>
+            <h4 className="text-sm font-semibold uppercase tracking-wider mb-4">
+              <span className="text-white/40">(</span>{" "}
+              Connect{" "}
+              <span className="text-white/40">)</span>
+            </h4>
+            <ul className="space-y-3">
+              {connectLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-white/60 hover:text-cyan transition-colors text-sm"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Socials */}
+          <div>
+            <h4 className="text-sm font-semibold uppercase tracking-wider mb-4">
+              <span className="text-white/40">(</span>{" "}
+              Socials{" "}
+              <span className="text-white/40">)</span>
+            </h4>
+            <div className="flex gap-3 mt-2">
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-terracotta flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-water flex items-center justify-center transition-colors"
                 aria-label="Facebook"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -47,7 +106,7 @@ export function Footer() {
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-terracotta flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-water flex items-center justify-center transition-colors"
                 aria-label="YouTube"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -56,7 +115,7 @@ export function Footer() {
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-terracotta flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-water flex items-center justify-center transition-colors"
                 aria-label="Instagram"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -64,44 +123,6 @@ export function Footer() {
                 </svg>
               </a>
             </div>
-          </div>
-
-          {/* Connect Links */}
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider mb-4 text-terracotta-light">
-              Connect
-            </h4>
-            <ul className="space-y-3">
-              {footerLinks.connect.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-white/70 hover:text-white transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* About Links */}
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider mb-4 text-terracotta-light">
-              About
-            </h4>
-            <ul className="space-y-3">
-              {footerLinks.about.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-white/70 hover:text-white transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
 

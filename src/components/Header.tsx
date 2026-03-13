@@ -1,23 +1,24 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
-import { LiveIndicator } from "./LiveIndicator";
 
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/watch", label: "Watch" },
   { href: "/connect", label: "Prayer Wall" },
+  { href: "/testimonies", label: "Testimonies" },
   { href: "/ask", label: "Ask The Word" },
   { href: "/give", label: "Give" },
-  { href: "/about", label: "What is L.I.F.E.?" },
+  { href: "/about", label: "About" },
 ];
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-warm-gray-light/20">
+    <header className="fixed top-0 left-0 right-0 z-50 glass-light border-b border-border-light/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
@@ -25,10 +26,14 @@ export function Header() {
             href="/"
             className="flex items-center gap-3 group"
           >
-            <div className="w-10 h-10 rounded-full bg-terracotta flex items-center justify-center">
-              <span className="text-white font-display text-lg font-semibold">L</span>
-            </div>
-            <span className="font-display text-xl md:text-2xl font-semibold text-charcoal group-hover:text-terracotta">
+            <Image
+              src="/logo-water-cross.png"
+              alt="L.I.F.E. Ministry"
+              width={40}
+              height={40}
+              className="rounded-full"
+            />
+            <span className="text-xl md:text-2xl font-semibold text-deep group-hover:text-water transition-colors">
               L.I.F.E. Ministry
             </span>
           </Link>
@@ -39,18 +44,17 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-charcoal-light hover:text-terracotta font-medium text-sm tracking-wide uppercase"
+                className="text-text-body hover:text-water font-medium text-sm tracking-wide uppercase transition-colors"
               >
                 {link.label}
               </Link>
             ))}
-            <LiveIndicator />
           </nav>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 text-charcoal hover:text-terracotta"
+            className="md:hidden p-2 text-text-body hover:text-water transition-colors"
             aria-label="Toggle menu"
           >
             <svg
@@ -81,21 +85,18 @@ export function Header() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-t border-warm-gray-light/20 animate-fade-in">
+        <div className="md:hidden bg-white border-t border-border-light/50 animate-fade-in">
           <nav className="px-4 py-4 space-y-4">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMenuOpen(false)}
-                className="block text-charcoal hover:text-terracotta font-medium text-sm tracking-wide uppercase py-2"
+                className="block text-text-body hover:text-water font-medium text-sm tracking-wide uppercase py-2 transition-colors"
               >
                 {link.label}
               </Link>
             ))}
-            <div className="pt-2">
-              <LiveIndicator />
-            </div>
           </nav>
         </div>
       )}

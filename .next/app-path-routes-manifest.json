@@ -1,0 +1,19 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/about/page": "/about",
+  "/admin/page": "/admin",
+  "/api/ask/route": "/api/ask",
+  "/api/ask/share/route": "/api/ask/share",
+  "/api/auth/route": "/api/auth",
+  "/api/content/route": "/api/content",
+  "/api/insights/route": "/api/insights",
+  "/api/prayers/route": "/api/prayers",
+  "/api/subscribers/route": "/api/subscribers",
+  "/ask/page": "/ask",
+  "/connect/page": "/connect",
+  "/favicon.ico/route": "/favicon.ico",
+  "/give/page": "/give",
+  "/page": "/",
+  "/watch/page": "/watch"
+}

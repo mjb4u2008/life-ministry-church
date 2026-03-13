@@ -1,0 +1,19 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/about/page": "app/about/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/api/ask/route": "app/api/ask/route.js",
+  "/api/ask/share/route": "app/api/ask/share/route.js",
+  "/api/auth/route": "app/api/auth/route.js",
+  "/api/content/route": "app/api/content/route.js",
+  "/api/insights/route": "app/api/insights/route.js",
+  "/api/prayers/route": "app/api/prayers/route.js",
+  "/api/subscribers/route": "app/api/subscribers/route.js",
+  "/ask/page": "app/ask/page.js",
+  "/connect/page": "app/connect/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/give/page": "app/give/page.js",
+  "/page": "app/page.js",
+  "/watch/page": "app/watch/page.js"
+}

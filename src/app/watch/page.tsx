@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/Button";
-import { JitsiMeet } from "@/components/JitsiMeet";
+// JitsiMeet removed — video integration pending
 import { ReminderSignup } from "@/components/ReminderSignup";
 
 const LOCAL_STORAGE_KEY = "lifeMinistryUserName";
@@ -597,11 +597,10 @@ export default function WatchPage() {
       {/* Jitsi container */}
       <div className="pt-16 h-screen">
         <div className="h-full">
-          <JitsiMeet
-            roomName={content?.roomName || "LIFEMinistryService"}
-            displayName={userName || "Guest"}
-            onReady={() => console.log("Jitsi is ready")}
-          />
+          {/* Video integration placeholder — Jitsi removed */}
+          <div className="h-full flex items-center justify-center bg-charcoal text-white/60">
+            <p className="text-lg">Service video loading...</p>
+          </div>
         </div>
       </div>
     </div>
