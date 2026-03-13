@@ -4,6 +4,7 @@ import { Button } from "@/components/Button";
 import { ServiceCountdown } from "@/components/ServiceCountdown";
 import { HomeContent } from "@/components/HomeContent";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import { DailyScriptureSection } from "@/components/DailyScripture";
 
 function getNextSundays(count: number) {
   const sundays = [];
@@ -218,25 +219,9 @@ export default function HomePage() {
       </section>
 
       {/* ========================================
-          E. DAILY SCRIPTURE
+          E. DAILY SCRIPTURE (dynamic)
           ======================================== */}
-      <section className="py-16 md:py-20 bg-sky">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="text-water font-medium tracking-wider uppercase text-sm">
-            Daily Inspiration
-          </span>
-          <blockquote className="mt-6 mb-4">
-            <p className="font-display text-2xl md:text-3xl lg:text-4xl italic text-deep leading-relaxed">
-              &ldquo;For God so loved the world, that he gave his only begotten
-              Son, that whosoever believeth in him should not perish, but have
-              everlasting life.&rdquo;
-            </p>
-          </blockquote>
-          <cite className="text-water font-medium text-lg not-italic">
-            John 3:16
-          </cite>
-        </div>
-      </section>
+      <DailyScriptureSection />
 
       {/* ========================================
           F. THIS SUNDAY (Featured Article)

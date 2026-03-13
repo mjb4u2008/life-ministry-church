@@ -53,6 +53,13 @@ export interface SiteContent {
   }[];
   contactEmail: string;
   contactPhone: string;
+  youtubeVideos: {
+    id: string;
+    url: string;
+    title: string;
+    date: string;
+    scripture: string;
+  }[];
 }
 
 export interface Prayer {
@@ -145,6 +152,7 @@ const DEFAULT_CONTENT: SiteContent = {
   upcomingEvents: [],
   contactEmail: "",
   contactPhone: "",
+  youtubeVideos: [],
 };
 
 const DEFAULT_DAILY_SCRIPTURE: DailyScripture = {
