@@ -175,6 +175,37 @@ Add utility classes:
 .btn-ripple:hover::after {
   opacity: 1;
 }
+
+/* Scroll-reveal text (2819 signature element) */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Marquee/ticker animation */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  animation: marquee 30s linear infinite;
+  width: max-content;
+}
+
+/* Bold statement heading — massive, viewport-dominating */
+.statement-heading {
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
 ```
 
 **Step 4: Update layout.tsx**
@@ -245,8 +276,10 @@ git commit -m "feat: redesign Button, Header, Footer with light water theme; rem
 
 New sections in order:
 1. **Hero:** White-to-sky gradient. Water cross logo with soft glow. HUGE spaced heading: "L . I . F . E ." then "Lord Is Forever Emmanuel" subtitle. "Without life, there's no us." Two CTAs.
-2. **L.I.F.E. Meaning:** Four beautiful cards (L, I, F, E) explaining each letter. Prominent, visual, the heart of the page. Water-blue letter circles.
-3. **Daily Scripture:** Display today's inspirational verse (from `/api/daily-scripture`).
+2. **Scroll-Reveal Statement (2819 signature):** Vertical line with words "Lord / Is / Forever / Emmanuel" revealing one-at-a-time as user scrolls. Use Intersection Observer API — each word gets `.scroll-reveal` class, JS adds `.visible` when in viewport. Staggered delays.
+3. **Marquee Banner:** Full-width overflow-hidden div with `.marquee-track` containing duplicated text "WITHOUT LIFE THERE'S NO US" scrolling continuously. Water-blue text on cloud background. Adds movement and energy between hero and content.
+4. **L.I.F.E. Meaning:** Four beautiful cards (L, I, F, E) explaining each letter. Prominent, visual, the heart of the page. Water-blue letter circles.
+5. **Daily Scripture:** Display today's inspirational verse (from `/api/daily-scripture`).
 4. **Service Countdown:** Next Sunday countdown.
 5. **This Week's Message:** YouTube embed + message details.
 6. **Latest from Pastor Mike:** TikTok carousel.

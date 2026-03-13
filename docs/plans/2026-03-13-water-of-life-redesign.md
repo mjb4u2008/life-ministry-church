@@ -30,7 +30,7 @@ The overall feel: imagine standing at the edge of clear water looking up at a bl
 - Clean sans-serif body (DM Sans — keep existing)
 - Massive hero text — the L.I.F.E. meaning should dominate
 
-### Design Elements
+### Design Elements (Best of 2819 + Water Theme)
 - **Water cross logo** as hero centerpiece with soft radial glow
 - **CSS wave animations** as section dividers (gentle, flowing, light blue waves)
 - **Subtle ripple effects** on button hover
@@ -38,11 +38,18 @@ The overall feel: imagine standing at the edge of clear water looking up at a bl
 - **Parenthetical button style:** `( Join This Sunday )` matching 2819's pattern
 - **White cards** with soft blue shadow on hover
 - **Ambient background music** option (subtle play/pause control)
+- **Scroll-reveal text animation** (2819 signature): Words like "Lord / Is / Forever / Emmanuel" reveal one-at-a-time along a vertical line as the user scrolls — using Intersection Observer + CSS transitions
+- **Marquee/ticker text:** A slow-scrolling banner with "LORD IS FOREVER EMMANUEL" or "WITHOUT LIFE THERE'S NO US" — like 2819's "NO GAMES. NO GIMMICKS. JUST JESUS."
+- **Dramatic whitespace:** Generous padding between sections, letting the content breathe — directly from 2819's spacing philosophy
+- **Section anchor nav on About page:** Sticky side/top nav linking to mission, values, beliefs, pastor — like 2819's about page
+- **Bold statement headings:** Each section opens with a massive typographic statement that dominates the viewport before any body text appears
 
 ## Pages
 
 ### Home (/)
 - **Hero:** Clean white/sky-blue gradient background. Water cross logo centered with soft glow. **PROMINENT** spaced-out heading: "L . I . F . E ." with "Lord Is Forever Emmanuel" below it. Tagline: "Without life, there's no us." Two CTA buttons: `( Join This Sunday )` and `( What is L.I.F.E.? )`.
+- **Scroll-Reveal Statement (2819 signature):** As user scrolls past the hero, words reveal one at a time along a vertical line: "Lord / Is / Forever / Emmanuel" — dramatic, eye-catching, sets the tone.
+- **Marquee Banner:** Slow-scrolling ticker: "WITHOUT LIFE THERE'S NO US" — separating hero from content, adds movement and energy.
 - **L.I.F.E. Meaning Section:** Right on the home page — break down what L.I.F.E. stands for prominently. Each letter gets a visual card. This is the HEART of the site.
 - **Daily Scripture:** Auto-generated daily inspirational verse (Haiku picks a verse each day, cached for 24hrs).
 - **Next Service Countdown:** Styled countdown timer with blue accent numbers.
