@@ -1,26 +1,17 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import FlyerTemplate from "@/components/FlyerTemplates";
+import type { FlyerData } from "@/components/FlyerTemplates";
 
-interface WeeklyMessage {
-  title: string;
-  scripture: string;
-  description: string;
-}
-
-interface SocialLinks {
-  tiktok: string;
-  instagram: string;
-}
-
-interface TikTokVideo {
-  id: string;
-  url: string;
-  title: string;
-}
+// ─── Interfaces ─────────────────────────────────────────────────────────────────
 
 interface SiteContent {
-  weeklyMessage: WeeklyMessage;
+  weeklyMessage: {
+    title: string;
+    scripture: string;
+    description: string;
+  };
   serviceSchedule: {
     dayOfWeek: number;
     hour: number;
@@ -31,9 +22,44 @@ interface SiteContent {
   serviceLive: boolean;
   roomName: string;
   testMode: boolean;
-  socialLinks: SocialLinks;
-  tiktokVideos: TikTokVideo[];
+  socialLinks: {
+    tiktok: string;
+    instagram: string;
+    youtube?: string;
+    facebook?: string;
+  };
+  tiktokVideos: {
+    id: string;
+    url: string;
+    title: string;
+  }[];
   lastUpdated: string;
+  googleMeetLink: string;
+  youtubeLatestUrl: string;
+  thisSunday: {
+    date: string;
+    title: string;
+    scripture: string;
+    description: string;
+  };
+  upcomingEvents: {
+    id: string;
+    title: string;
+    date: string;
+    time: string;
+    description: string;
+  }[];
+  contactEmail: string;
+  contactPhone: string;
+  youtubeVideos?: YouTubeVideo[];
+}
+
+interface YouTubeVideo {
+  id: string;
+  url: string;
+  title: string;
+  date: string;
+  scripture: string;
 }
 
 interface Prayer {
@@ -45,79 +71,236 @@ interface Prayer {
   isAnonymous: boolean;
 }
 
-interface Subscriber {
+interface Testimony {
   id: string;
   name: string;
-  contactType: "email" | "phone";
-  contact: string;
-  timestamp: string;
+  text: string;
+  isAnonymous: boolean;
+  blessedCount: number;
+  createdAt: string;
+  approved: boolean;
 }
 
-interface Insight {
-  id: string;
-  topic: string;
-  scripture: string;
-  timestamp: string;
+interface DailyScripture {
+  verse: string;
+  reference: string;
+  reflection: string;
+  date: string;
+  generatedAt: string;
+  isManualOverride: boolean;
 }
 
-type Tab = "message" | "live" | "social" | "prayers" | "subscribers" | "insights";
+type Tab =
+  | "this-sunday"
+  | "daily-scripture"
+  | "past-lessons"
+  | "flyer"
+  | "prayers"
+  | "testimonies"
+  | "settings";
+
+// ─── Toast Component ────────────────────────────────────────────────────────────
+
+function Toast({
+  message,
+  type,
+  onClose,
+}: {
+  message: string;
+  type: "success" | "error";
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    const timer = setTimeout(onClose, 4000);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  return (
+    <div className="fixed top-4 right-4 z-50 animate-fade-in">
+      <div
+        className={`flex items-center gap-3 px-5 py-3 rounded-xl shadow-lg text-sm font-medium ${
+          type === "success"
+            ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+            : "bg-red-50 text-red-800 border border-red-200"
+        }`}
+      >
+        <span className="text-lg">{type === "success" ? "\u2713" : "\u2717"}</span>
+        <span>{message}</span>
+        <button
+          onClick={onClose}
+          className="ml-2 opacity-50 hover:opacity-100 text-lg leading-none"
+        >
+          \u00d7
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Water Cross Logo (inline SVG) ─────────────────────────────────────────────
+
+function WaterCrossLogo({ size = 60 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 200 260"
+      className="text-water"
+      fill="currentColor"
+    >
+      <rect x="85" y="10" width="30" height="180" rx="6" />
+      <rect x="35" y="60" width="130" height="30" rx="6" />
+      <path
+        d="M100 200 C75 175, 45 190, 35 215 C25 240, 50 260, 100 260 C150 260, 175 240, 165 215 C155 190, 125 175, 100 200Z"
+        opacity="0.6"
+      />
+    </svg>
+  );
+}
+
+// ─── Helper: next Sunday date ───────────────────────────────────────────────────
+
+function getNextSunday(): string {
+  const today = new Date();
+  const dayOfWeek = today.getDay();
+  const daysUntilSunday = dayOfWeek === 0 ? 0 : 7 - dayOfWeek;
+  const nextSunday = new Date(today);
+  nextSunday.setDate(today.getDate() + daysUntilSunday);
+  return nextSunday.toISOString().split("T")[0];
+}
+
+// ─── Helper: format date nicely ─────────────────────────────────────────────────
+
+function formatDate(dateStr: string): string {
+  if (!dateStr) return "";
+  try {
+    const date = new Date(dateStr + "T00:00:00");
+    return date.toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  } catch {
+    return dateStr;
+  }
+}
+
+function formatTimestamp(dateStr: string): string {
+  if (!dateStr) return "";
+  try {
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  } catch {
+    return dateStr;
+  }
+}
+
+// ─── Shared Input Styles ────────────────────────────────────────────────────────
+
+const inputClass =
+  "w-full bg-white border border-border-light rounded-lg px-4 py-3 text-deep placeholder:text-text-light focus:border-water focus:ring-2 focus:ring-water/20 focus:outline-none";
+const labelClass = "block text-sm font-semibold text-deep mb-1.5";
+const cardClass = "bg-white rounded-xl p-6 shadow-sm";
+const sectionHeadingClass = "text-xl font-display font-semibold text-deep mb-1";
+const sectionDescClass = "text-sm text-text-body mb-6";
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// MAIN COMPONENT
+// ═══════════════════════════════════════════════════════════════════════════════
 
 export default function AdminPage() {
+  // ─── Auth State ─────────────────────────────────────────────────────────────
   const [token, setToken] = useState<string | null>(null);
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<Tab>("message");
+  // ─── Dashboard State ───────────────────────────────────────────────────────
+  const [activeTab, setActiveTab] = useState<Tab>("this-sunday");
   const [content, setContent] = useState<SiteContent | null>(null);
   const [prayers, setPrayers] = useState<Prayer[]>([]);
-  const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
-  const [insights, setInsights] = useState<Insight[]>([]);
-  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [testimonies, setTestimonies] = useState<Testimony[]>([]);
+  const [dailyScripture, setDailyScripture] = useState<DailyScripture | null>(null);
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
-  // Form states
-  const [messageTitle, setMessageTitle] = useState("");
-  const [messageScripture, setMessageScripture] = useState("");
-  const [messageDescription, setMessageDescription] = useState("");
-  const [tiktokUrl, setTiktokUrl] = useState("");
-  const [instagramUrl, setInstagramUrl] = useState("");
+  // ─── This Sunday Form ──────────────────────────────────────────────────────
+  const [sundayDate, setSundayDate] = useState(getNextSunday());
+  const [sundayTitle, setSundayTitle] = useState("");
+  const [sundayScripture, setSundayScripture] = useState("");
+  const [sundayDescription, setSundayDescription] = useState("");
+  const [sundayMeetLink, setSundayMeetLink] = useState("");
+  const [isSavingSunday, setIsSavingSunday] = useState(false);
 
-  // TikTok video management
+  // ─── Daily Scripture Form ──────────────────────────────────────────────────
+  const [scriptureOverride, setScriptureOverride] = useState(false);
+  const [customVerse, setCustomVerse] = useState("");
+  const [customReference, setCustomReference] = useState("");
+  const [customReflection, setCustomReflection] = useState("");
+  const [isSavingScripture, setIsSavingScripture] = useState(false);
+
+  // ─── Past Lessons Form ─────────────────────────────────────────────────────
+  const [youtubeVideos, setYoutubeVideos] = useState<YouTubeVideo[]>([]);
   const [newVideoUrl, setNewVideoUrl] = useState("");
   const [newVideoTitle, setNewVideoTitle] = useState("");
-  const [videoUrlError, setVideoUrlError] = useState("");
+  const [newVideoDate, setNewVideoDate] = useState("");
+  const [newVideoScripture, setNewVideoScripture] = useState("");
+  const [isSavingVideos, setIsSavingVideos] = useState(false);
 
-  // Prayer management
-  const [showPrayerModal, setShowPrayerModal] = useState(false);
-  const [editingPrayer, setEditingPrayer] = useState<Prayer | null>(null);
-  const [prayerName, setPrayerName] = useState("");
-  const [prayerRequest, setPrayerRequest] = useState("");
-  const [prayerCount, setPrayerCount] = useState(0);
-  const [prayerIsAnonymous, setPrayerIsAnonymous] = useState(false);
-  const [prayerDate, setPrayerDate] = useState("");
+  // ─── Flyer Generator ──────────────────────────────────────────────────────
+  const [flyerTitle, setFlyerTitle] = useState("");
+  const [flyerScripture, setFlyerScripture] = useState("");
+  const [flyerDescription, setFlyerDescription] = useState("");
+  const [flyerData, setFlyerData] = useState<FlyerData | null>(null);
+  const [flyerTemplate, setFlyerTemplate] = useState<1 | 2 | 3>(1);
+  const [isGeneratingFlyer, setIsGeneratingFlyer] = useState(false);
 
-  // Settings states
-  const [roomNameInput, setRoomNameInput] = useState("");
-  const [showSettings, setShowSettings] = useState(false);
+  // ─── Settings Form ────────────────────────────────────────────────────────
+  const [settingsEmail, setSettingsEmail] = useState("");
+  const [settingsPhone, setSettingsPhone] = useState("");
+  const [settingsTiktok, setSettingsTiktok] = useState("");
+  const [settingsInstagram, setSettingsInstagram] = useState("");
+  const [settingsYoutube, setSettingsYoutube] = useState("");
+  const [settingsFacebook, setSettingsFacebook] = useState("");
+  const [settingsDay, setSettingsDay] = useState(0);
+  const [settingsHour, setSettingsHour] = useState(10);
+  const [settingsMinute, setSettingsMinute] = useState(0);
+  const [settingsTimezone, setSettingsTimezone] = useState("America/New_York");
+  const [isSavingSettings, setIsSavingSettings] = useState(false);
 
-  // Check for existing token on mount
+  // ─── Prayers/Testimonies loading ──────────────────────────────────────────
+  const [isDeletingPrayer, setIsDeletingPrayer] = useState<string | null>(null);
+  const [isDeletingTestimony, setIsDeletingTestimony] = useState<string | null>(null);
+  const [isApprovingTestimony, setIsApprovingTestimony] = useState<string | null>(null);
+
+  // ─── Refs ─────────────────────────────────────────────────────────────────
+  const flyerRef = useRef<HTMLDivElement>(null);
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // AUTH LOGIC
+  // ═══════════════════════════════════════════════════════════════════════════
+
   useEffect(() => {
     const savedToken = localStorage.getItem("admin_token");
     if (savedToken) {
-      verifyToken(savedToken);
+      verifyExistingToken(savedToken);
     } else {
       setIsLoading(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const verifyToken = async (t: string) => {
+  const verifyExistingToken = async (t: string) => {
     try {
       const res = await fetch("/api/auth", {
         headers: { Authorization: `Bearer ${t}` },
       });
       if (res.ok) {
         setToken(t);
-        loadData(t);
       } else {
         localStorage.removeItem("admin_token");
       }
@@ -127,59 +310,10 @@ export default function AdminPage() {
     setIsLoading(false);
   };
 
-  const loadData = useCallback(async (t: string) => {
-    try {
-      // Load content
-      const contentRes = await fetch("/api/content");
-      if (contentRes.ok) {
-        const contentData = await contentRes.json();
-        setContent(contentData);
-        setMessageTitle(contentData.weeklyMessage.title);
-        setMessageScripture(contentData.weeklyMessage.scripture);
-        setMessageDescription(contentData.weeklyMessage.description);
-        setTiktokUrl(contentData.socialLinks.tiktok);
-        setInstagramUrl(contentData.socialLinks.instagram);
-        setRoomNameInput(contentData.roomName || "LIFEMinistryService");
-      }
-
-      // Load prayers
-      const prayersRes = await fetch("/api/prayers");
-      if (prayersRes.ok) {
-        const prayersData = await prayersRes.json();
-        setPrayers(prayersData.prayers);
-      }
-
-      // Load subscribers
-      const subscribersRes = await fetch("/api/subscribers", {
-        headers: { Authorization: `Bearer ${t}` },
-      });
-      if (subscribersRes.ok) {
-        const subscribersData = await subscribersRes.json();
-        setSubscribers(subscribersData.subscribers);
-      }
-
-      // Load insights
-      const insightsRes = await fetch("/api/insights", {
-        headers: { Authorization: `Bearer ${t}` },
-      });
-      if (insightsRes.ok) {
-        const insightsData = await insightsRes.json();
-        setInsights(insightsData.insights);
-      }
-    } catch (error) {
-      console.error("Error loading data:", error);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (token) {
-      loadData(token);
-    }
-  }, [token, loadData]);
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError("");
+    setIsLoggingIn(true);
 
     try {
       const res = await fetch("/api/auth", {
@@ -195,23 +329,110 @@ export default function AdminPage() {
         setToken(data.token);
         setPassword("");
       } else {
-        setLoginError(data.error || "Login failed");
+        setLoginError(data.error || "Invalid password");
       }
     } catch {
       setLoginError("Connection error. Please try again.");
     }
+    setIsLoggingIn(false);
   };
 
   const handleLogout = () => {
     localStorage.removeItem("admin_token");
     setToken(null);
     setContent(null);
+    setPrayers([]);
+    setTestimonies([]);
+    setDailyScripture(null);
+    setActiveTab("this-sunday");
   };
 
-  const saveContent = async (updates: Partial<SiteContent>) => {
-    if (!token) return;
+  // ═══════════════════════════════════════════════════════════════════════════
+  // DATA LOADING
+  // ═══════════════════════════════════════════════════════════════════════════
 
-    setSaveStatus("saving");
+  const loadAllData = useCallback(
+    async (t: string) => {
+      try {
+        const [contentRes, prayersRes, testimoniesRes, scriptureRes] =
+          await Promise.all([
+            fetch("/api/content"),
+            fetch("/api/prayers"),
+            fetch("/api/testimonies", {
+              headers: { Authorization: `Bearer ${t}` },
+            }),
+            fetch("/api/daily-scripture"),
+          ]);
+
+        if (contentRes.ok) {
+          const c = await contentRes.json();
+          setContent(c);
+          // Populate This Sunday form
+          setSundayDate(c.thisSunday?.date || getNextSunday());
+          setSundayTitle(c.thisSunday?.title || "");
+          setSundayScripture(c.thisSunday?.scripture || "");
+          setSundayDescription(c.thisSunday?.description || "");
+          setSundayMeetLink(c.googleMeetLink || "");
+          // Populate YouTube videos
+          setYoutubeVideos(c.youtubeVideos || []);
+          // Populate Settings
+          setSettingsEmail(c.contactEmail || "");
+          setSettingsPhone(c.contactPhone || "");
+          setSettingsTiktok(c.socialLinks?.tiktok || "");
+          setSettingsInstagram(c.socialLinks?.instagram || "");
+          setSettingsYoutube(c.socialLinks?.youtube || "");
+          setSettingsFacebook(c.socialLinks?.facebook || "");
+          setSettingsDay(c.serviceSchedule?.dayOfWeek ?? 0);
+          setSettingsHour(c.serviceSchedule?.hour ?? 10);
+          setSettingsMinute(c.serviceSchedule?.minute ?? 0);
+          setSettingsTimezone(
+            c.serviceSchedule?.timezone || "America/New_York"
+          );
+        }
+
+        if (prayersRes.ok) {
+          const p = await prayersRes.json();
+          setPrayers(p.prayers || []);
+        }
+
+        if (testimoniesRes.ok) {
+          const t2 = await testimoniesRes.json();
+          setTestimonies(t2.testimonies || []);
+        }
+
+        if (scriptureRes.ok) {
+          const s = await scriptureRes.json();
+          setDailyScripture(s);
+        }
+      } catch (error) {
+        console.error("Error loading data:", error);
+        showToast("Failed to load data", "error");
+      }
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (token) {
+      loadAllData(token);
+    }
+  }, [token, loadAllData]);
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TOAST HELPER
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  const showToast = (message: string, type: "success" | "error") => {
+    setToast({ message, type });
+  };
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TAB 1: THIS SUNDAY — SAVE
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  const handleSaveThisSunday = async () => {
+    if (!token) return;
+    setIsSavingSunday(true);
     try {
       const res = await fetch("/api/content", {
         method: "PUT",
@@ -219,125 +440,162 @@ export default function AdminPage() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(updates),
+        body: JSON.stringify({
+          thisSunday: {
+            date: sundayDate,
+            title: sundayTitle,
+            scripture: sundayScripture,
+            description: sundayDescription,
+          },
+          googleMeetLink: sundayMeetLink,
+        }),
       });
 
       if (res.ok) {
         const updated = await res.json();
         setContent(updated);
-        setSaveStatus("saved");
-        setTimeout(() => setSaveStatus("idle"), 2000);
+        showToast("This Sunday updated successfully!", "success");
       } else {
-        setSaveStatus("error");
+        showToast("Failed to save. Please try again.", "error");
       }
     } catch {
-      setSaveStatus("error");
+      showToast("Connection error. Please try again.", "error");
     }
+    setIsSavingSunday(false);
   };
 
-  // Service control functions
-  const toggleLobby = async () => {
-    if (!content) return;
-    await saveContent({ lobbyOpen: !content.lobbyOpen });
-  };
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TAB 2: DAILY SCRIPTURE — SAVE
+  // ═══════════════════════════════════════════════════════════════════════════
 
-  const startService = async () => {
-    if (!content) return;
-    // Log notification (MVP)
-    console.log(`Service starting! Would notify ${subscribers.length} subscribers`);
-    subscribers.forEach(sub => {
-      console.log(`  - Would notify ${sub.contact} (${sub.contactType})`);
-    });
-    await saveContent({ serviceLive: true });
-  };
+  const handleSaveScripture = async () => {
+    if (!token) return;
+    setIsSavingScripture(true);
+    try {
+      const res = await fetch("/api/daily-scripture", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          verse: customVerse,
+          reference: customReference,
+          reflection: customReflection,
+        }),
+      });
 
-  const endService = async () => {
-    if (!content) return;
-    await saveContent({ lobbyOpen: false, serviceLive: false });
-  };
-
-  const toggleTestMode = async () => {
-    if (!content) return;
-    await saveContent({ testMode: !content.testMode });
-  };
-
-  const saveRoomName = async () => {
-    if (!roomNameInput.trim()) return;
-    await saveContent({ roomName: roomNameInput.trim() });
-  };
-
-  const saveMessage = async () => {
-    await saveContent({
-      weeklyMessage: {
-        title: messageTitle,
-        scripture: messageScripture,
-        description: messageDescription,
-      },
-    });
-  };
-
-  const saveSocialLinks = async () => {
-    await saveContent({
-      socialLinks: {
-        tiktok: tiktokUrl,
-        instagram: instagramUrl,
-      },
-    });
-  };
-
-  const validateTikTokUrl = (url: string): string | null => {
-    if (!url.includes("tiktok.com") || !url.includes("/video/")) {
-      return "Please enter a valid TikTok video URL (e.g., https://www.tiktok.com/@user/video/123456789)";
+      if (res.ok) {
+        const updated = await res.json();
+        setDailyScripture(updated);
+        showToast("Custom scripture saved!", "success");
+      } else {
+        showToast("Failed to save scripture.", "error");
+      }
+    } catch {
+      showToast("Connection error.", "error");
     }
-    const match = url.match(/\/video\/(\d+)/);
-    if (!match) {
-      return "Could not extract video ID from URL";
-    }
-    return null;
+    setIsSavingScripture(false);
   };
 
-  const addTikTokVideo = async () => {
-    const error = validateTikTokUrl(newVideoUrl);
-    if (error) {
-      setVideoUrlError(error);
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TAB 3: PAST LESSONS — ADD / DELETE / SAVE
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  const handleAddVideo = () => {
+    if (!newVideoUrl.trim() || !newVideoTitle.trim()) {
+      showToast("Please fill in the URL and Title.", "error");
       return;
     }
-
-    setVideoUrlError("");
-    const newVideo: TikTokVideo = {
+    const video: YouTubeVideo = {
       id: Date.now().toString(),
       url: newVideoUrl.trim(),
       title: newVideoTitle.trim(),
+      date: newVideoDate || new Date().toISOString().split("T")[0],
+      scripture: newVideoScripture.trim(),
     };
-
-    const updatedVideos = [...(content?.tiktokVideos || []), newVideo];
-    await saveContent({ tiktokVideos: updatedVideos });
+    setYoutubeVideos((prev) => [video, ...prev]);
     setNewVideoUrl("");
     setNewVideoTitle("");
+    setNewVideoDate("");
+    setNewVideoScripture("");
   };
 
-  const deleteTikTokVideo = async (id: string) => {
-    if (!confirm("Remove this video?")) return;
-    const updatedVideos = (content?.tiktokVideos || []).filter((v) => v.id !== id);
-    await saveContent({ tiktokVideos: updatedVideos });
+  const handleDeleteVideo = (id: string) => {
+    setYoutubeVideos((prev) => prev.filter((v) => v.id !== id));
   };
 
-  const moveTikTokVideo = async (id: string, direction: "up" | "down") => {
-    const videos = [...(content?.tiktokVideos || [])];
-    const index = videos.findIndex((v) => v.id === id);
-    if (index === -1) return;
-
-    const newIndex = direction === "up" ? index - 1 : index + 1;
-    if (newIndex < 0 || newIndex >= videos.length) return;
-
-    [videos[index], videos[newIndex]] = [videos[newIndex], videos[index]];
-    await saveContent({ tiktokVideos: videos });
-  };
-
-  const deletePrayer = async (id: string) => {
+  const handleSaveVideos = async () => {
     if (!token) return;
-    if (!confirm("Delete this prayer request?")) return;
+    setIsSavingVideos(true);
+    try {
+      const res = await fetch("/api/content", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ youtubeVideos: youtubeVideos }),
+      });
 
+      if (res.ok) {
+        const updated = await res.json();
+        setContent(updated);
+        showToast("Past lessons saved!", "success");
+      } else {
+        showToast("Failed to save lessons.", "error");
+      }
+    } catch {
+      showToast("Connection error.", "error");
+    }
+    setIsSavingVideos(false);
+  };
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TAB 4: FLYER GENERATOR
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  const handleGenerateFlyer = async () => {
+    if (!token) return;
+    if (!flyerTitle.trim() || !flyerScripture.trim()) {
+      showToast("Title and Scripture are required.", "error");
+      return;
+    }
+    setIsGeneratingFlyer(true);
+    try {
+      const res = await fetch("/api/flyer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: flyerTitle,
+          scripture: flyerScripture,
+          description: flyerDescription || undefined,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setFlyerData(data);
+        showToast("Flyer generated!", "success");
+      } else {
+        showToast("Failed to generate flyer.", "error");
+      }
+    } catch {
+      showToast("Connection error.", "error");
+    }
+    setIsGeneratingFlyer(false);
+  };
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TAB 5: PRAYERS — DELETE
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  const handleDeletePrayer = async (id: string) => {
+    if (!token) return;
+    setIsDeletingPrayer(id);
     try {
       const res = await fetch(`/api/prayers?id=${id}`, {
         method: "DELETE",
@@ -345,237 +603,213 @@ export default function AdminPage() {
       });
 
       if (res.ok) {
-        setPrayers(prayers.filter((p) => p.id !== id));
-      }
-    } catch (error) {
-      console.error("Error deleting prayer:", error);
-    }
-  };
-
-  const openPrayerModal = (prayer?: Prayer) => {
-    if (prayer) {
-      setEditingPrayer(prayer);
-      setPrayerName(prayer.isAnonymous ? "" : prayer.name);
-      setPrayerRequest(prayer.request);
-      setPrayerCount(prayer.prayerCount);
-      setPrayerIsAnonymous(prayer.isAnonymous);
-      setPrayerDate(prayer.createdAt.split("T")[0]);
-    } else {
-      setEditingPrayer(null);
-      setPrayerName("");
-      setPrayerRequest("");
-      setPrayerCount(0);
-      setPrayerIsAnonymous(false);
-      setPrayerDate(new Date().toISOString().split("T")[0]);
-    }
-    setShowPrayerModal(true);
-  };
-
-  const closePrayerModal = () => {
-    setShowPrayerModal(false);
-    setEditingPrayer(null);
-  };
-
-  const savePrayer = async () => {
-    if (!token || !prayerRequest.trim()) return;
-
-    setSaveStatus("saving");
-    try {
-      if (editingPrayer) {
-        // Update existing prayer
-        const res = await fetch("/api/prayers", {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            id: editingPrayer.id,
-            name: prayerIsAnonymous ? "Anonymous" : (prayerName || "Anonymous"),
-            request: prayerRequest.trim(),
-            prayerCount,
-            isAnonymous: prayerIsAnonymous,
-            createdAt: new Date(prayerDate).toISOString(),
-          }),
-        });
-
-        if (res.ok) {
-          const updated = await res.json();
-          setPrayers(prayers.map((p) => (p.id === updated.id ? updated : p)));
-          setSaveStatus("saved");
-          closePrayerModal();
-        } else {
-          setSaveStatus("error");
-        }
+        setPrayers((prev) => prev.filter((p) => p.id !== id));
+        showToast("Prayer removed.", "success");
       } else {
-        // Create new prayer
-        const res = await fetch("/api/prayers", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: prayerIsAnonymous ? "Anonymous" : (prayerName || "Anonymous"),
-            request: prayerRequest.trim(),
-            isAnonymous: prayerIsAnonymous,
-          }),
-        });
-
-        if (res.ok) {
-          const newPrayer = await res.json();
-          // If a custom prayer count was set, update it
-          if (prayerCount > 0) {
-            const updateRes = await fetch("/api/prayers", {
-              method: "PATCH",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({
-                id: newPrayer.id,
-                prayerCount,
-                createdAt: new Date(prayerDate).toISOString(),
-              }),
-            });
-            if (updateRes.ok) {
-              const updated = await updateRes.json();
-              setPrayers([updated, ...prayers]);
-            } else {
-              setPrayers([newPrayer, ...prayers]);
-            }
-          } else {
-            setPrayers([newPrayer, ...prayers]);
-          }
-          setSaveStatus("saved");
-          closePrayerModal();
-        } else {
-          setSaveStatus("error");
-        }
+        showToast("Failed to delete prayer.", "error");
       }
-    } catch (error) {
-      console.error("Error saving prayer:", error);
-      setSaveStatus("error");
+    } catch {
+      showToast("Connection error.", "error");
     }
-    setTimeout(() => setSaveStatus("idle"), 2000);
+    setIsDeletingPrayer(null);
   };
 
-  const deleteSubscriber = async (id: string) => {
-    if (!token) return;
-    if (!confirm("Remove this subscriber?")) return;
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TAB 6: TESTIMONIES — APPROVE / DELETE
+  // ═══════════════════════════════════════════════════════════════════════════
 
+  const handleApproveTestimony = async (id: string) => {
+    if (!token) return;
+    setIsApprovingTestimony(id);
     try {
-      const res = await fetch(`/api/subscribers?id=${id}`, {
+      const res = await fetch("/api/testimonies", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id, approved: true }),
+      });
+
+      if (res.ok) {
+        setTestimonies((prev) =>
+          prev.map((t) => (t.id === id ? { ...t, approved: true } : t))
+        );
+        showToast("Testimony approved!", "success");
+      } else {
+        showToast("Failed to approve testimony.", "error");
+      }
+    } catch {
+      showToast("Connection error.", "error");
+    }
+    setIsApprovingTestimony(null);
+  };
+
+  const handleDeleteTestimony = async (id: string) => {
+    if (!token) return;
+    setIsDeletingTestimony(id);
+    try {
+      const res = await fetch(`/api/testimonies?id=${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
 
       if (res.ok) {
-        setSubscribers(subscribers.filter((s) => s.id !== id));
+        setTestimonies((prev) => prev.filter((t) => t.id !== id));
+        showToast("Testimony removed.", "success");
+      } else {
+        showToast("Failed to delete testimony.", "error");
       }
-    } catch (error) {
-      console.error("Error deleting subscriber:", error);
+    } catch {
+      showToast("Connection error.", "error");
     }
+    setIsDeletingTestimony(null);
   };
 
-  const deleteInsightItem = async (id: string) => {
-    if (!token) return;
-    if (!confirm("Delete this insight?")) return;
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TAB 7: SETTINGS — SAVE
+  // ═══════════════════════════════════════════════════════════════════════════
 
+  const handleSaveSettings = async () => {
+    if (!token) return;
+    setIsSavingSettings(true);
     try {
-      const res = await fetch(`/api/insights?id=${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
+      const res = await fetch("/api/content", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          contactEmail: settingsEmail,
+          contactPhone: settingsPhone,
+          socialLinks: {
+            tiktok: settingsTiktok,
+            instagram: settingsInstagram,
+            youtube: settingsYoutube,
+            facebook: settingsFacebook,
+          },
+          serviceSchedule: {
+            dayOfWeek: settingsDay,
+            hour: settingsHour,
+            minute: settingsMinute,
+            timezone: settingsTimezone,
+          },
+        }),
       });
 
       if (res.ok) {
-        setInsights(insights.filter((i) => i.id !== id));
+        const updated = await res.json();
+        setContent(updated);
+        showToast("Settings saved!", "success");
+      } else {
+        showToast("Failed to save settings.", "error");
       }
-    } catch (error) {
-      console.error("Error deleting insight:", error);
+    } catch {
+      showToast("Connection error.", "error");
     }
+    setIsSavingSettings(false);
   };
 
-  const formatDate = (timestamp: string) => {
-    return new Date(timestamp).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-    });
-  };
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TAB CONFIG
+  // ═══════════════════════════════════════════════════════════════════════════
 
-  // Get status string for the header
-  const getStatusString = () => {
-    if (!content) return "Loading...";
-    if (content.serviceLive) return "Service Live";
-    if (content.lobbyOpen || content.testMode) return "Lobby Open";
-    return "Off Air";
-  };
+  const tabs: { id: Tab; label: string; icon: string }[] = [
+    { id: "this-sunday", label: "This Sunday", icon: "\u2600" },
+    { id: "daily-scripture", label: "Daily Scripture", icon: "\u2728" },
+    { id: "past-lessons", label: "Past Lessons", icon: "\u25b6" },
+    { id: "flyer", label: "Flyer Generator", icon: "\ud83d\uddbc" },
+    { id: "prayers", label: "Prayers", icon: "\ud83d\ude4f" },
+    { id: "testimonies", label: "Testimonies", icon: "\ud83d\udcac" },
+    { id: "settings", label: "Settings", icon: "\u2699" },
+  ];
 
-  const getStatusColor = () => {
-    if (!content) return "bg-charcoal/50";
-    if (content.serviceLive) return "bg-red-500";
-    if (content.lobbyOpen || content.testMode) return "bg-amber-500";
-    return "bg-charcoal/30";
-  };
+  // ═══════════════════════════════════════════════════════════════════════════
+  // LOADING SCREEN
+  // ═══════════════════════════════════════════════════════════════════════════
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-cream">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-terracotta/20 border-t-terracotta rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-charcoal-light">Loading...</p>
+      <div className="min-h-screen bg-cloud flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-pulse-soft">
+            <WaterCrossLogo size={48} />
+          </div>
+          <p className="text-text-body text-sm">Loading...</p>
         </div>
       </div>
     );
   }
 
-  // Login Screen
+  // ═══════════════════════════════════════════════════════════════════════════
+  // AUTH SCREEN
+  // ═══════════════════════════════════════════════════════════════════════════
+
   if (!token) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-cream p-4">
-        <div className="w-full max-w-md">
-          <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12">
-            <div className="text-center mb-8">
-              <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-terracotta flex items-center justify-center">
-                <span className="text-white font-display text-3xl font-bold">L</span>
-              </div>
-              <h1 className="text-3xl font-display font-semibold text-charcoal">
-                Admin Login
-              </h1>
-              <p className="text-charcoal-light mt-2">
-                L.I.F.E. Ministry Dashboard
-              </p>
+      <div className="min-h-screen bg-cloud flex items-center justify-center px-4">
+        <div className="w-full max-w-sm">
+          <div className={`${cardClass} text-center`}>
+            <div className="flex justify-center mb-4">
+              <WaterCrossLogo size={60} />
             </div>
+            <h1 className="font-display text-2xl font-bold text-deep mb-1">
+              Admin Dashboard
+            </h1>
+            <p className="text-sm text-text-body mb-6">
+              L.I.F.E. Ministry Management
+            </p>
 
-            <form onSubmit={handleLogin} className="space-y-6">
+            <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <label
-                  htmlFor="password"
-                  className="block text-lg font-medium text-charcoal mb-3"
-                >
-                  Password
-                </label>
                 <input
                   type="password"
-                  id="password"
+                  placeholder="Enter password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-5 py-4 text-xl rounded-xl border-2 border-warm-gray-light focus:border-terracotta focus:ring-4 focus:ring-terracotta/20 outline-none transition-colors bg-cream"
-                  placeholder="Enter password..."
+                  className={inputClass}
                   autoFocus
                 />
               </div>
 
               {loginError && (
-                <div className="bg-red-50 text-red-600 px-4 py-3 rounded-xl text-center font-medium">
+                <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">
                   {loginError}
-                </div>
+                </p>
               )}
 
               <button
                 type="submit"
-                className="w-full bg-terracotta text-white text-xl font-semibold py-5 rounded-xl hover:bg-terracotta-dark transition-colors shadow-lg"
+                disabled={isLoggingIn || !password}
+                className="w-full bg-water text-white font-semibold py-3 rounded-lg hover:bg-water-dark disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                Log In
+                {isLoggingIn ? (
+                  <>
+                    <svg
+                      className="animate-spin h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
+                    </svg>
+                    Signing in...
+                  </>
+                ) : (
+                  "Sign In"
+                )}
               </button>
             </form>
           </div>
@@ -584,984 +818,1159 @@ export default function AdminPage() {
     );
   }
 
-  // Admin Dashboard
+  // ═══════════════════════════════════════════════════════════════════════════
+  // DASHBOARD
+  // ═══════════════════════════════════════════════════════════════════════════
+
   return (
-    <div className="min-h-screen bg-cream">
-      {/* Header */}
-      <header className="bg-forest text-white py-4 px-4 sticky top-0 z-50">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-terracotta flex items-center justify-center">
-              <span className="text-white font-display font-bold">L</span>
+    <div className="min-h-screen bg-cloud">
+      {/* Toast */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
+
+      {/* ─── Top Header Bar ──────────────────────────────────────────────────── */}
+      <header className="bg-white border-b border-border-light sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-3">
+              <WaterCrossLogo size={32} />
+              <div>
+                <h1 className="font-display text-lg font-bold text-deep leading-tight">
+                  L.I.F.E. Admin
+                </h1>
+                <p className="text-xs text-text-light -mt-0.5">Dashboard</p>
+              </div>
             </div>
-            <span className="font-display text-xl font-semibold">Admin</span>
+
+            <button
+              onClick={handleLogout}
+              className="text-sm text-text-body hover:text-red-600 font-medium px-4 py-2 rounded-lg hover:bg-red-50"
+            >
+              Sign Out
+            </button>
           </div>
-          <button
-            onClick={handleLogout}
-            className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-          >
-            Log Out
-          </button>
         </div>
       </header>
 
-      {/* Save Status */}
-      {saveStatus !== "idle" && (
-        <div className={`fixed top-20 right-4 z-50 px-4 py-2 rounded-lg text-sm font-medium ${
-          saveStatus === "saving" ? "bg-yellow-100 text-yellow-800" :
-          saveStatus === "saved" ? "bg-green-100 text-green-800" :
-          "bg-red-100 text-red-800"
-        }`}>
-          {saveStatus === "saving" && "Saving..."}
-          {saveStatus === "saved" && "Saved!"}
-          {saveStatus === "error" && "Error saving"}
-        </div>
-      )}
-
-      {/* Tab Navigation */}
-      <nav className="bg-white border-b border-warm-gray-light/30 sticky top-[72px] z-40">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="flex gap-2 overflow-x-auto py-3 -mx-4 px-4">
-            {[
-              { id: "message" as Tab, label: "Message", icon: "📖" },
-              { id: "live" as Tab, label: "Service", icon: "🎬" },
-              { id: "social" as Tab, label: "Social", icon: "📱" },
-              { id: "prayers" as Tab, label: "Prayers", icon: "🙏" },
-              { id: "subscribers" as Tab, label: "Reminders", icon: "📧" },
-              { id: "insights" as Tab, label: "Insights", icon: "💭" },
-            ].map((tab) => (
+      {/* ─── Tab Navigation ──────────────────────────────────────────────────── */}
+      <nav className="bg-white border-b border-border-light sticky top-16 z-30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex gap-1 overflow-x-auto scrollbar-none -mb-px">
+            {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex-shrink-0 px-5 py-3 rounded-xl text-base font-medium transition-colors ${
+                className={`flex items-center gap-1.5 px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
                   activeTab === tab.id
-                    ? "bg-terracotta text-white"
-                    : "bg-cream text-charcoal hover:bg-cream-dark"
+                    ? "border-water text-water"
+                    : "border-transparent text-text-body hover:text-water hover:border-water/30"
                 }`}
               >
-                <span className="mr-2">{tab.icon}</span>
-                {tab.label}
+                <span className="text-base">{tab.icon}</span>
+                <span className="hidden sm:inline">{tab.label}</span>
               </button>
             ))}
           </div>
         </div>
       </nav>
 
-      {/* Content */}
-      <main className="max-w-5xl mx-auto px-4 py-8">
-        {/* Message Tab */}
-        {activeTab === "message" && (
-          <div className="bg-white rounded-2xl shadow-sm p-6 md:p-8">
-            <h2 className="text-2xl font-display font-semibold text-charcoal mb-6">
-              This Week&apos;s Message
-            </h2>
-
-            <div className="space-y-6">
+      {/* ─── Tab Content ─────────────────────────────────────────────────────── */}
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="min-h-[60vh]">
+          {/* ═════════════════════════════════════════════════════════════════
+              TAB 1: THIS SUNDAY
+              ═════════════════════════════════════════════════════════════════ */}
+          {activeTab === "this-sunday" && (
+            <div className="space-y-6 animate-fade-in">
               <div>
-                <label className="block text-lg font-medium text-charcoal mb-2">
-                  Title
-                </label>
-                <input
-                  type="text"
-                  value={messageTitle}
-                  onChange={(e) => setMessageTitle(e.target.value)}
-                  className="w-full px-4 py-4 text-lg rounded-xl border-2 border-warm-gray-light focus:border-terracotta focus:ring-4 focus:ring-terracotta/20 outline-none"
-                  placeholder="Enter message title..."
-                />
-              </div>
-
-              <div>
-                <label className="block text-lg font-medium text-charcoal mb-2">
-                  Scripture Reference
-                </label>
-                <input
-                  type="text"
-                  value={messageScripture}
-                  onChange={(e) => setMessageScripture(e.target.value)}
-                  className="w-full px-4 py-4 text-lg rounded-xl border-2 border-warm-gray-light focus:border-terracotta focus:ring-4 focus:ring-terracotta/20 outline-none"
-                  placeholder="e.g., Matthew 11:28-30"
-                />
-              </div>
-
-              <div>
-                <label className="block text-lg font-medium text-charcoal mb-2">
-                  Description
-                </label>
-                <textarea
-                  value={messageDescription}
-                  onChange={(e) => setMessageDescription(e.target.value)}
-                  rows={4}
-                  className="w-full px-4 py-4 text-lg rounded-xl border-2 border-warm-gray-light focus:border-terracotta focus:ring-4 focus:ring-terracotta/20 outline-none resize-none"
-                  placeholder="Write a brief description..."
-                />
-              </div>
-
-              <button
-                onClick={saveMessage}
-                className="w-full bg-terracotta text-white text-xl font-semibold py-5 rounded-xl hover:bg-terracotta-dark transition-colors"
-              >
-                Save Message
-              </button>
-            </div>
-
-            {/* Preview */}
-            <div className="mt-8 pt-8 border-t border-warm-gray-light/50">
-              <h3 className="text-lg font-medium text-charcoal-light mb-4">Preview:</h3>
-              <div className="bg-cream-dark rounded-xl p-6">
-                <p className="text-terracotta text-sm font-medium uppercase tracking-wider mb-2">
-                  This Week&apos;s Message
-                </p>
-                <h4 className="font-display text-2xl font-semibold text-charcoal mb-3">
-                  {messageTitle || "Message Title"}
-                </h4>
-                <p className="text-charcoal-light mb-2">
-                  {messageDescription || "Message description will appear here..."}
-                </p>
-                <span className="inline-block bg-white px-3 py-1 rounded-full text-sm text-charcoal-light">
-                  {messageScripture || "Scripture Reference"}
-                </span>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Service Control Center Tab */}
-        {activeTab === "live" && (
-          <div className="space-y-6">
-            {/* Header */}
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-display font-semibold text-charcoal mb-2">
-                Service Control Center
-              </h2>
-              <p className="text-charcoal-light">
-                Manage your Sunday service in 4 steps
-              </p>
-            </div>
-
-            {/* Status Summary Box */}
-            <div className="bg-white rounded-2xl shadow-sm p-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className={`w-4 h-4 rounded-full ${getStatusColor()} ${content?.serviceLive ? "animate-pulse" : ""}`} />
-                  <div>
-                    <p className="font-semibold text-charcoal text-lg">{getStatusString()}</p>
-                    <p className="text-charcoal-light text-sm">
-                      Lobby: {content?.lobbyOpen ? "Open" : "Closed"} ·
-                      Service: {content?.serviceLive ? "Live" : "Off"}
-                      {content?.testMode && " · Test Mode ON"}
-                    </p>
-                  </div>
-                </div>
-                {content?.serviceLive && (
-                  <span className="flex items-center gap-2 bg-red-100 text-red-700 px-4 py-2 rounded-full text-sm font-medium">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
-                    </span>
-                    LIVE NOW
-                  </span>
-                )}
-              </div>
-            </div>
-
-            {/* Step 1: Open Lobby */}
-            <div className={`bg-white rounded-2xl shadow-sm p-6 md:p-8 ${content?.lobbyOpen ? "ring-2 ring-forest/20" : ""}`}>
-              <div className="flex items-start gap-4">
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold flex-shrink-0 ${
-                  content?.lobbyOpen ? "bg-forest text-white" : "bg-charcoal/10 text-charcoal/60"
-                }`}>
-                  {content?.lobbyOpen ? "✓" : "1"}
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-display font-semibold text-charcoal mb-1">
-                    Open the Lobby
-                  </h3>
-                  <p className="text-charcoal-light text-sm mb-6">
-                    Let people enter the waiting room while you prepare
-                  </p>
-
-                  <div className="flex items-center justify-between p-4 bg-cream rounded-xl">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-3 h-3 rounded-full ${content?.lobbyOpen ? "bg-forest" : "bg-charcoal/30"}`} />
-                      <span className="font-medium text-charcoal">
-                        {content?.lobbyOpen ? "✓ People can now enter the waiting room" : "Lobby is closed"}
-                      </span>
-                    </div>
-                    <button
-                      onClick={toggleLobby}
-                      disabled={content?.serviceLive}
-                      className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
-                        content?.lobbyOpen ? "bg-forest" : "bg-charcoal/20"
-                      } ${content?.serviceLive ? "opacity-50 cursor-not-allowed" : ""}`}
-                    >
-                      <span
-                        className={`inline-block h-6 w-6 transform rounded-full bg-white shadow-sm transition-transform ${
-                          content?.lobbyOpen ? "translate-x-7" : "translate-x-1"
-                        }`}
-                      />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Step 2: Join as Host */}
-            <div className="bg-white rounded-2xl shadow-sm p-6 md:p-8">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-charcoal/10 rounded-full flex items-center justify-center text-xl font-bold text-charcoal/60 flex-shrink-0">
-                  2
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-display font-semibold text-charcoal mb-1">
-                    You Join First
-                  </h3>
-                  <p className="text-charcoal-light text-sm mb-6">
-                    Enter the Jitsi room before your congregation
-                  </p>
-
-                  <a
-                    href={`https://meet.jit.si/${content?.roomName || "LIFEMinistryService"}#userInfo.displayName="Pastor Mike"`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full text-center bg-forest text-white text-lg font-semibold py-4 rounded-xl hover:bg-forest-dark transition-colors"
-                  >
-                    Enter as Pastor Mike →
-                  </a>
-                  <p className="text-charcoal-light text-sm mt-3 text-center">
-                    Opens in a new tab. Get your camera and mic ready.
-                  </p>
-
-                  {!content?.lobbyOpen && !content?.testMode && (
-                    <p className="text-amber-600 text-sm mt-4 text-center bg-amber-50 p-3 rounded-lg">
-                      💡 Tip: Open the lobby (Step 1) before joining so people can wait for you
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Step 3: Start Service */}
-            <div className={`bg-white rounded-2xl shadow-sm p-6 md:p-8 ${content?.serviceLive ? "ring-2 ring-red-200" : ""}`}>
-              <div className="flex items-start gap-4">
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold flex-shrink-0 ${
-                  content?.serviceLive ? "bg-red-500 text-white" : "bg-charcoal/10 text-charcoal/60"
-                }`}>
-                  {content?.serviceLive ? "✓" : "3"}
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-display font-semibold text-charcoal mb-1">
-                    Start the Service
-                  </h3>
-                  <p className="text-charcoal-light text-sm mb-6">
-                    Everyone in the waiting room will automatically join
-                  </p>
-
-                  {content?.serviceLive ? (
-                    <div className="text-center py-4">
-                      <div className="flex items-center justify-center gap-3 mb-4">
-                        <span className="relative flex h-4 w-4">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
-                          <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500" />
-                        </span>
-                        <span className="text-2xl font-bold text-red-600">Service is Live</span>
-                      </div>
-                      <p className="text-charcoal-light text-sm">
-                        Visitors are now in the Jitsi room with you
-                      </p>
-                    </div>
-                  ) : (
-                    <button
-                      onClick={startService}
-                      disabled={!content?.lobbyOpen && !content?.testMode}
-                      className={`w-full text-xl font-bold py-5 rounded-xl transition-colors ${
-                        content?.lobbyOpen || content?.testMode
-                          ? "bg-forest text-white hover:bg-forest-dark"
-                          : "bg-charcoal/10 text-charcoal/40 cursor-not-allowed"
-                      }`}
-                    >
-                      Start Service
-                    </button>
-                  )}
-
-                  {!content?.lobbyOpen && !content?.testMode && !content?.serviceLive && (
-                    <p className="text-charcoal-light text-sm mt-4 text-center">
-                      Open the lobby first before starting the service
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Step 4: End Service */}
-            {content?.serviceLive && (
-              <div className="bg-white rounded-2xl shadow-sm p-6 md:p-8">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-charcoal/10 rounded-full flex items-center justify-center text-xl font-bold text-charcoal/60 flex-shrink-0">
-                    4
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-display font-semibold text-charcoal mb-1">
-                      End the Service
-                    </h3>
-                    <p className="text-charcoal-light text-sm mb-6">
-                      Close the room and reset for next week
-                    </p>
-
-                    <button
-                      onClick={endService}
-                      className="w-full bg-charcoal/10 text-charcoal text-lg font-semibold py-4 rounded-xl hover:bg-charcoal/20 transition-colors"
-                    >
-                      End Service
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Settings Section */}
-            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-              <button
-                onClick={() => setShowSettings(!showSettings)}
-                className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-cream/50 transition-colors"
-              >
-                <span className="font-medium text-charcoal flex items-center gap-2">
-                  ⚙️ Settings
-                </span>
-                <svg
-                  className={`w-5 h-5 text-charcoal/50 transition-transform ${showSettings ? "rotate-180" : ""}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-
-              {showSettings && (
-                <div className="px-6 pb-6 space-y-6 border-t border-charcoal/5 pt-6">
-                  {/* Room Name */}
-                  <div>
-                    <label className="block text-sm font-medium text-charcoal mb-2">
-                      Jitsi Room Name
-                    </label>
-                    <div className="flex gap-3">
-                      <input
-                        type="text"
-                        value={roomNameInput}
-                        onChange={(e) => setRoomNameInput(e.target.value)}
-                        className="flex-1 px-4 py-3 rounded-xl border-2 border-warm-gray-light focus:border-terracotta focus:ring-4 focus:ring-terracotta/20 outline-none"
-                        placeholder="LIFEMinistryService"
-                      />
-                      <button
-                        onClick={saveRoomName}
-                        className="px-6 py-3 bg-terracotta text-white font-medium rounded-xl hover:bg-terracotta-dark transition-colors"
-                      >
-                        Save
-                      </button>
-                    </div>
-                    <p className="text-charcoal-light text-xs mt-2">
-                      The room URL will be: https://meet.jit.si/{roomNameInput || "LIFEMinistryService"}
-                    </p>
-                  </div>
-
-                  {/* Test Mode */}
-                  <div className="flex items-center justify-between p-4 bg-cream rounded-xl">
-                    <div>
-                      <p className="font-medium text-charcoal">Test Mode</p>
-                      <p className="text-charcoal-light text-sm">
-                        Lets you test the waiting room without opening the real lobby
-                      </p>
-                    </div>
-                    <button
-                      onClick={toggleTestMode}
-                      className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
-                        content?.testMode ? "bg-amber-500" : "bg-charcoal/20"
-                      }`}
-                    >
-                      <span
-                        className={`inline-block h-6 w-6 transform rounded-full bg-white shadow-sm transition-transform ${
-                          content?.testMode ? "translate-x-7" : "translate-x-1"
-                        }`}
-                      />
-                    </button>
-                  </div>
-
-                  {content?.testMode && (
-                    <p className="text-amber-600 text-sm bg-amber-50 p-3 rounded-lg">
-                      ⚠️ Test Mode is ON - The Watch page will show the waiting room UI even though the lobby is closed
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Social Tab */}
-        {activeTab === "social" && (
-          <div className="space-y-6">
-            {/* TikTok Content Section */}
-            <div className="bg-white rounded-2xl shadow-sm p-6 md:p-8">
-              <div className="mb-6">
-                <h2 className="text-2xl font-display font-semibold text-charcoal">
-                  TikTok Content
-                </h2>
-                <p className="text-charcoal-light mt-1">
-                  Add links to feature on the homepage
+                <h2 className={sectionHeadingClass}>This Sunday</h2>
+                <p className={sectionDescClass}>
+                  Update the details for this week&apos;s service. This appears
+                  on the home page.
                 </p>
               </div>
 
-              {/* Current Videos List */}
-              {(content?.tiktokVideos?.length || 0) > 0 ? (
-                <div className="space-y-3 mb-8">
-                  {content?.tiktokVideos.map((video, index) => (
-                    <div
-                      key={video.id}
-                      className="bg-cream rounded-xl p-4 flex items-center gap-4"
-                    >
-                      {/* Reorder buttons */}
-                      <div className="flex flex-col gap-1">
-                        <button
-                          onClick={() => moveTikTokVideo(video.id, "up")}
-                          disabled={index === 0}
-                          className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
-                            index === 0
-                              ? "text-charcoal/20 cursor-not-allowed"
-                              : "text-charcoal/50 hover:bg-white hover:text-charcoal"
-                          }`}
-                          title="Move up"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                          </svg>
-                        </button>
-                        <button
-                          onClick={() => moveTikTokVideo(video.id, "down")}
-                          disabled={index === (content?.tiktokVideos?.length || 0) - 1}
-                          className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
-                            index === (content?.tiktokVideos?.length || 0) - 1
-                              ? "text-charcoal/20 cursor-not-allowed"
-                              : "text-charcoal/50 hover:bg-white hover:text-charcoal"
-                          }`}
-                          title="Move down"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </button>
-                      </div>
-
-                      {/* Video info */}
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-charcoal truncate">
-                          {video.title || "Untitled video"}
-                        </p>
-                        <p className="text-sm text-charcoal-light truncate">
-                          {video.url}
-                        </p>
-                      </div>
-
-                      {/* Delete button */}
-                      <button
-                        onClick={() => deleteTikTokVideo(video.id)}
-                        className="flex-shrink-0 w-10 h-10 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg flex items-center justify-center transition-colors"
-                        title="Remove"
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="bg-cream rounded-xl p-8 text-center mb-8">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-charcoal/5 flex items-center justify-center">
-                    <svg className="w-8 h-8 text-charcoal/30" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
-                    </svg>
-                  </div>
-                  <p className="text-charcoal-light">No videos added yet</p>
-                  <p className="text-sm text-charcoal-light/70 mt-1">
-                    Add TikTok videos to display on the homepage
-                  </p>
-                </div>
-              )}
-
-              {/* Add New Video Form */}
-              <div className="border-t border-charcoal/10 pt-6">
-                <h3 className="font-medium text-charcoal mb-4">Add New Video</h3>
-                <div className="space-y-4">
+              <div className={cardClass}>
+                <div className="space-y-5">
+                  {/* Date */}
                   <div>
-                    <label className="block text-sm font-medium text-charcoal mb-2">
-                      TikTok Video URL
-                    </label>
+                    <label className={labelClass}>Service Date</label>
                     <input
-                      type="url"
-                      value={newVideoUrl}
-                      onChange={(e) => {
-                        setNewVideoUrl(e.target.value);
-                        setVideoUrlError("");
-                      }}
-                      className={`w-full px-4 py-3 rounded-xl border-2 ${
-                        videoUrlError
-                          ? "border-red-300 focus:border-red-500 focus:ring-red-200"
-                          : "border-warm-gray-light focus:border-terracotta focus:ring-terracotta/20"
-                      } focus:ring-4 outline-none`}
-                      placeholder="https://www.tiktok.com/@pastormike/video/123456789"
+                      type="date"
+                      value={sundayDate}
+                      onChange={(e) => setSundayDate(e.target.value)}
+                      className={inputClass}
                     />
-                    {videoUrlError && (
-                      <p className="text-red-500 text-sm mt-2">{videoUrlError}</p>
+                    {sundayDate && (
+                      <p className="text-xs text-text-light mt-1">
+                        {formatDate(sundayDate)}
+                      </p>
                     )}
                   </div>
 
+                  {/* Title */}
                   <div>
-                    <label className="block text-sm font-medium text-charcoal mb-2">
-                      Caption (optional)
-                    </label>
+                    <label className={labelClass}>Sermon Title</label>
+                    <input
+                      type="text"
+                      value={sundayTitle}
+                      onChange={(e) => setSundayTitle(e.target.value)}
+                      placeholder="Walking in the Light"
+                      className={inputClass}
+                    />
+                  </div>
+
+                  {/* Scripture */}
+                  <div>
+                    <label className={labelClass}>Scripture Reference</label>
+                    <input
+                      type="text"
+                      value={sundayScripture}
+                      onChange={(e) => setSundayScripture(e.target.value)}
+                      placeholder="John 8:12"
+                      className={inputClass}
+                    />
+                  </div>
+
+                  {/* Description */}
+                  <div>
+                    <label className={labelClass}>Description</label>
+                    <textarea
+                      rows={6}
+                      value={sundayDescription}
+                      onChange={(e) => setSundayDescription(e.target.value)}
+                      placeholder="Write about this Sunday's message..."
+                      className={`${inputClass} resize-y`}
+                    />
+                  </div>
+
+                  {/* Google Meet Link */}
+                  <div>
+                    <label className={labelClass}>Google Meet Link</label>
+                    <input
+                      type="text"
+                      value={sundayMeetLink}
+                      onChange={(e) => setSundayMeetLink(e.target.value)}
+                      placeholder="https://meet.google.com/xxx-xxx-xxx"
+                      className={inputClass}
+                    />
+                    <p className="text-xs text-text-light mt-1">
+                      Members will use this link to join the live service.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Save Button */}
+                <div className="mt-8 flex justify-end">
+                  <button
+                    onClick={handleSaveThisSunday}
+                    disabled={isSavingSunday}
+                    className="bg-water text-white font-semibold px-8 py-3 rounded-lg hover:bg-water-dark disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  >
+                    {isSavingSunday ? (
+                      <>
+                        <svg
+                          className="animate-spin h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          />
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          />
+                        </svg>
+                        Saving...
+                      </>
+                    ) : (
+                      "Save This Sunday"
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Preview */}
+              {(sundayTitle || sundayScripture) && (
+                <div className={`${cardClass} border border-sky`}>
+                  <p className="text-xs font-semibold text-water uppercase tracking-wider mb-3">
+                    Preview
+                  </p>
+                  <h3 className="font-display text-xl font-bold text-deep">
+                    {sundayTitle || "Untitled"}
+                  </h3>
+                  <p className="text-sm text-water font-medium mt-1">
+                    {sundayScripture}
+                  </p>
+                  {sundayDescription && (
+                    <p className="text-sm text-text-body mt-3 leading-relaxed">
+                      {sundayDescription}
+                    </p>
+                  )}
+                  {sundayDate && (
+                    <p className="text-xs text-text-light mt-3">
+                      {formatDate(sundayDate)}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ═════════════════════════════════════════════════════════════════
+              TAB 2: DAILY SCRIPTURE
+              ═════════════════════════════════════════════════════════════════ */}
+          {activeTab === "daily-scripture" && (
+            <div className="space-y-6 animate-fade-in">
+              <div>
+                <h2 className={sectionHeadingClass}>Daily Scripture</h2>
+                <p className={sectionDescClass}>
+                  View today&apos;s auto-generated scripture or override it with
+                  your own.
+                </p>
+              </div>
+
+              {/* Current Scripture Display */}
+              {dailyScripture && dailyScripture.verse && (
+                <div className={cardClass}>
+                  <div className="flex items-start justify-between mb-4">
+                    <p className="text-xs font-semibold text-water uppercase tracking-wider">
+                      Today&apos;s Scripture
+                    </p>
+                    {dailyScripture.isManualOverride && (
+                      <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
+                        Custom Override
+                      </span>
+                    )}
+                  </div>
+                  <blockquote className="font-display text-lg text-deep italic leading-relaxed mb-3">
+                    &ldquo;{dailyScripture.verse}&rdquo;
+                  </blockquote>
+                  <p className="text-sm text-water font-semibold mb-2">
+                    {dailyScripture.reference}
+                  </p>
+                  <p className="text-sm text-text-body leading-relaxed">
+                    {dailyScripture.reflection}
+                  </p>
+                  <p className="text-xs text-text-light mt-4">
+                    Generated: {formatTimestamp(dailyScripture.generatedAt)}
+                  </p>
+                </div>
+              )}
+
+              {/* Override Toggle */}
+              <div className={cardClass}>
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <p className="font-semibold text-deep text-sm">
+                      Override with custom scripture
+                    </p>
+                    <p className="text-xs text-text-light mt-0.5">
+                      Replace the AI-generated scripture for today
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setScriptureOverride(!scriptureOverride)}
+                    className={`relative w-12 h-6 rounded-full transition-colors ${
+                      scriptureOverride ? "bg-water" : "bg-border-light"
+                    }`}
+                  >
+                    <span
+                      className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                        scriptureOverride ? "translate-x-6" : "translate-x-0"
+                      }`}
+                    />
+                  </button>
+                </div>
+
+                {scriptureOverride && (
+                  <div className="space-y-4 pt-4 border-t border-border-light">
+                    <div>
+                      <label className={labelClass}>Verse Text</label>
+                      <textarea
+                        rows={3}
+                        value={customVerse}
+                        onChange={(e) => setCustomVerse(e.target.value)}
+                        placeholder="For God so loved the world..."
+                        className={`${inputClass} resize-y`}
+                      />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Reference</label>
+                      <input
+                        type="text"
+                        value={customReference}
+                        onChange={(e) => setCustomReference(e.target.value)}
+                        placeholder="John 3:16"
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Reflection</label>
+                      <input
+                        type="text"
+                        value={customReflection}
+                        onChange={(e) => setCustomReflection(e.target.value)}
+                        placeholder="A warm, encouraging one-line reflection..."
+                        className={inputClass}
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between pt-2">
+                      <p className="text-xs text-text-light">
+                        Leave empty to use AI-generated scripture tomorrow.
+                      </p>
+                      <button
+                        onClick={handleSaveScripture}
+                        disabled={
+                          isSavingScripture ||
+                          !customVerse.trim() ||
+                          !customReference.trim() ||
+                          !customReflection.trim()
+                        }
+                        className="bg-water text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-water-dark disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm"
+                      >
+                        {isSavingScripture ? (
+                          <>
+                            <svg
+                              className="animate-spin h-4 w-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                            >
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                              />
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                              />
+                            </svg>
+                            Saving...
+                          </>
+                        ) : (
+                          "Save Custom Scripture"
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* ═════════════════════════════════════════════════════════════════
+              TAB 3: PAST LESSONS
+              ═════════════════════════════════════════════════════════════════ */}
+          {activeTab === "past-lessons" && (
+            <div className="space-y-6 animate-fade-in">
+              <div>
+                <h2 className={sectionHeadingClass}>Past Lessons</h2>
+                <p className={sectionDescClass}>
+                  Manage YouTube video links for past sermons and Bible studies.
+                </p>
+              </div>
+
+              {/* Add Video Form */}
+              <div className={cardClass}>
+                <p className="text-sm font-semibold text-deep mb-4">
+                  Add New Video
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="sm:col-span-2">
+                    <label className={labelClass}>YouTube URL</label>
+                    <input
+                      type="text"
+                      value={newVideoUrl}
+                      onChange={(e) => setNewVideoUrl(e.target.value)}
+                      placeholder="https://youtube.com/watch?v=..."
+                      className={inputClass}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Title</label>
                     <input
                       type="text"
                       value={newVideoTitle}
                       onChange={(e) => setNewVideoTitle(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl border-2 border-warm-gray-light focus:border-terracotta focus:ring-4 focus:ring-terracotta/20 outline-none"
-                      placeholder="e.g., Finding peace in chaos"
+                      placeholder="Walking in the Light"
+                      className={inputClass}
                     />
                   </div>
-
+                  <div>
+                    <label className={labelClass}>Date</label>
+                    <input
+                      type="date"
+                      value={newVideoDate}
+                      onChange={(e) => setNewVideoDate(e.target.value)}
+                      className={inputClass}
+                    />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className={labelClass}>
+                      Scripture Reference{" "}
+                      <span className="text-text-light font-normal">
+                        (optional)
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      value={newVideoScripture}
+                      onChange={(e) => setNewVideoScripture(e.target.value)}
+                      placeholder="John 8:12"
+                      className={inputClass}
+                    />
+                  </div>
+                </div>
+                <div className="mt-4 flex justify-end">
                   <button
-                    onClick={addTikTokVideo}
-                    disabled={!newVideoUrl.trim()}
-                    className={`w-full py-4 rounded-xl font-semibold transition-colors ${
-                      newVideoUrl.trim()
-                        ? "bg-terracotta text-white hover:bg-terracotta-dark"
-                        : "bg-charcoal/10 text-charcoal/40 cursor-not-allowed"
-                    }`}
+                    onClick={handleAddVideo}
+                    className="bg-deep text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-ocean text-sm"
                   >
                     Add Video
                   </button>
                 </div>
               </div>
-            </div>
 
-            {/* Profile Links Section */}
-            <div className="bg-white rounded-2xl shadow-sm p-6 md:p-8">
-              <div className="mb-6">
-                <h2 className="text-2xl font-display font-semibold text-charcoal">
-                  Profile Links
-                </h2>
-                <p className="text-charcoal-light mt-1">
-                  Links to your social media profiles
+              {/* Video List */}
+              {youtubeVideos.length > 0 ? (
+                <div className="space-y-3">
+                  {youtubeVideos.map((video) => (
+                    <div
+                      key={video.id}
+                      className={`${cardClass} flex items-center justify-between gap-4`}
+                    >
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-deep text-sm truncate">
+                          {video.title}
+                        </p>
+                        <div className="flex items-center gap-3 mt-1">
+                          {video.date && (
+                            <span className="text-xs text-text-light">
+                              {formatDate(video.date)}
+                            </span>
+                          )}
+                          {video.scripture && (
+                            <span className="text-xs text-water font-medium">
+                              {video.scripture}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-text-light mt-0.5 truncate">
+                          {video.url}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => handleDeleteVideo(video.id)}
+                        className="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg shrink-0"
+                        title="Remove video"
+                      >
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  ))}
+
+                  <div className="flex justify-end pt-2">
+                    <button
+                      onClick={handleSaveVideos}
+                      disabled={isSavingVideos}
+                      className="bg-water text-white font-semibold px-8 py-3 rounded-lg hover:bg-water-dark disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                    >
+                      {isSavingVideos ? (
+                        <>
+                          <svg
+                            className="animate-spin h-4 w-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            />
+                          </svg>
+                          Saving...
+                        </>
+                      ) : (
+                        "Save All Videos"
+                      )}
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className={`${cardClass} text-center py-12`}>
+                  <p className="text-text-light text-sm">
+                    No past lessons yet. Add your first video above.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ═════════════════════════════════════════════════════════════════
+              TAB 4: FLYER GENERATOR
+              ═════════════════════════════════════════════════════════════════ */}
+          {activeTab === "flyer" && (
+            <div className="space-y-6 animate-fade-in">
+              <div>
+                <h2 className={sectionHeadingClass}>Flyer Generator</h2>
+                <p className={sectionDescClass}>
+                  Generate beautiful flyers for social media. Enter your sermon
+                  details and AI will create the copy.
                 </p>
               </div>
 
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-charcoal mb-2">
-                    TikTok Profile URL
-                  </label>
-                  <input
-                    type="url"
-                    value={tiktokUrl}
-                    onChange={(e) => setTiktokUrl(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border-2 border-warm-gray-light focus:border-terracotta focus:ring-4 focus:ring-terracotta/20 outline-none"
-                    placeholder="https://tiktok.com/@yourusername"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-charcoal mb-2">
-                    Instagram Profile URL
-                  </label>
-                  <input
-                    type="url"
-                    value={instagramUrl}
-                    onChange={(e) => setInstagramUrl(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border-2 border-warm-gray-light focus:border-terracotta focus:ring-4 focus:ring-terracotta/20 outline-none"
-                    placeholder="https://instagram.com/yourusername"
-                  />
-                </div>
-
-                <button
-                  onClick={saveSocialLinks}
-                  className="w-full bg-terracotta text-white font-semibold py-4 rounded-xl hover:bg-terracotta-dark transition-colors"
-                >
-                  Save Profile Links
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Prayers Tab */}
-        {activeTab === "prayers" && (
-          <>
-            <div className="bg-white rounded-2xl shadow-sm p-6 md:p-8">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h2 className="text-2xl font-display font-semibold text-charcoal">
-                    Manage Prayer Requests
-                  </h2>
-                  <p className="text-charcoal-light mt-1">
-                    {prayers.length} {prayers.length === 1 ? "request" : "requests"} total
-                  </p>
-                </div>
-                <button
-                  onClick={() => openPrayerModal()}
-                  className="bg-terracotta text-white px-5 py-3 rounded-xl font-medium hover:bg-terracotta-dark transition-colors flex items-center gap-2"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                  </svg>
-                  Add Prayer
-                </button>
-              </div>
-
-              {prayers.length === 0 ? (
-                <div className="text-center py-12">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-cream flex items-center justify-center">
-                    <svg className="w-8 h-8 text-charcoal/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                  </div>
-                  <p className="text-charcoal-light text-lg">No prayer requests yet.</p>
-                  <p className="text-sm text-charcoal-light/70 mt-1">
-                    Add sample prayers or wait for congregation submissions.
-                  </p>
-                </div>
-              ) : (
+              {/* Input Form */}
+              <div className={cardClass}>
                 <div className="space-y-4">
-                  {prayers.map((prayer) => (
-                    <div
-                      key={prayer.id}
-                      className="bg-cream rounded-xl p-5"
-                    >
-                      <div className="flex items-start gap-4">
-                        {/* Avatar */}
-                        <div className="w-12 h-12 rounded-full bg-terracotta/10 flex items-center justify-center flex-shrink-0">
-                          <span className="font-display font-semibold text-terracotta text-lg">
-                            {prayer.isAnonymous ? "?" : prayer.name.charAt(0)}
-                          </span>
-                        </div>
+                  <div>
+                    <label className={labelClass}>Sermon Title</label>
+                    <input
+                      type="text"
+                      value={flyerTitle}
+                      onChange={(e) => setFlyerTitle(e.target.value)}
+                      placeholder="Walking in the Light"
+                      className={inputClass}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Scripture Reference</label>
+                    <input
+                      type="text"
+                      value={flyerScripture}
+                      onChange={(e) => setFlyerScripture(e.target.value)}
+                      placeholder="John 8:12"
+                      className={inputClass}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>
+                      Description{" "}
+                      <span className="text-text-light font-normal">
+                        (optional)
+                      </span>
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={flyerDescription}
+                      onChange={(e) => setFlyerDescription(e.target.value)}
+                      placeholder="A brief description of the sermon topic..."
+                      className={`${inputClass} resize-y`}
+                    />
+                  </div>
+                </div>
+                <div className="mt-5 flex justify-end">
+                  <button
+                    onClick={handleGenerateFlyer}
+                    disabled={
+                      isGeneratingFlyer ||
+                      !flyerTitle.trim() ||
+                      !flyerScripture.trim()
+                    }
+                    className="bg-water text-white font-semibold px-8 py-3 rounded-lg hover:bg-water-dark disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  >
+                    {isGeneratingFlyer ? (
+                      <>
+                        <svg
+                          className="animate-spin h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          />
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          />
+                        </svg>
+                        Generating...
+                      </>
+                    ) : (
+                      "Generate Flyer"
+                    )}
+                  </button>
+                </div>
+              </div>
 
-                        {/* Content */}
+              {/* Template Selector + Preview */}
+              {flyerData && (
+                <div className="space-y-4">
+                  {/* Template Buttons */}
+                  <div className={cardClass}>
+                    <p className="text-sm font-semibold text-deep mb-3">
+                      Choose a Template
+                    </p>
+                    <div className="flex gap-3">
+                      {([1, 2, 3] as const).map((t) => (
+                        <button
+                          key={t}
+                          onClick={() => setFlyerTemplate(t)}
+                          className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-medium border transition-colors ${
+                            flyerTemplate === t
+                              ? "bg-water text-white border-water"
+                              : "bg-white text-text-body border-border-light hover:border-water hover:text-water"
+                          }`}
+                        >
+                          {t === 1
+                            ? "Living Water"
+                            : t === 2
+                              ? "Clean Light"
+                              : "Bold Sky"}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Preview */}
+                  <div className={cardClass}>
+                    <div className="flex items-center justify-between mb-4">
+                      <p className="text-sm font-semibold text-deep">
+                        Flyer Preview
+                      </p>
+                      <p className="text-xs text-text-light">
+                        Screenshot the flyer below to share on social media
+                      </p>
+                    </div>
+                    <div
+                      ref={flyerRef}
+                      className="flex justify-center overflow-x-auto"
+                    >
+                      <FlyerTemplate
+                        data={flyerData}
+                        template={flyerTemplate}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ═════════════════════════════════════════════════════════════════
+              TAB 5: PRAYERS
+              ═════════════════════════════════════════════════════════════════ */}
+          {activeTab === "prayers" && (
+            <div className="space-y-6 animate-fade-in">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h2 className={sectionHeadingClass}>Prayer Requests</h2>
+                  <p className={sectionDescClass}>
+                    {prayers.length} prayer request
+                    {prayers.length !== 1 ? "s" : ""} from the community.
+                  </p>
+                </div>
+              </div>
+
+              {prayers.length > 0 ? (
+                <div className="space-y-3">
+                  {prayers.map((prayer) => (
+                    <div key={prayer.id} className={cardClass}>
+                      <div className="flex items-start justify-between gap-4">
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-3 mb-2 flex-wrap">
-                            <span className="font-semibold text-charcoal">
-                              {prayer.isAnonymous ? "Anonymous" : prayer.name}
+                          <div className="flex items-center gap-2 mb-2">
+                            <p className="font-semibold text-deep text-sm">
+                              {prayer.name}
+                            </p>
+                            {prayer.isAnonymous && (
+                              <span className="text-xs bg-sky text-water px-2 py-0.5 rounded-full">
+                                Anonymous
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-sm text-text-body leading-relaxed">
+                            {prayer.request}
+                          </p>
+                          <div className="flex items-center gap-4 mt-3">
+                            <span className="text-xs text-text-light">
+                              {formatTimestamp(prayer.createdAt)}
                             </span>
-                            <span className="text-sm text-charcoal-light">
-                              {formatDate(prayer.createdAt)}
-                            </span>
-                            <span className="bg-forest/10 text-forest text-sm font-medium px-2 py-0.5 rounded-full">
-                              {prayer.prayerCount} praying
+                            <span className="text-xs text-water font-medium">
+                              {prayer.prayerCount} prayer
+                              {prayer.prayerCount !== 1 ? "s" : ""}
                             </span>
                           </div>
-                          <p className="text-charcoal-light line-clamp-2">{prayer.request}</p>
+                        </div>
+                        <button
+                          onClick={() => handleDeletePrayer(prayer.id)}
+                          disabled={isDeletingPrayer === prayer.id}
+                          className="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg shrink-0 disabled:opacity-50"
+                          title="Delete prayer request"
+                        >
+                          {isDeletingPrayer === prayer.id ? (
+                            <svg
+                              className="animate-spin h-4 w-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                            >
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                              />
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                              />
+                            </svg>
+                          ) : (
+                            <svg
+                              className="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              />
+                            </svg>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className={`${cardClass} text-center py-12`}>
+                  <p className="text-text-light text-sm">
+                    No prayer requests yet.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ═════════════════════════════════════════════════════════════════
+              TAB 6: TESTIMONIES
+              ═════════════════════════════════════════════════════════════════ */}
+          {activeTab === "testimonies" && (
+            <div className="space-y-6 animate-fade-in">
+              <div>
+                <h2 className={sectionHeadingClass}>Testimonies</h2>
+                <p className={sectionDescClass}>
+                  {testimonies.length} testimon
+                  {testimonies.length !== 1 ? "ies" : "y"} total.{" "}
+                  {testimonies.filter((t) => !t.approved).length} awaiting
+                  approval.
+                </p>
+              </div>
+
+              {testimonies.length > 0 ? (
+                <div className="space-y-3">
+                  {testimonies.map((testimony) => (
+                    <div
+                      key={testimony.id}
+                      className={`${cardClass} ${
+                        !testimony.approved
+                          ? "border-l-4 border-l-amber-400"
+                          : ""
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-2 flex-wrap">
+                            <p className="font-semibold text-deep text-sm">
+                              {testimony.name}
+                            </p>
+                            {!testimony.approved ? (
+                              <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
+                                Pending Approval
+                              </span>
+                            ) : (
+                              <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-medium">
+                                Approved
+                              </span>
+                            )}
+                            {testimony.isAnonymous && (
+                              <span className="text-xs bg-sky text-water px-2 py-0.5 rounded-full">
+                                Anonymous
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-sm text-text-body leading-relaxed">
+                            {testimony.text}
+                          </p>
+                          <div className="flex items-center gap-4 mt-3">
+                            <span className="text-xs text-text-light">
+                              {formatTimestamp(testimony.createdAt)}
+                            </span>
+                            <span className="text-xs text-water font-medium">
+                              {testimony.blessedCount} blessed
+                            </span>
+                          </div>
                         </div>
 
-                        {/* Actions */}
-                        <div className="flex gap-2 flex-shrink-0">
+                        <div className="flex items-center gap-1 shrink-0">
+                          {!testimony.approved && (
+                            <button
+                              onClick={() =>
+                                handleApproveTestimony(testimony.id)
+                              }
+                              disabled={
+                                isApprovingTestimony === testimony.id
+                              }
+                              className="text-emerald-500 hover:text-emerald-700 hover:bg-emerald-50 p-2 rounded-lg disabled:opacity-50"
+                              title="Approve testimony"
+                            >
+                              {isApprovingTestimony === testimony.id ? (
+                                <svg
+                                  className="animate-spin h-4 w-4"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                  />
+                                  <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                  />
+                                </svg>
+                              ) : (
+                                <svg
+                                  className="w-5 h-5"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M5 13l4 4L19 7"
+                                  />
+                                </svg>
+                              )}
+                            </button>
+                          )}
                           <button
-                            onClick={() => openPrayerModal(prayer)}
-                            className="w-11 h-11 bg-white hover:bg-terracotta/10 text-charcoal-light hover:text-terracotta rounded-lg flex items-center justify-center transition-colors"
-                            title="Edit"
+                            onClick={() =>
+                              handleDeleteTestimony(testimony.id)
+                            }
+                            disabled={isDeletingTestimony === testimony.id}
+                            className="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg disabled:opacity-50"
+                            title="Delete testimony"
                           >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                            </svg>
-                          </button>
-                          <button
-                            onClick={() => deletePrayer(prayer.id)}
-                            className="w-11 h-11 bg-white hover:bg-red-100 text-charcoal-light hover:text-red-600 rounded-lg flex items-center justify-center transition-colors"
-                            title="Delete"
-                          >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
+                            {isDeletingTestimony === testimony.id ? (
+                              <svg
+                                className="animate-spin h-4 w-4"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                              >
+                                <circle
+                                  className="opacity-25"
+                                  cx="12"
+                                  cy="12"
+                                  r="10"
+                                  stroke="currentColor"
+                                  strokeWidth="4"
+                                />
+                                <path
+                                  className="opacity-75"
+                                  fill="currentColor"
+                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                />
+                              </svg>
+                            ) : (
+                              <svg
+                                className="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                />
+                              </svg>
+                            )}
                           </button>
                         </div>
                       </div>
                     </div>
                   ))}
                 </div>
+              ) : (
+                <div className={`${cardClass} text-center py-12`}>
+                  <p className="text-text-light text-sm">
+                    No testimonies yet.
+                  </p>
+                </div>
               )}
             </div>
+          )}
 
-            {/* Prayer Modal */}
-            {showPrayerModal && (
-              <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-                <div className="bg-white rounded-2xl max-w-lg w-full p-6 md:p-8 max-h-[90vh] overflow-y-auto">
-                  <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-xl font-display font-semibold text-charcoal">
-                      {editingPrayer ? "Edit Prayer Request" : "Add Prayer Request"}
-                    </h3>
-                    <button
-                      onClick={closePrayerModal}
-                      className="text-charcoal-light hover:text-charcoal"
-                    >
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
-                  </div>
-
-                  <div className="space-y-5">
-                    {/* Name */}
-                    <div>
-                      <label className="block text-sm font-medium text-charcoal mb-2">
-                        Name
-                      </label>
-                      <input
-                        type="text"
-                        value={prayerName}
-                        onChange={(e) => setPrayerName(e.target.value)}
-                        disabled={prayerIsAnonymous}
-                        className="w-full px-4 py-3 rounded-xl border-2 border-warm-gray-light focus:border-terracotta focus:ring-4 focus:ring-terracotta/20 outline-none disabled:opacity-50 disabled:cursor-not-allowed"
-                        placeholder="Enter name..."
-                      />
-                    </div>
-
-                    {/* Anonymous checkbox */}
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="checkbox"
-                        id="prayerAnonymous"
-                        checked={prayerIsAnonymous}
-                        onChange={(e) => setPrayerIsAnonymous(e.target.checked)}
-                        className="w-5 h-5 rounded border-warm-gray-light text-terracotta focus:ring-terracotta"
-                      />
-                      <label htmlFor="prayerAnonymous" className="text-charcoal-light">
-                        Post anonymously
-                      </label>
-                    </div>
-
-                    {/* Prayer request */}
-                    <div>
-                      <label className="block text-sm font-medium text-charcoal mb-2">
-                        Prayer Request
-                      </label>
-                      <textarea
-                        value={prayerRequest}
-                        onChange={(e) => setPrayerRequest(e.target.value)}
-                        rows={4}
-                        className="w-full px-4 py-3 rounded-xl border-2 border-warm-gray-light focus:border-terracotta focus:ring-4 focus:ring-terracotta/20 outline-none resize-none"
-                        placeholder="Enter prayer request..."
-                        required
-                      />
-                    </div>
-
-                    {/* Prayer count */}
-                    <div>
-                      <label className="block text-sm font-medium text-charcoal mb-2">
-                        Prayer Count
-                      </label>
-                      <input
-                        type="number"
-                        min="0"
-                        value={prayerCount}
-                        onChange={(e) => setPrayerCount(parseInt(e.target.value) || 0)}
-                        className="w-full px-4 py-3 rounded-xl border-2 border-warm-gray-light focus:border-terracotta focus:ring-4 focus:ring-terracotta/20 outline-none"
-                      />
-                    </div>
-
-                    {/* Date */}
-                    <div>
-                      <label className="block text-sm font-medium text-charcoal mb-2">
-                        Date
-                      </label>
-                      <input
-                        type="date"
-                        value={prayerDate}
-                        onChange={(e) => setPrayerDate(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border-2 border-warm-gray-light focus:border-terracotta focus:ring-4 focus:ring-terracotta/20 outline-none"
-                      />
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex gap-4 pt-2">
-                      <button
-                        onClick={closePrayerModal}
-                        className="flex-1 px-4 py-4 rounded-xl font-medium text-charcoal bg-cream hover:bg-cream-dark transition-colors"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        onClick={savePrayer}
-                        disabled={!prayerRequest.trim()}
-                        className={`flex-1 px-4 py-4 rounded-xl font-medium transition-colors ${
-                          prayerRequest.trim()
-                            ? "bg-terracotta text-white hover:bg-terracotta-dark"
-                            : "bg-charcoal/10 text-charcoal/40 cursor-not-allowed"
-                        }`}
-                      >
-                        {editingPrayer ? "Save Changes" : "Add Prayer"}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </>
-        )}
-
-        {/* Subscribers Tab */}
-        {activeTab === "subscribers" && (
-          <div className="bg-white rounded-2xl shadow-sm p-6 md:p-8">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-display font-semibold text-charcoal">
-                Reminder Subscribers
-              </h2>
-              <span className="bg-cream px-4 py-2 rounded-full text-charcoal-light font-medium">
-                {subscribers.length} total
-              </span>
-            </div>
-
-            {subscribers.length === 0 ? (
-              <p className="text-center text-charcoal-light py-12 text-lg">
-                No subscribers yet.
-              </p>
-            ) : (
-              <div className="space-y-4">
-                {subscribers.map((subscriber) => (
-                  <div
-                    key={subscriber.id}
-                    className="bg-cream rounded-xl p-5 flex items-center gap-4"
-                  >
-                    <div className="w-12 h-12 bg-terracotta/10 rounded-full flex items-center justify-center text-xl">
-                      {subscriber.contactType === "email" ? "📧" : "📱"}
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-semibold text-charcoal">
-                        {subscriber.name}
-                      </p>
-                      <p className="text-charcoal-light">
-                        {subscriber.contact}
-                      </p>
-                    </div>
-                    <span className="text-sm text-charcoal-light">
-                      {formatDate(subscriber.timestamp)}
-                    </span>
-                    <button
-                      onClick={() => deleteSubscriber(subscriber.id)}
-                      className="flex-shrink-0 w-12 h-12 bg-red-100 hover:bg-red-200 text-red-600 rounded-xl flex items-center justify-center text-xl transition-colors"
-                      title="Remove"
-                    >
-                      🗑️
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Congregation Insights Tab */}
-        {activeTab === "insights" && (
-          <div className="bg-white rounded-2xl shadow-sm p-6 md:p-8">
-            <div className="flex items-center justify-between mb-6">
+          {/* ═════════════════════════════════════════════════════════════════
+              TAB 7: SETTINGS
+              ═════════════════════════════════════════════════════════════════ */}
+          {activeTab === "settings" && (
+            <div className="space-y-6 animate-fade-in">
               <div>
-                <h2 className="text-2xl font-display font-semibold text-charcoal">
-                  Congregation Insights
-                </h2>
-                <p className="text-charcoal-light mt-1">
-                  Anonymous topics shared from &quot;Ask The Word&quot; conversations
+                <h2 className={sectionHeadingClass}>Settings</h2>
+                <p className={sectionDescClass}>
+                  Ministry contact info, social links, and service schedule.
                 </p>
               </div>
-              <span className="bg-cream px-4 py-2 rounded-full text-charcoal-light font-medium">
-                {insights.length} shared
-              </span>
-            </div>
 
-            {/* Trending Topics */}
-            {insights.length > 0 && (
-              <div className="mb-8 p-4 bg-forest/5 rounded-xl border border-forest/10">
-                <h3 className="text-sm font-semibold text-forest mb-3 uppercase tracking-wider">
-                  Trending Themes
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {(() => {
-                    const words: Record<string, number> = {};
-                    const commonWords = ["i", "the", "a", "an", "is", "are", "was", "been", "being", "have", "has", "had", "do", "does", "did", "will", "would", "could", "should", "may", "might", "must", "shall", "can", "need", "dare", "ought", "used", "to", "of", "in", "for", "on", "with", "at", "by", "from", "about", "as", "into", "through", "during", "before", "after", "above", "below", "between", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "just", "and", "but", "if", "or", "because", "until", "while", "my", "me", "ve", "m", "it", "that", "this", "what", "which", "who", "whom", "these", "those", "am", "be", "feeling", "feel", "been", "really", "lot", "like", "going", "get", "much", "even", "also", "still"];
-
-                    insights.forEach(insight => {
-                      const topicWords = insight.topic.toLowerCase().split(/\W+/);
-                      topicWords.forEach(word => {
-                        if (word.length > 3 && !commonWords.includes(word)) {
-                          words[word] = (words[word] || 0) + 1;
-                        }
-                      });
-                    });
-
-                    const trending = Object.entries(words)
-                      .filter(([, count]) => count >= 2)
-                      .sort((a, b) => b[1] - a[1])
-                      .slice(0, 5);
-
-                    if (trending.length === 0) {
-                      return <span className="text-charcoal-light text-sm">Not enough data for trends yet</span>;
-                    }
-
-                    return trending.map(([word, count]) => (
-                      <span key={word} className="bg-white px-3 py-1 rounded-full text-sm text-charcoal">
-                        {word} <span className="text-forest font-medium">({count})</span>
-                      </span>
-                    ));
-                  })()}
-                </div>
-              </div>
-            )}
-
-            {insights.length === 0 ? (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-cream flex items-center justify-center text-3xl">
-                  💭
-                </div>
-                <p className="text-charcoal-light text-lg mb-2">
-                  No insights shared yet.
+              {/* Contact Info */}
+              <div className={cardClass}>
+                <p className="text-sm font-semibold text-deep mb-4">
+                  Contact Information
                 </p>
-                <p className="text-sm text-charcoal-light/70">
-                  When people use &quot;Ask The Word&quot; and choose to share anonymously,
-                  their conversation topics will appear here.
-                </p>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {insights.map((insight) => (
-                  <div
-                    key={insight.id}
-                    className="bg-cream rounded-xl p-4 flex items-start gap-4"
-                  >
-                    <div className="w-10 h-10 bg-forest/10 rounded-full flex items-center justify-center text-lg flex-shrink-0">
-                      💬
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-charcoal leading-relaxed">
-                        {insight.topic}
-                      </p>
-                      <div className="flex items-center gap-3 mt-2">
-                        {insight.scripture && (
-                          <span className="text-sm text-forest font-medium">
-                            📖 {insight.scripture}
-                          </span>
-                        )}
-                        <span className="text-sm text-charcoal-light">
-                          {formatDate(insight.timestamp)}
-                        </span>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => deleteInsightItem(insight.id)}
-                      className="flex-shrink-0 w-10 h-10 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg flex items-center justify-center text-lg transition-colors"
-                      title="Delete"
-                    >
-                      🗑️
-                    </button>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelClass}>Ministry Email</label>
+                    <input
+                      type="email"
+                      value={settingsEmail}
+                      onChange={(e) => setSettingsEmail(e.target.value)}
+                      placeholder="pastor@lifeministry.org"
+                      className={inputClass}
+                    />
                   </div>
-                ))}
+                  <div>
+                    <label className={labelClass}>Phone Number</label>
+                    <input
+                      type="tel"
+                      value={settingsPhone}
+                      onChange={(e) => setSettingsPhone(e.target.value)}
+                      placeholder="(555) 123-4567"
+                      className={inputClass}
+                    />
+                  </div>
+                </div>
               </div>
-            )}
-          </div>
-        )}
+
+              {/* Social Links */}
+              <div className={cardClass}>
+                <p className="text-sm font-semibold text-deep mb-4">
+                  Social Media Links
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelClass}>TikTok URL</label>
+                    <input
+                      type="url"
+                      value={settingsTiktok}
+                      onChange={(e) => setSettingsTiktok(e.target.value)}
+                      placeholder="https://tiktok.com/@..."
+                      className={inputClass}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Instagram URL</label>
+                    <input
+                      type="url"
+                      value={settingsInstagram}
+                      onChange={(e) => setSettingsInstagram(e.target.value)}
+                      placeholder="https://instagram.com/..."
+                      className={inputClass}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>YouTube URL</label>
+                    <input
+                      type="url"
+                      value={settingsYoutube}
+                      onChange={(e) => setSettingsYoutube(e.target.value)}
+                      placeholder="https://youtube.com/@..."
+                      className={inputClass}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Facebook URL</label>
+                    <input
+                      type="url"
+                      value={settingsFacebook}
+                      onChange={(e) => setSettingsFacebook(e.target.value)}
+                      placeholder="https://facebook.com/..."
+                      className={inputClass}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Service Schedule */}
+              <div className={cardClass}>
+                <p className="text-sm font-semibold text-deep mb-4">
+                  Service Schedule
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  <div>
+                    <label className={labelClass}>Day of Week</label>
+                    <select
+                      value={settingsDay}
+                      onChange={(e) => setSettingsDay(Number(e.target.value))}
+                      className={inputClass}
+                    >
+                      <option value={0}>Sunday</option>
+                      <option value={1}>Monday</option>
+                      <option value={2}>Tuesday</option>
+                      <option value={3}>Wednesday</option>
+                      <option value={4}>Thursday</option>
+                      <option value={5}>Friday</option>
+                      <option value={6}>Saturday</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className={labelClass}>Hour</label>
+                    <select
+                      value={settingsHour}
+                      onChange={(e) =>
+                        setSettingsHour(Number(e.target.value))
+                      }
+                      className={inputClass}
+                    >
+                      {Array.from({ length: 24 }, (_, i) => (
+                        <option key={i} value={i}>
+                          {i === 0
+                            ? "12 AM"
+                            : i < 12
+                              ? `${i} AM`
+                              : i === 12
+                                ? "12 PM"
+                                : `${i - 12} PM`}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className={labelClass}>Minute</label>
+                    <select
+                      value={settingsMinute}
+                      onChange={(e) =>
+                        setSettingsMinute(Number(e.target.value))
+                      }
+                      className={inputClass}
+                    >
+                      {[0, 15, 30, 45].map((m) => (
+                        <option key={m} value={m}>
+                          :{m.toString().padStart(2, "0")}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className={labelClass}>Timezone</label>
+                    <select
+                      value={settingsTimezone}
+                      onChange={(e) => setSettingsTimezone(e.target.value)}
+                      className={inputClass}
+                    >
+                      <option value="America/New_York">Eastern</option>
+                      <option value="America/Chicago">Central</option>
+                      <option value="America/Denver">Mountain</option>
+                      <option value="America/Los_Angeles">Pacific</option>
+                      <option value="America/Anchorage">Alaska</option>
+                      <option value="Pacific/Honolulu">Hawaii</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Save Settings */}
+              <div className="flex justify-end">
+                <button
+                  onClick={handleSaveSettings}
+                  disabled={isSavingSettings}
+                  className="bg-water text-white font-semibold px-8 py-3 rounded-lg hover:bg-water-dark disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  {isSavingSettings ? (
+                    <>
+                      <svg
+                        className="animate-spin h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      Saving...
+                    </>
+                  ) : (
+                    "Save Settings"
+                  )}
+                </button>
+              </div>
+
+              {/* Last Updated */}
+              {content?.lastUpdated && (
+                <p className="text-xs text-text-light text-center">
+                  Last updated: {formatTimestamp(content.lastUpdated)}
+                </p>
+              )}
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );
