@@ -1681,6 +1681,18 @@ export default function AdminPage() {
                             template={flyerTemplate}
                           />
                         </div>
+                        <div className="mt-4 flex items-center justify-center gap-4">
+                          <Button
+                            variant="outline"
+                            className="font-body text-sm"
+                            onClick={() => window.print()}
+                          >
+                            Print / Save as PDF
+                          </Button>
+                          <p className="text-xs font-body text-[#4a6580]">
+                            Tip: Use your browser&apos;s print dialog to save as PDF, or take a screenshot to share directly.
+                          </p>
+                        </div>
                       </CardContent>
                     </Card>
                   </div>

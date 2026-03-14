@@ -221,7 +221,7 @@ export default function EventsPage() {
           <Button
             size="lg"
             className="bg-[#1a6fb5] hover:bg-[#145a94] text-white font-body font-bold text-sm uppercase tracking-wider px-8 py-6 rounded-xl cursor-pointer"
-            render={<a href="mailto:ministry@lifeministy.org" />}
+            render={<a href="mailto:ministry@lifeministry.org" />}
           >
             Get in Touch
             <ArrowRight className="ml-2 size-4" />

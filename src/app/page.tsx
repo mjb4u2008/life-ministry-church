@@ -22,6 +22,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
+import { DailyScriptureSection } from "@/components/DailyScripture";
 
 /* ─────────────────────────────────────────────
    Countdown Hook
@@ -156,12 +157,57 @@ export default function HomePage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [content, setContent] = useState<any>(null);
 
+  /* Newsletter form state */
+  const [nlName, setNlName] = useState("");
+  const [nlEmail, setNlEmail] = useState("");
+  const [nlSubmitting, setNlSubmitting] = useState(false);
+  const [nlSuccess, setNlSuccess] = useState(false);
+  const [nlError, setNlError] = useState("");
+
+  /* Prayer/testimony preview state */
+  const [previewPrayers, setPreviewPrayers] = useState(placeholderPrayers);
+  const [previewTestimonies, setPreviewTestimonies] = useState(placeholderTestimonies);
+
   /* Fetch admin-managed content from KV */
   useEffect(() => {
     fetch("/api/content")
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data) setContent(data);
+      })
+      .catch(() => {});
+
+    /* Fetch real prayers */
+    fetch("/api/prayers")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.prayers?.length > 0) {
+          setPreviewPrayers(
+            data.prayers.slice(0, 3).map((p: { id: string; name: string; request: string; prayerCount: number }) => ({
+              id: p.id,
+              name: p.name,
+              text: p.request,
+              count: p.prayerCount,
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+
+    /* Fetch real testimonies */
+    fetch("/api/testimonies")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.testimonies?.length > 0) {
+          setPreviewTestimonies(
+            data.testimonies.slice(0, 3).map((t: { id: string; name: string; text: string; blessedCount: number }) => ({
+              id: t.id,
+              name: t.name,
+              text: t.text,
+              count: t.blessedCount,
+            }))
+          );
+        }
       })
       .catch(() => {});
   }, []);
@@ -504,6 +550,11 @@ export default function HomePage() {
       </section>
 
       {/* ================================================
+          DAILY SCRIPTURE
+          ================================================ */}
+      <DailyScriptureSection />
+
+      {/* ================================================
           SECTION 4: WHAT WE BELIEVE
           ================================================ */}
       <section className="bg-[#f0f4f8] py-24 md:py-32 lg:py-40">
@@ -726,7 +777,7 @@ export default function HomePage() {
           {/* Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             {activeTab === "prayers"
-              ? placeholderPrayers.map((prayer) => (
+              ? previewPrayers.map((prayer) => (
                   <Card
                     key={prayer.id}
                     className="bg-white ring-0 rounded-xl py-0"
@@ -761,7 +812,7 @@ export default function HomePage() {
                     </CardContent>
                   </Card>
                 ))
-              : placeholderTestimonies.map((testimony) => (
+              : previewTestimonies.map((testimony) => (
                   <Card
                     key={testimony.id}
                     className="bg-white ring-0 rounded-xl py-0"
@@ -942,22 +993,67 @@ export default function HomePage() {
                   L.I.F.E. Ministry.
                 </p>
 
+                {nlSuccess ? (
+                  <div className="text-center py-6">
+                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <p className="font-body font-bold text-lg" style={{ color: "#0a1a2f" }}>
+                      You&apos;re signed up!
+                    </p>
+                    <p className="font-body text-sm mt-2" style={{ color: "#4a6580" }}>
+                      We&apos;ll keep you in the loop with L.I.F.E. Ministry updates.
+                    </p>
+                  </div>
+                ) : (
                 <form
                   className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-                  onSubmit={(e) => e.preventDefault()}
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    setNlError("");
+                    setNlSubmitting(true);
+                    try {
+                      const res = await fetch("/api/subscribers", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          name: nlName,
+                          contactType: "email",
+                          contact: nlEmail,
+                        }),
+                      });
+                      if (!res.ok) {
+                        const data = await res.json();
+                        setNlError(data.error || "Something went wrong. Please try again.");
+                      } else {
+                        setNlSuccess(true);
+                        setNlName("");
+                        setNlEmail("");
+                      }
+                    } catch {
+                      setNlError("Network error. Please try again.");
+                    } finally {
+                      setNlSubmitting(false);
+                    }
+                  }}
                 >
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-2 sm:col-span-2">
                     <label
                       className="text-xs font-body font-bold uppercase tracking-widest"
                       style={{ color: "#4a6580" }}
-                      htmlFor="firstName"
+                      htmlFor="nlName"
                     >
-                      First Name
+                      Name
                     </label>
                     <Input
-                      id="firstName"
+                      id="nlName"
                       type="text"
-                      placeholder="Alex"
+                      placeholder="Alex Smith"
+                      value={nlName}
+                      onChange={(e) => setNlName(e.target.value)}
+                      required
                       className="h-12 border-[#c8dded] focus-visible:border-[#1a6fb5] focus-visible:ring-[#1a6fb5]/20 rounded-lg font-body text-[#0a1a2f] px-4"
                     />
                   </div>
@@ -965,29 +1061,17 @@ export default function HomePage() {
                     <label
                       className="text-xs font-body font-bold uppercase tracking-widest"
                       style={{ color: "#4a6580" }}
-                      htmlFor="lastName"
-                    >
-                      Last Name
-                    </label>
-                    <Input
-                      id="lastName"
-                      type="text"
-                      placeholder="Smith"
-                      className="h-12 border-[#c8dded] focus-visible:border-[#1a6fb5] focus-visible:ring-[#1a6fb5]/20 rounded-lg font-body text-[#0a1a2f] px-4"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <label
-                      className="text-xs font-body font-bold uppercase tracking-widest"
-                      style={{ color: "#4a6580" }}
-                      htmlFor="email"
+                      htmlFor="nlEmail"
                     >
                       Email
                     </label>
                     <Input
-                      id="email"
+                      id="nlEmail"
                       type="email"
                       placeholder="alex@email.com"
+                      value={nlEmail}
+                      onChange={(e) => setNlEmail(e.target.value)}
+                      required
                       className="h-12 border-[#c8dded] focus-visible:border-[#1a6fb5] focus-visible:ring-[#1a6fb5]/20 rounded-lg font-body text-[#0a1a2f] px-4"
                     />
                   </div>
@@ -995,12 +1079,17 @@ export default function HomePage() {
                     <Button
                       type="submit"
                       size="lg"
-                      className="w-full h-12 bg-[#1a6fb5] hover:bg-[#145a94] text-white font-body font-bold text-sm uppercase tracking-wider rounded-lg cursor-pointer"
+                      disabled={nlSubmitting}
+                      className="w-full h-12 bg-[#1a6fb5] hover:bg-[#145a94] text-white font-body font-bold text-sm uppercase tracking-wider rounded-lg cursor-pointer disabled:opacity-60"
                     >
-                      Get Notified
+                      {nlSubmitting ? "Submitting..." : "Get Notified"}
                     </Button>
                   </div>
+                  {nlError && (
+                    <p className="sm:col-span-2 text-red-600 font-body text-sm">{nlError}</p>
+                  )}
                 </form>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -1038,12 +1127,12 @@ export default function HomePage() {
                   Email Us
                 </h3>
                 <p className="font-body text-sm mb-4" style={{ color: "#4a6580" }}>
-                  ministry@lifeministy.org
+                  ministry@lifeministry.org
                 </p>
                 <Button
                   variant="outline"
                   className="border-[#1a6fb5] text-[#1a6fb5] hover:bg-[#1a6fb5] hover:text-white font-body font-bold text-xs uppercase tracking-wider rounded-lg cursor-pointer"
-                  render={<a href="mailto:ministry@lifeministy.org" />}
+                  render={<a href="mailto:ministry@lifeministry.org" />}
                 >
                   Send Email
                   <ArrowRight className="ml-2 size-3" />

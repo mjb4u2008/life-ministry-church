@@ -91,9 +91,22 @@ export async function POST(request: NextRequest) {
     }
     cleanedResponse = cleanedResponse.trim();
 
-    const parsed = JSON.parse(cleanedResponse);
+    try {
+      const parsed = JSON.parse(cleanedResponse);
+      return NextResponse.json(parsed);
+    } catch (parseError) {
+      console.error("Failed to parse flyer LLM response:", parseError, cleanedResponse);
 
-    return NextResponse.json(parsed);
+      // Fallback: return a default structure if parsing fails
+      return NextResponse.json({
+        headline: title.trim(),
+        subheadline: "Join us for an inspiring message",
+        scripture_text: "",
+        scripture_ref: scripture.trim(),
+        details: "L.I.F.E. Ministry | Sunday 8:30 AM PST / 11:30 AM EST | Online via Google Meet",
+        tagline: "Come as you are — there's a place for you here.",
+      });
+    }
   } catch (error) {
     console.error("Error in /api/flyer:", error);
     return NextResponse.json(

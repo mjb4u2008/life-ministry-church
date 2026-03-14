@@ -17,54 +17,76 @@ interface ThisSunday {
   description?: string;
 }
 
+interface YouTubeVideo {
+  id: string;
+  url: string;
+  title: string;
+  date: string;
+  scripture: string;
+}
+
 interface ContentData {
   weeklyMessage: WeeklyMessage;
   thisSunday?: ThisSunday;
   meetLink?: string;
   googleMeetLink?: string;
+  youtubeVideos?: YouTubeVideo[];
 }
 
-const pastServices = [
+const fallbackPastServices = [
   {
-    id: 1,
+    id: "1",
     title: "Finding Rest in Restless Times",
     date: "January 5, 2026",
-    duration: "45 min",
     scripture: "Matthew 11:28-30",
+    url: "",
   },
   {
-    id: 2,
+    id: "2",
     title: "Walking in Faith, Not Fear",
     date: "December 29, 2025",
-    duration: "52 min",
     scripture: "Isaiah 41:10",
+    url: "",
   },
   {
-    id: 3,
+    id: "3",
     title: "The Gift of Presence",
     date: "December 22, 2025",
-    duration: "48 min",
     scripture: "Matthew 1:23",
+    url: "",
   },
   {
-    id: 4,
+    id: "4",
     title: "Gratitude in All Seasons",
     date: "December 15, 2025",
-    duration: "41 min",
     scripture: "1 Thessalonians 5:18",
+    url: "",
   },
 ];
 
 export default function WatchPage() {
   const [content, setContent] = useState<ContentData | null>(null);
+  const [pastServices, setPastServices] = useState(fallbackPastServices);
 
   useEffect(() => {
     async function fetchContent() {
       try {
         const res = await fetch("/api/content");
         if (res.ok) {
-          const data = await res.json();
+          const data: ContentData = await res.json();
           setContent(data);
+
+          if (data.youtubeVideos && data.youtubeVideos.length > 0) {
+            setPastServices(
+              data.youtubeVideos.map((v) => ({
+                id: v.id,
+                title: v.title,
+                date: v.date,
+                scripture: v.scripture,
+                url: v.url,
+              }))
+            );
+          }
         }
       } catch (error) {
         console.error("Failed to fetch content:", error);
@@ -314,8 +336,16 @@ export default function WatchPage() {
           </div>
 
           <div className="grid sm:grid-cols-2 gap-8">
-            {pastServices.map((service) => (
-              <div
+            {pastServices.map((service) => {
+              const Wrapper = service.url
+                ? ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => (
+                    <a href={service.url} target="_blank" rel="noopener noreferrer" {...props}>{children}</a>
+                  )
+                : ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => (
+                    <div {...props}>{children}</div>
+                  );
+              return (
+              <Wrapper
                 key={service.id}
                 className="rounded-2xl overflow-hidden shadow-[0_2px_15px_rgba(26,111,181,0.06)] hover:shadow-[0_12px_40px_rgba(26,111,181,0.14)] hover:-translate-y-2 transition-all duration-300 group cursor-pointer"
                 style={{ background: "#ffffff" }}
@@ -341,9 +371,6 @@ export default function WatchPage() {
                       </svg>
                     </div>
                   </div>
-                  <div className="absolute bottom-3 right-3 bg-black/60 text-white text-xs font-body font-bold px-3 py-1 rounded-full">
-                    {service.duration}
-                  </div>
                 </div>
                 <div className="p-6">
                   <p
@@ -365,8 +392,9 @@ export default function WatchPage() {
                     {service.scripture}
                   </p>
                 </div>
-              </div>
-            ))}
+              </Wrapper>
+              );
+            })}
           </div>
         </div>
       </section>
