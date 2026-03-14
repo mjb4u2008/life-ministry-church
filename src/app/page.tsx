@@ -204,13 +204,11 @@ export default function HomePage() {
         className="relative min-h-screen flex flex-col justify-center overflow-hidden"
         style={{ background: "#fafcff" }}
       >
-        <div className="container mx-auto px-6 md:px-12 max-w-screen-2xl relative z-10">
-          {/* Spacer for header nav */}
-          <div className="h-20" />
+        <div className="container mx-auto px-6 md:px-12 lg:px-16 max-w-screen-xl pt-32 md:pt-40 lg:pt-48 pb-16 md:pb-24 relative z-10">
 
           {/* MASSIVE "LIFE" */}
           <h1
-            className="hero-title font-display uppercase gpu leading-[0.85] tracking-tight"
+            className="hero-title font-display uppercase gpu leading-[0.85] tracking-tight mb-6 md:mb-8"
             style={{
               fontSize: "clamp(6rem, 20vw, 22rem)",
               fontWeight: 900,
@@ -222,7 +220,7 @@ export default function HomePage() {
 
           {/* Subtitle */}
           <p
-            className="hero-subtitle mt-4 md:mt-6 font-body font-semibold text-xl md:text-2xl lg:text-3xl uppercase gpu"
+            className="hero-subtitle font-body font-semibold text-xl md:text-2xl lg:text-3xl uppercase gpu mb-4 md:mb-6"
             style={{ letterSpacing: "0.15em", color: "#4a6580" }}
           >
             Lord Is Forever Emmanuel
@@ -230,14 +228,14 @@ export default function HomePage() {
 
           {/* Gradient line */}
           <div
-            className="hero-line mt-6 h-[3px] w-48 md:w-80 gpu"
+            className="hero-line h-[3px] w-48 md:w-80 gpu mb-10 md:mb-16"
             style={{
               background: "linear-gradient(90deg, #1a6fb5, #00d4ff, transparent)",
             }}
           />
 
           {/* Meta info + Video */}
-          <div className="hero-meta mt-8 md:mt-12 max-w-3xl">
+          <div className="hero-meta mt-12 md:mt-20 max-w-2xl lg:max-w-3xl">
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 mb-6">
               <span className="text-sm uppercase tracking-[0.12em] font-body font-semibold" style={{ color: "#4a6580" }}>
                 Join our next service
@@ -268,6 +266,7 @@ export default function HomePage() {
           </div>
         </div>
       </header>
+
 
       {/* Marquee - Desktop only */}
       <div className="hidden lg:block">
@@ -314,7 +313,7 @@ export default function HomePage() {
       {/* ========================================
           WAVE TRANSITION: Hero -> Mission
           ======================================== */}
-      <div className="relative h-16 overflow-hidden" style={{ background: "#fafcff" }}>
+      <div className="relative h-24 md:h-32 overflow-hidden" style={{ background: "#fafcff" }}>
         <div className="wave-layer wave-layer-1" style={{ bottom: 0 }} />
         <div className="wave-layer wave-layer-2" style={{ bottom: "-20%" }} />
         <div className="wave-layer wave-layer-3" style={{ bottom: "-10%" }} />
@@ -324,7 +323,7 @@ export default function HomePage() {
           2. MISSION SECTION
           ======================================== */}
       <section className="relative flex flex-col items-center justify-between py-32 md:py-40 lg:flex-row intro bg-bg">
-        <div className="container mx-auto px-6 md:px-12 max-w-screen-xl relative grid gap-16 md:grid-cols-2">
+        <div className="container mx-auto px-6 md:px-12 lg:px-16 max-w-screen-xl relative grid gap-16 md:grid-cols-2">
           <div>
             <div className="relative z-10 flex items-center w-full">
               <h3 className="inline-flex flex-auto w-full mr-2 uppercase text-xl font-display font-extrabold tracking-[0.1em]" style={{ color: "#0a1a2f" }}>
@@ -334,7 +333,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="relative z-10 flex-auto">
-            <p className="text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-snug" style={{ color: "#0a1a2f" }}>
+            <p className="text-2xl md:text-3xl lg:text-4xl font-display font-bold leading-[1.3]" style={{ color: "#0a1a2f" }}>
               So that people far from God can experience{" "}
               <span className="text-gradient-water">new life</span> in
               Jesus
@@ -350,7 +349,7 @@ export default function HomePage() {
       {/* ========================================
           WAVE TRANSITION: Mission -> Photos
           ======================================== */}
-      <div className="relative h-16 overflow-hidden" style={{ background: "#0a1a2f" }}>
+      <div className="relative h-24 md:h-32 overflow-hidden" style={{ background: "#0a1a2f" }}>
         <div className="wave-layer wave-layer-1" style={{ top: 0, borderRadius: "0 0 1000% 1000%", background: "#fafcff", opacity: 0.6 }} />
         <div className="wave-layer wave-layer-2" style={{ top: "-20%", borderRadius: "0 0 1000% 1000%", background: "#f0f4f8", opacity: 0.4 }} />
         <div className="wave-layer wave-layer-3" style={{ top: "-10%", borderRadius: "0 0 1000% 1000%", background: "#fafcff", opacity: 0.2 }} />
@@ -364,9 +363,9 @@ export default function HomePage() {
           <div className="relative p-2">
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
               {/* JOIN US LIVE text card */}
-              <div className="flex flex-col justify-end p-8">
+              <div className="flex flex-col justify-end p-10 md:p-12">
                 <h3
-                  className="mb-6 text-5xl md:text-6xl font-display uppercase text-white tracking-tight"
+                  className="mb-8 text-5xl md:text-6xl font-display uppercase text-white tracking-tight"
                   style={{ fontWeight: 900 }}
                 >
                   Join Us<br />Live
@@ -381,7 +380,7 @@ export default function HomePage() {
                       { val: countdown.s, label: "SEC" },
                     ].map((unit) => (
                       <div key={unit.label} className="text-center">
-                        <div className="text-2xl md:text-3xl font-body font-black text-white countdown-pulse">
+                        <div className="text-3xl md:text-4xl font-body font-black text-white countdown-pulse">
                           {String(unit.val).padStart(2, "0")}
                         </div>
                         <div className="text-[10px] uppercase tracking-widest text-[#7a9ab4] font-body font-semibold">
@@ -450,7 +449,7 @@ export default function HomePage() {
       {/* ========================================
           WAVE TRANSITION: Photos -> Watch
           ======================================== */}
-      <div className="relative h-16 overflow-hidden bg-bg">
+      <div className="relative h-24 md:h-32 overflow-hidden bg-bg">
         <div className="wave-layer wave-layer-1" style={{ top: 0, borderRadius: "0 0 1000% 1000%", background: "#0a1a2f", opacity: 0.5 }} />
         <div className="wave-layer wave-layer-2" style={{ top: "-20%", borderRadius: "0 0 1000% 1000%", background: "#0a1a2f", opacity: 0.3 }} />
         <div className="wave-layer wave-layer-3" style={{ top: "-10%", borderRadius: "0 0 1000% 1000%", background: "#0a1a2f", opacity: 0.15 }} />
@@ -460,8 +459,8 @@ export default function HomePage() {
           4. WATCH SECTION — Clean two-column
           ======================================== */}
       <section className="py-32 md:py-40 overflow-x-hidden watch bg-bg">
-        <div className="container mx-auto px-6 md:px-12 max-w-screen-xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+        <div className="container mx-auto px-6 md:px-12 lg:px-16 max-w-screen-xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 lg:gap-20 items-center">
             {/* Left: MASSIVE heading */}
             <div>
               <h3
@@ -484,7 +483,7 @@ export default function HomePage() {
             </div>
           </div>
           {/* Service times and button */}
-          <div className="flex flex-col mt-12 md:items-center md:flex-row">
+          <div className="flex flex-col mt-16 md:mt-20 md:items-center md:flex-row">
             <div className="flex-auto mr-4">
               <span className="inline-block w-full text-lg uppercase md:text-xl lg:text-2xl tracking-[0.08em] font-body font-bold" style={{ color: "#4a6580" }}>
                 Join Us Live
@@ -496,7 +495,7 @@ export default function HomePage() {
             <div className="mt-6 md:mt-0 min-w-[8rem] md:text-right flex flex-col">
               <Link
                 href="/watch"
-                className="inline-block text-center px-8 py-4 bg-[#1a6fb5] text-white font-body font-bold text-sm uppercase tracking-[0.08em] rounded-xl hover:bg-[#0a1a2f] transition-colors"
+                className="inline-block text-center px-10 py-5 bg-[#1a6fb5] text-white font-body font-bold text-base uppercase tracking-[0.08em] rounded-xl hover:bg-[#0a1a2f] transition-colors"
               >
                 Watch Live
               </Link>
@@ -508,15 +507,15 @@ export default function HomePage() {
       {/* ========================================
           5. SCRIPTURE / CREED — BOLD
           ======================================== */}
-      <section className="relative py-32 md:py-40 overflow-hidden bg-[#f0f4f8] creed">
-        <div className="container mx-auto px-6 md:px-12 max-w-screen-xl flex flex-col items-start justify-center py-12">
+      <section className="relative py-32 md:py-40 lg:py-48 overflow-hidden bg-[#f0f4f8] creed">
+        <div className="container mx-auto px-6 md:px-12 lg:px-16 max-w-screen-xl flex flex-col items-start justify-center py-12">
           {/* Solid left border accent */}
           <div className="flex items-stretch gap-8 md:gap-12">
             <div
               className="creed-accent gpu w-[4px] md:w-[6px] rounded-full flex-shrink-0"
               style={{ background: "linear-gradient(180deg, #1a6fb5, #00d4ff)" }}
             />
-            <div className="flex-col">
+            <div className="flex-col max-w-4xl">
               <div
                 className="relative z-10 text-5xl md:text-6xl lg:text-7xl uppercase font-display leading-[1.05]"
                 style={{ fontWeight: 800, color: "#0a1a2f" }}
@@ -537,9 +536,9 @@ export default function HomePage() {
       {/* ========================================
           6. TAKE ME TO — BOLD CARDS
           ======================================== */}
-      <section className="py-32 md:py-40 take bg-bg">
-        <div className="container mx-auto px-6 md:px-12 max-w-screen-xl">
-          <div className="flex flex-col items-center mb-12 lg:flex-row lg:mb-0">
+      <section className="py-32 md:py-40 lg:py-48 take bg-bg">
+        <div className="container mx-auto px-6 md:px-12 lg:px-16 max-w-screen-xl">
+          <div className="flex flex-col items-center mb-12 lg:mb-16 lg:flex-row">
             <h3
               className="mb-10 lg:ml-16 take-heading gpu text-6xl md:text-7xl lg:text-8xl font-display uppercase tracking-tight"
               style={{ fontWeight: 900, color: "#0a1a2f" }}
@@ -586,7 +585,7 @@ export default function HomePage() {
               <li key={index}>
                 <Link
                   href={item.href}
-                  className="inline-block h-full p-6 md:p-8 transition-all duration-300 bg-[#f0f4f8] hover:bg-[#dce8f2] rounded-2xl hover:-translate-y-3 shadow-[0_2px_15px_rgba(26,111,181,0.06)] hover:shadow-[0_12px_40px_rgba(26,111,181,0.14)] border-t-[3px] border-[#1a6fb5]"
+                  className="inline-block h-full min-h-[280px] p-6 md:p-8 transition-all duration-300 bg-[#f0f4f8] hover:bg-[#dce8f2] rounded-2xl hover:-translate-y-3 shadow-[0_2px_15px_rgba(26,111,181,0.06)] hover:shadow-[0_12px_40px_rgba(26,111,181,0.14)] border-t-[3px] border-[#1a6fb5]"
                 >
                   <span
                     className="inline-block mb-6 text-4xl md:text-5xl leading-[1.1] uppercase font-display whitespace-pre-line"
@@ -609,11 +608,11 @@ export default function HomePage() {
           ======================================== */}
       <section className="relative bg-bg">
         <div className="pt-16 pb-20 overflow-hidden lg:pt-24 lg:pb-32 slide-section">
-          <div className="container mx-auto px-6 md:px-12 max-w-screen-xl flex flex-col gap-4 lg:gap-16 lg:flex-row">
+          <div className="container mx-auto px-6 md:px-12 lg:px-16 max-w-screen-xl flex flex-col gap-4 lg:gap-16 lg:flex-row">
             {/* Heading */}
             <div className="relative lg:ml-auto">
               <h3
-                className="text-6xl font-display text-center uppercase lg:text-right lg:text-7xl tracking-tight"
+                className="text-6xl font-display text-center uppercase lg:text-right lg:text-7xl tracking-tight lg:mr-8"
                 style={{ fontWeight: 900, color: "#0a1a2f" }}
               >
                 What
@@ -624,7 +623,7 @@ export default function HomePage() {
               </h3>
             </div>
             {/* Carousel */}
-            <div className="lg:w-1/2 relative">
+            <div className="lg:w-1/2 relative mt-8 lg:mt-0">
               {/* Navigation arrows */}
               <div className="flex justify-center gap-4 mb-4 lg:mb-0 lg:absolute lg:top-[-4rem] lg:right-0 z-10">
                 <button
@@ -735,15 +734,15 @@ export default function HomePage() {
           ======================================== */}
       <section className="relative">
         <div className="py-32 md:py-40" style={{ background: "#0a1a2f" }}>
-          <div className="container mx-auto px-6 md:px-12 max-w-3xl">
-            <div className="relative z-10 p-8 md:p-14 bg-white rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.2)]">
+          <div className="container mx-auto px-6 md:px-12 lg:px-16 max-w-3xl">
+            <div className="relative z-10 p-10 md:p-16 bg-white rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.2)]">
               <h4
-                className="uppercase font-display text-3xl md:text-4xl mb-2 tracking-tight"
+                className="uppercase font-display text-3xl md:text-4xl lg:text-5xl mb-2 tracking-tight"
                 style={{ fontWeight: 900, color: "#0a1a2f" }}
               >
                 Stay Connected
               </h4>
-              <p className="font-body text-base mb-8" style={{ color: "#4a6580" }}>
+              <p className="font-body text-base mb-10" style={{ color: "#4a6580" }}>
                 Get notified before each service. Stay in the loop with L.I.F.E. Ministry.
               </p>
               <form

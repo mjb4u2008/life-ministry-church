@@ -365,6 +365,15 @@ h1, h2, h3, h4 {
 }
 
 /* ===========================
+   Section Spacing Utility
+   =========================== */
+
+.section-padding {
+  padding-top: clamp(6rem, 10vw, 12rem);
+  padding-bottom: clamp(6rem, 10vw, 12rem);
+}
+
+/* ===========================
    Gradient Overlay
    =========================== */
 
