@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -56,15 +57,15 @@ export default function HomePage() {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      // Parallax sunset image (desktop only)
+      // Parallax ocean gradient (desktop only)
       ScrollTrigger.matchMedia({
         "(min-width: 768px)": function () {
-          gsap.to(".sunset", {
+          gsap.to(".ocean-glow", {
             yPercent: -60,
             ease: "none",
             scrollTrigger: {
               trigger: ".intro",
-              scrub: true,
+              scrub: 1,
             },
           });
           gsap.to(".watch-box", {
@@ -72,7 +73,7 @@ export default function HomePage() {
             ease: "none",
             scrollTrigger: {
               trigger: ".watch",
-              scrub: true,
+              scrub: 1,
             },
           });
           gsap.to(".watch-heading", {
@@ -80,7 +81,7 @@ export default function HomePage() {
             ease: "none",
             scrollTrigger: {
               trigger: ".watch",
-              scrub: true,
+              scrub: 1,
             },
           });
         },
@@ -92,7 +93,7 @@ export default function HomePage() {
         ease: "none",
         scrollTrigger: {
           trigger: ".watch",
-          scrub: true,
+          scrub: 1,
         },
       });
 
@@ -102,7 +103,7 @@ export default function HomePage() {
         ease: "none",
         scrollTrigger: {
           trigger: ".creed",
-          scrub: true,
+          scrub: 1,
         },
       });
 
@@ -112,7 +113,7 @@ export default function HomePage() {
         ease: "none",
         scrollTrigger: {
           trigger: ".creed",
-          scrub: true,
+          scrub: 1,
         },
       });
 
@@ -124,10 +125,33 @@ export default function HomePage() {
             ease: "none",
             scrollTrigger: {
               trigger: ".take",
-              scrub: true,
+              scrub: 1,
             },
           });
         },
+      });
+
+      // Hero fade-in on load
+      gsap.from(".hero-title", {
+        opacity: 0,
+        y: 40,
+        duration: 1.2,
+        ease: "power2.out",
+        delay: 0.3,
+      });
+      gsap.from(".hero-subtitle", {
+        opacity: 0,
+        y: 20,
+        duration: 1,
+        ease: "power2.out",
+        delay: 0.7,
+      });
+      gsap.from(".hero-line", {
+        scaleX: 0,
+        duration: 1.4,
+        ease: "power2.out",
+        delay: 0.5,
+        transformOrigin: "left center",
       });
     }, containerRef);
 
@@ -142,85 +166,127 @@ export default function HomePage() {
     return () => clearInterval(interval);
   }, [slides.length]);
 
-  const marqueeWords = Array.from({ length: 12 }, (_, i) =>
-    i % 2 === 0 ? "Welcome" : "Home"
-  );
+  const marqueeWords = Array.from({ length: 8 }, () => "LORD IS FOREVER EMMANUEL");
 
   return (
     <div ref={containerRef}>
+      {/* SVG Water Ripple Filter — invisible, used by hero logo */}
+      <svg
+        style={{ position: "absolute", width: 0, height: 0 }}
+        aria-hidden="true"
+      >
+        <filter id="water-ripple">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.01 0.09"
+            numOctaves={3}
+            result="turbulence"
+          >
+            <animate
+              attributeName="baseFrequency"
+              dur="4s"
+              values="0.01 0.09;0.02 0.13;0.01 0.09"
+              repeatCount="indefinite"
+            />
+          </feTurbulence>
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="turbulence"
+            scale={12}
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
+        </filter>
+      </svg>
+
       {/* ========================================
-          1. HEADER / HERO AREA
+          1. HERO
           ======================================== */}
-      <header className="pt-6 border-black sm:border-b-4 lg:border-0">
-        {/* Heading */}
-        <div className="container mx-auto px-4 max-w-screen-xl">
-          <div className="h-12" />
-          <div className="flex items-center">
-            <h1 className="text-5xl md:text-6xl font-bold uppercase whitespace-nowrap">
-              Welcome Home
-            </h1>
-            <div className="flex-1 ml-8 border-2 border-black" />
-          </div>
-          <div className="h-8" />
+      <header className="relative pt-6 overflow-hidden" style={{ background: "linear-gradient(180deg, #fafcff 0%, #edf4f9 100%)" }}>
+        {/* Floating water particles */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="water-particle animate-float-particle w-2 h-2 top-[20%] left-[10%] opacity-40" />
+          <div className="water-particle animate-float-particle animation-delay-500 w-3 h-3 top-[40%] left-[25%] opacity-30" />
+          <div className="water-particle animate-float-particle-slow w-1.5 h-1.5 top-[60%] left-[70%] opacity-50" />
+          <div className="water-particle animate-float-particle animation-delay-1000 w-2 h-2 top-[30%] left-[80%] opacity-35" />
+          <div className="water-particle animate-float-particle-slow animation-delay-1500 w-2.5 h-2.5 top-[50%] left-[50%] opacity-25" />
+          <div className="water-particle animate-float-particle animation-delay-2000 w-1.5 h-1.5 top-[75%] left-[15%] opacity-45" />
+          <div className="water-particle animate-float-particle-slow animation-delay-3000 w-2 h-2 top-[15%] left-[60%] opacity-30" />
         </div>
 
-        {/* Latest Message */}
-        <div className="container mx-auto px-4 max-w-screen-xl">
-          <div className="relative">
+        <div className="container mx-auto px-4 max-w-screen-xl relative z-10">
+          <div className="h-16" />
+
+          {/* Logo with water ripple + radial glow */}
+          <div className="flex flex-col items-center text-center mb-12">
+            {/* Radial glow behind logo */}
+            <div className="relative mb-8">
+              <div
+                className="absolute inset-0 -m-12 rounded-full animate-pulse"
+                style={{
+                  background: "radial-gradient(circle, rgba(0,212,255,0.15) 0%, rgba(45,122,181,0.08) 40%, transparent 70%)",
+                  animationDuration: "4s",
+                }}
+              />
+              <Image
+                src="/logo-water-cross.png"
+                alt="L.I.F.E. Ministry — Water Cross"
+                width={120}
+                height={120}
+                className="relative z-10 rounded-full"
+                style={{ filter: "url(#water-ripple)" }}
+                priority
+              />
+            </div>
+
+            {/* Church Name */}
+            <h1
+              className="hero-title font-display font-light text-6xl sm:text-7xl md:text-8xl lg:text-9xl uppercase gpu"
+              style={{ letterSpacing: "0.3em", color: "#0c2d48" }}
+            >
+              L.I.F.E.
+            </h1>
+            <p
+              className="hero-subtitle mt-4 font-display font-light text-lg sm:text-xl md:text-2xl uppercase gpu"
+              style={{ letterSpacing: "0.15em", color: "#6b8ca8" }}
+            >
+              Lord Is Forever Emmanuel
+            </p>
+
+            {/* Gradient line */}
+            <div
+              className="hero-line mt-8 h-[2px] w-48 md:w-72 gpu"
+              style={{
+                background: "linear-gradient(90deg, transparent, #2d7ab5, transparent)",
+              }}
+            />
+          </div>
+
+          {/* Latest Message */}
+          <div className="relative pb-8">
             <div className="relative z-10">
-              {/* Message Title */}
-              <div className="mb-2 text-lg uppercase">
-                <span className="font-bold">The Latest Message:</span> Sunday
-                Worship Service
+              <div className="mb-3 text-sm uppercase tracking-[0.12em] text-muted font-body">
+                <span className="font-semibold text-text">The Latest Message:</span>{" "}
+                Sunday Worship Service
               </div>
 
-              {/* Video Thumbnail Placeholder */}
-              <a
-                className="relative flex items-center justify-center video-link"
-                href="/watch"
-              >
-                {/* Play Button SVG */}
+              {/* Video Thumbnail */}
+              <a className="relative flex items-center justify-center video-link group" href="/watch">
                 <svg
-                  className="absolute z-10"
-                  width="120"
-                  height="80"
+                  className="absolute z-10 opacity-90 group-hover:opacity-100 transition-opacity"
+                  width="100"
+                  height="68"
                   viewBox="0 0 120 80"
                   fill="white"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M0 0H120V80H0V0Z" />
-                  <path
-                    d="M80 40L50 57.3205V22.6795L80 40Z"
-                    fill="#212322"
-                  />
-                  <path
-                    d="M0 0V-2H-2V0H0ZM120 0H122V-2H120V0ZM120 80V82H122V80H120ZM0 80H-2V82H0V80ZM0 2H120V-2H0V2ZM118 0V80H122V0H118ZM120 78H0V82H120V78ZM2 80V0H-2V80H2Z"
-                    fill="#212322"
-                  />
+                  <rect width="120" height="80" rx="12" fill="white" fillOpacity="0.95" />
+                  <path d="M80 40L50 57.3205V22.6795L80 40Z" fill="#0c2d48" />
                 </svg>
-                {/* Placeholder image */}
-                <div className="w-full aspect-video bg-neutral-200 flex items-center justify-center">
-                  <span className="text-neutral-400 text-sm">
-                    Latest Sermon Thumbnail
-                  </span>
+                <div className="w-full aspect-video bg-gradient-to-br from-[#e0eef7] to-[#c8dded] rounded-2xl flex items-center justify-center shadow-[0_4px_30px_rgba(45,122,181,0.08)] overflow-hidden">
+                  <span className="text-muted text-sm tracking-wide">Latest Sermon Thumbnail</span>
                 </div>
               </a>
-            </div>
-
-            {/* Decorative star */}
-            <div className="absolute top-[-1.5rem] left-[-2.5rem] w-[90px] h-[90px] flex items-center justify-center">
-              <svg
-                width="40"
-                height="40"
-                viewBox="0 0 40 40"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M20 0L23.5 16.5L40 20L23.5 23.5L20 40L16.5 23.5L0 20L16.5 16.5L20 0Z"
-                  fill="#212322"
-                />
-              </svg>
             </div>
           </div>
         </div>
@@ -228,51 +294,39 @@ export default function HomePage() {
         {/* Marquee - Desktop only */}
         <div className="hidden lg:block">
           <div className="relative z-10">
-            {/* Top marquee - highlight background */}
-            <div className="relative font-mono font-medium uppercase border-t border-b border-black marquee-container bg-amber-200">
-              <div className="flex justify-between marquee">
+            {/* Top marquee */}
+            <div className="relative font-body font-medium uppercase tracking-[0.2em] text-sm marquee-container bg-surface border-t border-b border-border-light">
+              <div className="flex justify-between marquee" style={{ color: "rgba(45,122,181,0.3)" }}>
                 {marqueeWords.map((word, i) => (
-                  <span key={`t1-${i}`} className="mx-4">
-                    {word}
-                  </span>
+                  <span key={`t1-${i}`} className="mx-6">{word}</span>
                 ))}
               </div>
-              <div className="flex justify-between marquee marquee2">
+              <div className="flex justify-between marquee marquee2" style={{ color: "rgba(45,122,181,0.3)" }}>
                 {marqueeWords.map((word, i) => (
-                  <span key={`t2-${i}`} className="mx-4">
-                    {word}
-                  </span>
+                  <span key={`t2-${i}`} className="mx-6">{word}</span>
                 ))}
               </div>
-              <div className="flex justify-between marquee marquee3">
+              <div className="flex justify-between marquee marquee3" style={{ color: "rgba(45,122,181,0.3)" }}>
                 {marqueeWords.map((word, i) => (
-                  <span key={`t3-${i}`} className="mx-4">
-                    {word}
-                  </span>
+                  <span key={`t3-${i}`} className="mx-6">{word}</span>
                 ))}
               </div>
             </div>
-            {/* Bottom marquee - black background */}
-            <div className="relative font-mono font-medium text-white uppercase bg-black marquee-container">
-              <div className="flex justify-between marquee">
+            {/* Bottom marquee */}
+            <div className="relative font-body font-medium uppercase tracking-[0.2em] text-sm marquee-container bg-deep">
+              <div className="flex justify-between marquee" style={{ color: "rgba(255,255,255,0.2)" }}>
                 {marqueeWords.map((word, i) => (
-                  <span key={`b1-${i}`} className="mx-4">
-                    {word}
-                  </span>
+                  <span key={`b1-${i}`} className="mx-6">{word}</span>
                 ))}
               </div>
-              <div className="flex justify-between marquee marquee2">
+              <div className="flex justify-between marquee marquee2" style={{ color: "rgba(255,255,255,0.2)" }}>
                 {marqueeWords.map((word, i) => (
-                  <span key={`b2-${i}`} className="mx-4">
-                    {word}
-                  </span>
+                  <span key={`b2-${i}`} className="mx-6">{word}</span>
                 ))}
               </div>
-              <div className="flex justify-between marquee marquee3">
+              <div className="flex justify-between marquee marquee3" style={{ color: "rgba(255,255,255,0.2)" }}>
                 {marqueeWords.map((word, i) => (
-                  <span key={`b3-${i}`} className="mx-4">
-                    {word}
-                  </span>
+                  <span key={`b3-${i}`} className="mx-6">{word}</span>
                 ))}
               </div>
             </div>
@@ -281,41 +335,60 @@ export default function HomePage() {
       </header>
 
       {/* ========================================
+          WAVE TRANSITION: Hero -> Mission
+          ======================================== */}
+      <div className="relative h-16 overflow-hidden" style={{ background: "#fafcff" }}>
+        <div className="wave-layer wave-layer-1" style={{ bottom: 0 }} />
+        <div className="wave-layer wave-layer-2" style={{ bottom: "-20%" }} />
+        <div className="wave-layer wave-layer-3" style={{ bottom: "-10%" }} />
+      </div>
+
+      {/* ========================================
           2. MISSION SECTION
           ======================================== */}
-      <section className="relative flex flex-col items-center justify-between pt-20 pb-10 md:py-24 lg:flex-row intro">
+      <section className="relative flex flex-col items-center justify-between py-24 md:py-32 lg:flex-row intro bg-bg">
         <div className="container mx-auto px-4 max-w-screen-xl relative grid gap-16 md:grid-cols-2">
           <div>
             <div className="relative z-10 flex items-center w-full">
-              <h3 className="inline-flex flex-auto w-full mr-2 uppercase text-xl font-bold">
+              <h3 className="inline-flex flex-auto w-full mr-2 uppercase text-xl font-display font-semibold tracking-[0.1em] text-deep">
                 Our Mission
               </h3>
-              <div className="w-full border-4 border-amber-300" />
+              <div className="w-full h-[3px] bg-gradient-to-r from-primary to-cyan rounded-full" />
             </div>
           </div>
           <div className="relative z-10 flex-auto">
-            <p className="text-2xl md:text-3xl font-display leading-snug">
+            <p className="text-2xl md:text-3xl lg:text-4xl font-display font-light leading-snug text-deep">
               So that people far from God can experience{" "}
-              <span className="font-bold">new life</span> in Jesus
+              <span className="font-semibold text-gradient-water">new life</span> in
+              Jesus
             </p>
           </div>
-          {/* Parallax sunset placeholder */}
-          <div className="absolute w-2/3 sunset top-[-3rem] sm:top-[-6rem] md:top-auto">
-            <div className="w-full h-48 md:h-64 bg-gradient-to-r from-amber-200 via-orange-300 to-rose-300 rounded-lg opacity-60" />
+          {/* Parallax gradient element */}
+          <div className="absolute w-2/3 ocean-glow top-[-3rem] sm:top-[-6rem] md:top-auto gpu">
+            <div className="w-full h-48 md:h-64 bg-gradient-to-r from-[#c8dded] via-[#a3c4e0] to-[#7fb3d8] rounded-2xl opacity-40" />
           </div>
         </div>
       </section>
 
       {/* ========================================
+          WAVE TRANSITION: Mission -> Photos
+          ======================================== */}
+      <div className="relative h-16 overflow-hidden bg-deep">
+        <div className="wave-layer wave-layer-1" style={{ top: 0, borderRadius: "0 0 1000% 1000%", background: "#fafcff", opacity: 0.6 }} />
+        <div className="wave-layer wave-layer-2" style={{ top: "-20%", borderRadius: "0 0 1000% 1000%", background: "#edf4f9", opacity: 0.4 }} />
+        <div className="wave-layer wave-layer-3" style={{ top: "-10%", borderRadius: "0 0 1000% 1000%", background: "#fafcff", opacity: 0.2 }} />
+      </div>
+
+      {/* ========================================
           3. VISIT US / PHOTO GRID
           ======================================== */}
-      <section className="bg-black">
+      <section className="bg-deep">
         <div className="max-w-screen-xl mx-auto">
-          <div className="relative p-2 bg-black">
+          <div className="relative p-2">
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
               {/* Visit Us text card */}
               <div className="flex items-end justify-between p-6">
-                <h3 className="mb-0 text-4xl font-bold uppercase text-white">
+                <h3 className="mb-0 text-4xl font-display font-light uppercase text-white tracking-[0.08em]">
                   Visit Us
                 </h3>
                 <svg
@@ -324,7 +397,7 @@ export default function HomePage() {
                   viewBox="0 0 30 120"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="text-amber-300"
+                  className="text-cyan"
                 >
                   <path
                     d="M15 0V110M15 110L5 100M15 110L25 100"
@@ -334,24 +407,20 @@ export default function HomePage() {
                 </svg>
               </div>
               {/* Photo placeholder 1 */}
-              <div className="aspect-square bg-neutral-700 flex items-center justify-center max-h-[416px]">
-                <span className="text-neutral-500 text-sm">
-                  Community Photo
-                </span>
+              <div className="aspect-square bg-gradient-to-br from-[#1a3d5c] to-[#0c2d48] flex items-center justify-center max-h-[416px] rounded-lg overflow-hidden">
+                <span className="text-muted text-sm tracking-wide">Community Photo</span>
               </div>
               {/* Photo placeholder 2 */}
-              <div className="hidden sm:flex aspect-square bg-neutral-600 items-center justify-center max-h-[416px]">
-                <span className="text-neutral-400 text-sm">
-                  Worship Photo
-                </span>
+              <div className="hidden sm:flex aspect-square bg-gradient-to-br from-[#1e4a6e] to-[#0f3555] items-center justify-center max-h-[416px] rounded-lg overflow-hidden">
+                <span className="text-muted text-sm tracking-wide">Worship Photo</span>
               </div>
 
               {/* Welcome card */}
-              <div className="flex flex-col justify-end p-6 bg-amber-100">
-                <h4 className="text-2xl font-bold mb-2">
+              <div className="flex flex-col justify-end p-6 bg-surface rounded-2xl">
+                <h4 className="text-2xl font-display font-semibold mb-2 text-deep">
                   We&apos;re glad <br /> you&apos;re here!
                 </h4>
-                <p className="mb-6 font-mono text-sm">
+                <p className="mb-6 font-body text-sm text-muted leading-relaxed">
                   Come as you are and worship with us. Everyone is welcome at
                   L.I.F.E. Ministry.
                 </p>
@@ -363,14 +432,12 @@ export default function HomePage() {
                 </Link>
               </div>
               {/* Photo placeholder 3 */}
-              <div className="hidden sm:flex aspect-square bg-neutral-800 items-center justify-center max-h-[416px]">
-                <span className="text-neutral-500 text-sm">Family Photo</span>
+              <div className="hidden sm:flex aspect-square bg-gradient-to-br from-[#163a58] to-[#0a263d] items-center justify-center max-h-[416px] rounded-lg overflow-hidden">
+                <span className="text-muted text-sm tracking-wide">Family Photo</span>
               </div>
               {/* Photo placeholder 4 */}
-              <div className="hidden sm:flex aspect-square bg-neutral-700 items-center justify-center max-h-[416px]">
-                <span className="text-neutral-400 text-sm">
-                  Fellowship Photo
-                </span>
+              <div className="hidden sm:flex aspect-square bg-gradient-to-br from-[#1a3d5c] to-[#0c2d48] items-center justify-center max-h-[416px] rounded-lg overflow-hidden">
+                <span className="text-muted text-sm tracking-wide">Fellowship Photo</span>
               </div>
             </div>
           </div>
@@ -378,51 +445,59 @@ export default function HomePage() {
       </section>
 
       {/* ========================================
+          WAVE TRANSITION: Photos -> Watch
+          ======================================== */}
+      <div className="relative h-16 overflow-hidden bg-bg">
+        <div className="wave-layer wave-layer-1" style={{ top: 0, borderRadius: "0 0 1000% 1000%", background: "#0c2d48", opacity: 0.5 }} />
+        <div className="wave-layer wave-layer-2" style={{ top: "-20%", borderRadius: "0 0 1000% 1000%", background: "#0c2d48", opacity: 0.3 }} />
+        <div className="wave-layer wave-layer-3" style={{ top: "-10%", borderRadius: "0 0 1000% 1000%", background: "#0c2d48", opacity: 0.15 }} />
+      </div>
+
+      {/* ========================================
           4. WATCH SECTION
           ======================================== */}
-      <section className="pb-12 overflow-x-hidden md:py-24 watch">
+      <section className="py-16 overflow-x-hidden md:py-32 watch bg-bg">
         <div className="container mx-auto px-4 max-w-screen-xl flex flex-col-reverse md:flex-row">
           <div className="relative">
             <div className="relative z-10 pl-8 md:pl-12 sm:pt-8 md:pt-12">
               {/* Overlapping heading */}
-              <h3 className="relative z-10 mt-8 -mb-16 text-3xl md:text-4xl lg:text-5xl font-bold text-white uppercase md:-ml-4 md:absolute md:-mt-12 md:mb-0 watch-heading">
+              <h3 className="watch-heading gpu relative z-10 mt-8 -mb-16 text-3xl md:text-4xl lg:text-5xl font-display font-light text-white uppercase tracking-[0.06em] md:-ml-4 md:absolute md:-mt-12 md:mb-0">
                 Watch <br /> L.I.F.E. <br /> Ministry <br /> Online
               </h3>
               <div className="ml-6 sm:mt-10 sm:-mr-12 md:ml-0 md:mr-0">
                 {/* Video placeholder */}
-                <div className="w-full aspect-video max-w-[900px] bg-neutral-200 flex items-center justify-center">
-                  <span className="text-neutral-400 text-sm">
+                <div className="w-full aspect-video max-w-[900px] bg-gradient-to-br from-[#e0eef7] to-[#c8dded] rounded-2xl flex items-center justify-center shadow-[0_4px_30px_rgba(45,122,181,0.08)]">
+                  <span className="text-muted text-sm tracking-wide">
                     Worship Service Image
                   </span>
                 </div>
               </div>
             </div>
             {/* Service times and button */}
-            <div className="flex flex-col mt-6 md:items-center md:flex-row md:ml-14 lg:ml-12">
+            <div className="flex flex-col mt-8 md:items-center md:flex-row md:ml-14 lg:ml-12">
               <div className="flex-auto mr-4">
-                <span className="inline-block w-full text-xl uppercase md:text-2xl lg:text-3xl">
+                <span className="inline-block w-full text-lg uppercase md:text-xl lg:text-2xl tracking-[0.08em] text-muted font-body">
                   Join Us Live
                 </span>
-                <span className="inline-block w-full mt-1 text-2xl md:text-3xl font-display">
+                <span className="inline-block w-full mt-1 text-2xl md:text-3xl font-display font-light text-deep">
                   Sundays: 10:00 AM EST
                 </span>
               </div>
               <div className="mt-6 md:mt-0 min-w-[8rem] md:text-right flex flex-col">
                 <Link
                   href="/watch"
-                  className="gc-button inline-block text-center"
+                  className="inline-block text-center px-6 py-3 bg-primary text-white font-body font-semibold text-sm uppercase tracking-[0.08em] rounded-xl hover:bg-deep transition-colors"
                 >
                   Watch Live
                 </Link>
               </div>
             </div>
             {/* Background box that parallaxes */}
-            <div className="absolute top-0 md:top-[-1rem] left-0 h-[50%] w-full md:w-[75%] lg:w-[50%] bg-neutral-200 watch-box" />
+            <div className="absolute top-0 md:top-[-1rem] left-0 h-[50%] w-full md:w-[75%] lg:w-[50%] bg-surface rounded-2xl watch-box gpu" />
           </div>
           {/* Rotating circle decoration */}
           <div className="relative z-30 flex items-center justify-center md:-ml-12 text-center h-[11rem] sm:h-[13rem] md:h-auto overflow-hidden md:overflow-visible">
-            {/* Outer rotating circle */}
-            <div className="relative w-56 sm:w-80 md:w-[528px] h-56 sm:h-80 md:h-[529px] watch-circle">
+            <div className="relative w-56 sm:w-80 md:w-[528px] h-56 sm:h-80 md:h-[529px] watch-circle gpu">
               <svg
                 viewBox="0 0 528 529"
                 fill="none"
@@ -433,16 +508,15 @@ export default function HomePage() {
                   cx="264"
                   cy="264.5"
                   r="260"
-                  stroke="#212322"
+                  stroke="#2d7ab5"
                   strokeWidth="1"
                 />
-                {/* Decorative text around the circle */}
                 <path
                   id="circlePath"
                   d="M264,4.5 a260,260 0 1,1 0,520 a260,260 0 1,1 0,-520"
                   fill="none"
                 />
-                <text fontSize="14" fill="#212322" fontFamily="monospace">
+                <text fontSize="14" fill="#2d7ab5" fontFamily="monospace">
                   <textPath href="#circlePath">
                     WATCH ONLINE - L.I.F.E. MINISTRY - WATCH ONLINE - L.I.F.E.
                     MINISTRY -
@@ -462,12 +536,12 @@ export default function HomePage() {
                   cx="43"
                   cy="43"
                   r="40"
-                  stroke="#212322"
+                  stroke="#2d7ab5"
                   strokeWidth="1"
                 />
                 <path
                   d="M43 15L43 71M15 43L71 43"
-                  stroke="#212322"
+                  stroke="#2d7ab5"
                   strokeWidth="1"
                 />
               </svg>
@@ -479,21 +553,21 @@ export default function HomePage() {
       {/* ========================================
           5. SCRIPTURE / CREED
           ======================================== */}
-      <section className="relative py-16 overflow-hidden lg:py-24 bg-zinc-100 creed">
+      <section className="relative py-24 overflow-hidden lg:py-32 bg-surface creed">
         <div className="container mx-auto px-4 max-w-screen-xl flex flex-col items-center justify-start py-12 lg:flex-row">
           {/* Decorative frame - parallaxes */}
-          <div className="absolute -ml-8 opacity-50 creed-frame w-[650px] h-[385px] border-4 border-amber-300 pointer-events-none" />
+          <div className="absolute -ml-8 opacity-40 creed-frame w-[650px] h-[385px] border-4 border-cyan pointer-events-none gpu rounded-2xl" />
           {/* Illustration placeholder - parallaxes */}
-          <div className="creed-illustration -mt-10 md:mt-auto mr-12 max-w-[32rem] opacity-75">
-            <div className="w-64 h-32 bg-neutral-300 rounded flex items-center justify-center">
-              <span className="text-neutral-500 text-xs">Illustration</span>
+          <div className="creed-illustration gpu -mt-10 md:mt-auto mr-12 max-w-[32rem] opacity-75">
+            <div className="w-64 h-32 bg-gradient-to-br from-[#c8dded] to-[#a3c4e0] rounded-2xl flex items-center justify-center">
+              <span className="text-muted text-xs tracking-wide">Illustration</span>
             </div>
           </div>
           <div className="flex-col">
-            <div className="relative z-10 text-4xl md:text-5xl uppercase lg:text-6xl font-display leading-tight">
+            <div className="relative z-10 text-4xl md:text-5xl uppercase lg:text-6xl font-display font-light leading-tight text-deep">
               Therefore, since we have such a hope, we are very bold.
             </div>
-            <div className="relative z-10 inline-block p-4 mt-4 text-white bg-black">
+            <div className="relative z-10 inline-block px-5 py-3 mt-6 text-white bg-primary rounded-lg font-body text-sm tracking-[0.08em]">
               2 Corinthians 3:12
             </div>
           </div>
@@ -503,10 +577,10 @@ export default function HomePage() {
       {/* ========================================
           6. TAKE ME TO
           ======================================== */}
-      <section className="py-24 take">
+      <section className="py-24 md:py-32 take bg-bg">
         <div className="container mx-auto px-4 max-w-screen-xl">
           <div className="flex flex-col items-center mb-10 lg:flex-row lg:mb-0">
-            <h3 className="mb-10 lg:ml-16 take-heading text-5xl md:text-6xl font-bold uppercase">
+            <h3 className="mb-10 lg:ml-16 take-heading gpu text-5xl md:text-6xl font-display font-light uppercase text-deep tracking-[0.06em]">
               Take Me To:
             </h3>
             <svg
@@ -519,7 +593,7 @@ export default function HomePage() {
             >
               <path
                 d="M18.1624 3.25439L15 0.092041L0 15.092L15 30.092L18.1624 26.9297L8.56116 17.3286H60V12.8555H8.56116L18.1624 3.25439Z"
-                fill="#212322"
+                fill="#2d7ab5"
               />
             </svg>
           </div>
@@ -549,13 +623,13 @@ export default function HomePage() {
               <li key={index}>
                 <Link
                   href={item.href}
-                  className="inline-block h-full p-4 transition-all duration-200 bg-gray-100 hover:-translate-y-2"
+                  className="inline-block h-full p-5 transition-all duration-300 bg-surface hover:bg-[#e0eef7] rounded-2xl hover:-translate-y-2 shadow-[0_2px_15px_rgba(45,122,181,0.05)] hover:shadow-[0_8px_30px_rgba(45,122,181,0.1)]"
                 >
-                  <div className="mb-4 border-2 border-black" />
-                  <span className="inline-block mb-6 text-4xl md:text-5xl leading-[3rem] uppercase font-display whitespace-pre-line">
+                  <div className="mb-4 border-2 border-primary rounded-full" />
+                  <span className="inline-block mb-6 text-4xl md:text-5xl leading-[3rem] uppercase font-display font-light whitespace-pre-line text-deep">
                     {item.title}
                   </span>
-                  <div className="text-sm">
+                  <div className="text-sm text-muted font-body leading-relaxed">
                     <p>{item.desc}</p>
                   </div>
                 </Link>
@@ -568,12 +642,12 @@ export default function HomePage() {
       {/* ========================================
           7. WHAT WE HAVE GOING ON / SLIDER
           ======================================== */}
-      <section className="relative">
+      <section className="relative bg-bg">
         <div className="pt-16 pb-20 overflow-hidden lg:pt-24 lg:pb-32 slide-section">
           <div className="container mx-auto px-4 max-w-screen-xl flex flex-col gap-4 lg:gap-16 lg:flex-row">
             {/* Heading */}
             <div className="relative lg:ml-auto">
-              <h3 className="text-5xl font-bold text-center uppercase lg:text-right lg:text-6xl">
+              <h3 className="text-5xl font-display font-light text-center uppercase lg:text-right lg:text-6xl text-deep tracking-[0.04em]">
                 What
                 <br className="hidden lg:inline-block" /> We
                 <br className="hidden lg:inline-block" /> Have
@@ -586,7 +660,7 @@ export default function HomePage() {
               {/* Navigation arrows */}
               <div className="flex justify-center gap-4 mb-4 lg:mb-0 lg:absolute lg:top-[-4rem] lg:right-0 z-10">
                 <button
-                  className="rounded-full border border-black min-h-[52px] min-w-[52px] flex items-center justify-center hover:bg-black hover:text-white transition-colors"
+                  className="rounded-full border border-primary min-h-[52px] min-w-[52px] flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors"
                   onClick={() =>
                     setActiveSlide(
                       (prev) =>
@@ -608,7 +682,7 @@ export default function HomePage() {
                   </svg>
                 </button>
                 <button
-                  className="rounded-full border border-black min-h-[52px] min-w-[52px] flex items-center justify-center hover:bg-black hover:text-white transition-colors"
+                  className="rounded-full border border-primary min-h-[52px] min-w-[52px] flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors"
                   onClick={() =>
                     setActiveSlide((prev) => (prev + 1) % slides.length)
                   }
@@ -642,20 +716,20 @@ export default function HomePage() {
                         : "opacity-0 -translate-y-full"
                     }`}
                   >
-                    <div className="flex flex-col h-full px-12 py-10 text-left bg-amber-100 lg:p-10">
-                      <h4 className="text-4xl uppercase font-bold mb-4">
+                    <div className="flex flex-col h-full px-12 py-10 text-left bg-surface rounded-2xl lg:p-10">
+                      <h4 className="text-4xl uppercase font-display font-semibold mb-4 text-deep">
                         {slide.title}
                       </h4>
-                      <div className="max-w-md text-base">
+                      <div className="max-w-md text-base text-muted font-body leading-relaxed">
                         <p>{slide.content}</p>
                         {slide.bold && (
                           <p className="mt-3">
-                            <strong>{slide.bold}</strong>
+                            <strong className="text-text">{slide.bold}</strong>
                           </p>
                         )}
                       </div>
                       <div className="mt-auto">
-                        <div className="flex justify-between py-2 items-center">
+                        <div className="flex justify-between py-2 items-center text-primary">
                           <svg
                             width="24"
                             height="24"
@@ -670,12 +744,12 @@ export default function HomePage() {
                           </svg>
                           <Link
                             href={slide.link}
-                            className="inline-block font-medium"
+                            className="inline-block font-body font-medium text-primary hover:text-deep transition-colors"
                           >
                             {slide.linkText}
                           </Link>
                         </div>
-                        <div className="w-full border-2 border-current" />
+                        <div className="w-full border-2 border-primary/30 rounded-full" />
                       </div>
                     </div>
                   </div>
@@ -691,50 +765,53 @@ export default function HomePage() {
           8. NEWSLETTER SIGNUP
           ======================================== */}
       <section className="relative">
-        <div className="py-24 bg-black">
+        <div className="py-24 md:py-32 bg-deep">
           <div className="container mx-auto px-4 max-w-3xl">
-            <div className="relative z-10 p-8 md:p-12 bg-amber-100">
-              <h4 className="uppercase font-display text-2xl md:text-3xl font-bold mb-6">
+            <div className="relative z-10 p-8 md:p-12 bg-surface rounded-2xl shadow-[0_4px_30px_rgba(45,122,181,0.08)]">
+              <h4 className="uppercase font-display text-2xl md:text-3xl font-light mb-2 text-deep tracking-[0.06em]">
                 Sign Up for News &amp; Encouragement
               </h4>
+              <p className="text-muted font-body text-sm mb-8">
+                Stay connected with the L.I.F.E. Ministry community.
+              </p>
               <form
                 className="grid grid-cols-1 sm:grid-cols-2 gap-4"
                 onSubmit={(e) => e.preventDefault()}
               >
                 <label className="inline-block w-full col-span-1">
-                  <span className="inline-block mb-2 text-sm font-bold uppercase">
+                  <span className="inline-block mb-2 text-xs font-body font-semibold uppercase tracking-[0.1em] text-muted">
                     First Name
                   </span>
                   <input
-                    className="w-full border-2 border-black p-2 bg-transparent focus:bg-black focus:text-white outline-none"
+                    className="w-full border-2 border-primary/30 focus:border-primary p-3 bg-transparent text-text rounded-lg outline-none transition-colors font-body"
                     type="text"
                     placeholder="Alex"
                   />
                 </label>
                 <label className="inline-block w-full col-span-1">
-                  <span className="inline-block mb-2 text-sm font-bold uppercase">
+                  <span className="inline-block mb-2 text-xs font-body font-semibold uppercase tracking-[0.1em] text-muted">
                     Last Name
                   </span>
                   <input
-                    className="w-full border-2 border-black p-2 bg-transparent focus:bg-black focus:text-white outline-none"
+                    className="w-full border-2 border-primary/30 focus:border-primary p-3 bg-transparent text-text rounded-lg outline-none transition-colors font-body"
                     type="text"
                     placeholder="Smith"
                   />
                 </label>
                 <label className="inline-block w-full col-span-1">
-                  <span className="inline-block mb-2 text-sm font-bold uppercase">
+                  <span className="inline-block mb-2 text-xs font-body font-semibold uppercase tracking-[0.1em] text-muted">
                     Email
                   </span>
                   <input
                     type="email"
-                    className="w-full border-2 border-black p-2 bg-transparent focus:bg-black focus:text-white outline-none"
-                    placeholder="Email"
+                    className="w-full border-2 border-primary/30 focus:border-primary p-3 bg-transparent text-text rounded-lg outline-none transition-colors font-body"
+                    placeholder="alex@email.com"
                   />
                 </label>
                 <div className="col-span-1 flex items-end">
                   <button
                     type="submit"
-                    className="w-full border-2 border-black p-2 text-sm uppercase font-bold hover:bg-black hover:text-white transition-colors"
+                    className="w-full p-3 text-sm uppercase font-body font-semibold tracking-[0.08em] bg-primary text-white rounded-lg hover:bg-deep transition-colors"
                   >
                     Send me Updates
                   </button>

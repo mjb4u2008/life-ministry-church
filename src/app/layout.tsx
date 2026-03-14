@@ -8,7 +8,7 @@ import { AmbientMusic } from "@/components/AmbientMusic";
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -21,7 +21,8 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title: "L.I.F.E. Ministry | Lord Is Forever Emmanuel",
-  description: "Join L.I.F.E. Ministry every Sunday for interactive worship, connection, and community. Experience God's constant presence together.",
+  description:
+    "Join L.I.F.E. Ministry every Sunday for interactive worship, connection, and community. Experience God's constant presence together.",
 };
 
 export default function RootLayout({
@@ -32,12 +33,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${cormorant.variable} ${dmSans.variable} font-body antialiased bg-white text-deep`}
+        className={`${cormorant.variable} ${dmSans.variable} font-body antialiased bg-bg text-text`}
       >
         <Header />
-        <main className="min-h-screen">
-          {children}
-        </main>
+        <main className="min-h-screen">{children}</main>
         <Footer />
         <AmbientMusic />
       </body>
