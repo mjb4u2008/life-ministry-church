@@ -16,6 +16,13 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 // ─── Interfaces ─────────────────────────────────────────────────────────────────
 
@@ -103,6 +110,13 @@ interface DailyScripture {
   isManualOverride: boolean;
 }
 
+interface Insight {
+  id: string;
+  topic: string;
+  scripture: string;
+  timestamp: string;
+}
+
 type Tab =
   | "this-sunday"
   | "daily-scripture"
@@ -110,6 +124,7 @@ type Tab =
   | "flyer"
   | "prayers"
   | "testimonies"
+  | "insights"
   | "settings";
 
 // ─── Toast Component ────────────────────────────────────────────────────────────
@@ -354,6 +369,25 @@ export default function AdminPage() {
   const [isDeletingTestimony, setIsDeletingTestimony] = useState<string | null>(null);
   const [isApprovingTestimony, setIsApprovingTestimony] = useState<string | null>(null);
 
+  // ─── Insights State ────────────────────────────────────────────────────────
+  const [insights, setInsights] = useState<Insight[]>([]);
+  const [isDeletingInsight, setIsDeletingInsight] = useState<string | null>(null);
+
+  // ─── Prayer Edit Dialog ────────────────────────────────────────────────────
+  const [editingPrayer, setEditingPrayer] = useState<Prayer | null>(null);
+  const [editPrayerName, setEditPrayerName] = useState("");
+  const [editPrayerRequest, setEditPrayerRequest] = useState("");
+  const [editPrayerAnonymous, setEditPrayerAnonymous] = useState(false);
+  const [isSavingPrayer, setIsSavingPrayer] = useState(false);
+
+  // ─── Testimony Edit Dialog ─────────────────────────────────────────────────
+  const [editingTestimony, setEditingTestimony] = useState<Testimony | null>(null);
+  const [editTestimonyName, setEditTestimonyName] = useState("");
+  const [editTestimonyText, setEditTestimonyText] = useState("");
+  const [editTestimonyAnonymous, setEditTestimonyAnonymous] = useState(false);
+  const [editTestimonyApproved, setEditTestimonyApproved] = useState(false);
+  const [isSavingTestimony, setIsSavingTestimony] = useState(false);
+
   // ─── Refs ─────────────────────────────────────────────────────────────────
   const flyerRef = useRef<HTMLDivElement>(null);
 
@@ -431,7 +465,7 @@ export default function AdminPage() {
   const loadAllData = useCallback(
     async (t: string) => {
       try {
-        const [contentRes, prayersRes, testimoniesRes, scriptureRes] =
+        const [contentRes, prayersRes, testimoniesRes, scriptureRes, insightsRes] =
           await Promise.all([
             fetch("/api/content"),
             fetch("/api/prayers"),
@@ -439,6 +473,9 @@ export default function AdminPage() {
               headers: { Authorization: `Bearer ${t}` },
             }),
             fetch("/api/daily-scripture"),
+            fetch("/api/insights", {
+              headers: { Authorization: `Bearer ${t}` },
+            }),
           ]);
 
         if (contentRes.ok) {
@@ -480,6 +517,11 @@ export default function AdminPage() {
         if (scriptureRes.ok) {
           const s = await scriptureRes.json();
           setDailyScripture(s);
+        }
+
+        if (insightsRes.ok) {
+          const i = await insightsRes.json();
+          setInsights(i.insights || []);
         }
       } catch (error) {
         console.error("Error loading data:", error);
@@ -794,6 +836,125 @@ export default function AdminPage() {
   };
 
   // ═══════════════════════════════════════════════════════════════════════════
+  // TAB 8: INSIGHTS — DELETE
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  const handleDeleteInsight = async (id: string) => {
+    if (!token) return;
+    setIsDeletingInsight(id);
+    try {
+      const res = await fetch(`/api/insights?id=${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (res.ok) {
+        setInsights((prev) => prev.filter((i) => i.id !== id));
+        showToast("Insight removed.", "success");
+      } else {
+        showToast("Failed to delete insight.", "error");
+      }
+    } catch {
+      showToast("Connection error.", "error");
+    }
+    setIsDeletingInsight(null);
+  };
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PRAYER EDIT — SAVE
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  const openEditPrayer = (prayer: Prayer) => {
+    setEditingPrayer(prayer);
+    setEditPrayerName(prayer.name);
+    setEditPrayerRequest(prayer.request);
+    setEditPrayerAnonymous(prayer.isAnonymous);
+  };
+
+  const handleSavePrayerEdit = async () => {
+    if (!token || !editingPrayer) return;
+    setIsSavingPrayer(true);
+    try {
+      const res = await fetch("/api/prayers", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          id: editingPrayer.id,
+          name: editPrayerAnonymous ? "Anonymous" : editPrayerName,
+          request: editPrayerRequest,
+          isAnonymous: editPrayerAnonymous,
+        }),
+      });
+
+      if (res.ok) {
+        const updated = await res.json();
+        setPrayers((prev) =>
+          prev.map((p) => (p.id === editingPrayer.id ? { ...p, ...updated } : p))
+        );
+        setEditingPrayer(null);
+        showToast("Prayer updated successfully!", "success");
+      } else {
+        showToast("Failed to update prayer.", "error");
+      }
+    } catch {
+      showToast("Connection error.", "error");
+    }
+    setIsSavingPrayer(false);
+  };
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TESTIMONY EDIT — SAVE
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  const openEditTestimony = (testimony: Testimony) => {
+    setEditingTestimony(testimony);
+    setEditTestimonyName(testimony.name);
+    setEditTestimonyText(testimony.text);
+    setEditTestimonyAnonymous(testimony.isAnonymous);
+    setEditTestimonyApproved(testimony.approved);
+  };
+
+  const handleSaveTestimonyEdit = async () => {
+    if (!token || !editingTestimony) return;
+    setIsSavingTestimony(true);
+    try {
+      const res = await fetch("/api/testimonies", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          id: editingTestimony.id,
+          name: editTestimonyAnonymous ? "Anonymous" : editTestimonyName,
+          text: editTestimonyText,
+          isAnonymous: editTestimonyAnonymous,
+          approved: editTestimonyApproved,
+        }),
+      });
+
+      if (res.ok) {
+        const updated = await res.json();
+        setTestimonies((prev) =>
+          prev.map((t) =>
+            t.id === editingTestimony.id ? { ...t, ...updated } : t
+          )
+        );
+        setEditingTestimony(null);
+        showToast("Testimony updated successfully!", "success");
+      } else {
+        showToast("Failed to update testimony.", "error");
+      }
+    } catch {
+      showToast("Connection error.", "error");
+    }
+    setIsSavingTestimony(false);
+  };
+
+  // ═══════════════════════════════════════════════════════════════════════════
   // TAB CONFIG
   // ═══════════════════════════════════════════════════════════════════════════
 
@@ -804,6 +965,7 @@ export default function AdminPage() {
     { id: "flyer", label: "Flyer Generator" },
     { id: "prayers", label: "Prayers" },
     { id: "testimonies", label: "Testimonies" },
+    { id: "insights", label: "Insights" },
     { id: "settings", label: "Settings" },
   ];
 
@@ -1573,19 +1735,32 @@ export default function AdminPage() {
                                 </Badge>
                               </div>
                             </div>
-                            <Button
-                              variant="destructive"
-                              size="icon"
-                              onClick={() => handleDeletePrayer(prayer.id)}
-                              disabled={isDeletingPrayer === prayer.id}
-                              title="Delete prayer request"
-                            >
-                              {isDeletingPrayer === prayer.id ? (
-                                <Spinner />
-                              ) : (
-                                <TrashIcon />
-                              )}
-                            </Button>
+                            <div className="flex items-center gap-1 shrink-0">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => openEditPrayer(prayer)}
+                                className="text-[#1a6fb5] hover:text-[#155d99] hover:bg-blue-50"
+                                title="Edit prayer request"
+                              >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                              </Button>
+                              <Button
+                                variant="destructive"
+                                size="icon"
+                                onClick={() => handleDeletePrayer(prayer.id)}
+                                disabled={isDeletingPrayer === prayer.id}
+                                title="Delete prayer request"
+                              >
+                                {isDeletingPrayer === prayer.id ? (
+                                  <Spinner />
+                                ) : (
+                                  <TrashIcon />
+                                )}
+                              </Button>
+                            </div>
                           </div>
                         </CardContent>
                       </Card>
@@ -1600,6 +1775,66 @@ export default function AdminPage() {
                     </CardContent>
                   </Card>
                 )}
+
+                {/* Prayer Edit Dialog */}
+                <Dialog open={!!editingPrayer} onOpenChange={(open) => { if (!open) setEditingPrayer(null); }}>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle className="font-display text-[#0a1a2f]">Edit Prayer Request</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4 py-2">
+                      <div>
+                        <label className={labelClass}>Name</label>
+                        <Input
+                          type="text"
+                          value={editPrayerName}
+                          onChange={(e) => setEditPrayerName(e.target.value)}
+                          placeholder="Name"
+                          className="h-11 px-4 font-body"
+                          disabled={editPrayerAnonymous}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>Prayer Request</label>
+                        <Textarea
+                          rows={4}
+                          value={editPrayerRequest}
+                          onChange={(e) => setEditPrayerRequest(e.target.value)}
+                          placeholder="Prayer request..."
+                          className="px-4 py-3 font-body resize-y"
+                        />
+                      </div>
+                      <label className="flex items-center gap-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={editPrayerAnonymous}
+                          onChange={(e) => {
+                            setEditPrayerAnonymous(e.target.checked);
+                            if (e.target.checked) setEditPrayerName("Anonymous");
+                          }}
+                          className="w-4 h-4 rounded border-gray-300 text-[#1a6fb5] focus:ring-[#1a6fb5]"
+                        />
+                        <span className="text-sm font-body text-[#0a1a2f]">Anonymous</span>
+                      </label>
+                    </div>
+                    <DialogFooter>
+                      <Button
+                        onClick={handleSavePrayerEdit}
+                        disabled={isSavingPrayer || !editPrayerRequest.trim()}
+                        className="bg-[#1a6fb5] hover:bg-[#155d99] text-white font-semibold font-body"
+                      >
+                        {isSavingPrayer ? (
+                          <>
+                            <Spinner />
+                            Saving...
+                          </>
+                        ) : (
+                          "Save Changes"
+                        )}
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </div>
             </TabsContent>
 
@@ -1700,6 +1935,17 @@ export default function AdminPage() {
                                 </Button>
                               )}
                               <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => openEditTestimony(testimony)}
+                                className="text-[#1a6fb5] hover:text-[#155d99] hover:bg-blue-50"
+                                title="Edit testimony"
+                              >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                              </Button>
+                              <Button
                                 variant="destructive"
                                 size="icon"
                                 onClick={() =>
@@ -1725,6 +1971,143 @@ export default function AdminPage() {
                     <CardContent className="text-center py-12">
                       <p className="text-[#4a6580] text-sm font-body">
                         No testimonies yet.
+                      </p>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Testimony Edit Dialog */}
+                <Dialog open={!!editingTestimony} onOpenChange={(open) => { if (!open) setEditingTestimony(null); }}>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle className="font-display text-[#0a1a2f]">Edit Testimony</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4 py-2">
+                      <div>
+                        <label className={labelClass}>Name</label>
+                        <Input
+                          type="text"
+                          value={editTestimonyName}
+                          onChange={(e) => setEditTestimonyName(e.target.value)}
+                          placeholder="Name"
+                          className="h-11 px-4 font-body"
+                          disabled={editTestimonyAnonymous}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>Testimony</label>
+                        <Textarea
+                          rows={5}
+                          value={editTestimonyText}
+                          onChange={(e) => setEditTestimonyText(e.target.value)}
+                          placeholder="Testimony text..."
+                          className="px-4 py-3 font-body resize-y"
+                        />
+                      </div>
+                      <label className="flex items-center gap-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={editTestimonyAnonymous}
+                          onChange={(e) => {
+                            setEditTestimonyAnonymous(e.target.checked);
+                            if (e.target.checked) setEditTestimonyName("Anonymous");
+                          }}
+                          className="w-4 h-4 rounded border-gray-300 text-[#1a6fb5] focus:ring-[#1a6fb5]"
+                        />
+                        <span className="text-sm font-body text-[#0a1a2f]">Anonymous</span>
+                      </label>
+                      <label className="flex items-center gap-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={editTestimonyApproved}
+                          onChange={(e) => setEditTestimonyApproved(e.target.checked)}
+                          className="w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600"
+                        />
+                        <span className="text-sm font-body text-[#0a1a2f]">Approved</span>
+                      </label>
+                    </div>
+                    <DialogFooter>
+                      <Button
+                        onClick={handleSaveTestimonyEdit}
+                        disabled={isSavingTestimony || !editTestimonyText.trim()}
+                        className="bg-[#1a6fb5] hover:bg-[#155d99] text-white font-semibold font-body"
+                      >
+                        {isSavingTestimony ? (
+                          <>
+                            <Spinner />
+                            Saving...
+                          </>
+                        ) : (
+                          "Save Changes"
+                        )}
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </TabsContent>
+
+            {/* ═════════════════════════════════════════════════════════════════
+                TAB 8: INSIGHTS
+                ═════════════════════════════════════════════════════════════════ */}
+            <TabsContent value="insights">
+              <div className="space-y-6 animate-fade-in">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h2 className="text-xl font-display font-semibold text-[#0a1a2f] mb-1">
+                      Ask The Word Insights
+                    </h2>
+                    <p className="text-sm font-body text-[#4a6580]">
+                      {insights.length} shared topic
+                      {insights.length !== 1 ? "s" : ""} from the community.
+                    </p>
+                  </div>
+                </div>
+
+                {insights.length > 0 ? (
+                  <div className="space-y-3">
+                    {insights.map((insight) => (
+                      <Card key={insight.id} className="shadow-sm border-0">
+                        <CardContent className="py-4">
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex-1 min-w-0">
+                              <p className="font-semibold font-body text-[#0a1a2f] text-sm">
+                                {insight.topic}
+                              </p>
+                              <div className="flex items-center gap-4 mt-3">
+                                <span className="text-xs font-body text-[#4a6580]">
+                                  {formatTimestamp(insight.timestamp)}
+                                </span>
+                                {insight.scripture && (
+                                  <Badge variant="secondary" className="font-body text-xs">
+                                    {insight.scripture}
+                                  </Badge>
+                                )}
+                              </div>
+                            </div>
+                            <Button
+                              variant="destructive"
+                              size="icon"
+                              onClick={() => handleDeleteInsight(insight.id)}
+                              disabled={isDeletingInsight === insight.id}
+                              title="Delete insight"
+                            >
+                              {isDeletingInsight === insight.id ? (
+                                <Spinner />
+                              ) : (
+                                <TrashIcon />
+                              )}
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <Card className="shadow-sm border-0">
+                    <CardContent className="text-center py-12">
+                      <p className="text-[#4a6580] text-sm font-body">
+                        No insights yet. When visitors share their topics from Ask The Word, they&apos;ll appear here.
                       </p>
                     </CardContent>
                   </Card>
