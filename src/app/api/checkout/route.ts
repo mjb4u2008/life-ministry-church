@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const stripe = new Stripe(secretKey, { apiVersion: "2025-02-24.acacia" });
+    const stripe = new Stripe(secretKey);
 
     const { amount, fund, isRecurring, frequency } = await request.json();
 
