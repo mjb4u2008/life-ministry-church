@@ -188,7 +188,7 @@ export default function HomePage() {
               color: "#0a1a2f",
             }}
           >
-            LIFE
+            L.I.F.E.
           </h1>
 
           {/* Subtitle */}
@@ -269,7 +269,7 @@ export default function HomePage() {
                 className="w-fit bg-gradient-to-r from-[#1a6fb5] to-[#00b4d8] hover:from-[#145a94] hover:to-[#0096b7] text-white font-body font-bold text-sm uppercase tracking-wider px-8 py-6 rounded-xl mt-2 cursor-pointer"
                 render={
                   <a
-                    href="https://meet.google.com"
+                    href="https://meet.google.com/hqk-sryh-ado"
                     target="_blank"
                     rel="noopener noreferrer"
                   />
