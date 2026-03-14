@@ -815,7 +815,7 @@ export default function AdminPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#f0f4f8] flex items-center justify-center">
+      <div className="min-h-screen bg-[#f0f4f8] flex items-center justify-center pt-20">
         <div className="flex flex-col items-center gap-4">
           <div className="animate-pulse-soft">
             <WaterCrossLogo size={48} />
@@ -892,7 +892,7 @@ export default function AdminPage() {
   // ═══════════════════════════════════════════════════════════════════════════
 
   return (
-    <div className="min-h-screen bg-[#f0f4f8]">
+    <div className="min-h-screen bg-[#f0f4f8] pt-16">
       {/* Toast */}
       {toast && (
         <Toast
@@ -903,7 +903,7 @@ export default function AdminPage() {
       )}
 
       {/* ─── Top Header Bar ──────────────────────────────────────────────────── */}
-      <header className="bg-white border-b border-border sticky top-0 z-40 shadow-sm">
+      <header className="bg-white border-b border-border sticky top-[64px] z-40 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
@@ -933,7 +933,7 @@ export default function AdminPage() {
         onValueChange={(val) => setActiveTab(val as Tab)}
         className="w-full"
       >
-        <nav className="bg-white border-b border-border sticky top-16 z-30 shadow-sm">
+        <nav className="bg-white border-b border-border sticky top-[128px] z-30 shadow-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <TabsList variant="line" className="w-full justify-start h-auto py-0 overflow-x-auto">
               {tabs.map((tab) => (
