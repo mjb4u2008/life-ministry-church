@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 const presetAmounts = [25, 50, 100, 250, 500];
 
@@ -48,11 +49,16 @@ const givingOptions = [
 ];
 
 export default function GivePage() {
+  const searchParams = useSearchParams();
+  const success = searchParams.get("success");
+  const canceled = searchParams.get("canceled");
+
   const [selectedOption, setSelectedOption] = useState("tithe");
   const [amount, setAmount] = useState("");
   const [customAmount, setCustomAmount] = useState("");
   const [isRecurring, setIsRecurring] = useState(false);
   const [frequency, setFrequency] = useState("monthly");
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleAmountSelect = (value: number) => {
     setAmount(value.toString());
@@ -68,6 +74,22 @@ export default function GivePage() {
 
   return (
     <div className="pt-20">
+      {/* Success Banner */}
+      {success && (
+        <div className="bg-green-50 border-b border-green-200 px-6 py-4 text-center">
+          <p className="font-body font-semibold text-green-800">
+            Thank you for your generous gift! Your payment was successful. God bless you.
+          </p>
+        </div>
+      )}
+      {canceled && (
+        <div className="bg-amber-50 border-b border-amber-200 px-6 py-4 text-center">
+          <p className="font-body font-semibold text-amber-800">
+            Payment was canceled. No charges were made. You can try again anytime.
+          </p>
+        </div>
+      )}
+
       {/* Hero Section */}
       <section className="bg-[#0a1a2f] text-white py-20 md:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -229,10 +251,34 @@ export default function GivePage() {
 
               <button
                 className="w-full bg-[#1a6fb5] text-white rounded-xl px-8 py-4 text-lg font-body font-bold hover:bg-[#145a94] transition-all shadow-lg shadow-[#1a6fb5]/20 disabled:opacity-50 disabled:cursor-not-allowed tracking-wide"
-                disabled={!displayAmount || parseFloat(displayAmount) <= 0}
-                onClick={() => alert("Stripe integration coming soon! This is a placeholder.")}
+                disabled={!displayAmount || parseFloat(displayAmount) <= 0 || isProcessing}
+                onClick={async () => {
+                  setIsProcessing(true);
+                  try {
+                    const res = await fetch("/api/checkout", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        amount: displayAmount,
+                        fund: selectedOption,
+                        isRecurring,
+                        frequency,
+                      }),
+                    });
+                    const data = await res.json();
+                    if (data.url) {
+                      window.location.href = data.url;
+                    } else {
+                      alert(data.error || "Something went wrong. Please try again.");
+                      setIsProcessing(false);
+                    }
+                  } catch {
+                    alert("Connection error. Please try again.");
+                    setIsProcessing(false);
+                  }
+                }}
               >
-                Continue to Payment
+                {isProcessing ? "Processing..." : "Continue to Payment"}
               </button>
 
               <div className="mt-6 flex items-center justify-center gap-2 text-sm text-[#4a6580] font-body">
