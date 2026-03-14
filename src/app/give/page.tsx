@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 const presetAmounts = [25, 50, 100, 250, 500];
@@ -48,10 +48,34 @@ const givingOptions = [
   },
 ];
 
-export default function GivePage() {
+function GivePageBanners() {
   const searchParams = useSearchParams();
   const success = searchParams.get("success");
   const canceled = searchParams.get("canceled");
+
+  if (!success && !canceled) return null;
+
+  return (
+    <>
+      {success && (
+        <div className="bg-green-50 border-b border-green-200 px-6 py-4 text-center">
+          <p className="font-body font-semibold text-green-800">
+            Thank you for your generous gift! Your payment was successful. God bless you.
+          </p>
+        </div>
+      )}
+      {canceled && (
+        <div className="bg-amber-50 border-b border-amber-200 px-6 py-4 text-center">
+          <p className="font-body font-semibold text-amber-800">
+            Payment was canceled. No charges were made. You can try again anytime.
+          </p>
+        </div>
+      )}
+    </>
+  );
+}
+
+export default function GivePage() {
 
   const [selectedOption, setSelectedOption] = useState("tithe");
   const [amount, setAmount] = useState("");
@@ -74,21 +98,10 @@ export default function GivePage() {
 
   return (
     <div className="pt-20">
-      {/* Success Banner */}
-      {success && (
-        <div className="bg-green-50 border-b border-green-200 px-6 py-4 text-center">
-          <p className="font-body font-semibold text-green-800">
-            Thank you for your generous gift! Your payment was successful. God bless you.
-          </p>
-        </div>
-      )}
-      {canceled && (
-        <div className="bg-amber-50 border-b border-amber-200 px-6 py-4 text-center">
-          <p className="font-body font-semibold text-amber-800">
-            Payment was canceled. No charges were made. You can try again anytime.
-          </p>
-        </div>
-      )}
+      {/* Success/Canceled Banner */}
+      <Suspense fallback={null}>
+        <GivePageBanners />
+      </Suspense>
 
       {/* Hero Section */}
       <section className="bg-[#0a1a2f] text-white py-20 md:py-32">
