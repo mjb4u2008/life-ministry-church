@@ -21,12 +21,18 @@ export function Header() {
 
   useEffect(() => {
     const saved = localStorage.getItem("lifeMinistryMusic");
-    if (saved === "playing" && audioRef.current) {
+    // Auto-play on first visit OR if they had it playing before
+    // Only skip autoplay if they explicitly paused it
+    if (saved !== "paused" && audioRef.current) {
+      audioRef.current.volume = 0.3; // Start at 30% volume — not jarring
       audioRef.current
         .play()
-        .then(() => setIsPlaying(true))
+        .then(() => {
+          setIsPlaying(true);
+          localStorage.setItem("lifeMinistryMusic", "playing");
+        })
         .catch(() => {
-          // Autoplay blocked by browser — that's ok
+          // Autoplay blocked by browser — user can click the icon
         });
     }
   }, []);
@@ -39,6 +45,7 @@ export function Header() {
         setIsPlaying(false);
         localStorage.setItem("lifeMinistryMusic", "paused");
       } else {
+        audioRef.current.volume = 0.3;
         await audioRef.current.play();
         setIsPlaying(true);
         localStorage.setItem("lifeMinistryMusic", "playing");
@@ -51,7 +58,7 @@ export function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-[#e8edf2]">
       {/* Audio element */}
-      <audio ref={audioRef} loop preload="none">
+      <audio ref={audioRef} loop preload="auto" autoPlay>
         <source src="/audio/ambient.mp3" type="audio/mpeg" />
       </audio>
 
