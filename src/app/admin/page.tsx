@@ -4,6 +4,19 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import FlyerTemplate from "@/components/FlyerTemplates";
 import type { FlyerData } from "@/components/FlyerTemplates";
 
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+
 // ─── Interfaces ─────────────────────────────────────────────────────────────────
 
 interface SiteContent {
@@ -118,7 +131,7 @@ function Toast({
   return (
     <div className="fixed top-4 right-4 z-50 animate-fade-in">
       <div
-        className={`flex items-center gap-3 px-5 py-3 rounded-xl shadow-lg text-sm font-medium ${
+        className={`flex items-center gap-3 px-5 py-3 rounded-xl shadow-lg text-sm font-body font-medium ${
           type === "success"
             ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
             : "bg-red-50 text-red-800 border border-red-200"
@@ -130,7 +143,7 @@ function Toast({
           onClick={onClose}
           className="ml-2 opacity-50 hover:opacity-100 text-lg leading-none"
         >
-          \u00d7
+          {"\u00d7"}
         </button>
       </div>
     </div>
@@ -155,6 +168,82 @@ function WaterCrossLogo({ size = 60 }: { size?: number }) {
         opacity="0.6"
       />
     </svg>
+  );
+}
+
+// ─── Spinner SVG ────────────────────────────────────────────────────────────────
+
+function Spinner({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg
+      className={`animate-spin ${className}`}
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      />
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      />
+    </svg>
+  );
+}
+
+// ─── Trash Icon SVG ─────────────────────────────────────────────────────────────
+
+function TrashIcon() {
+  return (
+    <svg
+      className="w-4 h-4"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+      />
+    </svg>
+  );
+}
+
+// ─── Character Counter Component ────────────────────────────────────────────────
+
+function CharCounter({ current, max }: { current: number; max: number }) {
+  const pct = current / max;
+  const colorClass =
+    current >= max
+      ? "text-red-500 font-semibold"
+      : pct >= 0.8
+        ? "text-amber-500"
+        : "text-muted-foreground";
+  const warningLabel =
+    current >= max
+      ? "At limit"
+      : pct >= 0.8
+        ? "Almost at limit"
+        : null;
+  return (
+    <div className="flex justify-between items-center mt-1">
+      <span className={`text-xs font-body ${colorClass}`}>
+        {current}/{max} characters
+      </span>
+      {warningLabel && (
+        <span className={`text-xs font-body ${current >= max ? "text-red-500 font-semibold" : "text-amber-500"}`}>
+          {warningLabel}
+        </span>
+      )}
+    </div>
   );
 }
 
@@ -199,14 +288,9 @@ function formatTimestamp(dateStr: string): string {
   }
 }
 
-// ─── Shared Input Styles ────────────────────────────────────────────────────────
+// ─── Shared label class ─────────────────────────────────────────────────────────
 
-const inputClass =
-  "w-full bg-white border border-border-light rounded-lg px-4 py-3 text-deep placeholder:text-text-light focus:border-water focus:ring-2 focus:ring-water/20 focus:outline-none";
-const labelClass = "block text-sm font-semibold text-deep mb-1.5";
-const cardClass = "bg-white rounded-xl p-6 shadow-sm";
-const sectionHeadingClass = "text-xl font-display font-semibold text-deep mb-1";
-const sectionDescClass = "text-sm text-text-body mb-6";
+const labelClass = "block text-sm font-semibold font-body text-[#0a1a2f] mb-1.5";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN COMPONENT
@@ -715,14 +799,14 @@ export default function AdminPage() {
   // TAB CONFIG
   // ═══════════════════════════════════════════════════════════════════════════
 
-  const tabs: { id: Tab; label: string; icon: string }[] = [
-    { id: "this-sunday", label: "This Sunday", icon: "\u2600" },
-    { id: "daily-scripture", label: "Daily Scripture", icon: "\u2728" },
-    { id: "past-lessons", label: "Past Lessons", icon: "\u25b6" },
-    { id: "flyer", label: "Flyer Generator", icon: "\ud83d\uddbc" },
-    { id: "prayers", label: "Prayers", icon: "\ud83d\ude4f" },
-    { id: "testimonies", label: "Testimonies", icon: "\ud83d\udcac" },
-    { id: "settings", label: "Settings", icon: "\u2699" },
+  const tabs: { id: Tab; label: string }[] = [
+    { id: "this-sunday", label: "This Sunday" },
+    { id: "daily-scripture", label: "Daily Scripture" },
+    { id: "past-lessons", label: "Past Lessons" },
+    { id: "flyer", label: "Flyer Generator" },
+    { id: "prayers", label: "Prayers" },
+    { id: "testimonies", label: "Testimonies" },
+    { id: "settings", label: "Settings" },
   ];
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -731,12 +815,12 @@ export default function AdminPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-cloud flex items-center justify-center">
+      <div className="min-h-screen bg-[#f0f4f8] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="animate-pulse-soft">
             <WaterCrossLogo size={48} />
           </div>
-          <p className="text-text-body text-sm">Loading...</p>
+          <p className="text-[#4a6580] text-sm font-body">Loading...</p>
         </div>
       </div>
     );
@@ -748,71 +832,56 @@ export default function AdminPage() {
 
   if (!token) {
     return (
-      <div className="min-h-screen bg-cloud flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[#f0f4f8] flex items-center justify-center px-4">
         <div className="w-full max-w-sm">
-          <div className={`${cardClass} text-center`}>
-            <div className="flex justify-center mb-4">
-              <WaterCrossLogo size={60} />
-            </div>
-            <h1 className="font-display text-2xl font-bold text-deep mb-1">
-              Admin Dashboard
-            </h1>
-            <p className="text-sm text-text-body mb-6">
-              L.I.F.E. Ministry Management
-            </p>
-
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div>
-                <input
-                  type="password"
-                  placeholder="Enter password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className={inputClass}
-                  autoFocus
-                />
+          <Card className="shadow-md border-0">
+            <CardContent className="pt-8 pb-8 text-center">
+              <div className="flex justify-center mb-4">
+                <WaterCrossLogo size={60} />
               </div>
+              <h1 className="font-display text-2xl font-bold text-[#0a1a2f] mb-1">
+                Admin Dashboard
+              </h1>
+              <p className="text-sm font-body text-[#4a6580] mb-6">
+                L.I.F.E. Ministry Management
+              </p>
 
-              {loginError && (
-                <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">
-                  {loginError}
-                </p>
-              )}
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div>
+                  <Input
+                    type="password"
+                    placeholder="Enter password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="h-11 px-4 font-body"
+                    autoFocus
+                  />
+                </div>
 
-              <button
-                type="submit"
-                disabled={isLoggingIn || !password}
-                className="w-full bg-water text-white font-semibold py-3 rounded-lg hover:bg-water-dark disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                {isLoggingIn ? (
-                  <>
-                    <svg
-                      className="animate-spin h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      />
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      />
-                    </svg>
-                    Signing in...
-                  </>
-                ) : (
-                  "Sign In"
+                {loginError && (
+                  <p className="text-sm font-body text-red-600 bg-red-50 px-3 py-2 rounded-lg">
+                    {loginError}
+                  </p>
                 )}
-              </button>
-            </form>
-          </div>
+
+                <Button
+                  type="submit"
+                  disabled={isLoggingIn || !password}
+                  className="w-full h-11 bg-[#1a6fb5] hover:bg-[#155d99] text-white font-semibold font-body"
+                  size="lg"
+                >
+                  {isLoggingIn ? (
+                    <>
+                      <Spinner />
+                      Signing in...
+                    </>
+                  ) : (
+                    "Sign In"
+                  )}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </div>
     );
@@ -823,7 +892,7 @@ export default function AdminPage() {
   // ═══════════════════════════════════════════════════════════════════════════
 
   return (
-    <div className="min-h-screen bg-cloud">
+    <div className="min-h-screen bg-[#f0f4f8]">
       {/* Toast */}
       {toast && (
         <Toast
@@ -834,1144 +903,1047 @@ export default function AdminPage() {
       )}
 
       {/* ─── Top Header Bar ──────────────────────────────────────────────────── */}
-      <header className="bg-white border-b border-border-light sticky top-0 z-40">
+      <header className="bg-white border-b border-border sticky top-0 z-40 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
               <WaterCrossLogo size={32} />
               <div>
-                <h1 className="font-display text-lg font-bold text-deep leading-tight">
+                <h1 className="font-display text-lg font-bold text-[#0a1a2f] leading-tight">
                   L.I.F.E. Admin
                 </h1>
-                <p className="text-xs text-text-light -mt-0.5">Dashboard</p>
+                <p className="text-xs font-body text-[#4a6580] -mt-0.5">Dashboard</p>
               </div>
             </div>
 
-            <button
+            <Button
+              variant="ghost"
               onClick={handleLogout}
-              className="text-sm text-text-body hover:text-red-600 font-medium px-4 py-2 rounded-lg hover:bg-red-50"
+              className="text-sm font-body text-[#4a6580] hover:text-red-600 hover:bg-red-50"
             >
               Sign Out
-            </button>
+            </Button>
           </div>
         </div>
       </header>
 
-      {/* ─── Tab Navigation ──────────────────────────────────────────────────── */}
-      <nav className="bg-white border-b border-border-light sticky top-16 z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex gap-1 overflow-x-auto scrollbar-none -mb-px">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-1.5 px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
-                  activeTab === tab.id
-                    ? "border-water text-water"
-                    : "border-transparent text-text-body hover:text-water hover:border-water/30"
-                }`}
-              >
-                <span className="text-base">{tab.icon}</span>
-                <span className="hidden sm:inline">{tab.label}</span>
-              </button>
-            ))}
+      {/* ─── Tab Navigation + Content ─────────────────────────────────────────── */}
+      <Tabs
+        value={activeTab}
+        onValueChange={(val) => setActiveTab(val as Tab)}
+        className="w-full"
+      >
+        <nav className="bg-white border-b border-border sticky top-16 z-30 shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <TabsList variant="line" className="w-full justify-start h-auto py-0 overflow-x-auto">
+              {tabs.map((tab) => (
+                <TabsTrigger
+                  key={tab.id}
+                  value={tab.id}
+                  className="px-4 py-3 text-sm font-body font-medium whitespace-nowrap data-active:text-[#1a6fb5]"
+                >
+                  {tab.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
           </div>
-        </div>
-      </nav>
+        </nav>
 
-      {/* ─── Tab Content ─────────────────────────────────────────────────────── */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="min-h-[60vh]">
-          {/* ═════════════════════════════════════════════════════════════════
-              TAB 1: THIS SUNDAY
-              ═════════════════════════════════════════════════════════════════ */}
-          {activeTab === "this-sunday" && (
-            <div className="space-y-6 animate-fade-in">
-              <div>
-                <h2 className={sectionHeadingClass}>This Sunday</h2>
-                <p className={sectionDescClass}>
-                  Update the details for this week&apos;s service. This appears
-                  on the home page.
-                </p>
-              </div>
-
-              <div className={cardClass}>
-                <div className="space-y-5">
-                  {/* Date */}
-                  <div>
-                    <label className={labelClass}>Service Date</label>
-                    <input
-                      type="date"
-                      value={sundayDate}
-                      onChange={(e) => setSundayDate(e.target.value)}
-                      className={inputClass}
-                    />
-                    {sundayDate && (
-                      <p className="text-xs text-text-light mt-1">
-                        {formatDate(sundayDate)}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Title */}
-                  <div>
-                    <label className={labelClass}>Sermon Title</label>
-                    <input
-                      type="text"
-                      value={sundayTitle}
-                      onChange={(e) => setSundayTitle(e.target.value)}
-                      placeholder="Walking in the Light"
-                      className={inputClass}
-                    />
-                  </div>
-
-                  {/* Scripture */}
-                  <div>
-                    <label className={labelClass}>Scripture Reference</label>
-                    <input
-                      type="text"
-                      value={sundayScripture}
-                      onChange={(e) => setSundayScripture(e.target.value)}
-                      placeholder="John 8:12"
-                      className={inputClass}
-                    />
-                  </div>
-
-                  {/* Description */}
-                  <div>
-                    <label className={labelClass}>Description</label>
-                    <textarea
-                      rows={6}
-                      value={sundayDescription}
-                      onChange={(e) => setSundayDescription(e.target.value)}
-                      placeholder="Write about this Sunday's message..."
-                      className={`${inputClass} resize-y`}
-                    />
-                  </div>
-
-                  {/* Google Meet Link */}
-                  <div>
-                    <label className={labelClass}>Google Meet Link</label>
-                    <input
-                      type="text"
-                      value={sundayMeetLink}
-                      onChange={(e) => setSundayMeetLink(e.target.value)}
-                      placeholder="https://meet.google.com/xxx-xxx-xxx"
-                      className={inputClass}
-                    />
-                    <p className="text-xs text-text-light mt-1">
-                      Members will use this link to join the live service.
-                    </p>
-                  </div>
+        {/* ─── Tab Content ─────────────────────────────────────────────────────── */}
+        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="min-h-[60vh]">
+            {/* ═════════════════════════════════════════════════════════════════
+                TAB 1: THIS SUNDAY
+                ═════════════════════════════════════════════════════════════════ */}
+            <TabsContent value="this-sunday">
+              <div className="space-y-6 animate-fade-in">
+                <div>
+                  <h2 className="text-xl font-display font-semibold text-[#0a1a2f] mb-1">
+                    This Sunday
+                  </h2>
+                  <p className="text-sm font-body text-[#4a6580] mb-2">
+                    Update the details for this week&apos;s service.
+                  </p>
+                  <Badge variant="secondary" className="font-body text-xs">
+                    This content appears on your homepage and Watch page.
+                  </Badge>
                 </div>
 
-                {/* Save Button */}
-                <div className="mt-8 flex justify-end">
-                  <button
-                    onClick={handleSaveThisSunday}
-                    disabled={isSavingSunday}
-                    className="bg-water text-white font-semibold px-8 py-3 rounded-lg hover:bg-water-dark disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                  >
-                    {isSavingSunday ? (
-                      <>
-                        <svg
-                          className="animate-spin h-4 w-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          />
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          />
-                        </svg>
-                        Saving...
-                      </>
-                    ) : (
-                      "Save This Sunday"
-                    )}
-                  </button>
-                </div>
-              </div>
+                <Card className="shadow-sm border-0">
+                  <CardContent className="pt-6">
+                    <div className="space-y-5">
+                      {/* Date */}
+                      <div>
+                        <label className={labelClass}>Service Date</label>
+                        <Input
+                          type="date"
+                          value={sundayDate}
+                          onChange={(e) => setSundayDate(e.target.value)}
+                          className="h-11 px-4 font-body"
+                        />
+                        {sundayDate && (
+                          <p className="text-xs font-body text-[#4a6580] mt-1">
+                            {formatDate(sundayDate)}
+                          </p>
+                        )}
+                      </div>
 
-              {/* Preview */}
-              {(sundayTitle || sundayScripture) && (
-                <div className={`${cardClass} border border-sky`}>
-                  <p className="text-xs font-semibold text-water uppercase tracking-wider mb-3">
-                    Preview
-                  </p>
-                  <h3 className="font-display text-xl font-bold text-deep">
-                    {sundayTitle || "Untitled"}
-                  </h3>
-                  <p className="text-sm text-water font-medium mt-1">
-                    {sundayScripture}
-                  </p>
-                  {sundayDescription && (
-                    <p className="text-sm text-text-body mt-3 leading-relaxed">
-                      {sundayDescription}
-                    </p>
-                  )}
-                  {sundayDate && (
-                    <p className="text-xs text-text-light mt-3">
-                      {formatDate(sundayDate)}
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
+                      <Separator />
 
-          {/* ═════════════════════════════════════════════════════════════════
-              TAB 2: DAILY SCRIPTURE
-              ═════════════════════════════════════════════════════════════════ */}
-          {activeTab === "daily-scripture" && (
-            <div className="space-y-6 animate-fade-in">
-              <div>
-                <h2 className={sectionHeadingClass}>Daily Scripture</h2>
-                <p className={sectionDescClass}>
-                  View today&apos;s auto-generated scripture or override it with
-                  your own.
-                </p>
-              </div>
+                      {/* Title */}
+                      <div>
+                        <label className={labelClass}>Sermon Title</label>
+                        <Input
+                          type="text"
+                          value={sundayTitle}
+                          onChange={(e) =>
+                            setSundayTitle(e.target.value.slice(0, 60))
+                          }
+                          maxLength={60}
+                          placeholder="Walking in the Light"
+                          className="h-11 px-4 font-body"
+                        />
+                        <CharCounter current={sundayTitle.length} max={60} />
+                      </div>
 
-              {/* Current Scripture Display */}
-              {dailyScripture && dailyScripture.verse && (
-                <div className={cardClass}>
-                  <div className="flex items-start justify-between mb-4">
-                    <p className="text-xs font-semibold text-water uppercase tracking-wider">
-                      Today&apos;s Scripture
-                    </p>
-                    {dailyScripture.isManualOverride && (
-                      <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
-                        Custom Override
-                      </span>
-                    )}
-                  </div>
-                  <blockquote className="font-display text-lg text-deep italic leading-relaxed mb-3">
-                    &ldquo;{dailyScripture.verse}&rdquo;
-                  </blockquote>
-                  <p className="text-sm text-water font-semibold mb-2">
-                    {dailyScripture.reference}
-                  </p>
-                  <p className="text-sm text-text-body leading-relaxed">
-                    {dailyScripture.reflection}
-                  </p>
-                  <p className="text-xs text-text-light mt-4">
-                    Generated: {formatTimestamp(dailyScripture.generatedAt)}
-                  </p>
-                </div>
-              )}
+                      {/* Scripture */}
+                      <div>
+                        <label className={labelClass}>Scripture Reference</label>
+                        <Input
+                          type="text"
+                          value={sundayScripture}
+                          onChange={(e) =>
+                            setSundayScripture(e.target.value.slice(0, 40))
+                          }
+                          maxLength={40}
+                          placeholder="John 8:12"
+                          className="h-11 px-4 font-body"
+                        />
+                        <CharCounter current={sundayScripture.length} max={40} />
+                      </div>
 
-              {/* Override Toggle */}
-              <div className={cardClass}>
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <p className="font-semibold text-deep text-sm">
-                      Override with custom scripture
-                    </p>
-                    <p className="text-xs text-text-light mt-0.5">
-                      Replace the AI-generated scripture for today
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => setScriptureOverride(!scriptureOverride)}
-                    className={`relative w-12 h-6 rounded-full transition-colors ${
-                      scriptureOverride ? "bg-water" : "bg-border-light"
-                    }`}
-                  >
-                    <span
-                      className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
-                        scriptureOverride ? "translate-x-6" : "translate-x-0"
-                      }`}
-                    />
-                  </button>
-                </div>
+                      {/* Description */}
+                      <div>
+                        <label className={labelClass}>Description</label>
+                        <Textarea
+                          rows={6}
+                          value={sundayDescription}
+                          onChange={(e) =>
+                            setSundayDescription(e.target.value.slice(0, 300))
+                          }
+                          maxLength={300}
+                          placeholder="Write about this Sunday's message..."
+                          className="px-4 py-3 font-body resize-y"
+                        />
+                        <CharCounter current={sundayDescription.length} max={300} />
+                      </div>
 
-                {scriptureOverride && (
-                  <div className="space-y-4 pt-4 border-t border-border-light">
-                    <div>
-                      <label className={labelClass}>Verse Text</label>
-                      <textarea
-                        rows={3}
-                        value={customVerse}
-                        onChange={(e) => setCustomVerse(e.target.value)}
-                        placeholder="For God so loved the world..."
-                        className={`${inputClass} resize-y`}
-                      />
-                    </div>
-                    <div>
-                      <label className={labelClass}>Reference</label>
-                      <input
-                        type="text"
-                        value={customReference}
-                        onChange={(e) => setCustomReference(e.target.value)}
-                        placeholder="John 3:16"
-                        className={inputClass}
-                      />
-                    </div>
-                    <div>
-                      <label className={labelClass}>Reflection</label>
-                      <input
-                        type="text"
-                        value={customReflection}
-                        onChange={(e) => setCustomReflection(e.target.value)}
-                        placeholder="A warm, encouraging one-line reflection..."
-                        className={inputClass}
-                      />
+                      <Separator />
+
+                      {/* Google Meet Link */}
+                      <div>
+                        <label className={labelClass}>Google Meet Link</label>
+                        <Input
+                          type="text"
+                          value={sundayMeetLink}
+                          onChange={(e) => setSundayMeetLink(e.target.value)}
+                          placeholder="https://meet.google.com/xxx-xxx-xxx"
+                          className="h-11 px-4 font-body"
+                        />
+                        <p className="text-xs font-body text-[#4a6580] mt-1">
+                          Members will use this link to join the live service.
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="flex items-center justify-between pt-2">
-                      <p className="text-xs text-text-light">
-                        Leave empty to use AI-generated scripture tomorrow.
-                      </p>
-                      <button
-                        onClick={handleSaveScripture}
-                        disabled={
-                          isSavingScripture ||
-                          !customVerse.trim() ||
-                          !customReference.trim() ||
-                          !customReflection.trim()
-                        }
-                        className="bg-water text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-water-dark disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm"
+                    {/* Save Button */}
+                    <div className="mt-8 flex justify-end">
+                      <Button
+                        onClick={handleSaveThisSunday}
+                        disabled={isSavingSunday}
+                        className="h-11 px-8 bg-[#1a6fb5] hover:bg-[#155d99] text-white font-semibold font-body"
+                        size="lg"
                       >
-                        {isSavingScripture ? (
+                        {isSavingSunday ? (
                           <>
-                            <svg
-                              className="animate-spin h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                            >
-                              <circle
-                                className="opacity-25"
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                stroke="currentColor"
-                                strokeWidth="4"
-                              />
-                              <path
-                                className="opacity-75"
-                                fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                              />
-                            </svg>
+                            <Spinner />
                             Saving...
                           </>
                         ) : (
-                          "Save Custom Scripture"
+                          "Save This Sunday"
                         )}
-                      </button>
+                      </Button>
                     </div>
-                  </div>
+                  </CardContent>
+                </Card>
+
+                {/* Preview */}
+                {(sundayTitle || sundayScripture) && (
+                  <Card className="shadow-sm border border-[#1a6fb5]/20">
+                    <CardHeader>
+                      <Badge variant="outline" className="w-fit font-body text-xs text-[#1a6fb5] border-[#1a6fb5]/30">
+                        Preview
+                      </Badge>
+                    </CardHeader>
+                    <CardContent>
+                      <h3 className="font-display text-xl font-bold text-[#0a1a2f]">
+                        {sundayTitle || "Untitled"}
+                      </h3>
+                      <p className="text-sm font-body text-[#1a6fb5] font-medium mt-1">
+                        {sundayScripture}
+                      </p>
+                      {sundayDescription && (
+                        <p className="text-sm font-body text-[#4a6580] mt-3 leading-relaxed">
+                          {sundayDescription}
+                        </p>
+                      )}
+                      {sundayDate && (
+                        <p className="text-xs font-body text-[#4a6580] mt-3">
+                          {formatDate(sundayDate)}
+                        </p>
+                      )}
+                    </CardContent>
+                  </Card>
                 )}
               </div>
-            </div>
-          )}
+            </TabsContent>
 
-          {/* ═════════════════════════════════════════════════════════════════
-              TAB 3: PAST LESSONS
-              ═════════════════════════════════════════════════════════════════ */}
-          {activeTab === "past-lessons" && (
-            <div className="space-y-6 animate-fade-in">
-              <div>
-                <h2 className={sectionHeadingClass}>Past Lessons</h2>
-                <p className={sectionDescClass}>
-                  Manage YouTube video links for past sermons and Bible studies.
-                </p>
-              </div>
-
-              {/* Add Video Form */}
-              <div className={cardClass}>
-                <p className="text-sm font-semibold text-deep mb-4">
-                  Add New Video
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="sm:col-span-2">
-                    <label className={labelClass}>YouTube URL</label>
-                    <input
-                      type="text"
-                      value={newVideoUrl}
-                      onChange={(e) => setNewVideoUrl(e.target.value)}
-                      placeholder="https://youtube.com/watch?v=..."
-                      className={inputClass}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Title</label>
-                    <input
-                      type="text"
-                      value={newVideoTitle}
-                      onChange={(e) => setNewVideoTitle(e.target.value)}
-                      placeholder="Walking in the Light"
-                      className={inputClass}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Date</label>
-                    <input
-                      type="date"
-                      value={newVideoDate}
-                      onChange={(e) => setNewVideoDate(e.target.value)}
-                      className={inputClass}
-                    />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <label className={labelClass}>
-                      Scripture Reference{" "}
-                      <span className="text-text-light font-normal">
-                        (optional)
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      value={newVideoScripture}
-                      onChange={(e) => setNewVideoScripture(e.target.value)}
-                      placeholder="John 8:12"
-                      className={inputClass}
-                    />
-                  </div>
+            {/* ═════════════════════════════════════════════════════════════════
+                TAB 2: DAILY SCRIPTURE
+                ═════════════════════════════════════════════════════════════════ */}
+            <TabsContent value="daily-scripture">
+              <div className="space-y-6 animate-fade-in">
+                <div>
+                  <h2 className="text-xl font-display font-semibold text-[#0a1a2f] mb-1">
+                    Daily Scripture
+                  </h2>
+                  <p className="text-sm font-body text-[#4a6580] mb-6">
+                    View today&apos;s auto-generated scripture or override it with
+                    your own.
+                  </p>
                 </div>
-                <div className="mt-4 flex justify-end">
-                  <button
-                    onClick={handleAddVideo}
-                    className="bg-deep text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-ocean text-sm"
-                  >
-                    Add Video
-                  </button>
-                </div>
-              </div>
 
-              {/* Video List */}
-              {youtubeVideos.length > 0 ? (
-                <div className="space-y-3">
-                  {youtubeVideos.map((video) => (
-                    <div
-                      key={video.id}
-                      className={`${cardClass} flex items-center justify-between gap-4`}
-                    >
-                      <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-deep text-sm truncate">
-                          {video.title}
+                {/* Current Scripture Display */}
+                {dailyScripture && dailyScripture.verse && (
+                  <Card className="shadow-sm border-0">
+                    <CardHeader>
+                      <div className="flex items-start justify-between w-full">
+                        <Badge variant="secondary" className="font-body text-xs">
+                          Today&apos;s Scripture
+                        </Badge>
+                        {dailyScripture.isManualOverride && (
+                          <Badge variant="outline" className="font-body text-xs text-amber-700 bg-amber-50 border-amber-200">
+                            Custom Override
+                          </Badge>
+                        )}
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <blockquote className="font-display text-lg text-[#0a1a2f] italic leading-relaxed mb-3">
+                        &ldquo;{dailyScripture.verse}&rdquo;
+                      </blockquote>
+                      <p className="text-sm font-body text-[#1a6fb5] font-semibold mb-2">
+                        {dailyScripture.reference}
+                      </p>
+                      <p className="text-sm font-body text-[#4a6580] leading-relaxed">
+                        {dailyScripture.reflection}
+                      </p>
+                      <Separator className="my-4" />
+                      <p className="text-xs font-body text-[#4a6580]">
+                        Generated: {formatTimestamp(dailyScripture.generatedAt)}
+                      </p>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Override Toggle */}
+                <Card className="shadow-sm border-0">
+                  <CardContent className="pt-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div>
+                        <p className="font-semibold font-body text-[#0a1a2f] text-sm">
+                          Override with custom scripture
                         </p>
-                        <div className="flex items-center gap-3 mt-1">
-                          {video.date && (
-                            <span className="text-xs text-text-light">
-                              {formatDate(video.date)}
-                            </span>
-                          )}
-                          {video.scripture && (
-                            <span className="text-xs text-water font-medium">
-                              {video.scripture}
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-xs text-text-light mt-0.5 truncate">
-                          {video.url}
+                        <p className="text-xs font-body text-[#4a6580] mt-0.5">
+                          Replace the AI-generated scripture for today
                         </p>
                       </div>
                       <button
-                        onClick={() => handleDeleteVideo(video.id)}
-                        className="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg shrink-0"
-                        title="Remove video"
+                        onClick={() => setScriptureOverride(!scriptureOverride)}
+                        className={`relative w-12 h-6 rounded-full transition-colors ${
+                          scriptureOverride ? "bg-[#1a6fb5]" : "bg-gray-300"
+                        }`}
                       >
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                          />
-                        </svg>
+                        <span
+                          className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                            scriptureOverride ? "translate-x-6" : "translate-x-0"
+                          }`}
+                        />
                       </button>
                     </div>
-                  ))}
 
-                  <div className="flex justify-end pt-2">
-                    <button
-                      onClick={handleSaveVideos}
-                      disabled={isSavingVideos}
-                      className="bg-water text-white font-semibold px-8 py-3 rounded-lg hover:bg-water-dark disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                    >
-                      {isSavingVideos ? (
-                        <>
-                          <svg
-                            className="animate-spin h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
+                    {scriptureOverride && (
+                      <div className="space-y-4 pt-4 border-t border-border">
+                        <div>
+                          <label className={labelClass}>Verse Text</label>
+                          <Textarea
+                            rows={3}
+                            value={customVerse}
+                            onChange={(e) => setCustomVerse(e.target.value)}
+                            placeholder="For God so loved the world..."
+                            className="px-4 py-3 font-body resize-y"
+                          />
+                        </div>
+                        <div>
+                          <label className={labelClass}>Reference</label>
+                          <Input
+                            type="text"
+                            value={customReference}
+                            onChange={(e) => setCustomReference(e.target.value)}
+                            placeholder="John 3:16"
+                            className="h-11 px-4 font-body"
+                          />
+                        </div>
+                        <div>
+                          <label className={labelClass}>Reflection</label>
+                          <Input
+                            type="text"
+                            value={customReflection}
+                            onChange={(e) => setCustomReflection(e.target.value)}
+                            placeholder="A warm, encouraging one-line reflection..."
+                            className="h-11 px-4 font-body"
+                          />
+                        </div>
+
+                        <div className="flex items-center justify-between pt-2">
+                          <p className="text-xs font-body text-[#4a6580]">
+                            Leave empty to use AI-generated scripture tomorrow.
+                          </p>
+                          <Button
+                            onClick={handleSaveScripture}
+                            disabled={
+                              isSavingScripture ||
+                              !customVerse.trim() ||
+                              !customReference.trim() ||
+                              !customReflection.trim()
+                            }
+                            className="bg-[#1a6fb5] hover:bg-[#155d99] text-white font-semibold font-body"
+                            size="lg"
                           >
-                            <circle
-                              className="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              strokeWidth="4"
-                            />
-                            <path
-                              className="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                            />
-                          </svg>
-                          Saving...
-                        </>
-                      ) : (
-                        "Save All Videos"
-                      )}
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className={`${cardClass} text-center py-12`}>
-                  <p className="text-text-light text-sm">
-                    No past lessons yet. Add your first video above.
+                            {isSavingScripture ? (
+                              <>
+                                <Spinner />
+                                Saving...
+                              </>
+                            ) : (
+                              "Save Custom Scripture"
+                            )}
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            {/* ═════════════════════════════════════════════════════════════════
+                TAB 3: PAST LESSONS
+                ═════════════════════════════════════════════════════════════════ */}
+            <TabsContent value="past-lessons">
+              <div className="space-y-6 animate-fade-in">
+                <div>
+                  <h2 className="text-xl font-display font-semibold text-[#0a1a2f] mb-1">
+                    Past Lessons
+                  </h2>
+                  <p className="text-sm font-body text-[#4a6580] mb-6">
+                    Manage YouTube video links for past sermons and Bible studies.
                   </p>
                 </div>
-              )}
-            </div>
-          )}
 
-          {/* ═════════════════════════════════════════════════════════════════
-              TAB 4: FLYER GENERATOR
-              ═════════════════════════════════════════════════════════════════ */}
-          {activeTab === "flyer" && (
-            <div className="space-y-6 animate-fade-in">
-              <div>
-                <h2 className={sectionHeadingClass}>Flyer Generator</h2>
-                <p className={sectionDescClass}>
-                  Generate beautiful flyers for social media. Enter your sermon
-                  details and AI will create the copy.
-                </p>
+                {/* Add Video Form */}
+                <Card className="shadow-sm border-0">
+                  <CardHeader>
+                    <CardTitle className="font-display text-[#0a1a2f]">Add New Video</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="sm:col-span-2">
+                        <label className={labelClass}>YouTube URL</label>
+                        <Input
+                          type="text"
+                          value={newVideoUrl}
+                          onChange={(e) => setNewVideoUrl(e.target.value)}
+                          placeholder="https://youtube.com/watch?v=..."
+                          className="h-11 px-4 font-body"
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>Title</label>
+                        <Input
+                          type="text"
+                          value={newVideoTitle}
+                          onChange={(e) => setNewVideoTitle(e.target.value)}
+                          placeholder="Walking in the Light"
+                          className="h-11 px-4 font-body"
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>Date</label>
+                        <Input
+                          type="date"
+                          value={newVideoDate}
+                          onChange={(e) => setNewVideoDate(e.target.value)}
+                          className="h-11 px-4 font-body"
+                        />
+                      </div>
+                      <div className="sm:col-span-2">
+                        <label className={labelClass}>
+                          Scripture Reference{" "}
+                          <span className="text-[#4a6580] font-normal">
+                            (optional)
+                          </span>
+                        </label>
+                        <Input
+                          type="text"
+                          value={newVideoScripture}
+                          onChange={(e) => setNewVideoScripture(e.target.value)}
+                          placeholder="John 8:12"
+                          className="h-11 px-4 font-body"
+                        />
+                      </div>
+                    </div>
+                    <div className="mt-4 flex justify-end">
+                      <Button
+                        onClick={handleAddVideo}
+                        className="bg-[#0a1a2f] hover:bg-[#0a1a2f]/80 text-white font-semibold font-body"
+                      >
+                        Add Video
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Video List */}
+                {youtubeVideos.length > 0 ? (
+                  <div className="space-y-3">
+                    {youtubeVideos.map((video) => (
+                      <Card key={video.id} className="shadow-sm border-0">
+                        <CardContent className="py-4">
+                          <div className="flex items-center justify-between gap-4">
+                            <div className="flex-1 min-w-0">
+                              <p className="font-semibold font-body text-[#0a1a2f] text-sm truncate">
+                                {video.title}
+                              </p>
+                              <div className="flex items-center gap-3 mt-1">
+                                {video.date && (
+                                  <span className="text-xs font-body text-[#4a6580]">
+                                    {formatDate(video.date)}
+                                  </span>
+                                )}
+                                {video.scripture && (
+                                  <Badge variant="secondary" className="font-body text-xs">
+                                    {video.scripture}
+                                  </Badge>
+                                )}
+                              </div>
+                              <p className="text-xs font-body text-[#4a6580] mt-0.5 truncate">
+                                {video.url}
+                              </p>
+                            </div>
+                            <Button
+                              variant="destructive"
+                              size="icon"
+                              onClick={() => handleDeleteVideo(video.id)}
+                              title="Remove video"
+                            >
+                              <TrashIcon />
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+
+                    <div className="flex justify-end pt-2">
+                      <Button
+                        onClick={handleSaveVideos}
+                        disabled={isSavingVideos}
+                        className="h-11 px-8 bg-[#1a6fb5] hover:bg-[#155d99] text-white font-semibold font-body"
+                        size="lg"
+                      >
+                        {isSavingVideos ? (
+                          <>
+                            <Spinner />
+                            Saving...
+                          </>
+                        ) : (
+                          "Save All Videos"
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <Card className="shadow-sm border-0">
+                    <CardContent className="text-center py-12">
+                      <p className="text-[#4a6580] text-sm font-body">
+                        No past lessons yet. Add your first video above.
+                      </p>
+                    </CardContent>
+                  </Card>
+                )}
               </div>
+            </TabsContent>
 
-              {/* Input Form */}
-              <div className={cardClass}>
-                <div className="space-y-4">
-                  <div>
-                    <label className={labelClass}>Sermon Title</label>
-                    <input
-                      type="text"
-                      value={flyerTitle}
-                      onChange={(e) => setFlyerTitle(e.target.value)}
-                      placeholder="Walking in the Light"
-                      className={inputClass}
-                    />
+            {/* ═════════════════════════════════════════════════════════════════
+                TAB 4: FLYER GENERATOR
+                ═════════════════════════════════════════════════════════════════ */}
+            <TabsContent value="flyer">
+              <div className="space-y-6 animate-fade-in">
+                <div>
+                  <h2 className="text-xl font-display font-semibold text-[#0a1a2f] mb-1">
+                    Flyer Generator
+                  </h2>
+                  <p className="text-sm font-body text-[#4a6580] mb-6">
+                    Generate beautiful flyers for social media. Enter your sermon
+                    details and AI will create the copy.
+                  </p>
+                </div>
+
+                {/* Input Form */}
+                <Card className="shadow-sm border-0">
+                  <CardContent className="pt-6">
+                    <div className="space-y-4">
+                      <div>
+                        <label className={labelClass}>Sermon Title</label>
+                        <Input
+                          type="text"
+                          value={flyerTitle}
+                          onChange={(e) => setFlyerTitle(e.target.value)}
+                          placeholder="Walking in the Light"
+                          className="h-11 px-4 font-body"
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>Scripture Reference</label>
+                        <Input
+                          type="text"
+                          value={flyerScripture}
+                          onChange={(e) => setFlyerScripture(e.target.value)}
+                          placeholder="John 8:12"
+                          className="h-11 px-4 font-body"
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>
+                          Description{" "}
+                          <span className="text-[#4a6580] font-normal">
+                            (optional)
+                          </span>
+                        </label>
+                        <Textarea
+                          rows={3}
+                          value={flyerDescription}
+                          onChange={(e) => setFlyerDescription(e.target.value)}
+                          placeholder="A brief description of the sermon topic..."
+                          className="px-4 py-3 font-body resize-y"
+                        />
+                      </div>
+                    </div>
+                    <div className="mt-5 flex justify-end">
+                      <Button
+                        onClick={handleGenerateFlyer}
+                        disabled={
+                          isGeneratingFlyer ||
+                          !flyerTitle.trim() ||
+                          !flyerScripture.trim()
+                        }
+                        className="h-11 px-8 bg-[#1a6fb5] hover:bg-[#155d99] text-white font-semibold font-body"
+                        size="lg"
+                      >
+                        {isGeneratingFlyer ? (
+                          <>
+                            <Spinner />
+                            Generating...
+                          </>
+                        ) : (
+                          "Generate Flyer"
+                        )}
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Template Selector + Preview */}
+                {flyerData && (
+                  <div className="space-y-4">
+                    {/* Template Buttons */}
+                    <Card className="shadow-sm border-0">
+                      <CardHeader>
+                        <CardTitle className="font-display text-[#0a1a2f]">Choose a Template</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="flex gap-3">
+                          {([1, 2, 3] as const).map((t) => (
+                            <Button
+                              key={t}
+                              onClick={() => setFlyerTemplate(t)}
+                              variant={flyerTemplate === t ? "default" : "outline"}
+                              className={`flex-1 font-body ${
+                                flyerTemplate === t
+                                  ? "bg-[#1a6fb5] text-white hover:bg-[#155d99]"
+                                  : ""
+                              }`}
+                            >
+                              {t === 1
+                                ? "Living Water"
+                                : t === 2
+                                  ? "Clean Light"
+                                  : "Bold Sky"}
+                            </Button>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Preview */}
+                    <Card className="shadow-sm border-0">
+                      <CardHeader>
+                        <div className="flex items-center justify-between w-full">
+                          <CardTitle className="font-display text-[#0a1a2f]">Flyer Preview</CardTitle>
+                          <p className="text-xs font-body text-[#4a6580]">
+                            Screenshot the flyer below to share on social media
+                          </p>
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <div
+                          ref={flyerRef}
+                          className="flex justify-center overflow-x-auto"
+                        >
+                          <FlyerTemplate
+                            data={flyerData}
+                            template={flyerTemplate}
+                          />
+                        </div>
+                      </CardContent>
+                    </Card>
                   </div>
+                )}
+              </div>
+            </TabsContent>
+
+            {/* ═════════════════════════════════════════════════════════════════
+                TAB 5: PRAYERS
+                ═════════════════════════════════════════════════════════════════ */}
+            <TabsContent value="prayers">
+              <div className="space-y-6 animate-fade-in">
+                <div className="flex items-start justify-between">
                   <div>
-                    <label className={labelClass}>Scripture Reference</label>
-                    <input
-                      type="text"
-                      value={flyerScripture}
-                      onChange={(e) => setFlyerScripture(e.target.value)}
-                      placeholder="John 8:12"
-                      className={inputClass}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>
-                      Description{" "}
-                      <span className="text-text-light font-normal">
-                        (optional)
-                      </span>
-                    </label>
-                    <textarea
-                      rows={3}
-                      value={flyerDescription}
-                      onChange={(e) => setFlyerDescription(e.target.value)}
-                      placeholder="A brief description of the sermon topic..."
-                      className={`${inputClass} resize-y`}
-                    />
+                    <h2 className="text-xl font-display font-semibold text-[#0a1a2f] mb-1">
+                      Prayer Requests
+                    </h2>
+                    <p className="text-sm font-body text-[#4a6580]">
+                      {prayers.length} prayer request
+                      {prayers.length !== 1 ? "s" : ""} from the community.
+                    </p>
                   </div>
                 </div>
-                <div className="mt-5 flex justify-end">
-                  <button
-                    onClick={handleGenerateFlyer}
-                    disabled={
-                      isGeneratingFlyer ||
-                      !flyerTitle.trim() ||
-                      !flyerScripture.trim()
-                    }
-                    className="bg-water text-white font-semibold px-8 py-3 rounded-lg hover:bg-water-dark disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                  >
-                    {isGeneratingFlyer ? (
-                      <>
-                        <svg
-                          className="animate-spin h-4 w-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
+
+                {prayers.length > 0 ? (
+                  <div className="space-y-3">
+                    {prayers.map((prayer) => (
+                      <Card key={prayer.id} className="shadow-sm border-0">
+                        <CardContent className="py-4">
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-2">
+                                <p className="font-semibold font-body text-[#0a1a2f] text-sm">
+                                  {prayer.name}
+                                </p>
+                                {prayer.isAnonymous && (
+                                  <Badge variant="secondary" className="font-body text-xs">
+                                    Anonymous
+                                  </Badge>
+                                )}
+                              </div>
+                              <p className="text-sm font-body text-[#4a6580] leading-relaxed">
+                                {prayer.request}
+                              </p>
+                              <div className="flex items-center gap-4 mt-3">
+                                <span className="text-xs font-body text-[#4a6580]">
+                                  {formatTimestamp(prayer.createdAt)}
+                                </span>
+                                <Badge variant="outline" className="font-body text-xs text-[#1a6fb5]">
+                                  {prayer.prayerCount} prayer
+                                  {prayer.prayerCount !== 1 ? "s" : ""}
+                                </Badge>
+                              </div>
+                            </div>
+                            <Button
+                              variant="destructive"
+                              size="icon"
+                              onClick={() => handleDeletePrayer(prayer.id)}
+                              disabled={isDeletingPrayer === prayer.id}
+                              title="Delete prayer request"
+                            >
+                              {isDeletingPrayer === prayer.id ? (
+                                <Spinner />
+                              ) : (
+                                <TrashIcon />
+                              )}
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <Card className="shadow-sm border-0">
+                    <CardContent className="text-center py-12">
+                      <p className="text-[#4a6580] text-sm font-body">
+                        No prayer requests yet.
+                      </p>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+            </TabsContent>
+
+            {/* ═════════════════════════════════════════════════════════════════
+                TAB 6: TESTIMONIES
+                ═════════════════════════════════════════════════════════════════ */}
+            <TabsContent value="testimonies">
+              <div className="space-y-6 animate-fade-in">
+                <div>
+                  <h2 className="text-xl font-display font-semibold text-[#0a1a2f] mb-1">
+                    Testimonies
+                  </h2>
+                  <p className="text-sm font-body text-[#4a6580]">
+                    {testimonies.length} testimon
+                    {testimonies.length !== 1 ? "ies" : "y"} total.{" "}
+                    {testimonies.filter((t) => !t.approved).length} awaiting
+                    approval.
+                  </p>
+                </div>
+
+                {testimonies.length > 0 ? (
+                  <div className="space-y-3">
+                    {testimonies.map((testimony) => (
+                      <Card
+                        key={testimony.id}
+                        className={`shadow-sm border-0 ${
+                          !testimony.approved
+                            ? "border-l-4 border-l-amber-400"
+                            : ""
+                        }`}
+                      >
+                        <CardContent className="py-4">
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                                <p className="font-semibold font-body text-[#0a1a2f] text-sm">
+                                  {testimony.name}
+                                </p>
+                                {!testimony.approved ? (
+                                  <Badge variant="outline" className="font-body text-xs text-amber-700 bg-amber-50 border-amber-200">
+                                    Pending Approval
+                                  </Badge>
+                                ) : (
+                                  <Badge variant="outline" className="font-body text-xs text-emerald-700 bg-emerald-50 border-emerald-200">
+                                    Approved
+                                  </Badge>
+                                )}
+                                {testimony.isAnonymous && (
+                                  <Badge variant="secondary" className="font-body text-xs">
+                                    Anonymous
+                                  </Badge>
+                                )}
+                              </div>
+                              <p className="text-sm font-body text-[#4a6580] leading-relaxed">
+                                {testimony.text}
+                              </p>
+                              <div className="flex items-center gap-4 mt-3">
+                                <span className="text-xs font-body text-[#4a6580]">
+                                  {formatTimestamp(testimony.createdAt)}
+                                </span>
+                                <Badge variant="outline" className="font-body text-xs text-[#1a6fb5]">
+                                  {testimony.blessedCount} blessed
+                                </Badge>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center gap-1 shrink-0">
+                              {!testimony.approved && (
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() =>
+                                    handleApproveTestimony(testimony.id)
+                                  }
+                                  disabled={
+                                    isApprovingTestimony === testimony.id
+                                  }
+                                  className="text-emerald-500 hover:text-emerald-700 hover:bg-emerald-50"
+                                  title="Approve testimony"
+                                >
+                                  {isApprovingTestimony === testimony.id ? (
+                                    <Spinner />
+                                  ) : (
+                                    <svg
+                                      className="w-5 h-5"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M5 13l4 4L19 7"
+                                      />
+                                    </svg>
+                                  )}
+                                </Button>
+                              )}
+                              <Button
+                                variant="destructive"
+                                size="icon"
+                                onClick={() =>
+                                  handleDeleteTestimony(testimony.id)
+                                }
+                                disabled={isDeletingTestimony === testimony.id}
+                                title="Delete testimony"
+                              >
+                                {isDeletingTestimony === testimony.id ? (
+                                  <Spinner />
+                                ) : (
+                                  <TrashIcon />
+                                )}
+                              </Button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <Card className="shadow-sm border-0">
+                    <CardContent className="text-center py-12">
+                      <p className="text-[#4a6580] text-sm font-body">
+                        No testimonies yet.
+                      </p>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+            </TabsContent>
+
+            {/* ═════════════════════════════════════════════════════════════════
+                TAB 7: SETTINGS
+                ═════════════════════════════════════════════════════════════════ */}
+            <TabsContent value="settings">
+              <div className="space-y-6 animate-fade-in">
+                <div>
+                  <h2 className="text-xl font-display font-semibold text-[#0a1a2f] mb-1">
+                    Settings
+                  </h2>
+                  <p className="text-sm font-body text-[#4a6580] mb-6">
+                    Ministry contact info, social links, and service schedule.
+                  </p>
+                </div>
+
+                {/* Contact Info */}
+                <Card className="shadow-sm border-0">
+                  <CardHeader>
+                    <CardTitle className="font-display text-[#0a1a2f]">Contact Information</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className={labelClass}>Ministry Email</label>
+                        <Input
+                          type="email"
+                          value={settingsEmail}
+                          onChange={(e) => setSettingsEmail(e.target.value)}
+                          placeholder="pastor@lifeministry.org"
+                          className="h-11 px-4 font-body"
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>Phone Number</label>
+                        <Input
+                          type="tel"
+                          value={settingsPhone}
+                          onChange={(e) => setSettingsPhone(e.target.value)}
+                          placeholder="(555) 123-4567"
+                          className="h-11 px-4 font-body"
+                        />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Social Links */}
+                <Card className="shadow-sm border-0">
+                  <CardHeader>
+                    <CardTitle className="font-display text-[#0a1a2f]">Social Media Links</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className={labelClass}>TikTok URL</label>
+                        <Input
+                          type="url"
+                          value={settingsTiktok}
+                          onChange={(e) => setSettingsTiktok(e.target.value)}
+                          placeholder="https://tiktok.com/@..."
+                          className="h-11 px-4 font-body"
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>Instagram URL</label>
+                        <Input
+                          type="url"
+                          value={settingsInstagram}
+                          onChange={(e) => setSettingsInstagram(e.target.value)}
+                          placeholder="https://instagram.com/..."
+                          className="h-11 px-4 font-body"
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>YouTube URL</label>
+                        <Input
+                          type="url"
+                          value={settingsYoutube}
+                          onChange={(e) => setSettingsYoutube(e.target.value)}
+                          placeholder="https://youtube.com/@..."
+                          className="h-11 px-4 font-body"
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>Facebook URL</label>
+                        <Input
+                          type="url"
+                          value={settingsFacebook}
+                          onChange={(e) => setSettingsFacebook(e.target.value)}
+                          placeholder="https://facebook.com/..."
+                          className="h-11 px-4 font-body"
+                        />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Service Schedule */}
+                <Card className="shadow-sm border-0">
+                  <CardHeader>
+                    <CardTitle className="font-display text-[#0a1a2f]">Service Schedule</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                      <div>
+                        <label className={labelClass}>Day of Week</label>
+                        <select
+                          value={settingsDay}
+                          onChange={(e) => setSettingsDay(Number(e.target.value))}
+                          className="h-11 w-full rounded-lg border border-input bg-transparent px-4 py-2 text-sm font-body transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
                         >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          />
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          />
-                        </svg>
-                        Generating...
+                          <option value={0}>Sunday</option>
+                          <option value={1}>Monday</option>
+                          <option value={2}>Tuesday</option>
+                          <option value={3}>Wednesday</option>
+                          <option value={4}>Thursday</option>
+                          <option value={5}>Friday</option>
+                          <option value={6}>Saturday</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className={labelClass}>Hour</label>
+                        <select
+                          value={settingsHour}
+                          onChange={(e) =>
+                            setSettingsHour(Number(e.target.value))
+                          }
+                          className="h-11 w-full rounded-lg border border-input bg-transparent px-4 py-2 text-sm font-body transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+                        >
+                          {Array.from({ length: 24 }, (_, i) => (
+                            <option key={i} value={i}>
+                              {i === 0
+                                ? "12 AM"
+                                : i < 12
+                                  ? `${i} AM`
+                                  : i === 12
+                                    ? "12 PM"
+                                    : `${i - 12} PM`}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className={labelClass}>Minute</label>
+                        <select
+                          value={settingsMinute}
+                          onChange={(e) =>
+                            setSettingsMinute(Number(e.target.value))
+                          }
+                          className="h-11 w-full rounded-lg border border-input bg-transparent px-4 py-2 text-sm font-body transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+                        >
+                          {[0, 15, 30, 45].map((m) => (
+                            <option key={m} value={m}>
+                              :{m.toString().padStart(2, "0")}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className={labelClass}>Timezone</label>
+                        <select
+                          value={settingsTimezone}
+                          onChange={(e) => setSettingsTimezone(e.target.value)}
+                          className="h-11 w-full rounded-lg border border-input bg-transparent px-4 py-2 text-sm font-body transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+                        >
+                          <option value="America/New_York">Eastern</option>
+                          <option value="America/Chicago">Central</option>
+                          <option value="America/Denver">Mountain</option>
+                          <option value="America/Los_Angeles">Pacific</option>
+                          <option value="America/Anchorage">Alaska</option>
+                          <option value="Pacific/Honolulu">Hawaii</option>
+                        </select>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Save Settings */}
+                <div className="flex justify-end">
+                  <Button
+                    onClick={handleSaveSettings}
+                    disabled={isSavingSettings}
+                    className="h-11 px-8 bg-[#1a6fb5] hover:bg-[#155d99] text-white font-semibold font-body"
+                    size="lg"
+                  >
+                    {isSavingSettings ? (
+                      <>
+                        <Spinner />
+                        Saving...
                       </>
                     ) : (
-                      "Generate Flyer"
+                      "Save Settings"
                     )}
-                  </button>
+                  </Button>
                 </div>
-              </div>
 
-              {/* Template Selector + Preview */}
-              {flyerData && (
-                <div className="space-y-4">
-                  {/* Template Buttons */}
-                  <div className={cardClass}>
-                    <p className="text-sm font-semibold text-deep mb-3">
-                      Choose a Template
-                    </p>
-                    <div className="flex gap-3">
-                      {([1, 2, 3] as const).map((t) => (
-                        <button
-                          key={t}
-                          onClick={() => setFlyerTemplate(t)}
-                          className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-medium border transition-colors ${
-                            flyerTemplate === t
-                              ? "bg-water text-white border-water"
-                              : "bg-white text-text-body border-border-light hover:border-water hover:text-water"
-                          }`}
-                        >
-                          {t === 1
-                            ? "Living Water"
-                            : t === 2
-                              ? "Clean Light"
-                              : "Bold Sky"}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Preview */}
-                  <div className={cardClass}>
-                    <div className="flex items-center justify-between mb-4">
-                      <p className="text-sm font-semibold text-deep">
-                        Flyer Preview
-                      </p>
-                      <p className="text-xs text-text-light">
-                        Screenshot the flyer below to share on social media
-                      </p>
-                    </div>
-                    <div
-                      ref={flyerRef}
-                      className="flex justify-center overflow-x-auto"
-                    >
-                      <FlyerTemplate
-                        data={flyerData}
-                        template={flyerTemplate}
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* ═════════════════════════════════════════════════════════════════
-              TAB 5: PRAYERS
-              ═════════════════════════════════════════════════════════════════ */}
-          {activeTab === "prayers" && (
-            <div className="space-y-6 animate-fade-in">
-              <div className="flex items-start justify-between">
-                <div>
-                  <h2 className={sectionHeadingClass}>Prayer Requests</h2>
-                  <p className={sectionDescClass}>
-                    {prayers.length} prayer request
-                    {prayers.length !== 1 ? "s" : ""} from the community.
+                {/* Last Updated */}
+                {content?.lastUpdated && (
+                  <p className="text-xs font-body text-[#4a6580] text-center">
+                    Last updated: {formatTimestamp(content.lastUpdated)}
                   </p>
-                </div>
+                )}
               </div>
-
-              {prayers.length > 0 ? (
-                <div className="space-y-3">
-                  {prayers.map((prayer) => (
-                    <div key={prayer.id} className={cardClass}>
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-2">
-                            <p className="font-semibold text-deep text-sm">
-                              {prayer.name}
-                            </p>
-                            {prayer.isAnonymous && (
-                              <span className="text-xs bg-sky text-water px-2 py-0.5 rounded-full">
-                                Anonymous
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-sm text-text-body leading-relaxed">
-                            {prayer.request}
-                          </p>
-                          <div className="flex items-center gap-4 mt-3">
-                            <span className="text-xs text-text-light">
-                              {formatTimestamp(prayer.createdAt)}
-                            </span>
-                            <span className="text-xs text-water font-medium">
-                              {prayer.prayerCount} prayer
-                              {prayer.prayerCount !== 1 ? "s" : ""}
-                            </span>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => handleDeletePrayer(prayer.id)}
-                          disabled={isDeletingPrayer === prayer.id}
-                          className="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg shrink-0 disabled:opacity-50"
-                          title="Delete prayer request"
-                        >
-                          {isDeletingPrayer === prayer.id ? (
-                            <svg
-                              className="animate-spin h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                            >
-                              <circle
-                                className="opacity-25"
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                stroke="currentColor"
-                                strokeWidth="4"
-                              />
-                              <path
-                                className="opacity-75"
-                                fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                              />
-                            </svg>
-                          ) : (
-                            <svg
-                              className="w-4 h-4"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                              />
-                            </svg>
-                          )}
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className={`${cardClass} text-center py-12`}>
-                  <p className="text-text-light text-sm">
-                    No prayer requests yet.
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* ═════════════════════════════════════════════════════════════════
-              TAB 6: TESTIMONIES
-              ═════════════════════════════════════════════════════════════════ */}
-          {activeTab === "testimonies" && (
-            <div className="space-y-6 animate-fade-in">
-              <div>
-                <h2 className={sectionHeadingClass}>Testimonies</h2>
-                <p className={sectionDescClass}>
-                  {testimonies.length} testimon
-                  {testimonies.length !== 1 ? "ies" : "y"} total.{" "}
-                  {testimonies.filter((t) => !t.approved).length} awaiting
-                  approval.
-                </p>
-              </div>
-
-              {testimonies.length > 0 ? (
-                <div className="space-y-3">
-                  {testimonies.map((testimony) => (
-                    <div
-                      key={testimony.id}
-                      className={`${cardClass} ${
-                        !testimony.approved
-                          ? "border-l-4 border-l-amber-400"
-                          : ""
-                      }`}
-                    >
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-2 flex-wrap">
-                            <p className="font-semibold text-deep text-sm">
-                              {testimony.name}
-                            </p>
-                            {!testimony.approved ? (
-                              <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
-                                Pending Approval
-                              </span>
-                            ) : (
-                              <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-medium">
-                                Approved
-                              </span>
-                            )}
-                            {testimony.isAnonymous && (
-                              <span className="text-xs bg-sky text-water px-2 py-0.5 rounded-full">
-                                Anonymous
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-sm text-text-body leading-relaxed">
-                            {testimony.text}
-                          </p>
-                          <div className="flex items-center gap-4 mt-3">
-                            <span className="text-xs text-text-light">
-                              {formatTimestamp(testimony.createdAt)}
-                            </span>
-                            <span className="text-xs text-water font-medium">
-                              {testimony.blessedCount} blessed
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-1 shrink-0">
-                          {!testimony.approved && (
-                            <button
-                              onClick={() =>
-                                handleApproveTestimony(testimony.id)
-                              }
-                              disabled={
-                                isApprovingTestimony === testimony.id
-                              }
-                              className="text-emerald-500 hover:text-emerald-700 hover:bg-emerald-50 p-2 rounded-lg disabled:opacity-50"
-                              title="Approve testimony"
-                            >
-                              {isApprovingTestimony === testimony.id ? (
-                                <svg
-                                  className="animate-spin h-4 w-4"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <circle
-                                    className="opacity-25"
-                                    cx="12"
-                                    cy="12"
-                                    r="10"
-                                    stroke="currentColor"
-                                    strokeWidth="4"
-                                  />
-                                  <path
-                                    className="opacity-75"
-                                    fill="currentColor"
-                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                  />
-                                </svg>
-                              ) : (
-                                <svg
-                                  className="w-5 h-5"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M5 13l4 4L19 7"
-                                  />
-                                </svg>
-                              )}
-                            </button>
-                          )}
-                          <button
-                            onClick={() =>
-                              handleDeleteTestimony(testimony.id)
-                            }
-                            disabled={isDeletingTestimony === testimony.id}
-                            className="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg disabled:opacity-50"
-                            title="Delete testimony"
-                          >
-                            {isDeletingTestimony === testimony.id ? (
-                              <svg
-                                className="animate-spin h-4 w-4"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                              >
-                                <circle
-                                  className="opacity-25"
-                                  cx="12"
-                                  cy="12"
-                                  r="10"
-                                  stroke="currentColor"
-                                  strokeWidth="4"
-                                />
-                                <path
-                                  className="opacity-75"
-                                  fill="currentColor"
-                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                />
-                              </svg>
-                            ) : (
-                              <svg
-                                className="w-4 h-4"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                />
-                              </svg>
-                            )}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className={`${cardClass} text-center py-12`}>
-                  <p className="text-text-light text-sm">
-                    No testimonies yet.
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* ═════════════════════════════════════════════════════════════════
-              TAB 7: SETTINGS
-              ═════════════════════════════════════════════════════════════════ */}
-          {activeTab === "settings" && (
-            <div className="space-y-6 animate-fade-in">
-              <div>
-                <h2 className={sectionHeadingClass}>Settings</h2>
-                <p className={sectionDescClass}>
-                  Ministry contact info, social links, and service schedule.
-                </p>
-              </div>
-
-              {/* Contact Info */}
-              <div className={cardClass}>
-                <p className="text-sm font-semibold text-deep mb-4">
-                  Contact Information
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className={labelClass}>Ministry Email</label>
-                    <input
-                      type="email"
-                      value={settingsEmail}
-                      onChange={(e) => setSettingsEmail(e.target.value)}
-                      placeholder="pastor@lifeministry.org"
-                      className={inputClass}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Phone Number</label>
-                    <input
-                      type="tel"
-                      value={settingsPhone}
-                      onChange={(e) => setSettingsPhone(e.target.value)}
-                      placeholder="(555) 123-4567"
-                      className={inputClass}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Social Links */}
-              <div className={cardClass}>
-                <p className="text-sm font-semibold text-deep mb-4">
-                  Social Media Links
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className={labelClass}>TikTok URL</label>
-                    <input
-                      type="url"
-                      value={settingsTiktok}
-                      onChange={(e) => setSettingsTiktok(e.target.value)}
-                      placeholder="https://tiktok.com/@..."
-                      className={inputClass}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Instagram URL</label>
-                    <input
-                      type="url"
-                      value={settingsInstagram}
-                      onChange={(e) => setSettingsInstagram(e.target.value)}
-                      placeholder="https://instagram.com/..."
-                      className={inputClass}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>YouTube URL</label>
-                    <input
-                      type="url"
-                      value={settingsYoutube}
-                      onChange={(e) => setSettingsYoutube(e.target.value)}
-                      placeholder="https://youtube.com/@..."
-                      className={inputClass}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Facebook URL</label>
-                    <input
-                      type="url"
-                      value={settingsFacebook}
-                      onChange={(e) => setSettingsFacebook(e.target.value)}
-                      placeholder="https://facebook.com/..."
-                      className={inputClass}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Service Schedule */}
-              <div className={cardClass}>
-                <p className="text-sm font-semibold text-deep mb-4">
-                  Service Schedule
-                </p>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                  <div>
-                    <label className={labelClass}>Day of Week</label>
-                    <select
-                      value={settingsDay}
-                      onChange={(e) => setSettingsDay(Number(e.target.value))}
-                      className={inputClass}
-                    >
-                      <option value={0}>Sunday</option>
-                      <option value={1}>Monday</option>
-                      <option value={2}>Tuesday</option>
-                      <option value={3}>Wednesday</option>
-                      <option value={4}>Thursday</option>
-                      <option value={5}>Friday</option>
-                      <option value={6}>Saturday</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className={labelClass}>Hour</label>
-                    <select
-                      value={settingsHour}
-                      onChange={(e) =>
-                        setSettingsHour(Number(e.target.value))
-                      }
-                      className={inputClass}
-                    >
-                      {Array.from({ length: 24 }, (_, i) => (
-                        <option key={i} value={i}>
-                          {i === 0
-                            ? "12 AM"
-                            : i < 12
-                              ? `${i} AM`
-                              : i === 12
-                                ? "12 PM"
-                                : `${i - 12} PM`}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className={labelClass}>Minute</label>
-                    <select
-                      value={settingsMinute}
-                      onChange={(e) =>
-                        setSettingsMinute(Number(e.target.value))
-                      }
-                      className={inputClass}
-                    >
-                      {[0, 15, 30, 45].map((m) => (
-                        <option key={m} value={m}>
-                          :{m.toString().padStart(2, "0")}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className={labelClass}>Timezone</label>
-                    <select
-                      value={settingsTimezone}
-                      onChange={(e) => setSettingsTimezone(e.target.value)}
-                      className={inputClass}
-                    >
-                      <option value="America/New_York">Eastern</option>
-                      <option value="America/Chicago">Central</option>
-                      <option value="America/Denver">Mountain</option>
-                      <option value="America/Los_Angeles">Pacific</option>
-                      <option value="America/Anchorage">Alaska</option>
-                      <option value="Pacific/Honolulu">Hawaii</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              {/* Save Settings */}
-              <div className="flex justify-end">
-                <button
-                  onClick={handleSaveSettings}
-                  disabled={isSavingSettings}
-                  className="bg-water text-white font-semibold px-8 py-3 rounded-lg hover:bg-water-dark disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                >
-                  {isSavingSettings ? (
-                    <>
-                      <svg
-                        className="animate-spin h-4 w-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        />
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        />
-                      </svg>
-                      Saving...
-                    </>
-                  ) : (
-                    "Save Settings"
-                  )}
-                </button>
-              </div>
-
-              {/* Last Updated */}
-              {content?.lastUpdated && (
-                <p className="text-xs text-text-light text-center">
-                  Last updated: {formatTimestamp(content.lastUpdated)}
-                </p>
-              )}
-            </div>
-          )}
-        </div>
-      </main>
+            </TabsContent>
+          </div>
+        </main>
+      </Tabs>
     </div>
   );
 }
