@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Separator } from "@/components/ui/separator";
 
 interface DailyScriptureData {
   verse: string;
@@ -9,8 +10,8 @@ interface DailyScriptureData {
 }
 
 const FALLBACK: DailyScriptureData = {
-  verse: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",
-  reference: "John 3:16",
+  verse: "For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope.",
+  reference: "Jeremiah 29:11",
   reflection: "God's love for you is beyond measure — it changes everything.",
 };
 
@@ -37,30 +38,50 @@ export function DailyScriptureSection() {
   }, []);
 
   return (
-    <section className="py-16 md:py-20 bg-sky">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <span className="text-water font-medium tracking-wider uppercase text-sm">
+    <section className="py-20 md:py-28" style={{ background: "#f0f4f8" }}>
+      <div className="max-w-3xl mx-auto px-6 md:px-12 lg:px-16 text-center">
+        <p
+          className="font-body font-bold text-xs uppercase tracking-[0.2em] mb-8"
+          style={{ color: "#1a6fb5" }}
+        >
           Daily Inspiration
-        </span>
+        </p>
+
+        <Separator className="max-w-16 mx-auto mb-10" style={{ background: "#1a6fb5" }} />
 
         {loading ? (
-          <div className="mt-6 animate-pulse">
-            <div className="h-8 w-3/4 bg-border-light rounded mx-auto mb-4" />
-            <div className="h-8 w-1/2 bg-border-light rounded mx-auto mb-4" />
-            <div className="h-5 w-32 bg-border-light rounded mx-auto" />
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 w-3/4 rounded mx-auto" style={{ background: "#dce8f2" }} />
+            <div className="h-8 w-1/2 rounded mx-auto" style={{ background: "#dce8f2" }} />
+            <div className="h-5 w-32 rounded mx-auto" style={{ background: "#dce8f2" }} />
           </div>
         ) : (
           <>
-            <blockquote className="mt-6 mb-4">
-              <p className="font-display text-2xl md:text-3xl lg:text-4xl italic text-deep leading-relaxed">
+            <blockquote className="mb-6">
+              <p
+                className="font-display italic leading-relaxed"
+                style={{
+                  fontSize: "clamp(1.5rem, 3.5vw, 2.5rem)",
+                  fontWeight: 500,
+                  color: "#0a1a2f",
+                }}
+              >
                 &ldquo;{scripture.verse}&rdquo;
               </p>
             </blockquote>
-            <cite className="text-water font-medium text-lg not-italic block">
+
+            <p
+              className="font-body font-bold text-base uppercase tracking-[0.12em] mb-4"
+              style={{ color: "#1a6fb5" }}
+            >
               {scripture.reference}
-            </cite>
+            </p>
+
             {scripture.reflection && (
-              <p className="mt-4 text-text-body text-base">
+              <p
+                className="font-body text-base leading-relaxed max-w-lg mx-auto"
+                style={{ color: "#4a6580" }}
+              >
                 {scripture.reflection}
               </p>
             )}
