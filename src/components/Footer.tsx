@@ -28,7 +28,7 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <Image
-                src="/logo-water-cross.png"
+                src="/logo-water-cross.png" className="rounded-xl"
                 alt="L.I.F.E. Ministry"
                 width={60}
                 height={60}

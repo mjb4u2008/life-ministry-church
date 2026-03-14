@@ -155,7 +155,7 @@ function Toast({
 function WaterCrossLogo({ size = 60 }: { size?: number }) {
   return (
     <img
-      src="/logo-water-cross.png"
+      src="/logo-water-cross.png" className="rounded-xl"
       alt="L.I.F.E. Ministry"
       width={size}
       height={size}
@@ -897,10 +897,10 @@ export default function AdminPage() {
 
       {/* ─── Top Header Bar ──────────────────────────────────────────────────── */}
       <header className="bg-white border-b border-border sticky top-[64px] z-40 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-3">
-              <WaterCrossLogo size={32} />
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+          <div className="flex items-center justify-between h-20">
+            <div className="flex items-center gap-4">
+              <WaterCrossLogo size={40} />
               <div>
                 <h1 className="font-display text-lg font-bold text-[#0a1a2f] leading-tight">
                   L.I.F.E. Admin
@@ -926,8 +926,8 @@ export default function AdminPage() {
         onValueChange={(val) => setActiveTab(val as Tab)}
         className="w-full"
       >
-        <nav className="bg-white border-b border-border sticky top-[128px] z-30 shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav className="bg-white border-b border-border sticky top-[144px] z-30 shadow-sm">
+          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
             <TabsList variant="line" className="w-full justify-start h-auto py-0 overflow-x-auto">
               {tabs.map((tab) => (
                 <TabsTrigger
@@ -943,7 +943,7 @@ export default function AdminPage() {
         </nav>
 
         {/* ─── Tab Content ─────────────────────────────────────────────────────── */}
-        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 py-10">
           <div className="min-h-[60vh]">
             {/* ═════════════════════════════════════════════════════════════════
                 TAB 1: THIS SUNDAY

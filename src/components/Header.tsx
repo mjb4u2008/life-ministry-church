@@ -70,7 +70,7 @@ export function Header() {
             className="flex items-center gap-3 group"
           >
             <Image
-              src="/logo-water-cross.png"
+              src="/logo-water-cross.png" className="rounded-xl"
               alt="L.I.F.E. Ministry"
               width={40}
               height={40}
