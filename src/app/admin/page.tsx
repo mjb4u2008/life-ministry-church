@@ -524,6 +524,11 @@ export default function AdminPage() {
             scripture: sundayScripture,
             description: sundayDescription,
           },
+          weeklyMessage: {
+            title: sundayTitle,
+            scripture: sundayScripture,
+            description: sundayDescription,
+          },
           googleMeetLink: sundayMeetLink,
         }),
       });

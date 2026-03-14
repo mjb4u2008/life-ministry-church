@@ -153,6 +153,18 @@ export default function HomePage() {
   const [activeTab, setActiveTab] = useState<"prayers" | "testimonies">(
     "prayers"
   );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [content, setContent] = useState<any>(null);
+
+  /* Fetch admin-managed content from KV */
+  useEffect(() => {
+    fetch("/api/content")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data) setContent(data);
+      })
+      .catch(() => {});
+  }, []);
 
   /* GSAP: One orchestrated hero entrance */
   useEffect(() => {
@@ -249,17 +261,15 @@ export default function HomePage() {
                 className="font-display text-4xl md:text-5xl leading-[1.05]"
                 style={{ fontWeight: 800 }}
               >
-                Walking in the Spirit
+                {content?.thisSunday?.title || content?.weeklyMessage?.title || "Walking in the Spirit"}
               </h2>
 
               <p className="text-white/60 font-body text-base tracking-wide">
-                Galatians 5:16-25
+                {content?.thisSunday?.scripture || content?.weeklyMessage?.scripture || "Galatians 5:16-25"}
               </p>
 
               <p className="text-white/70 font-body text-base leading-relaxed max-w-lg">
-                Discover what it means to live a life guided by the Spirit. Join
-                us as we explore Paul&apos;s letter to the Galatians and uncover
-                the fruit that grows when we walk in step with God.
+                {content?.thisSunday?.description || content?.weeklyMessage?.description || "Discover what it means to live a life guided by the Spirit. Join us as we explore Paul\u2019s letter to the Galatians and uncover the fruit that grows when we walk in step with God."}
               </p>
 
               <div className="flex items-center gap-3 text-white/50 font-body text-sm tracking-wide">
@@ -272,7 +282,7 @@ export default function HomePage() {
                 className="w-fit bg-gradient-to-r from-[#1a6fb5] to-[#00b4d8] hover:from-[#145a94] hover:to-[#0096b7] text-white font-body font-bold text-sm uppercase tracking-wider px-8 py-6 rounded-xl mt-2 cursor-pointer"
                 render={
                   <a
-                    href="https://meet.google.com/hqk-sryh-ado"
+                    href={content?.googleMeetLink || "https://meet.google.com/hqk-sryh-ado"}
                     target="_blank"
                     rel="noopener noreferrer"
                   />
@@ -637,7 +647,7 @@ export default function HomePage() {
               className="font-display text-3xl md:text-4xl lg:text-5xl mb-10 md:mb-14"
               style={{ fontWeight: 800, color: "#0a1a2f" }}
             >
-              Walking in the Spirit
+              {content?.thisSunday?.title || content?.weeklyMessage?.title || "Sunday Message"}
             </h2>
 
             {/* 16:9 Video placeholder */}
