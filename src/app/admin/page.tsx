@@ -154,20 +154,13 @@ function Toast({
 
 function WaterCrossLogo({ size = 60 }: { size?: number }) {
   return (
-    <svg
+    <img
+      src="/logo-water-cross.png"
+      alt="L.I.F.E. Ministry"
       width={size}
       height={size}
-      viewBox="0 0 200 260"
-      className="text-water"
-      fill="currentColor"
-    >
-      <rect x="85" y="10" width="30" height="180" rx="6" />
-      <rect x="35" y="60" width="130" height="30" rx="6" />
-      <path
-        d="M100 200 C75 175, 45 190, 35 215 C25 240, 50 260, 100 260 C150 260, 175 240, 165 215 C155 190, 125 175, 100 200Z"
-        opacity="0.6"
-      />
-    </svg>
+      className="object-contain"
+    />
   );
 }
 
