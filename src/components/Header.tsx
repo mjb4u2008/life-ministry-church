@@ -7,18 +7,16 @@ import { useState } from "react";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/watch", label: "Watch" },
-  { href: "/connect", label: "Prayer Wall" },
-  { href: "/testimonies", label: "Testimonies" },
+  { href: "/community", label: "Community" },
   { href: "/ask", label: "Ask The Word" },
   { href: "/give", label: "Give" },
-  { href: "/about", label: "About" },
 ];
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass-light border-b border-border-light/50">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-[#e8edf2]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
@@ -33,7 +31,7 @@ export function Header() {
               height={40}
               className="rounded-full"
             />
-            <span className="text-xl md:text-2xl font-semibold text-deep group-hover:text-water transition-colors">
+            <span className="text-xl md:text-2xl font-semibold text-[#0a1a2f] group-hover:text-[#1a6fb5] transition-colors">
               L.I.F.E. Ministry
             </span>
           </Link>
@@ -44,7 +42,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-text-body hover:text-water font-medium text-sm tracking-wide uppercase transition-colors"
+                className="text-[#0a1a2f] hover:text-[#1a6fb5] font-medium text-sm tracking-wide uppercase transition-colors"
               >
                 {link.label}
               </Link>
@@ -54,7 +52,7 @@ export function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 text-text-body hover:text-water transition-colors"
+            className="md:hidden p-2 text-[#0a1a2f] hover:text-[#1a6fb5] transition-colors"
             aria-label="Toggle menu"
           >
             <svg
@@ -85,14 +83,14 @@ export function Header() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-t border-border-light/50 animate-fade-in">
+        <div className="md:hidden bg-white border-t border-[#e8edf2]">
           <nav className="px-4 py-4 space-y-4">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMenuOpen(false)}
-                className="block text-text-body hover:text-water font-medium text-sm tracking-wide uppercase py-2 transition-colors"
+                className="block text-[#0a1a2f] hover:text-[#1a6fb5] font-medium text-sm tracking-wide uppercase py-2 transition-colors"
               >
                 {link.label}
               </Link>
