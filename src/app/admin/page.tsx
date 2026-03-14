@@ -903,15 +903,11 @@ export default function AdminPage() {
       {/* ─── Top Header Bar ──────────────────────────────────────────────────── */}
       <header className="bg-white border-b border-border sticky top-[64px] z-40 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-          <div className="flex items-center justify-between h-20">
-            <div className="flex items-center gap-4">
-              <WaterCrossLogo size={40} />
-              <div>
-                <h1 className="font-display text-lg font-bold text-[#0a1a2f] leading-tight">
-                  L.I.F.E. Admin
-                </h1>
-                <p className="text-xs font-body text-[#4a6580] -mt-0.5">Dashboard</p>
-              </div>
+          <div className="flex items-center justify-between h-14">
+            <div className="flex items-center gap-3">
+              <h1 className="font-display text-lg font-bold text-[#0a1a2f] leading-tight">
+                Admin Dashboard
+              </h1>
             </div>
 
             <Button
@@ -931,7 +927,7 @@ export default function AdminPage() {
         onValueChange={(val) => setActiveTab(val as Tab)}
         className="w-full"
       >
-        <nav className="bg-white border-b border-border sticky top-[144px] z-30 shadow-sm">
+        <nav className="bg-white border-b border-border sticky top-[120px] z-30 shadow-sm">
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
             <TabsList variant="line" className="w-full justify-start h-auto py-0 overflow-x-auto">
               {tabs.map((tab) => (
