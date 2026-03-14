@@ -369,7 +369,7 @@ export default function CommunityPage() {
           {/* ─── PRAYER REQUESTS TAB ─── */}
           {activeTab === "prayers" && (
             <div className="max-w-4xl mx-auto">
-              <div className="flex items-center justify-between mb-10">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
                 <h2
                   className="text-3xl md:text-4xl font-display uppercase tracking-wide"
                   style={{ fontWeight: 800, color: "#0a1a2f" }}
@@ -653,7 +653,7 @@ export default function CommunityPage() {
           {/* ─── TESTIMONIES TAB ─── */}
           {activeTab === "testimonies" && (
             <div>
-              <div className="flex items-center justify-between mb-12">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-12">
                 <h2
                   className="text-3xl md:text-4xl font-display uppercase tracking-tight"
                   style={{ fontWeight: 800, color: "#0a1a2f" }}
