@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.71.2",
+    "@splidejs/react-splide": "^0.7.12",
+    "@splidejs/splide": "^4.1.4",
     "@vercel/kv": "^3.0.0",
+    "gsap": "^3.14.2",
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3"
