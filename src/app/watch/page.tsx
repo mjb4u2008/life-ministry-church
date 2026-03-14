@@ -117,7 +117,7 @@ export default function WatchPage() {
           {/* Google Meet Button — PROMINENT */}
           <div className="mb-14">
             <a
-              href={content?.meetLink || "#"}
+              href={content?.meetLink || "https://meet.google.com/hqk-sryh-ado"}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block text-center px-12 py-5 text-white font-body font-bold text-lg uppercase tracking-[0.08em] rounded-xl hover:opacity-90 transition-all shadow-[0_8px_30px_rgba(26,111,181,0.3)]"
@@ -185,30 +185,40 @@ export default function WatchPage() {
             </p>
           </div>
 
-          {/* YouTube embed placeholder */}
-          <div className="max-w-4xl mx-auto">
+          {/* This Week's Message — Rich Content Card (admin-editable) */}
+          <div className="max-w-3xl mx-auto">
             <div
-              className="relative w-full rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(26,111,181,0.12)]"
-              style={{
-                aspectRatio: "16 / 9",
-                background:
-                  "linear-gradient(135deg, #dce8f2, #b8d0e4)",
-              }}
+              className="rounded-2xl p-8 md:p-12 shadow-[0_8px_40px_rgba(26,111,181,0.08)]"
+              style={{ background: "#ffffff", border: "1px solid #e8edf2" }}
             >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div
-                  className="w-20 h-20 rounded-full flex items-center justify-center hover:scale-110 transition-transform cursor-pointer"
-                  style={{ background: "rgba(10,26,47,0.15)" }}
-                >
-                  <svg
-                    className="w-10 h-10 ml-1"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    style={{ color: "rgba(10,26,47,0.5)" }}
-                  >
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-1 h-12 rounded-full" style={{ background: "linear-gradient(180deg, #1a6fb5, #00d4ff)" }} />
+                <div>
+                  <p className="font-body font-bold text-xs uppercase tracking-[0.12em]" style={{ color: "#1a6fb5" }}>
+                    From Pastor Mike
+                  </p>
+                  <p className="font-body text-sm" style={{ color: "#4a6580" }}>
+                    What to expect this Sunday
+                  </p>
                 </div>
+              </div>
+              <p className="font-body text-base md:text-lg leading-relaxed" style={{ color: "#0a1a2f" }}>
+                {content?.weeklyMessage?.description ||
+                  "This Sunday we'll be diving deep into God's Word together. Join us for a time of worship, teaching, and fellowship. Come as you are — there's a place for you here. We can't wait to see you!"}
+              </p>
+              <div className="mt-8 pt-6" style={{ borderTop: "1px solid #e8edf2" }}>
+                <a
+                  href={content?.meetLink || "https://meet.google.com/hqk-sryh-ado"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 font-body font-bold text-sm uppercase tracking-[0.08em] px-6 py-3 rounded-xl text-white transition-all hover:opacity-90"
+                  style={{ background: "#1a6fb5" }}
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  Join This Sunday
+                </a>
               </div>
             </div>
           </div>

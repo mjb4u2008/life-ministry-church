@@ -315,6 +315,26 @@ export default function HomePage() {
       </section>
 
       {/* ================================================
+          GET REMINDED BANNER
+          ================================================ */}
+      <section style={{ background: "linear-gradient(90deg, #1a6fb5, #00d4ff)" }} className="py-4">
+        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-white font-body font-semibold text-sm md:text-base tracking-wide">
+            Never miss a Sunday — get reminded before each service
+          </p>
+          <a
+            href="/watch#reminded"
+            className="inline-flex items-center gap-2 bg-white text-[#1a6fb5] font-body font-bold text-xs uppercase tracking-[0.1em] px-5 py-2 rounded-full hover:bg-white/90 transition-colors whitespace-nowrap"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+            Get Reminded
+          </a>
+        </div>
+      </section>
+
+      {/* ================================================
           SECTION 3: HEART OF OUR MINISTRY
           ================================================ */}
       <section id="heart" className="bg-white py-24 md:py-32 lg:py-40">
