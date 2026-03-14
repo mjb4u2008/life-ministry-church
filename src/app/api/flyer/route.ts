@@ -10,7 +10,7 @@ Respond with valid JSON only:
   "subheadline": "A powerful one-line hook or question",
   "scripture_text": "The actual verse text (quote accurately)",
   "scripture_ref": "Book Chapter:Verse",
-  "details": "L.I.F.E. Ministry | Sunday 10:00 AM ET | Online via Google Meet",
+  "details": "L.I.F.E. Ministry | Sunday 8:30 AM PST / 11:30 AM EST | Online via Google Meet",
   "tagline": "A brief inspiring closing phrase (under 10 words)"
 }
 

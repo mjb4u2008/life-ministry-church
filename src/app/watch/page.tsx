@@ -120,7 +120,7 @@ export default function WatchPage() {
             style={{ color: "#4a6580" }}
           >
             Connect face-to-face with our community from wherever you are.
-            Every Sunday at 10:00 AM Eastern.
+            Every Sunday — 8:30 AM PST / 11:30 AM EST
           </p>
 
           {/* Google Meet Button — PROMINENT */}
