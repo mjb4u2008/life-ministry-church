@@ -96,18 +96,17 @@ export default function AboutPage() {
   return (
     <div className="pt-20">
       {/* ── Section 1: Hero ── */}
-      <section className="bg-deep text-white py-20 md:py-32">
+      <section className="bg-[#0a1a2f] text-white py-24 md:py-36">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <ScrollReveal>
             <h1
-              className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6"
-              style={{ letterSpacing: "0.35em" }}
+              className="font-display font-[900] text-5xl md:text-6xl lg:text-7xl xl:text-8xl uppercase tracking-[0.25em] mb-8"
             >
-              W H A T &nbsp; I S &nbsp; L . I . F . E . ?
+              WHAT IS L.I.F.E.?
             </h1>
           </ScrollReveal>
           <ScrollReveal delay={150}>
-            <p className="text-white/70 text-lg md:text-xl max-w-2xl mx-auto">
+            <p className="text-white/60 font-body text-lg md:text-xl max-w-2xl mx-auto tracking-wide">
               More than a name — it&apos;s a declaration of who God is
             </p>
           </ScrollReveal>
@@ -115,14 +114,14 @@ export default function AboutPage() {
       </section>
 
       {/* ── Section 2: Anchor Navigation ── */}
-      <nav className="sticky top-20 z-30 bg-white border-b border-border-light">
+      <nav className="sticky top-20 z-30 bg-white border-b border-[#c8dded]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-6 md:gap-10 overflow-x-auto py-4 scrollbar-hide">
             {anchorLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm tracking-wider uppercase text-text-body hover:text-water whitespace-nowrap transition-colors"
+                className="text-sm tracking-wider uppercase font-body font-semibold text-[#4a6580] hover:text-[#1a6fb5] whitespace-nowrap transition-colors"
               >
                 {link.label}
               </a>
@@ -132,18 +131,18 @@ export default function AboutPage() {
       </nav>
 
       {/* ── Section 3: L.I.F.E. Deep Dive ── */}
-      <section id="mission" className="bg-white py-20 md:py-28">
+      <section id="mission" className="bg-[#fafcff] py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="max-w-3xl mx-auto text-center mb-16">
+          <div className="max-w-3xl mx-auto text-center mb-20">
             <ScrollReveal>
-              <span className="text-water font-medium tracking-wider uppercase text-sm">
+              <span className="text-[#1a6fb5] font-body font-bold tracking-[0.15em] uppercase text-sm">
                 The Heart of Our Ministry
               </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-deep mt-4 mb-6">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-[900] text-[#0a1a2f] mt-5 mb-8 tracking-tight">
                 Lord Is Forever Emmanuel
               </h2>
-              <p className="text-text-body text-lg leading-relaxed">
+              <p className="text-[#4a6580] font-body text-lg leading-relaxed">
                 L.I.F.E. Ministry is built on a beautiful truth that spans from
                 ancient prophecy to present reality: God has always been, and
                 will always be, with His people. The name itself is a statement
@@ -154,19 +153,19 @@ export default function AboutPage() {
           </div>
 
           {/* L.I.F.E. Letter Cards */}
-          <div className="grid md:grid-cols-4 gap-6 mb-16">
+          <div className="grid md:grid-cols-4 gap-6 mb-20">
             {lifeLetters.map((item, index) => (
               <ScrollReveal key={index} delay={index * 100}>
-                <div className="bg-cloud rounded-2xl p-8 text-center group hover:shadow-lg transition-shadow">
-                  <div className="w-20 h-20 mx-auto rounded-full bg-water text-white flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <span className="font-display text-4xl font-bold">
+                <div className="bg-[#f0f4f8] rounded-2xl p-8 text-center group hover:shadow-xl transition-shadow">
+                  <div className="w-20 h-20 mx-auto rounded-full bg-[#1a6fb5] text-white flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                    <span className="font-display text-4xl font-[900]">
                       {item.letter}
                     </span>
                   </div>
-                  <h3 className="font-display text-2xl font-semibold text-deep mb-2">
+                  <h3 className="font-display text-2xl font-[800] text-[#0a1a2f] mb-3">
                     {item.word}
                   </h3>
-                  <p className="text-text-body text-sm leading-relaxed">
+                  <p className="text-[#4a6580] font-body text-sm leading-relaxed">
                     {item.description}
                   </p>
                 </div>
@@ -176,16 +175,16 @@ export default function AboutPage() {
 
           {/* Scripture Connection */}
           <ScrollReveal>
-            <div className="bg-sky rounded-3xl p-8 md:p-12">
+            <div className="bg-[#f0f4f8] rounded-2xl p-8 md:p-14">
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div>
-                  <h3 className="text-2xl md:text-3xl font-display font-semibold text-deep mb-6">
+                  <h3 className="text-3xl md:text-4xl font-display font-[900] text-[#0a1a2f] mb-8 tracking-tight">
                     A Promise Fulfilled
                   </h3>
-                  <div className="space-y-4 text-text-body leading-relaxed">
+                  <div className="space-y-4 text-[#4a6580] font-body leading-relaxed">
                     <p>
                       In{" "}
-                      <strong className="text-deep">Isaiah 7:14</strong>, the
+                      <strong className="text-[#0a1a2f] font-bold">Isaiah 7:14</strong>, the
                       prophet spoke of a coming sign:{" "}
                       <em>
                         &quot;The virgin will conceive and give birth to a son,
@@ -194,7 +193,7 @@ export default function AboutPage() {
                     </p>
                     <p>
                       Centuries later,{" "}
-                      <strong className="text-deep">Matthew 1:23</strong>{" "}
+                      <strong className="text-[#0a1a2f] font-bold">Matthew 1:23</strong>{" "}
                       reveals the fulfillment of this prophecy in Jesus Christ —
                       Emmanuel, which means{" "}
                       <em>&quot;God with us.&quot;</em>
@@ -209,7 +208,7 @@ export default function AboutPage() {
                 </div>
                 <div className="bg-white rounded-2xl p-8 shadow-sm">
                   <svg
-                    className="w-12 h-12 text-water mb-6"
+                    className="w-12 h-12 text-[#1a6fb5] mb-6"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -221,11 +220,11 @@ export default function AboutPage() {
                       d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
                     />
                   </svg>
-                  <blockquote className="font-display text-xl md:text-2xl text-deep leading-relaxed mb-4">
+                  <blockquote className="font-display text-xl md:text-2xl text-[#0a1a2f] font-[800] leading-relaxed mb-4">
                     &ldquo;And surely I am with you always, to the very end of
                     the age.&rdquo;
                   </blockquote>
-                  <cite className="text-water font-medium not-italic">
+                  <cite className="text-[#1a6fb5] font-body font-bold not-italic">
                     — Matthew 28:20
                   </cite>
                 </div>
@@ -236,14 +235,14 @@ export default function AboutPage() {
       </section>
 
       {/* ── Section 4: What This Means ── */}
-      <section id="values" className="bg-deep text-white py-20 md:py-28">
+      <section id="values" className="bg-[#0a1a2f] text-white py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
+          <div className="text-center mb-16">
             <ScrollReveal>
-              <span className="text-water font-medium tracking-wider uppercase text-sm">
+              <span className="text-[#00d4ff] font-body font-bold tracking-[0.15em] uppercase text-sm">
                 God&apos;s Constant Presence
               </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold mt-3">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-[900] mt-4 tracking-tight">
                 What This Means for You
               </h2>
             </ScrollReveal>
@@ -314,13 +313,13 @@ export default function AboutPage() {
             ].map((item, index) => (
               <ScrollReveal key={index} delay={index * 100}>
                 <div className="bg-white/10 rounded-2xl p-8 hover:bg-white/15 transition-colors text-center h-full">
-                  <div className="w-16 h-16 mx-auto rounded-xl bg-water/20 flex items-center justify-center text-water mb-4">
+                  <div className="w-16 h-16 mx-auto rounded-xl bg-[#1a6fb5]/20 flex items-center justify-center text-[#00d4ff] mb-5">
                     {item.icon}
                   </div>
-                  <h3 className="font-display text-xl font-semibold mb-3">
+                  <h3 className="font-display text-xl font-[800] mb-3">
                     {item.title}
                   </h3>
-                  <p className="text-white/80 text-sm leading-relaxed">
+                  <p className="text-white/70 font-body text-sm leading-relaxed">
                     {item.description}
                   </p>
                 </div>
@@ -331,14 +330,14 @@ export default function AboutPage() {
       </section>
 
       {/* ── Section 5: Pastor Mike ── */}
-      <section id="leaders" className="bg-sky py-20 md:py-28">
+      <section id="leaders" className="bg-[#f0f4f8] py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
+          <div className="text-center mb-16">
             <ScrollReveal>
-              <span className="text-water font-medium tracking-wider uppercase text-sm">
+              <span className="text-[#1a6fb5] font-body font-bold tracking-[0.15em] uppercase text-sm">
                 Meet the Pastor
               </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-deep mt-3">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-[900] text-[#0a1a2f] mt-4 tracking-tight">
                 Pastor Mike
               </h2>
             </ScrollReveal>
@@ -347,7 +346,7 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 gap-12 items-start">
             {/* Bio */}
             <ScrollReveal>
-              <div className="space-y-5 text-text-body leading-relaxed">
+              <div className="space-y-5 text-[#4a6580] font-body leading-relaxed text-lg">
                 <p>
                   Pastor Mike founded L.I.F.E. Ministry with a simple vision: to
                   create a welcoming space where people can experience
@@ -370,7 +369,7 @@ export default function AboutPage() {
 
             {/* TikTok Embed Placeholder */}
             <ScrollReveal delay={150}>
-              <div className="bg-ocean rounded-2xl p-8 flex flex-col items-center justify-center min-h-[340px] text-center">
+              <div className="bg-[#0a1a2f] rounded-2xl p-8 flex flex-col items-center justify-center min-h-[340px] text-center">
                 {/* TikTok Icon */}
                 <svg
                   className="w-16 h-16 text-white/60 mb-6"
@@ -379,14 +378,14 @@ export default function AboutPage() {
                 >
                   <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V9.17a8.16 8.16 0 004.76 1.52v-3.4a4.85 4.85 0 01-1-.6z" />
                 </svg>
-                <p className="text-white/40 text-sm mb-4">
+                <p className="text-white/40 font-body text-sm mb-4">
                   TikTok Video Coming Soon
                 </p>
                 <a
                   href="https://www.tiktok.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-water text-sm font-medium hover:text-white transition-colors"
+                  className="inline-flex items-center gap-2 text-[#00d4ff] font-body text-sm font-bold hover:text-white transition-colors"
                 >
                   Follow on TikTok
                   <svg
@@ -409,13 +408,13 @@ export default function AboutPage() {
 
           {/* Quote */}
           <ScrollReveal delay={200}>
-            <blockquote className="mt-14 max-w-3xl mx-auto text-center">
-              <p className="font-display text-2xl md:text-3xl text-deep leading-relaxed italic">
+            <blockquote className="mt-16 max-w-3xl mx-auto text-center">
+              <p className="font-display text-3xl md:text-4xl text-[#0a1a2f] font-[800] leading-[1.3] italic">
                 &ldquo;God is with you right now, right where you are.
                 That&apos;s not just a nice thought — it&apos;s the truth that
                 changes everything.&rdquo;
               </p>
-              <cite className="block mt-4 text-water font-medium not-italic">
+              <cite className="block mt-6 text-[#1a6fb5] font-body font-bold not-italic text-lg">
                 — Pastor Mike
               </cite>
             </blockquote>
@@ -424,14 +423,14 @@ export default function AboutPage() {
       </section>
 
       {/* ── Section 6: Contact Info ── */}
-      <section id="contact" className="bg-white py-20 md:py-28">
+      <section id="contact" className="bg-[#fafcff] py-24 md:py-32">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
+          <div className="text-center mb-16">
             <ScrollReveal>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-deep">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-[900] text-[#0a1a2f] tracking-tight">
                 Get in Touch
               </h2>
-              <p className="text-text-body text-lg mt-4 max-w-xl mx-auto">
+              <p className="text-[#4a6580] font-body text-lg mt-5 max-w-xl mx-auto">
                 We&apos;d love to hear from you. Reach out any time.
               </p>
             </ScrollReveal>
@@ -440,8 +439,8 @@ export default function AboutPage() {
           <div className="grid sm:grid-cols-3 gap-6">
             {/* Email */}
             <ScrollReveal>
-              <div className="bg-cloud rounded-2xl p-8 text-center">
-                <div className="w-14 h-14 mx-auto rounded-xl bg-water/10 flex items-center justify-center text-water mb-4">
+              <div className="bg-[#f0f4f8] rounded-2xl p-8 text-center">
+                <div className="w-14 h-14 mx-auto rounded-xl bg-[#1a6fb5]/10 flex items-center justify-center text-[#1a6fb5] mb-4">
                   <svg
                     className="w-7 h-7"
                     fill="none"
@@ -456,17 +455,17 @@ export default function AboutPage() {
                     />
                   </svg>
                 </div>
-                <h3 className="font-display text-lg font-semibold text-deep mb-1">
+                <h3 className="font-display text-lg font-[800] text-[#0a1a2f] mb-1">
                   Email
                 </h3>
-                <p className="text-text-body text-sm">ministry@lifeministy.org</p>
+                <p className="text-[#4a6580] font-body text-sm">ministry@lifeministy.org</p>
               </div>
             </ScrollReveal>
 
             {/* Phone */}
             <ScrollReveal delay={100}>
-              <div className="bg-cloud rounded-2xl p-8 text-center">
-                <div className="w-14 h-14 mx-auto rounded-xl bg-water/10 flex items-center justify-center text-water mb-4">
+              <div className="bg-[#f0f4f8] rounded-2xl p-8 text-center">
+                <div className="w-14 h-14 mx-auto rounded-xl bg-[#1a6fb5]/10 flex items-center justify-center text-[#1a6fb5] mb-4">
                   <svg
                     className="w-7 h-7"
                     fill="none"
@@ -481,17 +480,17 @@ export default function AboutPage() {
                     />
                   </svg>
                 </div>
-                <h3 className="font-display text-lg font-semibold text-deep mb-1">
+                <h3 className="font-display text-lg font-[800] text-[#0a1a2f] mb-1">
                   Phone
                 </h3>
-                <p className="text-text-body text-sm">(555) 123-4567</p>
+                <p className="text-[#4a6580] font-body text-sm">(555) 123-4567</p>
               </div>
             </ScrollReveal>
 
             {/* Social */}
             <ScrollReveal delay={200}>
-              <div className="bg-cloud rounded-2xl p-8 text-center">
-                <div className="w-14 h-14 mx-auto rounded-xl bg-water/10 flex items-center justify-center text-water mb-4">
+              <div className="bg-[#f0f4f8] rounded-2xl p-8 text-center">
+                <div className="w-14 h-14 mx-auto rounded-xl bg-[#1a6fb5]/10 flex items-center justify-center text-[#1a6fb5] mb-4">
                   <svg
                     className="w-7 h-7"
                     fill="none"
@@ -506,27 +505,27 @@ export default function AboutPage() {
                     />
                   </svg>
                 </div>
-                <h3 className="font-display text-lg font-semibold text-deep mb-1">
+                <h3 className="font-display text-lg font-[800] text-[#0a1a2f] mb-1">
                   Social
                 </h3>
                 <div className="flex items-center justify-center gap-3 mt-2">
                   <a
                     href="#"
-                    className="text-text-light hover:text-water text-sm transition-colors"
+                    className="text-[#4a6580] hover:text-[#1a6fb5] font-body text-sm font-semibold transition-colors"
                   >
                     TikTok
                   </a>
-                  <span className="text-border-light">|</span>
+                  <span className="text-[#c8dded]">|</span>
                   <a
                     href="#"
-                    className="text-text-light hover:text-water text-sm transition-colors"
+                    className="text-[#4a6580] hover:text-[#1a6fb5] font-body text-sm font-semibold transition-colors"
                   >
                     Instagram
                   </a>
-                  <span className="text-border-light">|</span>
+                  <span className="text-[#c8dded]">|</span>
                   <a
                     href="#"
-                    className="text-text-light hover:text-water text-sm transition-colors"
+                    className="text-[#4a6580] hover:text-[#1a6fb5] font-body text-sm font-semibold transition-colors"
                   >
                     YouTube
                   </a>
@@ -538,14 +537,14 @@ export default function AboutPage() {
       </section>
 
       {/* ── Section 7: Beliefs ── */}
-      <section id="beliefs" className="bg-cloud py-20 md:py-28">
+      <section id="beliefs" className="bg-[#fafcff] py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
+          <div className="text-center mb-16">
             <ScrollReveal>
-              <span className="text-water font-medium tracking-wider uppercase text-sm">
+              <span className="text-[#1a6fb5] font-body font-bold tracking-[0.15em] uppercase text-sm">
                 Our Foundation
               </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-deep mt-3">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-[900] text-[#0a1a2f] mt-4 tracking-tight">
                 What We Believe
               </h2>
             </ScrollReveal>
@@ -554,14 +553,14 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {beliefs.map((belief, index) => (
               <ScrollReveal key={index} delay={index * 80}>
-                <div className="bg-white rounded-2xl p-6 hover:shadow-lg transition-shadow h-full">
-                  <span className="text-water/40 font-display text-4xl font-bold leading-none">
+                <div className="bg-white rounded-2xl p-8 hover:shadow-xl transition-shadow h-full">
+                  <span className="text-[#1a6fb5] font-display text-5xl font-[900] leading-none">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="font-display text-xl font-semibold text-deep mt-3 mb-3">
+                  <h3 className="font-display text-xl font-[800] text-[#0a1a2f] mt-4 mb-3">
                     {belief.title}
                   </h3>
-                  <p className="text-text-body text-sm leading-relaxed">
+                  <p className="text-[#4a6580] font-body text-sm leading-relaxed">
                     {belief.description}
                   </p>
                 </div>
@@ -572,14 +571,14 @@ export default function AboutPage() {
       </section>
 
       {/* ── Section 8: FAQ ── */}
-      <section id="faq" className="bg-white py-20 md:py-28">
+      <section id="faq" className="bg-[#fafcff] py-24 md:py-32">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
+          <div className="text-center mb-16">
             <ScrollReveal>
-              <span className="text-water font-medium tracking-wider uppercase text-sm">
+              <span className="text-[#1a6fb5] font-body font-bold tracking-[0.15em] uppercase text-sm">
                 Common Questions
               </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-deep mt-3">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-[900] text-[#0a1a2f] mt-4 tracking-tight">
                 FAQs
               </h2>
             </ScrollReveal>
@@ -588,11 +587,11 @@ export default function AboutPage() {
           <div className="space-y-6">
             {faqs.map((faq, index) => (
               <ScrollReveal key={index} delay={index * 80}>
-                <div className="bg-cloud rounded-2xl p-6">
-                  <h3 className="font-display text-lg font-semibold text-deep mb-2">
+                <div className="bg-[#f0f4f8] rounded-2xl p-8">
+                  <h3 className="font-display text-lg font-[800] text-[#0a1a2f] mb-3">
                     {faq.q}
                   </h3>
-                  <p className="text-text-body leading-relaxed">{faq.a}</p>
+                  <p className="text-[#4a6580] font-body leading-relaxed">{faq.a}</p>
                 </div>
               </ScrollReveal>
             ))}
@@ -601,13 +600,13 @@ export default function AboutPage() {
       </section>
 
       {/* ── Section 9: CTA ── */}
-      <section className="bg-sky py-20 md:py-28">
+      <section className="bg-[#f0f4f8] py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <ScrollReveal>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-deep mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-[900] text-[#0a1a2f] mb-8 tracking-tight">
               Experience God&apos;s Presence With Us
             </h2>
-            <p className="text-text-body text-lg mb-10 max-w-2xl mx-auto">
+            <p className="text-[#4a6580] font-body text-lg mb-12 max-w-2xl mx-auto">
               L.I.F.E. Ministry is a place where you can encounter the God who
               is forever Emmanuel — forever with us. Join us this Sunday and
               experience His presence in community.
