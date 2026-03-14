@@ -70,11 +70,11 @@ export function Header() {
             className="flex items-center gap-3 group"
           >
             <Image
-              src="/logo-water-cross.png" className="rounded-xl"
+              src="/logo-water-cross.png"
               alt="L.I.F.E. Ministry"
               width={40}
               height={40}
-              className="rounded-full"
+              className="rounded-xl"
             />
             <span className="text-xl md:text-2xl font-semibold text-[#0a1a2f] group-hover:text-[#1a6fb5] transition-colors">
               L.I.F.E. Ministry

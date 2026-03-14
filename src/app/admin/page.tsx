@@ -155,11 +155,11 @@ function Toast({
 function WaterCrossLogo({ size = 60 }: { size?: number }) {
   return (
     <img
-      src="/logo-water-cross.png" className="rounded-xl"
+      src="/logo-water-cross.png"
       alt="L.I.F.E. Ministry"
       width={size}
       height={size}
-      className="object-contain"
+      className="object-contain rounded-xl"
     />
   );
 }
