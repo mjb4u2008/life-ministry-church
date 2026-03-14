@@ -10,11 +10,11 @@ const quickLinks = [
 ];
 
 const connectLinks = [
-  { href: "/about", label: "About Us" },
-  { href: "/about#pastor", label: "Meet Pastor Mike" },
-  { href: "/about#beliefs", label: "What We Believe" },
-  { href: "/about#contact", label: "Contact" },
+  { href: "/#heart", label: "What is L.I.F.E.?" },
+  { href: "/#beliefs", label: "What We Believe" },
+  { href: "/#pastor", label: "Meet Pastor Mike" },
   { href: "/ask", label: "Ask The Word" },
+  { href: "/events", label: "Events" },
 ];
 
 export function Footer() {
