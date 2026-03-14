@@ -12,6 +12,9 @@ import {
   ArrowRight,
   Send,
   User,
+  Mail,
+  Share2,
+  Calendar,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -882,6 +885,32 @@ export default function HomePage() {
       </section>
 
       {/* ================================================
+          UPCOMING EVENTS CTA
+          ================================================ */}
+      <section className="bg-[#0a1a2f] py-16 md:py-20">
+        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16 text-center">
+          <Calendar className="size-10 text-[#00d4ff] mx-auto mb-6" />
+          <h2
+            className="font-display text-3xl md:text-4xl lg:text-5xl uppercase tracking-tight text-white mb-4"
+            style={{ fontWeight: 900 }}
+          >
+            Upcoming Events
+          </h2>
+          <p className="text-white/60 font-body text-base md:text-lg max-w-xl mx-auto mb-8">
+            See what&apos;s happening at L.I.F.E. Ministry
+          </p>
+          <Button
+            size="lg"
+            className="bg-gradient-to-r from-[#1a6fb5] to-[#00b4d8] hover:from-[#145a94] hover:to-[#0096b7] text-white font-body font-bold text-sm uppercase tracking-wider px-10 py-6 rounded-xl cursor-pointer"
+            render={<Link href="/events" />}
+          >
+            View Events
+            <ArrowRight className="ml-2 size-4" />
+          </Button>
+        </div>
+      </section>
+
+      {/* ================================================
           SECTION 9: STAY CONNECTED
           ================================================ */}
       <section className="bg-[#0a1a2f] text-white py-24 md:py-32 lg:py-40">
@@ -962,6 +991,86 @@ export default function HomePage() {
                     </Button>
                   </div>
                 </form>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================
+          GET IN TOUCH
+          ================================================ */}
+      <section className="bg-[#f0f4f8] py-20 md:py-24">
+        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <h2
+              className="font-display text-3xl md:text-4xl tracking-tight mb-4"
+              style={{ fontWeight: 900, color: "#0a1a2f" }}
+            >
+              Want to connect with Pastor Mike?
+            </h2>
+            <p className="font-body text-base" style={{ color: "#4a6580" }}>
+              We&apos;d love to hear from you. Reach out anytime.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+            {/* Email Card */}
+            <Card className="bg-white ring-1 ring-[#e0eaf3] rounded-xl py-0">
+              <CardContent className="p-6 md:p-8 text-center">
+                <div className="w-12 h-12 bg-[#1a6fb5]/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Mail className="size-6 text-[#1a6fb5]" />
+                </div>
+                <h3
+                  className="font-display text-lg mb-2"
+                  style={{ fontWeight: 800, color: "#0a1a2f" }}
+                >
+                  Email Us
+                </h3>
+                <p className="font-body text-sm mb-4" style={{ color: "#4a6580" }}>
+                  ministry@lifeministy.org
+                </p>
+                <Button
+                  variant="outline"
+                  className="border-[#1a6fb5] text-[#1a6fb5] hover:bg-[#1a6fb5] hover:text-white font-body font-bold text-xs uppercase tracking-wider rounded-lg cursor-pointer"
+                  render={<a href="mailto:ministry@lifeministy.org" />}
+                >
+                  Send Email
+                  <ArrowRight className="ml-2 size-3" />
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Follow Card */}
+            <Card className="bg-white ring-1 ring-[#e0eaf3] rounded-xl py-0">
+              <CardContent className="p-6 md:p-8 text-center">
+                <div className="w-12 h-12 bg-[#1a6fb5]/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Share2 className="size-6 text-[#1a6fb5]" />
+                </div>
+                <h3
+                  className="font-display text-lg mb-2"
+                  style={{ fontWeight: 800, color: "#0a1a2f" }}
+                >
+                  Follow Us
+                </h3>
+                <p className="font-body text-sm mb-4" style={{ color: "#4a6580" }}>
+                  Stay inspired daily on social media
+                </p>
+                <div className="flex items-center justify-center gap-3">
+                  <a
+                    href="#"
+                    className="inline-flex items-center gap-1.5 text-[#1a6fb5] font-body text-xs font-bold uppercase tracking-wider hover:text-[#145a94] transition-colors"
+                  >
+                    TikTok
+                  </a>
+                  <span className="text-[#c8dded]">|</span>
+                  <a
+                    href="#"
+                    className="inline-flex items-center gap-1.5 text-[#1a6fb5] font-body text-xs font-bold uppercase tracking-wider hover:text-[#145a94] transition-colors"
+                  >
+                    Instagram
+                  </a>
+                </div>
               </CardContent>
             </Card>
           </div>

@@ -3,7 +3,7 @@ import { Outfit, Playfair_Display, Geist } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { AmbientMusic } from "@/components/AmbientMusic";
+
 import { cn } from "@/lib/utils";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
@@ -41,7 +41,6 @@ export default function RootLayout({
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />
-        <AmbientMusic />
       </body>
     </html>
   );
