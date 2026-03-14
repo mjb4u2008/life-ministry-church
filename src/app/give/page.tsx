@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/Button";
 
 const presetAmounts = [25, 50, 100, 250, 500];
 
@@ -70,13 +69,13 @@ export default function GivePage() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="bg-deep text-white py-16 md:py-24">
+      <section className="bg-[#0a1a2f] text-white py-20 md:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold mb-4">
-              Give Generously
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-[900] tracking-tight mb-6">
+              GIVE GENEROUSLY
             </h1>
-            <p className="text-white/70 text-lg max-w-2xl mx-auto">
+            <p className="text-white/70 text-lg md:text-xl max-w-2xl mx-auto font-body leading-relaxed">
               Your generosity fuels our mission to share God&apos;s love and build
               community. Every gift makes a difference.
             </p>
@@ -85,12 +84,12 @@ export default function GivePage() {
       </section>
 
       {/* Giving Form Section */}
-      <section className="py-16 md:py-24">
+      <section className="py-16 md:py-24 bg-[#fafcff]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
             {/* Giving Options */}
-            <div className="p-8 border-b border-border-light/30">
-              <h2 className="text-xl font-display font-semibold text-deep mb-6">
+            <div className="p-8 md:p-10 border-b border-[#c8dded]/30">
+              <h2 className="text-2xl font-display font-[800] text-[#0a1a2f] mb-6">
                 Choose a Fund
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -100,24 +99,24 @@ export default function GivePage() {
                     onClick={() => setSelectedOption(option.id)}
                     className={`p-4 rounded-xl border-2 text-left transition-all ${
                       selectedOption === option.id
-                        ? "border-water bg-water/5"
-                        : "border-border-light/50 hover:border-water/50"
+                        ? "border-[#1a6fb5] bg-[#1a6fb5]/5"
+                        : "border-[#c8dded]/50 hover:border-[#1a6fb5]/50"
                     }`}
                   >
                     <div
                       className={`mb-2 ${
                         selectedOption === option.id
-                          ? "text-water"
-                          : "text-text-body"
+                          ? "text-[#1a6fb5]"
+                          : "text-[#4a6580]"
                       }`}
                     >
                       {option.icon}
                     </div>
                     <p
-                      className={`font-medium text-sm ${
+                      className={`font-body font-semibold text-sm ${
                         selectedOption === option.id
-                          ? "text-water"
-                          : "text-deep"
+                          ? "text-[#1a6fb5]"
+                          : "text-[#0a1a2f]"
                       }`}
                     >
                       {option.name}
@@ -125,14 +124,14 @@ export default function GivePage() {
                   </button>
                 ))}
               </div>
-              <p className="mt-4 text-sm text-text-body">
+              <p className="mt-4 text-sm text-[#4a6580] font-body">
                 {givingOptions.find((o) => o.id === selectedOption)?.description}
               </p>
             </div>
 
             {/* Amount Selection */}
-            <div className="p-8 border-b border-border-light/30">
-              <h2 className="text-xl font-display font-semibold text-deep mb-6">
+            <div className="p-8 md:p-10 border-b border-[#c8dded]/30">
+              <h2 className="text-2xl font-display font-[800] text-[#0a1a2f] mb-6">
                 Select Amount
               </h2>
               <div className="grid grid-cols-3 md:grid-cols-5 gap-3 mb-6">
@@ -140,10 +139,10 @@ export default function GivePage() {
                   <button
                     key={preset}
                     onClick={() => handleAmountSelect(preset)}
-                    className={`py-3 px-4 rounded-lg font-medium transition-all ${
+                    className={`py-3 px-4 rounded-lg font-body font-semibold transition-all ${
                       amount === preset.toString()
-                        ? "bg-water text-white"
-                        : "bg-cloud text-deep hover:bg-water/10"
+                        ? "bg-[#1a6fb5] text-white shadow-lg shadow-[#1a6fb5]/20"
+                        : "bg-[#f0f4f8] text-[#0a1a2f] hover:bg-[#1a6fb5]/10"
                     }`}
                   >
                     ${preset}
@@ -152,7 +151,7 @@ export default function GivePage() {
               </div>
 
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-body text-xl">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#4a6580] text-xl font-body">
                   $
                 </span>
                 <input
@@ -160,30 +159,30 @@ export default function GivePage() {
                   value={customAmount}
                   onChange={(e) => handleCustomAmountChange(e.target.value)}
                   placeholder="Other amount"
-                  className="w-full pl-10 pr-4 py-4 rounded-lg border border-border-light focus:border-water focus:ring-2 focus:ring-water/20 outline-none transition-colors bg-cloud text-xl"
+                  className="w-full pl-10 pr-4 py-4 rounded-lg border border-[#c8dded] focus:border-[#1a6fb5] focus:ring-2 focus:ring-[#1a6fb5]/20 outline-none transition-colors bg-[#fafcff] text-xl font-body text-[#0a1a2f]"
                 />
               </div>
             </div>
 
             {/* Recurring Options */}
-            <div className="p-8 border-b border-border-light/30">
+            <div className="p-8 md:p-10 border-b border-[#c8dded]/30">
               <div className="flex items-center gap-4 mb-6">
                 <button
                   onClick={() => setIsRecurring(false)}
-                  className={`px-6 py-3 rounded-lg font-medium transition-all ${
+                  className={`px-6 py-3 rounded-lg font-body font-semibold transition-all ${
                     !isRecurring
-                      ? "bg-water text-white"
-                      : "bg-cloud text-deep hover:bg-water/10"
+                      ? "bg-[#1a6fb5] text-white shadow-lg shadow-[#1a6fb5]/20"
+                      : "bg-[#f0f4f8] text-[#0a1a2f] hover:bg-[#1a6fb5]/10"
                   }`}
                 >
                   One-Time Gift
                 </button>
                 <button
                   onClick={() => setIsRecurring(true)}
-                  className={`px-6 py-3 rounded-lg font-medium transition-all ${
+                  className={`px-6 py-3 rounded-lg font-body font-semibold transition-all ${
                     isRecurring
-                      ? "bg-water text-white"
-                      : "bg-cloud text-deep hover:bg-water/10"
+                      ? "bg-[#1a6fb5] text-white shadow-lg shadow-[#1a6fb5]/20"
+                      : "bg-[#f0f4f8] text-[#0a1a2f] hover:bg-[#1a6fb5]/10"
                   }`}
                 >
                   Recurring Gift
@@ -192,13 +191,13 @@ export default function GivePage() {
 
               {isRecurring && (
                 <div className="animate-fade-in">
-                  <label className="block text-sm font-medium text-deep mb-2">
+                  <label className="block text-sm font-body font-semibold text-[#0a1a2f] mb-2">
                     Frequency
                   </label>
                   <select
                     value={frequency}
                     onChange={(e) => setFrequency(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg border border-border-light focus:border-water focus:ring-2 focus:ring-water/20 outline-none transition-colors bg-cloud"
+                    className="w-full px-4 py-3 rounded-lg border border-[#c8dded] focus:border-[#1a6fb5] focus:ring-2 focus:ring-[#1a6fb5]/20 outline-none transition-colors bg-[#fafcff] font-body text-[#0a1a2f]"
                   >
                     <option value="weekly">Weekly</option>
                     <option value="biweekly">Every 2 Weeks</option>
@@ -210,34 +209,33 @@ export default function GivePage() {
             </div>
 
             {/* Summary and Submit */}
-            <div className="p-8 bg-sky">
-              <div className="flex items-center justify-between mb-6">
+            <div className="p-8 md:p-10 bg-[#f0f4f8]">
+              <div className="flex items-center justify-between mb-8">
                 <div>
-                  <p className="text-text-body text-sm">
+                  <p className="text-[#4a6580] text-sm font-body">
                     {isRecurring ? `${frequency.charAt(0).toUpperCase() + frequency.slice(1)} gift to` : "One-time gift to"}
                   </p>
-                  <p className="font-display text-xl font-semibold text-deep">
+                  <p className="font-display text-xl font-[800] text-[#0a1a2f]">
                     {givingOptions.find((o) => o.id === selectedOption)?.name}
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-text-body text-sm">Amount</p>
-                  <p className="font-display text-3xl font-bold text-water">
+                  <p className="text-[#4a6580] text-sm font-body">Amount</p>
+                  <p className="font-display text-3xl font-[900] text-[#1a6fb5]">
                     ${displayAmount || "0"}
                   </p>
                 </div>
               </div>
 
-              <Button
-                className="w-full"
-                size="lg"
+              <button
+                className="w-full bg-[#1a6fb5] text-white rounded-xl px-8 py-4 text-lg font-body font-bold hover:bg-[#145a94] transition-all shadow-lg shadow-[#1a6fb5]/20 disabled:opacity-50 disabled:cursor-not-allowed tracking-wide"
                 disabled={!displayAmount || parseFloat(displayAmount) <= 0}
                 onClick={() => alert("Stripe integration coming soon! This is a placeholder.")}
               >
                 Continue to Payment
-              </Button>
+              </button>
 
-              <div className="mt-6 flex items-center justify-center gap-2 text-sm text-text-body">
+              <div className="mt-6 flex items-center justify-center gap-2 text-sm text-[#4a6580] font-body">
                 <svg
                   className="w-4 h-4"
                   fill="none"
@@ -257,9 +255,9 @@ export default function GivePage() {
           </div>
 
           {/* Notice */}
-          <div className="mt-8 bg-water/10 rounded-xl p-6 text-center">
-            <p className="text-text-body text-sm">
-              <strong className="text-deep">Note:</strong> This is a demo payment form.
+          <div className="mt-8 bg-[#1a6fb5]/10 rounded-xl p-6 text-center">
+            <p className="text-[#4a6580] text-sm font-body">
+              <strong className="text-[#0a1a2f]">Note:</strong> This is a demo payment form.
               Stripe integration will be configured with your account credentials before launch.
             </p>
           </div>
@@ -267,13 +265,13 @@ export default function GivePage() {
       </section>
 
       {/* Why Give Section */}
-      <section className="py-16 bg-sky">
+      <section className="py-20 md:py-28 bg-[#f0f4f8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="text-water font-medium tracking-wider uppercase text-sm">
+          <div className="text-center mb-14">
+            <span className="text-[#1a6fb5] font-body font-bold tracking-widest uppercase text-sm">
               Stewardship
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-semibold text-deep mt-2">
+            <h2 className="text-3xl md:text-5xl font-display font-[900] text-[#0a1a2f] mt-3">
               Where Your Gift Goes
             </h2>
           </div>
@@ -311,17 +309,17 @@ export default function GivePage() {
                 percentage: "30%",
               },
             ].map((item, index) => (
-              <div key={index} className="bg-white rounded-2xl p-8 text-center shadow-sm">
-                <div className="w-16 h-16 mx-auto rounded-xl bg-cloud flex items-center justify-center text-water mb-4">
+              <div key={index} className="bg-white rounded-2xl p-8 text-center shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-16 h-16 mx-auto rounded-xl bg-[#f0f4f8] flex items-center justify-center text-[#1a6fb5] mb-5">
                   {item.icon}
                 </div>
-                <div className="text-4xl font-display font-bold text-water mb-2">
+                <div className="text-4xl font-display font-[800] text-[#1a6fb5] mb-2">
                   {item.percentage}
                 </div>
-                <h3 className="font-display text-xl font-semibold text-deep mb-2">
+                <h3 className="font-display text-xl font-[800] text-[#0a1a2f] mb-2">
                   {item.title}
                 </h3>
-                <p className="text-text-body text-sm">{item.description}</p>
+                <p className="text-[#4a6580] text-sm font-body">{item.description}</p>
               </div>
             ))}
           </div>
@@ -329,11 +327,11 @@ export default function GivePage() {
       </section>
 
       {/* Scripture Section */}
-      <section className="py-16">
+      <section className="py-20 md:py-28 bg-[#fafcff]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm">
+          <div className="bg-white rounded-2xl p-10 md:p-14 shadow-sm">
             <svg
-              className="w-12 h-12 mx-auto mb-6 text-water"
+              className="w-12 h-12 mx-auto mb-8 text-[#1a6fb5]"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -345,11 +343,11 @@ export default function GivePage() {
                 d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
               />
             </svg>
-            <blockquote className="text-2xl md:text-3xl font-display text-deep mb-6">
+            <blockquote className="text-2xl md:text-3xl font-display font-[800] text-[#0a1a2f] mb-6 leading-snug">
               &ldquo;Each of you should give what you have decided in your heart to give,
               not reluctantly or under compulsion, for God loves a cheerful giver.&rdquo;
             </blockquote>
-            <cite className="text-water font-medium">
+            <cite className="text-[#1a6fb5] font-body font-bold text-lg not-italic">
               — 2 Corinthians 9:7
             </cite>
           </div>
