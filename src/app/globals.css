@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  /* Color Palette — Living Water Theme */
+  /* Color Palette — BOLD Living Water Theme */
   --bg: #fafcff;
-  --surface: #edf4f9;
-  --primary: #2d7ab5;
-  --deep: #0c2d48;
+  --surface: #f0f4f8;
+  --primary: #1a6fb5;
+  --deep: #0a1a2f;
   --cyan: #00d4ff;
-  --text: #1a2a3a;
-  --muted: #6b8ca8;
+  --text: #0a1a2f;
+  --muted: #4a6580;
   --white: #ffffff;
   --border-light: #c8dded;
 
   /* Fonts */
-  --font-display: var(--font-cormorant), Georgia, serif;
-  --font-body: var(--font-dm-sans), system-ui, sans-serif;
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-body: var(--font-outfit), system-ui, sans-serif;
 }
 
 @theme inline {
@@ -30,15 +30,15 @@
 
   /* Aliases for header/footer compatibility */
   --color-water: var(--primary);
-  --color-water-dark: #1e6a9e;
+  --color-water-dark: #145a94;
   --color-ocean: var(--deep);
   --color-cloud: #f0f6ff;
   --color-sky: #e8f4fd;
   --color-text-body: var(--muted);
-  --color-text-light: #8aabc4;
+  --color-text-light: #7a9ab4;
 
-  --font-display: var(--font-cormorant), Georgia, serif;
-  --font-body: var(--font-dm-sans), system-ui, sans-serif;
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-body: var(--font-outfit), system-ui, sans-serif;
 }
 
 /* ===========================
@@ -60,8 +60,8 @@ body {
 
 h1, h2, h3, h4 {
   font-family: var(--font-display);
-  font-weight: 300;
-  line-height: 1.15;
+  font-weight: 800;
+  line-height: 1.1;
 }
 
 ::selection {
@@ -114,32 +114,6 @@ h1, h2, h3, h4 {
   50% { transform: translateX(-4%) translateZ(0); }
 }
 
-@keyframes float-particle {
-  0%, 100% {
-    transform: translateY(0) translateZ(0);
-    opacity: 0.4;
-  }
-  50% {
-    transform: translateY(-20px) translateZ(0);
-    opacity: 0.8;
-  }
-}
-
-@keyframes float-particle-slow {
-  0%, 100% {
-    transform: translateY(0) translateX(0) translateZ(0);
-    opacity: 0.3;
-  }
-  33% {
-    transform: translateY(-15px) translateX(5px) translateZ(0);
-    opacity: 0.6;
-  }
-  66% {
-    transform: translateY(-8px) translateX(-3px) translateZ(0);
-    opacity: 0.5;
-  }
-}
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -150,19 +124,19 @@ h1, h2, h3, h4 {
   to { opacity: 1; transform: translateY(0) translateZ(0); }
 }
 
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.6; transform: scale(1) translateZ(0); }
-  50% { opacity: 1; transform: scale(1.05) translateZ(0); }
-}
-
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
 
 @keyframes live-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(45, 122, 181, 0.7); }
-  50% { box-shadow: 0 0 0 8px rgba(45, 122, 181, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(26, 111, 181, 0.7); }
+  50% { box-shadow: 0 0 0 8px rgba(26, 111, 181, 0); }
+}
+
+@keyframes countdown-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
 }
 
 /* ===========================
@@ -226,19 +200,6 @@ h1, h2, h3, h4 {
 }
 
 /* ===========================
-   Floating Water Particles
-   =========================== */
-
-.water-particle {
-  position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--cyan), transparent);
-  will-change: transform;
-  transform: translateZ(0);
-  pointer-events: none;
-}
-
-/* ===========================
    Glass Effect
    =========================== */
 
@@ -274,7 +235,7 @@ h1, h2, h3, h4 {
 }
 
 .card-glow:hover {
-  box-shadow: 0 8px 30px rgba(45, 122, 181, 0.12);
+  box-shadow: 0 8px 30px rgba(26, 111, 181, 0.15);
 }
 
 /* ===========================
@@ -285,7 +246,7 @@ h1, h2, h3, h4 {
   border: 2px solid var(--primary);
   padding: 10px 18px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   background: transparent;
@@ -349,14 +310,6 @@ h1, h2, h3, h4 {
   animation: fadeInUp 0.6s ease-out forwards;
 }
 
-.animate-float-particle {
-  animation: float-particle 4s ease-in-out infinite;
-}
-
-.animate-float-particle-slow {
-  animation: float-particle-slow 6s ease-in-out infinite;
-}
-
 /* Animation Delays */
 .animation-delay-100 { animation-delay: 100ms; }
 .animation-delay-200 { animation-delay: 200ms; }
@@ -392,6 +345,14 @@ h1, h2, h3, h4 {
 }
 
 /* ===========================
+   Countdown pulse
+   =========================== */
+
+.countdown-pulse {
+  animation: countdown-pulse 2s ease-in-out infinite;
+}
+
+/* ===========================
    Statement Heading
    =========================== */
 
@@ -399,8 +360,8 @@ h1, h2, h3, h4 {
   font-size: clamp(3rem, 10vw, 8rem);
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  font-weight: 300;
-  line-height: 1.1;
+  font-weight: 900;
+  line-height: 1.05;
 }
 
 /* ===========================
@@ -408,5 +369,5 @@ h1, h2, h3, h4 {
    =========================== */
 
 .gradient-overlay {
-  background: linear-gradient(to bottom, transparent 0%, rgba(12, 45, 72, 0.4) 100%);
+  background: linear-gradient(to bottom, transparent 0%, rgba(10, 26, 47, 0.4) 100%);
 }
