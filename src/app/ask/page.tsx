@@ -92,7 +92,7 @@ export default function AskPage() {
   const hasResponse = response !== null;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#fafcff]">
       {/* Subtle paper texture */}
       <div
         className="fixed inset-0 pointer-events-none opacity-[0.03]"
@@ -101,10 +101,10 @@ export default function AskPage() {
         }}
       />
 
-      {/* Warm gradient accents */}
+      {/* Gradient accents */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-gradient-to-br from-water/[0.04] to-transparent rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-gradient-to-tr from-deep/[0.03] to-transparent rounded-full blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-gradient-to-br from-[#1a6fb5]/[0.04] to-transparent rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-gradient-to-tr from-[#0a1a2f]/[0.03] to-transparent rounded-full blur-3xl" />
       </div>
 
       {!hasResponse && !isLoading ? (
@@ -116,9 +116,9 @@ export default function AskPage() {
               {/* Decorative element */}
               <div className="mb-8 flex justify-center">
                 <div className="relative">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-water/10 to-deep/5 flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#1a6fb5]/10 to-[#0a1a2f]/5 flex items-center justify-center">
                     <svg
-                      className="w-8 h-8 text-water/60"
+                      className="w-8 h-8 text-[#1a6fb5]/60"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -134,11 +134,11 @@ export default function AskPage() {
                 </div>
               </div>
 
-              <h1 className="font-display text-4xl md:text-5xl font-semibold text-deep tracking-tight">
+              <h1 className="font-display text-5xl md:text-7xl font-[900] text-[#0a1a2f] tracking-tight uppercase">
                 Ask The Word
               </h1>
 
-              <p className="mt-4 text-xl text-text-body font-light">
+              <p className="mt-6 text-xl text-[#4a6580] font-light">
                 What&apos;s weighing on you today?
               </p>
             </div>
@@ -152,7 +152,7 @@ export default function AskPage() {
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Share what's on your heart..."
                   rows={5}
-                  className="w-full px-6 py-5 text-lg bg-white rounded-2xl border border-border-light/40 focus:border-water/40 focus:ring-0 outline-none transition-all resize-none shadow-sm placeholder:text-text-light/50 text-deep leading-relaxed"
+                  className="w-full px-6 py-5 text-lg font-body bg-white rounded-xl border border-[#c8dded] focus:border-[#1a6fb5] focus:ring-0 outline-none transition-all resize-none shadow-sm placeholder:text-[#4a6580]/50 text-[#0a1a2f] leading-relaxed"
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && !e.shiftKey) {
                       e.preventDefault();
@@ -162,11 +162,11 @@ export default function AskPage() {
                 />
               </div>
 
-              <div className="mt-6 text-center">
+              <div className="mt-8 text-center">
                 <button
                   type="submit"
                   disabled={!input.trim() || isLoading}
-                  className="inline-flex items-center gap-3 bg-deep text-white px-8 py-4 rounded-full font-medium text-lg hover:bg-deep/90 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="inline-flex items-center gap-3 bg-[#0a1a2f] text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-[#0a1a2f]/90 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   <span>Seek Scripture</span>
                   <svg
@@ -187,7 +187,7 @@ export default function AskPage() {
             </form>
 
             {/* Privacy note */}
-            <p className="mt-10 text-center text-sm text-text-light/60 flex items-center justify-center gap-2">
+            <p className="mt-10 text-center text-sm text-[#4a6580]/60 flex items-center justify-center gap-2">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
@@ -209,14 +209,14 @@ export default function AskPage() {
         <div className="relative min-h-screen flex items-center justify-center px-4 pt-16">
           <div className="text-center">
             <div className="relative w-20 h-20 mx-auto mb-8">
-              <div className="absolute inset-0 rounded-full border-2 border-water/10" />
+              <div className="absolute inset-0 rounded-full border-2 border-[#1a6fb5]/10" />
               <div
-                className="absolute inset-0 rounded-full border-2 border-water/30 border-t-water animate-spin"
+                className="absolute inset-0 rounded-full border-2 border-[#1a6fb5]/30 border-t-[#1a6fb5] animate-spin"
                 style={{ animationDuration: "1.5s" }}
               />
               <div className="absolute inset-0 flex items-center justify-center">
                 <svg
-                  className="w-8 h-8 text-water/40"
+                  className="w-8 h-8 text-[#1a6fb5]/40"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -230,7 +230,7 @@ export default function AskPage() {
                 </svg>
               </div>
             </div>
-            <p className="text-text-light text-lg font-light">Seeking Scripture for you...</p>
+            <p className="text-[#4a6580] text-lg font-light">Seeking Scripture for you...</p>
           </div>
         </div>
       ) : response ? (
@@ -240,7 +240,7 @@ export default function AskPage() {
             {/* SECTION 1: Scripture for You */}
             <section className="mb-16">
               <div className="text-center mb-6">
-                <span className="text-xs uppercase tracking-[0.25em] text-water/70 font-medium">
+                <span className="text-xs uppercase tracking-[0.25em] text-[#1a6fb5]/70 font-bold">
                   Scripture for You
                 </span>
               </div>
@@ -248,26 +248,26 @@ export default function AskPage() {
               {/* Scripture Card - Hero */}
               <div className="relative">
                 {/* Card background layers for depth */}
-                <div className="absolute inset-0 bg-gradient-to-br from-water/[0.02] to-deep/[0.02] rounded-3xl transform rotate-1" />
-                <div className="absolute inset-0 bg-white rounded-3xl shadow-xl shadow-deep/[0.03]" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#1a6fb5]/[0.02] to-[#0a1a2f]/[0.02] rounded-3xl transform rotate-1" />
+                <div className="absolute inset-0 bg-white rounded-2xl shadow-xl shadow-[#1a6fb5]/[0.08]" />
 
                 {/* Card content */}
                 <div className="relative px-8 py-12 md:px-12 md:py-16">
                   {/* Decorative quote */}
-                  <div className="absolute top-6 left-6 text-7xl text-water/[0.08] font-serif leading-none select-none">
+                  <div className="absolute top-6 left-6 text-7xl text-[#1a6fb5]/[0.08] font-display leading-none select-none">
                     &ldquo;
                   </div>
 
                   {/* Scripture text */}
                   <blockquote className="relative z-10">
-                    <p className="font-serif text-2xl md:text-3xl text-deep leading-relaxed text-center">
+                    <p className="font-display text-2xl md:text-3xl font-bold text-[#0a1a2f] leading-relaxed text-center">
                       {response.scripture.text}
                     </p>
                   </blockquote>
 
                   {/* Reference */}
                   <div className="mt-8 text-center">
-                    <span className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-water/10 to-water/5 text-water font-medium rounded-full">
+                    <span className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-[#1a6fb5]/10 to-[#1a6fb5]/5 text-[#1a6fb5] font-bold rounded-full">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                       </svg>
@@ -276,7 +276,7 @@ export default function AskPage() {
                   </div>
 
                   {/* Decorative quote closing */}
-                  <div className="absolute bottom-6 right-6 text-7xl text-water/[0.08] font-serif leading-none select-none rotate-180">
+                  <div className="absolute bottom-6 right-6 text-7xl text-[#1a6fb5]/[0.08] font-display leading-none select-none rotate-180">
                     &ldquo;
                   </div>
                 </div>
@@ -286,13 +286,13 @@ export default function AskPage() {
             {/* SECTION 2: The Story */}
             <section className="mb-16">
               <div className="text-center mb-6">
-                <span className="text-xs uppercase tracking-[0.25em] text-deep/60 font-medium">
+                <span className="text-xs uppercase tracking-[0.25em] text-[#0a1a2f]/60 font-bold">
                   Why This Speaks
                 </span>
               </div>
 
-              <div className="bg-deep/[0.03] rounded-2xl px-8 py-8 border border-deep/[0.08]">
-                <p className="text-lg text-deep/80 leading-relaxed text-center font-light">
+              <div className="bg-[#f0f4f8] rounded-2xl px-8 py-8">
+                <p className="text-lg text-[#0a1a2f]/80 leading-relaxed text-center font-light">
                   {response.story}
                 </p>
               </div>
@@ -301,7 +301,7 @@ export default function AskPage() {
             {/* SECTION 3: Explore More */}
             <section className="mb-16">
               <div className="text-center mb-6">
-                <span className="text-xs uppercase tracking-[0.25em] text-text-light/70 font-medium">
+                <span className="text-xs uppercase tracking-[0.25em] text-[#4a6580]/70 font-bold">
                   Explore More
                 </span>
               </div>
@@ -310,12 +310,12 @@ export default function AskPage() {
                 {response.exploreMore.map((item, index) => (
                   <div
                     key={index}
-                    className="group bg-white rounded-xl p-5 border border-border-light/30 hover:border-water/20 hover:shadow-md transition-all cursor-pointer"
+                    className="group bg-white rounded-xl p-5 border border-[#c8dded]/30 hover:border-[#1a6fb5] hover:shadow-md transition-all cursor-pointer"
                   >
-                    <p className="font-medium text-deep group-hover:text-water transition-colors">
+                    <p className="font-bold text-[#0a1a2f] group-hover:text-[#1a6fb5] transition-colors">
                       {item.reference}
                     </p>
-                    <p className="mt-2 text-sm text-text-light leading-relaxed">
+                    <p className="mt-2 text-sm text-[#4a6580] leading-relaxed">
                       {item.description}
                     </p>
                   </div>
@@ -328,7 +328,7 @@ export default function AskPage() {
               <div className="text-center mb-8">
                 <button
                   onClick={() => setShowSharePrompt(true)}
-                  className="text-sm text-text-light/70 hover:text-text-body transition-colors underline underline-offset-4 decoration-text-light/40 hover:decoration-text-body/40"
+                  className="text-sm text-[#4a6580]/70 hover:text-[#4a6580] transition-colors underline underline-offset-4 decoration-[#4a6580]/40 hover:decoration-[#4a6580]/70"
                 >
                   Share this topic with Pastor Mike
                 </button>
@@ -336,20 +336,20 @@ export default function AskPage() {
             )}
 
             {showSharePrompt && shareStatus === "idle" && (
-              <div className="bg-sky/50 rounded-2xl p-6 mb-8 text-center">
-                <p className="text-sm text-text-body mb-4">
+              <div className="bg-[#f0f4f8] rounded-2xl p-6 mb-8 text-center">
+                <p className="text-sm text-[#4a6580] mb-4">
                   Anonymously share the topic of your reflection? It helps Pastor Mike understand what our community is walking through.
                 </p>
                 <div className="flex gap-3 justify-center">
                   <button
                     onClick={handleShare}
-                    className="bg-water/10 text-water px-5 py-2 rounded-full text-sm font-medium hover:bg-water/20 transition-colors"
+                    className="bg-[#1a6fb5]/10 text-[#1a6fb5] px-5 py-2 rounded-full text-sm font-bold hover:bg-[#1a6fb5]/20 transition-colors"
                   >
                     Share Anonymously
                   </button>
                   <button
                     onClick={() => setShowSharePrompt(false)}
-                    className="text-text-light/70 px-5 py-2 rounded-full text-sm hover:text-text-body transition-colors"
+                    className="text-[#4a6580]/70 px-5 py-2 rounded-full text-sm hover:text-[#4a6580] transition-colors"
                   >
                     No thanks
                   </button>
@@ -359,7 +359,7 @@ export default function AskPage() {
 
             {shareStatus === "success" && (
               <div className="text-center mb-8">
-                <p className="text-water text-sm flex items-center justify-center gap-2">
+                <p className="text-[#1a6fb5] text-sm flex items-center justify-center gap-2">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
@@ -372,7 +372,7 @@ export default function AskPage() {
             <div className="text-center">
               <button
                 onClick={handleAskAgain}
-                className="inline-flex items-center gap-2 bg-deep text-white px-8 py-4 rounded-full font-medium hover:bg-deep/90 transition-all"
+                className="inline-flex items-center gap-2 bg-[#0a1a2f] text-white px-8 py-4 rounded-full font-bold hover:bg-[#0a1a2f]/90 transition-all"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
