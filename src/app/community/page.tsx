@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Heart, BookOpen, Send, User, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -105,6 +105,42 @@ export default function CommunityPage() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
+  // Celebration overlays
+  const [showPrayerCelebration, setShowPrayerCelebration] = useState(false);
+  const [showTestimonyCelebration, setShowTestimonyCelebration] = useState(false);
+
+  // Button pop animation tracking
+  const [poppingPrayId, setPoppingPrayId] = useState<string | null>(null);
+  const [poppingBlessedId, setPoppingBlessedId] = useState<string | null>(null);
+  const [floatingPrayId, setFloatingPrayId] = useState<string | null>(null);
+  const [floatingBlessedId, setFloatingBlessedId] = useState<string | null>(null);
+
+  // Stable random positions for celebration hearts (avoids hydration mismatch)
+  const heartPositionsRef = useRef<number[]>([]);
+  const heartDelaysRef = useRef<number[]>([]);
+  const burstParticlesRef = useRef<{ tx: number; ty: number; tx2: number; ty2: number; color: string }[]>([]);
+
+  const generateHeartPositions = useCallback(() => {
+    heartPositionsRef.current = Array.from({ length: 10 }, () => 20 + Math.random() * 60);
+    heartDelaysRef.current = Array.from({ length: 10 }, (_, i) => i * 0.15);
+  }, []);
+
+  const generateBurstParticles = useCallback(() => {
+    const colors = ["#1a6fb5", "#00d4ff", "#145a94", "#4a9fd4", "#0a1a2f"];
+    burstParticlesRef.current = Array.from({ length: 18 }, () => {
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 80 + Math.random() * 120;
+      const distance2 = distance + 40 + Math.random() * 60;
+      return {
+        tx: Math.cos(angle) * distance,
+        ty: Math.sin(angle) * distance,
+        tx2: Math.cos(angle) * distance2,
+        ty2: Math.sin(angle) * distance2,
+        color: colors[Math.floor(Math.random() * colors.length)],
+      };
+    });
+  }, []);
+
   // Load persisted IDs from localStorage
   useEffect(() => {
     const storedPrayed = localStorage.getItem("prayedIds");
@@ -177,9 +213,10 @@ export default function CommunityPage() {
         setPrayerRequest("");
         setPrayerAnonymous(false);
         setPrayerDialogOpen(false);
-        setSuccessMessage("Prayer request submitted!");
-        setShowSuccess(true);
-        setTimeout(() => setShowSuccess(false), 3000);
+        // Trigger celebration
+        generateHeartPositions();
+        setShowPrayerCelebration(true);
+        setTimeout(() => setShowPrayerCelebration(false), 3000);
       } else {
         const data = await res.json();
         setPrayerError(data.error || "Failed to submit prayer request");
@@ -213,13 +250,17 @@ export default function CommunityPage() {
       });
 
       if (res.ok) {
+        const newTestimony = await res.json();
+        // Optimistic update — show immediately with pending badge
+        setTestimonies([newTestimony, ...testimonies]);
         setTestimonyName("");
         setTestimonyText("");
         setTestimonyAnonymous(false);
         setTestimonyDialogOpen(false);
-        setSuccessMessage("Testimony submitted! It will appear after review.");
-        setShowSuccess(true);
-        setTimeout(() => setShowSuccess(false), 3000);
+        // Trigger celebration
+        generateBurstParticles();
+        setShowTestimonyCelebration(true);
+        setTimeout(() => setShowTestimonyCelebration(false), 3500);
       } else {
         const data = await res.json();
         setTestimonyError(data.error || "Failed to submit testimony");
@@ -248,6 +289,12 @@ export default function CommunityPage() {
       )
     );
 
+    // Trigger pop + float animation
+    setPoppingPrayId(id);
+    setFloatingPrayId(id);
+    setTimeout(() => setPoppingPrayId(null), 400);
+    setTimeout(() => setFloatingPrayId(null), 700);
+
     try {
       await fetch("/api/prayers", {
         method: "PATCH",
@@ -275,6 +322,12 @@ export default function CommunityPage() {
           : testimony
       )
     );
+
+    // Trigger pop + float animation
+    setPoppingBlessedId(id);
+    setFloatingBlessedId(id);
+    setTimeout(() => setPoppingBlessedId(null), 400);
+    setTimeout(() => setFloatingBlessedId(null), 700);
 
     try {
       await fetch("/api/testimonies", {
@@ -611,22 +664,34 @@ export default function CommunityPage() {
                           </div>
 
                           <div className="mt-4 pt-4 border-t border-[#e0eaf3] flex items-center justify-between">
-                            <Button
-                              onClick={() => handlePray(prayer.id)}
-                              disabled={hasPrayed}
-                              variant="outline"
-                              className={`font-body font-bold text-sm uppercase tracking-wider rounded-xl cursor-pointer ${
-                                hasPrayed
-                                  ? "bg-[#1a6fb5]/10 text-[#1a6fb5] border-transparent"
-                                  : "border-[#1a6fb5] text-[#1a6fb5] hover:bg-[#1a6fb5] hover:text-white"
-                              }`}
-                            >
-                              <Heart
-                                className="size-4 mr-2"
-                                fill={hasPrayed ? "currentColor" : "none"}
-                              />
-                              {hasPrayed ? "Prayed" : "I'm Praying"}
-                            </Button>
+                            <div className="relative">
+                              <Button
+                                onClick={() => handlePray(prayer.id)}
+                                disabled={hasPrayed}
+                                variant="outline"
+                                className={`font-body font-bold text-sm uppercase tracking-wider rounded-xl cursor-pointer ${
+                                  poppingPrayId === prayer.id ? "animate-pop-scale" : ""
+                                } ${
+                                  hasPrayed
+                                    ? "bg-[#1a6fb5]/10 text-[#1a6fb5] border-transparent"
+                                    : "border-[#1a6fb5] text-[#1a6fb5] hover:bg-[#1a6fb5] hover:text-white"
+                                }`}
+                              >
+                                <Heart
+                                  className="size-4 mr-2"
+                                  fill={hasPrayed ? "currentColor" : "none"}
+                                />
+                                {hasPrayed ? "Prayed" : "I'm Praying"}
+                              </Button>
+                              {floatingPrayId === prayer.id && (
+                                <span
+                                  className="absolute -top-2 left-1/2 -translate-x-1/2 text-sm font-bold animate-float-up-plus pointer-events-none"
+                                  style={{ color: "#1a6fb5" }}
+                                >
+                                  +1
+                                </span>
+                              )}
+                            </div>
                             <span
                               className="text-sm font-body"
                               style={{ color: "#4a6580" }}
@@ -888,23 +953,43 @@ export default function CommunityPage() {
                             </p>
                           </div>
 
+                          {!testimony.approved && (
+                            <div className="mt-4">
+                              <Badge className="bg-amber-100 text-amber-800 border-amber-200 font-body text-xs font-semibold">
+                                Pending Review
+                              </Badge>
+                            </div>
+                          )}
+
                           <div className="mt-6 pt-5 border-t border-[#e0eaf3] flex items-center justify-between">
-                            <Button
-                              onClick={() => handleBlessed(testimony.id)}
-                              disabled={hasBlessed}
-                              variant="outline"
-                              className={`font-body font-bold text-sm rounded-full cursor-pointer ${
-                                hasBlessed
-                                  ? "bg-[#1a6fb5]/10 text-[#1a6fb5] border-transparent"
-                                  : "border-[#e0eaf3] text-[#4a6580] hover:bg-[#1a6fb5] hover:text-white hover:border-[#1a6fb5]"
-                              }`}
-                            >
-                              <Heart
-                                className="size-4 mr-2"
-                                fill={hasBlessed ? "currentColor" : "none"}
-                              />
-                              {hasBlessed ? "Blessed" : "This Blessed Me"}
-                            </Button>
+                            <div className="relative">
+                              <Button
+                                onClick={() => handleBlessed(testimony.id)}
+                                disabled={hasBlessed}
+                                variant="outline"
+                                className={`font-body font-bold text-sm rounded-full cursor-pointer ${
+                                  poppingBlessedId === testimony.id ? "animate-pop-scale" : ""
+                                } ${
+                                  hasBlessed
+                                    ? "bg-[#1a6fb5]/10 text-[#1a6fb5] border-transparent"
+                                    : "border-[#e0eaf3] text-[#4a6580] hover:bg-[#1a6fb5] hover:text-white hover:border-[#1a6fb5]"
+                                }`}
+                              >
+                                <Heart
+                                  className="size-4 mr-2"
+                                  fill={hasBlessed ? "currentColor" : "none"}
+                                />
+                                {hasBlessed ? "Blessed" : "This Blessed Me"}
+                              </Button>
+                              {floatingBlessedId === testimony.id && (
+                                <span
+                                  className="absolute -top-2 left-1/2 -translate-x-1/2 text-sm font-bold animate-float-up-plus pointer-events-none"
+                                  style={{ color: "#1a6fb5" }}
+                                >
+                                  +1
+                                </span>
+                              )}
+                            </div>
                             <span
                               className="text-sm font-body"
                               style={{ color: "#4a6580" }}
@@ -966,6 +1051,79 @@ export default function CommunityPage() {
           </Card>
         </div>
       </section>
+
+      {/* ── Prayer Celebration Overlay ── */}
+      {showPrayerCelebration && (
+        <div className="fixed inset-0 pointer-events-none z-50 flex items-center justify-center">
+          {/* Celebration message */}
+          <div
+            className="bg-white rounded-2xl shadow-2xl px-8 py-6 text-center animate-celebration-card-in"
+            style={{ boxShadow: "0 8px 60px rgba(26, 111, 181, 0.25)" }}
+          >
+            <p className="text-3xl mb-2">🙏</p>
+            <p className="font-display text-xl" style={{ fontWeight: 800, color: "#0a1a2f" }}>
+              Prayer Received
+            </p>
+            <p className="font-body text-sm mt-1" style={{ color: "#4a6580" }}>
+              We&apos;re lifting you up in prayer
+            </p>
+          </div>
+          {/* Floating hearts */}
+          {heartPositionsRef.current.map((left, i) => (
+            <div
+              key={i}
+              className="absolute text-2xl md:text-3xl"
+              style={{
+                left: `${left}%`,
+                bottom: "40%",
+                animation: `float-up-heart 2.5s ease-out ${heartDelaysRef.current[i]}s forwards`,
+                opacity: 0,
+              }}
+            >
+              💙
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ── Testimony Celebration Overlay ── */}
+      {showTestimonyCelebration && (
+        <div className="fixed inset-0 pointer-events-none z-50 flex items-center justify-center">
+          {/* Celebration message */}
+          <div
+            className="bg-white rounded-2xl shadow-2xl px-8 py-6 text-center animate-celebration-card-in relative z-10"
+            style={{ boxShadow: "0 8px 60px rgba(26, 111, 181, 0.25)" }}
+          >
+            <p className="text-3xl mb-2">✨</p>
+            <p className="font-display text-xl" style={{ fontWeight: 800, color: "#0a1a2f" }}>
+              Thank You For Sharing
+            </p>
+            <p className="font-body text-sm mt-1" style={{ color: "#4a6580" }}>
+              Your testimony will move and inspire others
+            </p>
+          </div>
+          {/* Burst particles */}
+          {burstParticlesRef.current.map((particle, i) => (
+            <div
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                width: `${8 + Math.random() * 8}px`,
+                height: `${8 + Math.random() * 8}px`,
+                backgroundColor: particle.color,
+                left: "50%",
+                top: "50%",
+                ["--tx" as string]: `${particle.tx}px`,
+                ["--ty" as string]: `${particle.ty}px`,
+                ["--tx2" as string]: `${particle.tx2}px`,
+                ["--ty2" as string]: `${particle.ty2}px`,
+                animation: `burst-out 1.8s ease-out ${i * 0.05}s forwards`,
+                opacity: 0,
+              }}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
