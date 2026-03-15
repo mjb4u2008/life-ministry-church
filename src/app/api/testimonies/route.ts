@@ -38,9 +38,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const sanitizedText = text.trim().substring(0, 2000);
+    const sanitizedName = (name || "Anonymous").trim().substring(0, 100);
+
     const newTestimony = await addTestimony({
-      name: isAnonymous ? "Anonymous" : (name || "Anonymous"),
-      text: text.trim(),
+      name: isAnonymous ? "Anonymous" : sanitizedName,
+      text: sanitizedText,
       isAnonymous: isAnonymous || false,
     });
 

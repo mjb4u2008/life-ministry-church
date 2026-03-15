@@ -15,12 +15,13 @@ export async function POST(request: NextRequest) {
 
     const { amount, fund, isRecurring, frequency } = await request.json();
 
-    if (!amount || amount <= 0) {
-      return NextResponse.json({ error: "Invalid amount" }, { status: 400 });
+    const parsedAmount = parseFloat(amount);
+    if (!parsedAmount || !isFinite(parsedAmount) || parsedAmount <= 0 || parsedAmount > 50000) {
+      return NextResponse.json({ error: "Invalid amount. Must be between $0.01 and $50,000." }, { status: 400 });
     }
 
     // Convert dollars to cents
-    const amountInCents = Math.round(parseFloat(amount) * 100);
+    const amountInCents = Math.round(parsedAmount * 100);
 
     const fundLabels: Record<string, string> = {
       tithe: "Tithe",
@@ -29,7 +30,11 @@ export async function POST(request: NextRequest) {
       benevolence: "Benevolence Fund",
     };
 
-    const fundName = fundLabels[fund] || "General Offering";
+    if (!fund || !fundLabels[fund]) {
+      return NextResponse.json({ error: "Invalid fund. Must be one of: tithe, offering, missions, benevolence." }, { status: 400 });
+    }
+
+    const fundName = fundLabels[fund];
 
     if (isRecurring) {
       // Create a recurring subscription via Stripe Checkout

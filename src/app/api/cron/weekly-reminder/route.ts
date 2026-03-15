@@ -1,8 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getContent, getSubscribers, addBlastLog } from "@/lib/data";
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 export async function GET(request: NextRequest) {
   try {
+    if (!process.env.CRON_SECRET) {
+      return NextResponse.json({ error: "Cron secret not configured" }, { status: 500 });
+    }
+
     // Verify cron secret or allow if from Vercel
     const authHeader = request.headers.get("authorization");
     if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -35,8 +48,9 @@ export async function GET(request: NextRequest) {
       message += `${sundayInfo.description}\n\n`;
     }
     message += "Join us Sundays at 8:30 AM PST / 11:30 AM EST";
-    if (meetLink) {
-      message += `\n\nJoin online: ${meetLink}`;
+    const safeMeetLink = meetLink && meetLink.startsWith("https://") ? meetLink : null;
+    if (safeMeetLink) {
+      message += `\n\nJoin online: ${safeMeetLink}`;
     }
 
     const emailSubscribers = subscribers.filter(
@@ -63,9 +77,9 @@ export async function GET(request: NextRequest) {
             subject: subject,
             html: `
               <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-                <h1 style="color: #0a1a2f; font-size: 24px; margin-bottom: 20px;">${subject}</h1>
-                <p style="color: #4a6580; font-size: 16px; line-height: 1.6;">${message.replace(/\n/g, "<br>")}</p>
-                ${meetLink ? `<a href="${meetLink}" style="display: inline-block; background: #1a6fb5; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 20px; font-weight: 600;">Join Service Online</a>` : ""}
+                <h1 style="color: #0a1a2f; font-size: 24px; margin-bottom: 20px;">${escapeHtml(subject)}</h1>
+                <p style="color: #4a6580; font-size: 16px; line-height: 1.6;">${escapeHtml(message).replace(/\n/g, "<br>")}</p>
+                ${safeMeetLink ? `<a href="${escapeHtml(safeMeetLink)}" style="display: inline-block; background: #1a6fb5; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 20px; font-weight: 600;">Join Service Online</a>` : ""}
                 <hr style="border: none; border-top: 1px solid #e0eaf3; margin: 30px 0;">
                 <p style="color: #4a6580; font-size: 12px;">L.I.F.E. Ministry — Lord Is Forever Emmanuel</p>
                 <p style="color: #4a6580; font-size: 12px;">Join us Sundays at 8:30 AM PST / 11:30 AM EST</p>

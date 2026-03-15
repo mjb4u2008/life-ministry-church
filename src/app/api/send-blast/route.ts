@@ -2,6 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSubscribers, getBlastLogs, addBlastLog } from "@/lib/data";
 import { verifyToken } from "@/lib/auth";
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 // GET — return blast logs (requires auth)
 export async function GET(request: NextRequest) {
   try {
@@ -72,8 +81,8 @@ export async function POST(request: NextRequest) {
               subject: subject,
               html: `
                 <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-                  <h1 style="color: #0a1a2f; font-size: 24px; margin-bottom: 20px;">${subject}</h1>
-                  <p style="color: #4a6580; font-size: 16px; line-height: 1.6;">${message.replace(/\n/g, "<br>")}</p>
+                  <h1 style="color: #0a1a2f; font-size: 24px; margin-bottom: 20px;">${escapeHtml(subject)}</h1>
+                  <p style="color: #4a6580; font-size: 16px; line-height: 1.6;">${escapeHtml(message).replace(/\n/g, "<br>")}</p>
                   <hr style="border: none; border-top: 1px solid #e0eaf3; margin: 30px 0;">
                   <p style="color: #4a6580; font-size: 12px;">L.I.F.E. Ministry — Lord Is Forever Emmanuel</p>
                   <p style="color: #4a6580; font-size: 12px;">Join us Sundays at 8:30 AM PST / 11:30 AM EST</p>

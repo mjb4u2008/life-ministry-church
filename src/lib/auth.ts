@@ -1,34 +1,56 @@
-// Simple password-based authentication for admin
-// Uses environment variable ADMIN_PASSWORD, defaults to "LIFE2024" for local dev
+import crypto from "crypto";
+
+const SECRET = process.env.ADMIN_PASSWORD;
 
 export function getAdminPassword(): string {
-  return process.env.ADMIN_PASSWORD || "LIFE2024";
+  if (!SECRET) {
+    throw new Error("ADMIN_PASSWORD environment variable is not set");
+  }
+  return SECRET;
 }
 
 export function verifyPassword(password: string): boolean {
-  return password === getAdminPassword();
+  if (!SECRET) return false;
+  // Constant-time comparison to prevent timing attacks
+  return crypto.timingSafeEqual(
+    Buffer.from(password),
+    Buffer.from(SECRET)
+  );
 }
 
-// Simple token generation (in production, use proper JWT)
 export function generateToken(): string {
-  const timestamp = Date.now();
-  const random = Math.random().toString(36).substring(2);
-  return Buffer.from(`${timestamp}:${random}:${getAdminPassword()}`).toString("base64");
+  const timestamp = Date.now().toString();
+  const random = crypto.randomBytes(32).toString("hex");
+  const payload = `${timestamp}:${random}`;
+  const hmac = crypto.createHmac("sha256", getAdminPassword())
+    .update(payload)
+    .digest("hex");
+  return Buffer.from(`${payload}:${hmac}`).toString("base64");
 }
 
 export function verifyToken(token: string): boolean {
   try {
+    if (!SECRET) return false;
     const decoded = Buffer.from(token, "base64").toString("utf-8");
     const parts = decoded.split(":");
     if (parts.length !== 3) return false;
 
-    const [timestamp, , password] = parts;
+    const [timestamp, random, providedHmac] = parts;
     const tokenAge = Date.now() - parseInt(timestamp);
 
     // Token expires after 24 hours
     if (tokenAge > 24 * 60 * 60 * 1000) return false;
+    if (isNaN(parseInt(timestamp))) return false;
 
-    return password === getAdminPassword();
+    // Recompute HMAC and compare
+    const expectedHmac = crypto.createHmac("sha256", getAdminPassword())
+      .update(`${timestamp}:${random}`)
+      .digest("hex");
+
+    return crypto.timingSafeEqual(
+      Buffer.from(providedHmac, "hex"),
+      Buffer.from(expectedHmac, "hex")
+    );
   } catch {
     return false;
   }

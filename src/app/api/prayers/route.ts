@@ -28,9 +28,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const sanitizedRequest = prayerRequest.trim().substring(0, 1000);
+    const sanitizedName = (name || "Anonymous").trim().substring(0, 100);
+
     const newPrayer = await addPrayer({
-      name: isAnonymous ? "Anonymous" : (name || "Anonymous"),
-      request: prayerRequest.trim(),
+      name: isAnonymous ? "Anonymous" : sanitizedName,
+      request: sanitizedRequest,
       isAnonymous: isAnonymous || false,
     });
 

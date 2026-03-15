@@ -109,12 +109,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Basic validation
-    if (contactType === "email" && !contact.includes("@")) {
-      return NextResponse.json(
-        { error: "Invalid email address" },
-        { status: 400 }
-      );
+    // Validate email format
+    if (contactType === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(contact)) {
+        return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
+      }
+    }
+    // Validate phone format
+    if (contactType === "phone") {
+      const phoneRegex = /^\+?[\d\s\-()]{7,15}$/;
+      if (!phoneRegex.test(contact.replace(/\s/g, ""))) {
+        return NextResponse.json({ error: "Invalid phone number" }, { status: 400 });
+      }
     }
 
     const newSubscriber = await addSubscriber({
