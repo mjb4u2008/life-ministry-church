@@ -492,6 +492,42 @@ export async function incrementBlessedCount(
   return testimonies[index];
 }
 
+// ─── Blast Log functions ──────────────────────────────────────────────────
+
+export interface BlastLog {
+  id: string;
+  subject: string;
+  message: string;
+  channels: string[];
+  emailsSent: number;
+  smsSent: number;
+  sentAt: string;
+}
+
+export async function getBlastLogs(): Promise<BlastLog[]> {
+  try {
+    const data = await kv.get<BlastLog[]>("blast-logs");
+    return data || [];
+  } catch {
+    return [];
+  }
+}
+
+export async function addBlastLog(
+  log: Omit<BlastLog, "id" | "sentAt">
+): Promise<BlastLog> {
+  const logs = await getBlastLogs();
+  const newLog: BlastLog = {
+    ...log,
+    id: Date.now().toString(),
+    sentAt: new Date().toISOString(),
+  };
+  logs.unshift(newLog);
+  // Keep only last 50 logs
+  await kv.set("blast-logs", logs.slice(0, 50));
+  return newLog;
+}
+
 // ─── Daily Scripture functions ─────────────────────────────────────────────────
 
 export async function getDailyScripture(): Promise<DailyScripture> {

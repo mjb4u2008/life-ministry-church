@@ -26,10 +26,67 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST new subscriber (public)
+// POST new subscriber (public) or bulk import (requires auth)
 export async function POST(request: NextRequest) {
   try {
-    const { name, contactType, contact } = await request.json();
+    const body = await request.json();
+
+    // ─── Bulk import mode (requires auth) ──────────────────────────────────
+    if (body.bulk === true) {
+      const authHeader = request.headers.get("authorization");
+      const token = authHeader?.replace("Bearer ", "");
+
+      if (!token || !verifyToken(token)) {
+        return NextResponse.json(
+          { error: "Unauthorized" },
+          { status: 401 }
+        );
+      }
+
+      const contacts = body.contacts;
+      if (!Array.isArray(contacts) || contacts.length === 0) {
+        return NextResponse.json(
+          { error: "contacts array is required for bulk import" },
+          { status: 400 }
+        );
+      }
+
+      let added = 0;
+      let skipped = 0;
+      const errors: string[] = [];
+
+      for (const c of contacts) {
+        try {
+          if (!c.name || !c.contactType || !c.contact) {
+            skipped++;
+            continue;
+          }
+          await addSubscriber({
+            name: c.name.trim(),
+            contactType: c.contactType,
+            contact: c.contact.trim(),
+          });
+          added++;
+        } catch (err) {
+          if (
+            err instanceof Error &&
+            err.message === "Already subscribed"
+          ) {
+            skipped++;
+          } else {
+            errors.push(c.contact || "unknown");
+          }
+        }
+      }
+
+      return NextResponse.json(
+        { added, skipped, errors },
+        { status: 201 }
+      );
+    }
+
+    // ─── Single subscriber mode (public) ───────────────────────────────────
+    const { name, contactType, contact } = body;
 
     if (!name || name.trim() === "") {
       return NextResponse.json(

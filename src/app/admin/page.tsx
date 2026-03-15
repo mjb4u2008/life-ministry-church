@@ -117,6 +117,24 @@ interface Insight {
   timestamp: string;
 }
 
+interface Subscriber {
+  id: string;
+  name: string;
+  contactType: "email" | "phone";
+  contact: string;
+  timestamp: string;
+}
+
+interface BlastLog {
+  id: string;
+  subject: string;
+  message: string;
+  channels: string[];
+  emailsSent: number;
+  smsSent: number;
+  sentAt: string;
+}
+
 type Tab =
   | "this-sunday"
   | "daily-scripture"
@@ -125,6 +143,7 @@ type Tab =
   | "prayers"
   | "testimonies"
   | "insights"
+  | "messaging"
   | "settings";
 
 // ─── Toast Component ────────────────────────────────────────────────────────────
@@ -388,6 +407,27 @@ export default function AdminPage() {
   const [editTestimonyApproved, setEditTestimonyApproved] = useState(false);
   const [isSavingTestimony, setIsSavingTestimony] = useState(false);
 
+  // ─── Messaging State ──────────────────────────────────────────────────────
+  const [messagingSubscribers, setMessagingSubscribers] = useState<Subscriber[]>([]);
+  const [blastSubject, setBlastSubject] = useState("");
+  const [blastMessage, setBlastMessage] = useState("");
+  const [blastEmail, setBlastEmail] = useState(true);
+  const [blastSms, setBlastSms] = useState(true);
+  const [isSendingBlast, setIsSendingBlast] = useState(false);
+  const [blastResult, setBlastResult] = useState<{ emailsSent: number; smsSent: number; errors: string[] } | null>(null);
+  const [blastLogs, setBlastLogs] = useState<BlastLog[]>([]);
+  const [addContactOpen, setAddContactOpen] = useState(false);
+  const [bulkImportOpen, setBulkImportOpen] = useState(false);
+  const [confirmBlastOpen, setConfirmBlastOpen] = useState(false);
+  const [newContactName, setNewContactName] = useState("");
+  const [newContactType, setNewContactType] = useState<"email" | "phone">("email");
+  const [newContactValue, setNewContactValue] = useState("");
+  const [isSavingContact, setIsSavingContact] = useState(false);
+  const [bulkImportText, setBulkImportText] = useState("");
+  const [bulkImportName, setBulkImportName] = useState("");
+  const [isImporting, setIsImporting] = useState(false);
+  const [isDeletingSubscriber, setIsDeletingSubscriber] = useState<string | null>(null);
+
   // ─── Refs ─────────────────────────────────────────────────────────────────
   const flyerRef = useRef<HTMLDivElement>(null);
 
@@ -465,7 +505,7 @@ export default function AdminPage() {
   const loadAllData = useCallback(
     async (t: string) => {
       try {
-        const [contentRes, prayersRes, testimoniesRes, scriptureRes, insightsRes] =
+        const [contentRes, prayersRes, testimoniesRes, scriptureRes, insightsRes, subscribersRes, blastLogsRes] =
           await Promise.all([
             fetch("/api/content"),
             fetch("/api/prayers"),
@@ -474,6 +514,12 @@ export default function AdminPage() {
             }),
             fetch("/api/daily-scripture"),
             fetch("/api/insights", {
+              headers: { Authorization: `Bearer ${t}` },
+            }),
+            fetch("/api/subscribers", {
+              headers: { Authorization: `Bearer ${t}` },
+            }),
+            fetch("/api/send-blast", {
               headers: { Authorization: `Bearer ${t}` },
             }),
           ]);
@@ -522,6 +568,16 @@ export default function AdminPage() {
         if (insightsRes.ok) {
           const i = await insightsRes.json();
           setInsights(i.insights || []);
+        }
+
+        if (subscribersRes.ok) {
+          const s = await subscribersRes.json();
+          setMessagingSubscribers(s.subscribers || []);
+        }
+
+        if (blastLogsRes.ok) {
+          const b = await blastLogsRes.json();
+          setBlastLogs(b.logs || []);
         }
       } catch (error) {
         console.error("Error loading data:", error);
@@ -955,6 +1011,179 @@ export default function AdminPage() {
   };
 
   // ═══════════════════════════════════════════════════════════════════════════
+  // TAB 9: MESSAGING — HANDLERS
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  const emailSubscriberCount = messagingSubscribers.filter(
+    (s) => s.contactType === "email"
+  ).length;
+  const phoneSubscriberCount = messagingSubscribers.filter(
+    (s) => s.contactType === "phone"
+  ).length;
+
+  const handleAddContact = async () => {
+    if (!token) return;
+    setIsSavingContact(true);
+    try {
+      const res = await fetch("/api/subscribers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: newContactName.trim(),
+          contactType: newContactType,
+          contact: newContactValue.trim(),
+        }),
+      });
+
+      if (res.ok) {
+        const newSub = await res.json();
+        setMessagingSubscribers((prev) => [...prev, newSub]);
+        setNewContactName("");
+        setNewContactValue("");
+        setAddContactOpen(false);
+        showToast("Contact added!", "success");
+      } else {
+        const err = await res.json();
+        showToast(err.error || "Failed to add contact.", "error");
+      }
+    } catch {
+      showToast("Connection error.", "error");
+    }
+    setIsSavingContact(false);
+  };
+
+  const handleBulkImport = async () => {
+    if (!token) return;
+    setIsImporting(true);
+    try {
+      const lines = bulkImportText
+        .split("\n")
+        .map((l) => l.trim())
+        .filter((l) => l.length > 0);
+
+      if (lines.length === 0) {
+        showToast("No contacts to import.", "error");
+        setIsImporting(false);
+        return;
+      }
+
+      const contacts = lines.map((line) => ({
+        name: bulkImportName.trim() || "Imported Contact",
+        contactType: "email" as const,
+        contact: line,
+      }));
+
+      const res = await fetch("/api/subscribers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ bulk: true, contacts }),
+      });
+
+      if (res.ok) {
+        const result = await res.json();
+        showToast(
+          `Imported ${result.added} contacts (${result.skipped} skipped).`,
+          "success"
+        );
+        setBulkImportText("");
+        setBulkImportName("");
+        setBulkImportOpen(false);
+        // Refresh subscribers
+        if (token) {
+          const subRes = await fetch("/api/subscribers", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (subRes.ok) {
+            const s = await subRes.json();
+            setMessagingSubscribers(s.subscribers || []);
+          }
+        }
+      } else {
+        const err = await res.json();
+        showToast(err.error || "Import failed.", "error");
+      }
+    } catch {
+      showToast("Connection error.", "error");
+    }
+    setIsImporting(false);
+  };
+
+  const handleDeleteSubscriber = async (id: string) => {
+    if (!token) return;
+    setIsDeletingSubscriber(id);
+    try {
+      const res = await fetch(`/api/subscribers?id=${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (res.ok) {
+        setMessagingSubscribers((prev) => prev.filter((s) => s.id !== id));
+        showToast("Contact removed.", "success");
+      } else {
+        showToast("Failed to delete contact.", "error");
+      }
+    } catch {
+      showToast("Connection error.", "error");
+    }
+    setIsDeletingSubscriber(null);
+  };
+
+  const handleSendBlast = async () => {
+    if (!token) return;
+    setIsSendingBlast(true);
+    setBlastResult(null);
+    setConfirmBlastOpen(false);
+    try {
+      const channels: string[] = [];
+      if (blastEmail) channels.push("email");
+      if (blastSms) channels.push("sms");
+
+      const res = await fetch("/api/send-blast", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          subject: blastSubject,
+          message: blastMessage,
+          channels,
+        }),
+      });
+
+      if (res.ok) {
+        const result = await res.json();
+        setBlastResult(result);
+        showToast(
+          `Sent ${result.emailsSent} emails, ${result.smsSent} texts.`,
+          "success"
+        );
+        // Refresh blast logs
+        const logsRes = await fetch("/api/send-blast", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (logsRes.ok) {
+          const b = await logsRes.json();
+          setBlastLogs(b.logs || []);
+        }
+      } else {
+        const err = await res.json();
+        showToast(err.error || "Failed to send blast.", "error");
+      }
+    } catch {
+      showToast("Connection error.", "error");
+    }
+    setIsSendingBlast(false);
+  };
+
+  // ═══════════════════════════════════════════════════════════════════════════
   // TAB CONFIG
   // ═══════════════════════════════════════════════════════════════════════════
 
@@ -966,6 +1195,7 @@ export default function AdminPage() {
     { id: "prayers", label: "Prayers" },
     { id: "testimonies", label: "Testimonies" },
     { id: "insights", label: "Insights" },
+    { id: "messaging", label: "Messaging" },
     { id: "settings", label: "Settings" },
   ];
 
@@ -2125,6 +2355,487 @@ export default function AdminPage() {
                   </Card>
                 )}
               </div>
+            </TabsContent>
+
+            {/* ═════════════════════════════════════════════════════════════════
+                TAB 9: MESSAGING
+                ═════════════════════════════════════════════════════════════════ */}
+            <TabsContent value="messaging">
+              <div className="space-y-8 animate-fade-in">
+                <div>
+                  <h2 className="text-xl font-display font-semibold text-[#0a1a2f] mb-1">
+                    Messaging
+                  </h2>
+                  <p className="text-sm font-body text-[#4a6580]">
+                    Send blast messages to your subscribers via email and SMS.
+                  </p>
+                </div>
+
+                {/* ─── Section 1: Contacts ──────────────────────────────────────── */}
+                <div>
+                  <h3 className="text-base font-display font-semibold text-[#0a1a2f] mb-3">
+                    Contacts
+                  </h3>
+                  <div className="flex items-center gap-4 mb-4">
+                    <Badge variant="secondary" className="font-body text-xs">
+                      {emailSubscriberCount} email subscriber{emailSubscriberCount !== 1 ? "s" : ""}
+                    </Badge>
+                    <Badge variant="secondary" className="font-body text-xs">
+                      {phoneSubscriberCount} phone subscriber{phoneSubscriberCount !== 1 ? "s" : ""}
+                    </Badge>
+                  </div>
+
+                  <div className="flex gap-3 mb-4">
+                    <Button
+                      onClick={() => setAddContactOpen(true)}
+                      className="bg-[#1a6fb5] hover:bg-[#155d99] text-white font-body font-semibold"
+                    >
+                      Add Contact
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => setBulkImportOpen(true)}
+                      className="font-body font-semibold"
+                    >
+                      Bulk Import
+                    </Button>
+                  </div>
+
+                  <div className="max-h-[320px] overflow-y-auto space-y-2">
+                    {messagingSubscribers.length > 0 ? (
+                      messagingSubscribers.map((sub) => (
+                        <Card key={sub.id} className="shadow-sm border-0">
+                          <CardContent className="py-3">
+                            <div className="flex items-center justify-between gap-3">
+                              <div className="flex items-center gap-3 min-w-0 flex-1">
+                                <div className="min-w-0 flex-1">
+                                  <p className="font-semibold font-body text-[#0a1a2f] text-sm truncate">
+                                    {sub.name}
+                                  </p>
+                                  <p className="text-xs font-body text-[#4a6580] truncate">
+                                    {sub.contact}
+                                  </p>
+                                </div>
+                                <Badge
+                                  variant={sub.contactType === "email" ? "default" : "secondary"}
+                                  className="font-body text-xs shrink-0"
+                                >
+                                  {sub.contactType}
+                                </Badge>
+                              </div>
+                              <Button
+                                variant="destructive"
+                                size="icon"
+                                onClick={() => handleDeleteSubscriber(sub.id)}
+                                disabled={isDeletingSubscriber === sub.id}
+                                title="Delete contact"
+                                className="shrink-0"
+                              >
+                                {isDeletingSubscriber === sub.id ? (
+                                  <Spinner />
+                                ) : (
+                                  <TrashIcon />
+                                )}
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))
+                    ) : (
+                      <Card className="shadow-sm border-0">
+                        <CardContent className="text-center py-8">
+                          <p className="text-[#4a6580] text-sm font-body">
+                            No subscribers yet. Add contacts to get started.
+                          </p>
+                        </CardContent>
+                      </Card>
+                    )}
+                  </div>
+                </div>
+
+                <Separator />
+
+                {/* ─── Section 2: Send a Blast ──────────────────────────────────── */}
+                <div>
+                  <h3 className="text-base font-display font-semibold text-[#0a1a2f] mb-3">
+                    Send a Blast
+                  </h3>
+                  <Card className="shadow-sm border-0">
+                    <CardContent className="pt-6">
+                      <div className="space-y-4">
+                        <div>
+                          <label className={labelClass}>Subject</label>
+                          <Input
+                            value={blastSubject}
+                            onChange={(e) => setBlastSubject(e.target.value)}
+                            placeholder="e.g. This Sunday: Walking in Faith"
+                            className="h-11 px-4 font-body"
+                          />
+                        </div>
+
+                        <div>
+                          <label className={labelClass}>Message</label>
+                          <Textarea
+                            value={blastMessage}
+                            onChange={(e) => setBlastMessage(e.target.value)}
+                            placeholder="Write your message here..."
+                            rows={6}
+                            className="px-4 py-3 font-body"
+                          />
+                        </div>
+
+                        <div>
+                          <label className={labelClass}>Channels</label>
+                          <div className="flex gap-3">
+                            <Button
+                              type="button"
+                              variant={blastEmail ? "default" : "outline"}
+                              onClick={() => setBlastEmail(!blastEmail)}
+                              className={`font-body font-semibold ${blastEmail ? "bg-[#1a6fb5] hover:bg-[#155d99] text-white" : ""}`}
+                            >
+                              Email ({emailSubscriberCount})
+                            </Button>
+                            <Button
+                              type="button"
+                              variant={blastSms ? "default" : "outline"}
+                              onClick={() => setBlastSms(!blastSms)}
+                              className={`font-body font-semibold ${blastSms ? "bg-[#1a6fb5] hover:bg-[#155d99] text-white" : ""}`}
+                            >
+                              SMS ({phoneSubscriberCount})
+                            </Button>
+                          </div>
+                        </div>
+
+                        {/* Preview */}
+                        {(blastSubject || blastMessage) && (
+                          <div>
+                            <label className={labelClass}>Preview</label>
+                            <div className="border rounded-lg p-4 bg-[#f8fafc]">
+                              {blastEmail && (
+                                <div className="mb-4">
+                                  <p className="text-xs font-body text-[#4a6580] mb-2 font-semibold uppercase tracking-wide">
+                                    Email Preview
+                                  </p>
+                                  <div className="bg-white rounded-lg p-4 border">
+                                    <h4 className="font-semibold text-[#0a1a2f] text-sm mb-2">
+                                      {blastSubject || "(No subject)"}
+                                    </h4>
+                                    <p className="text-xs text-[#4a6580] whitespace-pre-wrap">
+                                      {blastMessage || "(No message)"}
+                                    </p>
+                                    <hr className="my-3 border-[#e0eaf3]" />
+                                    <p className="text-[10px] text-[#4a6580]">
+                                      L.I.F.E. Ministry — Lord Is Forever Emmanuel
+                                    </p>
+                                  </div>
+                                </div>
+                              )}
+                              {blastSms && (
+                                <div>
+                                  <p className="text-xs font-body text-[#4a6580] mb-2 font-semibold uppercase tracking-wide">
+                                    SMS Preview
+                                  </p>
+                                  <div className="bg-white rounded-lg p-4 border">
+                                    <p className="text-xs text-[#0a1a2f] whitespace-pre-wrap">
+                                      {blastSubject || "(No subject)"}{"\n\n"}
+                                      {blastMessage || "(No message)"}{"\n\n"}
+                                      {"— L.I.F.E. Ministry"}
+                                    </p>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
+
+                        <Button
+                          onClick={() => setConfirmBlastOpen(true)}
+                          disabled={
+                            isSendingBlast ||
+                            !blastSubject.trim() ||
+                            !blastMessage.trim() ||
+                            (!blastEmail && !blastSms)
+                          }
+                          className="w-full h-11 bg-[#1a6fb5] hover:bg-[#155d99] text-white font-semibold font-body"
+                          size="lg"
+                        >
+                          {isSendingBlast ? (
+                            <>
+                              <Spinner />
+                              Sending...
+                            </>
+                          ) : (
+                            "Send to All Subscribers"
+                          )}
+                        </Button>
+
+                        {/* Result */}
+                        {blastResult && (
+                          <Card className="border-emerald-200 bg-emerald-50">
+                            <CardContent className="py-4">
+                              <p className="text-sm font-body text-emerald-800 font-semibold">
+                                Sent {blastResult.emailsSent} email{blastResult.emailsSent !== 1 ? "s" : ""},{" "}
+                                {blastResult.smsSent} text{blastResult.smsSent !== 1 ? "s" : ""}
+                              </p>
+                              {blastResult.errors.length > 0 && (
+                                <div className="mt-2">
+                                  <p className="text-xs font-body text-amber-700 font-semibold">
+                                    {blastResult.errors.length} warning{blastResult.errors.length !== 1 ? "s" : ""}:
+                                  </p>
+                                  {blastResult.errors.map((err, i) => (
+                                    <p
+                                      key={i}
+                                      className="text-xs font-body text-amber-600 mt-0.5"
+                                    >
+                                      {err}
+                                    </p>
+                                  ))}
+                                </div>
+                              )}
+                            </CardContent>
+                          </Card>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <Separator />
+
+                {/* ─── Section 3: Sent History ──────────────────────────────────── */}
+                <div>
+                  <h3 className="text-base font-display font-semibold text-[#0a1a2f] mb-3">
+                    Sent History
+                  </h3>
+                  {blastLogs.length > 0 ? (
+                    <div className="space-y-2">
+                      {blastLogs.map((log) => (
+                        <Card key={log.id} className="shadow-sm border-0">
+                          <CardContent className="py-4">
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="min-w-0 flex-1">
+                                <p className="font-semibold font-body text-[#0a1a2f] text-sm truncate">
+                                  {log.subject}
+                                </p>
+                                <div className="flex items-center gap-3 mt-2">
+                                  <span className="text-xs font-body text-[#4a6580]">
+                                    {formatTimestamp(log.sentAt)}
+                                  </span>
+                                  {log.emailsSent > 0 && (
+                                    <Badge variant="secondary" className="font-body text-xs">
+                                      {log.emailsSent} email{log.emailsSent !== 1 ? "s" : ""}
+                                    </Badge>
+                                  )}
+                                  {log.smsSent > 0 && (
+                                    <Badge variant="secondary" className="font-body text-xs">
+                                      {log.smsSent} text{log.smsSent !== 1 ? "s" : ""}
+                                    </Badge>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  ) : (
+                    <Card className="shadow-sm border-0">
+                      <CardContent className="text-center py-8">
+                        <p className="text-[#4a6580] text-sm font-body">
+                          No blasts sent yet. Send your first message above.
+                        </p>
+                      </CardContent>
+                    </Card>
+                  )}
+                </div>
+              </div>
+
+              {/* ─── Add Contact Dialog ──────────────────────────────────────────── */}
+              <Dialog open={addContactOpen} onOpenChange={setAddContactOpen}>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle className="font-display text-[#0a1a2f]">
+                      Add Contact
+                    </DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4 py-2">
+                    <div>
+                      <label className={labelClass}>Name</label>
+                      <Input
+                        value={newContactName}
+                        onChange={(e) => setNewContactName(e.target.value)}
+                        placeholder="John Doe"
+                        className="h-11 px-4 font-body"
+                      />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Contact Type</label>
+                      <div className="flex gap-2">
+                        <Button
+                          type="button"
+                          variant={newContactType === "email" ? "default" : "outline"}
+                          onClick={() => setNewContactType("email")}
+                          className={`flex-1 font-body font-semibold ${newContactType === "email" ? "bg-[#1a6fb5] hover:bg-[#155d99] text-white" : ""}`}
+                        >
+                          Email
+                        </Button>
+                        <Button
+                          type="button"
+                          variant={newContactType === "phone" ? "default" : "outline"}
+                          onClick={() => setNewContactType("phone")}
+                          className={`flex-1 font-body font-semibold ${newContactType === "phone" ? "bg-[#1a6fb5] hover:bg-[#155d99] text-white" : ""}`}
+                        >
+                          Phone
+                        </Button>
+                      </div>
+                    </div>
+                    <div>
+                      <label className={labelClass}>
+                        {newContactType === "email" ? "Email Address" : "Phone Number"}
+                      </label>
+                      <Input
+                        type={newContactType === "email" ? "email" : "tel"}
+                        value={newContactValue}
+                        onChange={(e) => setNewContactValue(e.target.value)}
+                        placeholder={
+                          newContactType === "email"
+                            ? "john@example.com"
+                            : "+1 555 123 4567"
+                        }
+                        className="h-11 px-4 font-body"
+                      />
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button
+                      onClick={handleAddContact}
+                      disabled={
+                        isSavingContact ||
+                        !newContactName.trim() ||
+                        !newContactValue.trim()
+                      }
+                      className="bg-[#1a6fb5] hover:bg-[#155d99] text-white font-semibold font-body"
+                    >
+                      {isSavingContact ? (
+                        <>
+                          <Spinner />
+                          Saving...
+                        </>
+                      ) : (
+                        "Save Contact"
+                      )}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+
+              {/* ─── Bulk Import Dialog ──────────────────────────────────────────── */}
+              <Dialog open={bulkImportOpen} onOpenChange={setBulkImportOpen}>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle className="font-display text-[#0a1a2f]">
+                      Bulk Import Emails
+                    </DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4 py-2">
+                    <div>
+                      <label className={labelClass}>Default Name</label>
+                      <Input
+                        value={bulkImportName}
+                        onChange={(e) => setBulkImportName(e.target.value)}
+                        placeholder="Imported Contact"
+                        className="h-11 px-4 font-body"
+                      />
+                    </div>
+                    <div>
+                      <label className={labelClass}>
+                        Paste emails, one per line
+                      </label>
+                      <Textarea
+                        value={bulkImportText}
+                        onChange={(e) => setBulkImportText(e.target.value)}
+                        placeholder={"john@example.com\njane@example.com\n..."}
+                        rows={8}
+                        className="px-4 py-3 font-body font-mono text-sm"
+                      />
+                      <p className="text-xs font-body text-[#4a6580] mt-1">
+                        {bulkImportText
+                          .split("\n")
+                          .filter((l) => l.trim().length > 0).length}{" "}
+                        email(s) detected
+                      </p>
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button
+                      onClick={handleBulkImport}
+                      disabled={
+                        isImporting ||
+                        bulkImportText
+                          .split("\n")
+                          .filter((l) => l.trim().length > 0).length === 0
+                      }
+                      className="bg-[#1a6fb5] hover:bg-[#155d99] text-white font-semibold font-body"
+                    >
+                      {isImporting ? (
+                        <>
+                          <Spinner />
+                          Importing...
+                        </>
+                      ) : (
+                        "Import"
+                      )}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+
+              {/* ─── Confirm Blast Dialog ─────────────────────────────────────────── */}
+              <Dialog open={confirmBlastOpen} onOpenChange={setConfirmBlastOpen}>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle className="font-display text-[#0a1a2f]">
+                      Confirm Send
+                    </DialogTitle>
+                  </DialogHeader>
+                  <div className="py-2">
+                    <p className="text-sm font-body text-[#4a6580]">
+                      Are you sure? This will send to{" "}
+                      <span className="font-semibold text-[#0a1a2f]">
+                        {(blastEmail ? emailSubscriberCount : 0) +
+                          (blastSms ? phoneSubscriberCount : 0)}{" "}
+                        people
+                      </span>
+                      .
+                    </p>
+                    {blastEmail && emailSubscriberCount > 0 && (
+                      <p className="text-xs font-body text-[#4a6580] mt-1">
+                        {emailSubscriberCount} email{emailSubscriberCount !== 1 ? "s" : ""}
+                      </p>
+                    )}
+                    {blastSms && phoneSubscriberCount > 0 && (
+                      <p className="text-xs font-body text-[#4a6580] mt-1">
+                        {phoneSubscriberCount} text message{phoneSubscriberCount !== 1 ? "s" : ""}
+                      </p>
+                    )}
+                  </div>
+                  <DialogFooter className="gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => setConfirmBlastOpen(false)}
+                      className="font-body"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleSendBlast}
+                      className="bg-[#1a6fb5] hover:bg-[#155d99] text-white font-semibold font-body"
+                    >
+                      Send Now
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </TabsContent>
 
             {/* ═════════════════════════════════════════════════════════════════
