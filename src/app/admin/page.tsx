@@ -345,6 +345,9 @@ export default function AdminPage() {
   const [sundayDescription, setSundayDescription] = useState("");
   const [sundayMeetLink, setSundayMeetLink] = useState("");
   const [isSavingSunday, setIsSavingSunday] = useState(false);
+  const [sermonBanner, setSermonBanner] = useState<string | null>(null);
+  const [sermonBannerMime, setSermonBannerMime] = useState<string | null>(null);
+  const [isGeneratingBanner, setIsGeneratingBanner] = useState(false);
 
   // ─── Daily Scripture Form ──────────────────────────────────────────────────
   const [scriptureOverride, setScriptureOverride] = useState(false);
@@ -607,6 +610,42 @@ export default function AdminPage() {
   // TAB 1: THIS SUNDAY — SAVE
   // ═══════════════════════════════════════════════════════════════════════════
 
+  const generateSermonBanner = async (title: string, scripture: string) => {
+    if (!token || !title.trim()) return;
+    setIsGeneratingBanner(true);
+    setSermonBanner(null);
+    try {
+      const res = await fetch("/api/sermon-banner", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ title, scripture }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.image) {
+        setSermonBanner(data.image);
+        setSermonBannerMime(data.mimeType);
+      } else {
+        showToast(data.error || "Banner generation failed.", "error");
+      }
+    } catch {
+      showToast("Failed to generate banner.", "error");
+    }
+    setIsGeneratingBanner(false);
+  };
+
+  const handleDownloadBanner = () => {
+    if (!sermonBanner || !sermonBannerMime) return;
+    const ext = sermonBannerMime.includes("png") ? "png" : "jpg";
+    const link = document.createElement("a");
+    link.href = `data:${sermonBannerMime};base64,${sermonBanner}`;
+    link.download = `LIFE-Ministry-Sermon-Banner.${ext}`;
+    link.click();
+  };
+
   const handleSaveThisSunday = async () => {
     if (!token) return;
     setIsSavingSunday(true);
@@ -637,6 +676,10 @@ export default function AdminPage() {
         const updated = await res.json();
         setContent(updated);
         showToast("This Sunday updated successfully!", "success");
+        // Auto-generate sermon banner
+        if (sundayTitle.trim()) {
+          generateSermonBanner(sundayTitle, sundayScripture);
+        }
       } else {
         showToast("Failed to save. Please try again.", "error");
       }
@@ -1543,6 +1586,112 @@ export default function AdminPage() {
                     </CardContent>
                   </Card>
                 )}
+
+                {/* Sermon Banner */}
+                <Card className="shadow-sm border-0">
+                  <CardHeader>
+                    <div className="flex items-center justify-between w-full">
+                      <div>
+                        <CardTitle className="font-display text-[#0a1a2f] text-lg">
+                          Sermon Banner
+                        </CardTitle>
+                        <p className="text-xs font-body text-[#4a6580] mt-1">
+                          Auto-generated when you save. Download to share on social media.
+                        </p>
+                      </div>
+                      {sundayTitle.trim() && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="font-body text-xs shrink-0"
+                          onClick={() =>
+                            generateSermonBanner(sundayTitle, sundayScripture)
+                          }
+                          disabled={isGeneratingBanner}
+                        >
+                          {isGeneratingBanner ? (
+                            <>
+                              <Spinner />
+                              Generating...
+                            </>
+                          ) : sermonBanner ? (
+                            "Regenerate"
+                          ) : (
+                            "Generate Banner"
+                          )}
+                        </Button>
+                      )}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    {isGeneratingBanner && !sermonBanner && (
+                      <div className="flex items-center justify-center py-16 text-[#4a6580] font-body">
+                        <div className="text-center">
+                          <Spinner className="h-8 w-8 mx-auto mb-3" />
+                          <p className="text-sm">Creating your sermon banner...</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {sermonBanner && sermonBannerMime && (
+                      <div className="space-y-3">
+                        <div className="rounded-xl overflow-hidden border border-gray-100">
+                          <Image
+                            src={`data:${sermonBannerMime};base64,${sermonBanner}`}
+                            alt="Sermon banner"
+                            width={800}
+                            height={450}
+                            className="w-full"
+                            unoptimized
+                          />
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            className="h-9 px-5 bg-[#1a6fb5] hover:bg-[#155d99] text-white font-body text-sm"
+                            onClick={handleDownloadBanner}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Download Banner
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-9 font-body text-sm"
+                            onClick={() =>
+                              generateSermonBanner(sundayTitle, sundayScripture)
+                            }
+                            disabled={isGeneratingBanner}
+                          >
+                            {isGeneratingBanner ? (
+                              <>
+                                <Spinner />
+                                Regenerating...
+                              </>
+                            ) : (
+                              "Try Another"
+                            )}
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+
+                    {!sermonBanner && !isGeneratingBanner && (
+                      <div className="text-center py-10 text-[#4a6580] font-body">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 mx-auto mb-2 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
+                        </svg>
+                        <p className="text-sm">
+                          {sundayTitle.trim()
+                            ? "Save your sermon details above to auto-generate a banner."
+                            : "Enter a sermon title above first."}
+                        </p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
               </div>
             </TabsContent>
 
