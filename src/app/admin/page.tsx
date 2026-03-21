@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import FlyerTemplate from "@/components/FlyerTemplates";
-import type { FlyerData } from "@/components/FlyerTemplates";
+import Image from "next/image";
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -362,13 +361,17 @@ export default function AdminPage() {
   const [newVideoScripture, setNewVideoScripture] = useState("");
   const [isSavingVideos, setIsSavingVideos] = useState(false);
 
-  // ─── Flyer Generator ──────────────────────────────────────────────────────
-  const [flyerTitle, setFlyerTitle] = useState("");
-  const [flyerScripture, setFlyerScripture] = useState("");
-  const [flyerDescription, setFlyerDescription] = useState("");
-  const [flyerData, setFlyerData] = useState<FlyerData | null>(null);
-  const [flyerTemplate, setFlyerTemplate] = useState<1 | 2 | 3>(1);
+  // ─── Flyer Generator (AI Image) ──────────────────────────────────────────
+  interface FlyerMessage {
+    role: "user" | "ai";
+    text: string;
+    image?: string;
+    mimeType?: string;
+  }
+  const [flyerMessages, setFlyerMessages] = useState<FlyerMessage[]>([]);
+  const [flyerPrompt, setFlyerPrompt] = useState("");
   const [isGeneratingFlyer, setIsGeneratingFlyer] = useState(false);
+  const flyerScrollRef = useRef<HTMLDivElement>(null);
 
   // ─── Settings Form ────────────────────────────────────────────────────────
   const [settingsEmail, setSettingsEmail] = useState("");
@@ -429,7 +432,6 @@ export default function AdminPage() {
   const [isDeletingSubscriber, setIsDeletingSubscriber] = useState<string | null>(null);
 
   // ─── Refs ─────────────────────────────────────────────────────────────────
-  const flyerRef = useRef<HTMLDivElement>(null);
 
   // ═══════════════════════════════════════════════════════════════════════════
   // AUTH LOGIC
@@ -732,41 +734,91 @@ export default function AdminPage() {
   };
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // TAB 4: FLYER GENERATOR
+  // TAB 4: FLYER GENERATOR (AI IMAGE)
   // ═══════════════════════════════════════════════════════════════════════════
 
   const handleGenerateFlyer = async () => {
     if (!token) return;
-    if (!flyerTitle.trim() || !flyerScripture.trim()) {
-      showToast("Title and Scripture are required.", "error");
+    if (!flyerPrompt.trim()) {
+      showToast("Describe the flyer you want.", "error");
       return;
     }
+
+    const userMessage: FlyerMessage = { role: "user", text: flyerPrompt.trim() };
+    const newMessages = [...flyerMessages, userMessage];
+    setFlyerMessages(newMessages);
+    setFlyerPrompt("");
     setIsGeneratingFlyer(true);
+
+    // Scroll to bottom
+    setTimeout(() => {
+      flyerScrollRef.current?.scrollTo({
+        top: flyerScrollRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }, 100);
+
     try {
-      const res = await fetch("/api/flyer", {
+      // Build history from previous messages (not including the current one)
+      const history = flyerMessages.map((m) => ({
+        role: m.role,
+        text: m.text,
+      }));
+
+      const res = await fetch("/api/flyer-image", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          title: flyerTitle,
-          scripture: flyerScripture,
-          description: flyerDescription || undefined,
+          prompt: flyerPrompt.trim(),
+          history,
         }),
       });
 
-      if (res.ok) {
-        const data = await res.json();
-        setFlyerData(data);
+      const data = await res.json();
+
+      if (res.ok && data.image) {
+        const aiMessage: FlyerMessage = {
+          role: "ai",
+          text: data.text || "",
+          image: data.image,
+          mimeType: data.mimeType,
+        };
+        setFlyerMessages((prev) => [...prev, aiMessage]);
         showToast("Flyer generated!", "success");
       } else {
-        showToast("Failed to generate flyer.", "error");
+        showToast(data.error || "Failed to generate flyer.", "error");
+        // Remove the user message if generation failed
+        setFlyerMessages(flyerMessages);
       }
     } catch {
       showToast("Connection error.", "error");
+      setFlyerMessages(flyerMessages);
     }
     setIsGeneratingFlyer(false);
+
+    // Scroll to bottom after image loads
+    setTimeout(() => {
+      flyerScrollRef.current?.scrollTo({
+        top: flyerScrollRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }, 300);
+  };
+
+  const handleDownloadFlyer = (image: string, mimeType: string) => {
+    const ext = mimeType.includes("png") ? "png" : "jpg";
+    const link = document.createElement("a");
+    link.href = `data:${mimeType};base64,${image}`;
+    link.download = `LIFE-Ministry-Flyer.${ext}`;
+    link.click();
+  };
+
+  const handleNewFlyerThread = () => {
+    setFlyerMessages([]);
+    setFlyerPrompt("");
   };
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -1785,148 +1837,147 @@ export default function AdminPage() {
                 ═════════════════════════════════════════════════════════════════ */}
             <TabsContent value="flyer">
               <div className="space-y-6 animate-fade-in">
-                <div>
-                  <h2 className="text-xl font-display font-semibold text-[#0a1a2f] mb-1">
-                    Flyer Generator
-                  </h2>
-                  <p className="text-sm font-body text-[#4a6580] mb-6">
-                    Generate beautiful flyers for social media. Enter your sermon
-                    details and AI will create the copy.
-                  </p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-xl font-display font-semibold text-[#0a1a2f] mb-1">
+                      Flyer Generator
+                    </h2>
+                    <p className="text-sm font-body text-[#4a6580]">
+                      Describe the flyer you want and AI will create it. Edit by sending follow-up messages.
+                    </p>
+                  </div>
+                  {flyerMessages.length > 0 && (
+                    <Button
+                      variant="outline"
+                      onClick={handleNewFlyerThread}
+                      className="font-body text-sm shrink-0"
+                    >
+                      New Flyer
+                    </Button>
+                  )}
                 </div>
 
-                {/* Input Form */}
+                {/* Chat Thread */}
                 <Card className="shadow-sm border-0">
                   <CardContent className="pt-6">
-                    <div className="space-y-4">
-                      <div>
-                        <label className={labelClass}>Sermon Title</label>
-                        <Input
-                          type="text"
-                          value={flyerTitle}
-                          onChange={(e) => setFlyerTitle(e.target.value)}
-                          placeholder="Walking in the Light"
-                          className="h-11 px-4 font-body"
-                        />
-                      </div>
-                      <div>
-                        <label className={labelClass}>Scripture Reference</label>
-                        <Input
-                          type="text"
-                          value={flyerScripture}
-                          onChange={(e) => setFlyerScripture(e.target.value)}
-                          placeholder="John 8:12"
-                          className="h-11 px-4 font-body"
-                        />
-                      </div>
-                      <div>
-                        <label className={labelClass}>
-                          Description{" "}
-                          <span className="text-[#4a6580] font-normal">
-                            (optional)
-                          </span>
-                        </label>
-                        <Textarea
-                          rows={3}
-                          value={flyerDescription}
-                          onChange={(e) => setFlyerDescription(e.target.value)}
-                          placeholder="A brief description of the sermon topic..."
-                          className="px-4 py-3 font-body resize-y"
-                        />
-                      </div>
+                    {/* Messages Area */}
+                    <div
+                      ref={flyerScrollRef}
+                      className="space-y-4 max-h-[600px] overflow-y-auto mb-4 scroll-smooth"
+                    >
+                      {flyerMessages.length === 0 && !isGeneratingFlyer && (
+                        <div className="text-center py-16 text-[#4a6580] font-body">
+                          <div className="text-4xl mb-3 opacity-40">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
+                            </svg>
+                          </div>
+                          <p className="text-sm font-medium mb-1">No flyers yet</p>
+                          <p className="text-xs max-w-sm mx-auto">
+                            Try: &ldquo;Easter Sunday celebration with sunrise and gold accents&rdquo; or &ldquo;Youth night flyer with modern design&rdquo;
+                          </p>
+                        </div>
+                      )}
+
+                      {flyerMessages.map((msg, i) => (
+                        <div key={i}>
+                          {msg.role === "user" ? (
+                            <div className="flex justify-end">
+                              <div className="bg-[#1a6fb5] text-white px-4 py-2.5 rounded-2xl rounded-br-md max-w-[80%] font-body text-sm">
+                                {msg.text}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="flex justify-start">
+                              <div className="bg-[#f0f7ff] rounded-2xl rounded-bl-md p-3 max-w-[90%]">
+                                {msg.image && msg.mimeType && (
+                                  <div className="mb-3">
+                                    <Image
+                                      src={`data:${msg.mimeType};base64,${msg.image}`}
+                                      alt="Generated flyer"
+                                      width={480}
+                                      height={480}
+                                      className="rounded-xl w-full max-w-[480px]"
+                                      unoptimized
+                                    />
+                                  </div>
+                                )}
+                                {msg.text && (
+                                  <p className="text-xs font-body text-[#4a6580] mb-2">
+                                    {msg.text}
+                                  </p>
+                                )}
+                                {msg.image && msg.mimeType && (
+                                  <div className="flex gap-2">
+                                    <Button
+                                      size="sm"
+                                      className="h-8 px-4 bg-[#1a6fb5] hover:bg-[#155d99] text-white font-body text-xs"
+                                      onClick={() =>
+                                        handleDownloadFlyer(msg.image!, msg.mimeType!)
+                                      }
+                                    >
+                                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                      </svg>
+                                      Download
+                                    </Button>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+
+                      {isGeneratingFlyer && (
+                        <div className="flex justify-start">
+                          <div className="bg-[#f0f7ff] rounded-2xl rounded-bl-md px-5 py-4">
+                            <div className="flex items-center gap-2 text-[#4a6580] font-body text-sm">
+                              <Spinner />
+                              <span>Creating your flyer...</span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                    <div className="mt-5 flex justify-end">
+
+                    {/* Input Bar */}
+                    <div className="flex gap-2 items-end">
+                      <Textarea
+                        value={flyerPrompt}
+                        onChange={(e) => setFlyerPrompt(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && !e.shiftKey) {
+                            e.preventDefault();
+                            if (flyerPrompt.trim() && !isGeneratingFlyer) {
+                              handleGenerateFlyer();
+                            }
+                          }
+                        }}
+                        placeholder={
+                          flyerMessages.length === 0
+                            ? "Describe the flyer you want..."
+                            : "Describe what to change..."
+                        }
+                        rows={1}
+                        className="flex-1 px-4 py-3 font-body resize-none min-h-[44px] max-h-[120px]"
+                      />
                       <Button
                         onClick={handleGenerateFlyer}
-                        disabled={
-                          isGeneratingFlyer ||
-                          !flyerTitle.trim() ||
-                          !flyerScripture.trim()
-                        }
-                        className="h-11 px-8 bg-[#1a6fb5] hover:bg-[#155d99] text-white font-semibold font-body"
-                        size="lg"
+                        disabled={isGeneratingFlyer || !flyerPrompt.trim()}
+                        className="h-11 px-5 bg-[#1a6fb5] hover:bg-[#155d99] text-white font-semibold font-body shrink-0"
                       >
                         {isGeneratingFlyer ? (
-                          <>
-                            <Spinner />
-                            Generating...
-                          </>
+                          <Spinner />
                         ) : (
-                          "Generate Flyer"
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                          </svg>
                         )}
                       </Button>
                     </div>
                   </CardContent>
                 </Card>
-
-                {/* Template Selector + Preview */}
-                {flyerData && (
-                  <div className="space-y-4">
-                    {/* Template Buttons */}
-                    <Card className="shadow-sm border-0">
-                      <CardHeader>
-                        <CardTitle className="font-display text-[#0a1a2f]">Choose a Template</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="flex gap-3">
-                          {([1, 2, 3] as const).map((t) => (
-                            <Button
-                              key={t}
-                              onClick={() => setFlyerTemplate(t)}
-                              variant={flyerTemplate === t ? "default" : "outline"}
-                              className={`flex-1 font-body ${
-                                flyerTemplate === t
-                                  ? "bg-[#1a6fb5] text-white hover:bg-[#155d99]"
-                                  : ""
-                              }`}
-                            >
-                              {t === 1
-                                ? "Living Water"
-                                : t === 2
-                                  ? "Clean Light"
-                                  : "Bold Sky"}
-                            </Button>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    {/* Preview */}
-                    <Card className="shadow-sm border-0">
-                      <CardHeader>
-                        <div className="flex items-center justify-between w-full">
-                          <CardTitle className="font-display text-[#0a1a2f]">Flyer Preview</CardTitle>
-                          <p className="text-xs font-body text-[#4a6580]">
-                            Screenshot the flyer below to share on social media
-                          </p>
-                        </div>
-                      </CardHeader>
-                      <CardContent>
-                        <div
-                          ref={flyerRef}
-                          className="flex justify-center overflow-x-auto"
-                        >
-                          <FlyerTemplate
-                            data={flyerData}
-                            template={flyerTemplate}
-                          />
-                        </div>
-                        <div className="mt-4 flex items-center justify-center gap-4">
-                          <Button
-                            variant="outline"
-                            className="font-body text-sm"
-                            onClick={() => window.print()}
-                          >
-                            Print / Save as PDF
-                          </Button>
-                          <p className="text-xs font-body text-[#4a6580]">
-                            Tip: Use your browser&apos;s print dialog to save as PDF, or take a screenshot to share directly.
-                          </p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                )}
               </div>
             </TabsContent>
 
