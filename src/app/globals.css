@@ -16,6 +16,13 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  --life-midnight: #071521;
+  --life-water: #1677a8;
+  --life-gold: #e4b75d;
+  --life-parchment: #f3efe6;
+  --life-white: #fffdf8;
+  --life-slate: #526675;
+
   /* Color Palette — BOLD Living Water Theme */
   --bg: #fafcff;
   --surface: #f0f4f8;
@@ -138,6 +145,16 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.life-kicker {
+  color: var(--life-water);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  line-height: 1.4;
+  text-transform: uppercase;
 }
 
 h1, h2, h3, h4 {

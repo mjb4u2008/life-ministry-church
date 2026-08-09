@@ -28,19 +28,19 @@ export function GatheringCard({
   series?: PublicGatheringSeries;
 }) {
   return (
-    <article className="flex h-full min-w-0 flex-col rounded-2xl border border-[#dce8f2] bg-white p-5 shadow-sm sm:p-6">
-      <p className="font-body text-xs font-bold uppercase tracking-widest text-[#1a6fb5]">
+    <article className="flex h-full min-w-0 flex-col rounded-[1.5rem] border border-[#071521]/10 bg-[#fffdf8] p-6 shadow-sm sm:p-7">
+      <p className="font-body text-xs font-extrabold uppercase tracking-[0.16em] text-[#1677a8]">
         {series?.name ?? "L.I.F.E. Gathering"}
       </p>
-      <h3 className="mt-3 break-words font-display text-2xl font-extrabold text-[#0a1a2f]">
+      <h3 className="mt-3 break-words font-display text-3xl font-black text-[#071521]">
         {occurrence.title || series?.name || "Upcoming gathering"}
       </h3>
       {occurrence.scripture && (
-        <p className="mt-2 font-body text-sm font-semibold text-[#1a6fb5]">
+        <p className="mt-2 font-body text-sm font-bold text-[#1677a8]">
           {occurrence.scripture}
         </p>
       )}
-      <p className="mt-4 flex items-start gap-2 font-body text-sm leading-relaxed text-[#4a6580]">
+      <p className="mt-4 flex items-start gap-2 font-body text-sm leading-relaxed text-[#526675]">
         <CalendarDays className="mt-0.5 size-4 shrink-0" />
         <span>
           {formatGatheringDate(
@@ -50,13 +50,13 @@ export function GatheringCard({
         </span>
       </p>
       {occurrence.description && (
-        <p className="mt-4 flex-1 font-body text-sm leading-relaxed text-[#4a6580]">
+        <p className="mt-4 flex-1 font-body text-sm leading-relaxed text-[#526675]">
           {occurrence.description}
         </p>
       )}
       {occurrence.replayUrl && (
         <a
-          className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-[#0a1a2f] px-4 py-2.5 font-body text-sm font-bold text-white hover:bg-[#1a6fb5]"
+          className="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#071521] px-5 py-3 font-body text-sm font-bold text-white hover:bg-[#1677a8]"
           href={occurrence.replayUrl}
           rel="noopener noreferrer"
           target="_blank"

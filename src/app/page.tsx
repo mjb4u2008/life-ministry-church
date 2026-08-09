@@ -1,27 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import gsap from "gsap";
 import {
-  Heart,
-  BookOpen,
-  MessageCircle,
-  Play,
   ArrowRight,
+  CalendarDays,
+  HeartHandshake,
+  MessageCircleHeart,
+  Play,
   User,
-  Mail,
-  Share2,
-  Calendar,
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Input } from "@/components/ui/input";
 import { DailyScriptureSection } from "@/components/DailyScripture";
 import { GatheringExperience } from "@/components/gatherings";
+import { ReminderSignup } from "@/components/ReminderSignup";
 import { WelcomeForm } from "@/components/care";
 
 interface CommunityPreview {
@@ -31,985 +24,313 @@ interface CommunityPreview {
   count: number;
 }
 
-/* ─────────────────────────────────────────────
-   Belief Data
-   ───────────────────────────────────────────── */
-const beliefs = [
+const nextSteps = [
   {
-    title: "The Bible",
-    description:
-      "We believe the Bible is God's inspired Word and our guide for faith and life.",
+    icon: Play,
+    eyebrow: "Messages",
+    title: "Watch and grow",
+    description: "Join the next gathering or catch up on a message when you have time.",
+    href: "/watch",
+    label: "Watch messages",
   },
   {
-    title: "God",
-    description:
-      "We believe in one God, eternally existing in three persons: Father, Son, and Holy Spirit.",
+    icon: HeartHandshake,
+    eyebrow: "Pastoral care",
+    title: "You can ask for prayer",
+    description: "Share a private need with Pastor Mike or pray with the wider community.",
+    href: "/community",
+    label: "Request prayer",
   },
   {
-    title: "Jesus Christ",
-    description:
-      "We believe Jesus is fully God and fully man, born of a virgin, and that He died for our sins and rose again.",
+    icon: CalendarDays,
+    eyebrow: "What’s happening",
+    title: "Stay connected",
+    description: "See upcoming gatherings and simple ways to be part of the ministry.",
+    href: "/events",
+    label: "See events",
   },
-  {
-    title: "Salvation",
-    description:
-      "We believe salvation is a gift of grace received through faith in Jesus Christ alone.",
-  },
-  {
-    title: "The Church",
-    description:
-      "We believe the church is the body of Christ, called to worship, fellowship, and serve.",
-  },
-  {
-    title: "Eternity",
-    description:
-      "We believe in the resurrection of the dead and eternal life with God for all who believe.",
-  },
-];
+] as const;
 
-/* ─────────────────────────────────────────────
-   Home Page
-   ───────────────────────────────────────────── */
+const lifeWords = [
+  ["L", "Lord"],
+  ["I", "Is"],
+  ["F", "Forever"],
+  ["E", "Emmanuel"],
+] as const;
+
 export default function HomePage() {
-  const heroRef = useRef<HTMLElement>(null);
-  const [activeTab, setActiveTab] = useState<"prayers" | "testimonies">(
-    "prayers"
-  );
-
-  /* Newsletter form state */
-  const [nlName, setNlName] = useState("");
-  const [nlEmail, setNlEmail] = useState("");
-  const [nlSubmitting, setNlSubmitting] = useState(false);
-  const [nlSuccess, setNlSuccess] = useState(false);
-  const [nlError, setNlError] = useState("");
-  const [nlConsent, setNlConsent] = useState(false);
-
-  /* Prayer/testimony preview state */
+  const [activeTab, setActiveTab] = useState<"prayers" | "testimonies">("prayers");
   const [previewPrayers, setPreviewPrayers] = useState<CommunityPreview[]>([]);
   const [previewTestimonies, setPreviewTestimonies] = useState<CommunityPreview[]>([]);
 
-  /* Fetch only real, public community content. */
   useEffect(() => {
-    /* Fetch real prayers */
     fetch("/api/prayers")
-      .then((res) => (res.ok ? res.json() : null))
+      .then((response) => (response.ok ? response.json() : null))
       .then((data) => {
-        if (data?.prayers?.length > 0) {
+        if (data?.prayers?.length) {
           setPreviewPrayers(
-            data.prayers.slice(0, 3).map((p: { id: string; name: string; request: string; prayerCount: number }) => ({
-              id: p.id,
-              name: p.name,
-              text: p.request,
-              count: p.prayerCount,
-            }))
+            data.prayers.slice(0, 3).map(
+              (prayer: {
+                id: string;
+                name: string;
+                request: string;
+                prayerCount: number;
+              }) => ({
+                id: prayer.id,
+                name: prayer.name,
+                text: prayer.request,
+                count: prayer.prayerCount,
+              }),
+            ),
           );
         }
       })
       .catch(() => {});
 
-    /* Fetch real testimonies */
     fetch("/api/testimonies")
-      .then((res) => (res.ok ? res.json() : null))
+      .then((response) => (response.ok ? response.json() : null))
       .then((data) => {
-        if (data?.testimonies?.length > 0) {
+        if (data?.testimonies?.length) {
           setPreviewTestimonies(
-            data.testimonies.slice(0, 3).map((t: { id: string; name: string; text: string; blessedCount: number }) => ({
-              id: t.id,
-              name: t.name,
-              text: t.text,
-              count: t.blessedCount,
-            }))
+            data.testimonies.slice(0, 3).map(
+              (testimony: {
+                id: string;
+                name: string;
+                text: string;
+                blessedCount: number;
+              }) => ({
+                id: testimony.id,
+                name: testimony.name,
+                text: testimony.text,
+                count: testimony.blessedCount,
+              }),
+            ),
           );
         }
       })
       .catch(() => {});
   }, []);
 
-  /* GSAP: One orchestrated hero entrance */
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-      tl.from(".hero-title", { opacity: 0, y: 80, duration: 1 })
-        .from(".hero-subtitle", { opacity: 0, y: 40, duration: 0.8 }, "-=0.5")
-        .from(
-          ".hero-line",
-          { scaleX: 0, duration: 1.2, transformOrigin: "left center" },
-          "-=0.6"
-        )
-        .from(".hero-buttons", { opacity: 0, y: 30, duration: 0.8 }, "-=0.5");
-    }, heroRef);
-
-    return () => ctx.revert();
-  }, []);
+  const communityItems =
+    activeTab === "prayers" ? previewPrayers : previewTestimonies;
 
   return (
-    <div>
-      {/* ================================================
-          SECTION 1: HERO
-          ================================================ */}
-      <section
-        ref={heroRef}
-        className="relative min-h-screen flex flex-col justify-center bg-[#fafcff] overflow-hidden"
-      >
-        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16 w-full pt-32 md:pt-40 lg:pt-48 pb-24 md:pb-32">
-          {/* MASSIVE "LIFE" */}
-          <h1
-            className="hero-title font-display uppercase leading-[0.85] tracking-tight mb-6 md:mb-8"
-            style={{
-              fontSize: "clamp(6rem, 20vw, 20rem)",
-              fontWeight: 900,
-              color: "#0a1a2f",
-            }}
-          >
-            L.I.F.E.
-          </h1>
-
-          {/* Subtitle */}
-          <p
-            className="hero-subtitle font-body text-lg md:text-xl lg:text-2xl uppercase tracking-widest mb-6 md:mb-8"
-            style={{ color: "#4a6580", fontWeight: 600 }}
-          >
-            Lord Is Forever Emmanuel
-          </p>
-
-          {/* Gradient line */}
-          <div
-            className="hero-line h-[3px] w-48 md:w-80 mb-10 md:mb-14"
-            style={{
-              background:
-                "linear-gradient(90deg, #1a6fb5, #00d4ff, transparent)",
-            }}
-          />
-
-          {/* Buttons */}
-          <div className="hero-buttons flex flex-col sm:flex-row gap-4">
-            <Button
-              size="lg"
-              className="bg-[#1a6fb5] hover:bg-[#145a94] text-white font-body font-bold text-sm uppercase tracking-wider px-8 py-6 rounded-xl cursor-pointer"
-              render={<a href="#next-gathering" />}
-            >
-              See Next Gathering
-              <ArrowRight className="ml-2 size-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-[#1a6fb5] text-[#1a6fb5] hover:bg-[#1a6fb5] hover:text-white font-body font-bold text-sm uppercase tracking-wider px-8 py-6 rounded-xl cursor-pointer"
-              render={<a href="#heart" />}
-            >
-              What is L.I.F.E.?
-            </Button>
-          </div>
-        </div>
-      </section>
-
+    <div className="bg-[#f3efe6]">
       <GatheringExperience mode="home" />
 
-      <section className="bg-white py-16 md:py-20">
-        <div className="mx-auto grid max-w-screen-xl grid-cols-1 gap-10 px-6 md:grid-cols-[0.85fr_1.15fr] md:px-12 lg:px-16">
-          <div>
-            <p className="font-body text-xs font-bold uppercase tracking-[0.2em] text-[#1a6fb5]">First time with us?</p>
-            <h2 className="mt-4 font-display text-4xl font-black text-[#0a1a2f] md:text-5xl">You don’t have to walk in alone.</h2>
-            <p className="mt-5 font-body text-lg leading-relaxed text-[#4a6580]">Tell Pastor Mike you’re new. Your note stays private, and he can help with the Google Meet link or answer questions before you join.</p>
-            <Link className="mt-5 inline-flex min-h-11 items-center font-body font-bold text-[#1a6fb5]" href="/welcome">See what your first gathering is like <ArrowRight className="ml-2 size-4" /></Link>
+      <section className="bg-[#fffdf8] py-20 sm:py-24 lg:py-32" id="welcome">
+        <div className="mx-auto grid max-w-screen-xl gap-12 px-5 sm:px-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-start lg:gap-20 lg:px-12">
+          <div className="lg:sticky lg:top-28">
+            <p className="life-kicker">First time with us?</p>
+            <h2 className="mt-5 max-w-xl font-display text-4xl font-black leading-[1.02] text-[#071521] sm:text-5xl lg:text-6xl">
+              You never have to walk in alone.
+            </h2>
+            <p className="mt-6 max-w-lg text-lg leading-8 text-[#526675]">
+              L.I.F.E. is an online church family. Join from home, bring your questions,
+              and take things one step at a time. Pastor Mike can personally help you
+              with the Google Meet link before your first gathering.
+            </p>
+            <Link
+              className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-full border border-[#071521]/20 px-6 py-3 font-bold text-[#071521] transition-colors hover:bg-[#071521] hover:text-white"
+              href="/welcome"
+            >
+              What your first visit is like <ArrowRight className="size-4" />
+            </Link>
           </div>
-          <div className="rounded-3xl border border-[#dce8f2] bg-[#fafcff] p-5 sm:p-7">
+
+          <div className="rounded-[2rem] border border-[#071521]/10 bg-[#f3efe6] p-5 shadow-[0_24px_80px_rgba(7,21,33,0.08)] sm:p-8">
             <WelcomeForm compact />
           </div>
         </div>
       </section>
 
-      {/* ================================================
-          GET REMINDED BANNER
-          ================================================ */}
-      <section style={{ background: "linear-gradient(90deg, #1a6fb5, #00d4ff)" }} className="py-4">
-        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-white font-body font-semibold text-sm md:text-base tracking-wide">
-            Never miss a gathering — get reminded before we begin
-          </p>
-          <a
-            href="/watch#reminded"
-            className="inline-flex items-center gap-2 bg-white text-[#1a6fb5] font-body font-bold text-xs uppercase tracking-[0.1em] px-5 py-2 rounded-full hover:bg-white/90 transition-colors whitespace-nowrap"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-            </svg>
-            Get Reminded
-          </a>
+      <section className="border-y border-[#071521]/10 bg-[#f3efe6] py-20 sm:py-24" aria-labelledby="next-steps-heading">
+        <div className="mx-auto max-w-screen-xl px-5 sm:px-6 lg:px-12">
+          <div className="max-w-2xl">
+            <p className="life-kicker">A simple next step</p>
+            <h2 className="mt-4 font-display text-4xl font-black text-[#071521] sm:text-5xl" id="next-steps-heading">
+              Start where you are.
+            </h2>
+          </div>
+          <div className="mt-12 grid gap-5 lg:grid-cols-3">
+            {nextSteps.map((step, index) => (
+              <Link
+                className="group flex min-h-72 flex-col rounded-[1.75rem] border border-[#071521]/10 bg-[#fffdf8] p-7 text-[#071521] transition-[transform,box-shadow] hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(7,21,33,0.1)] focus-visible:-translate-y-1 sm:p-8"
+                href={step.href}
+                key={step.title}
+              >
+                <div className="flex items-center justify-between">
+                  <step.icon className="size-8 text-[#1677a8]" strokeWidth={1.8} />
+                  <span className="text-sm font-bold tabular-nums text-[#526675]">0{index + 1}</span>
+                </div>
+                <p className="mt-10 text-xs font-extrabold uppercase tracking-[0.18em] text-[#1677a8]">
+                  {step.eyebrow}
+                </p>
+                <h3 className="mt-3 font-display text-3xl font-black">{step.title}</h3>
+                <p className="mt-4 flex-1 text-base leading-7 text-[#526675]">{step.description}</p>
+                <span className="mt-7 inline-flex items-center gap-2 font-bold">
+                  {step.label} <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ================================================
-          SECTION 3: HEART OF OUR MINISTRY
-          ================================================ */}
-      <section id="heart" className="bg-white py-24 md:py-32 lg:py-40">
-        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16">
-          {/* Centered header */}
-          <div className="max-w-3xl mx-auto text-center mb-20">
-            <Badge className="mb-6 bg-[#1a6fb5]/10 text-[#1a6fb5] border-[#1a6fb5]/20 font-body font-bold text-xs uppercase tracking-widest px-4 py-1 h-auto rounded-full">
-              The Heart of Our Ministry
-            </Badge>
-
-            <h2
-              className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tight mb-8"
-              style={{ fontWeight: 900, color: "#0a1a2f" }}
-            >
-              Lord Is Forever Emmanuel
-            </h2>
-
-            <div className="flex justify-center mb-8">
-              <Separator className="w-24 bg-[#1a6fb5]" />
+      <section className="overflow-hidden bg-[#071521] py-20 text-white sm:py-28 lg:py-36" id="heart">
+        <div className="mx-auto max-w-screen-xl px-5 sm:px-6 lg:px-12">
+          <div className="grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-end lg:gap-20">
+            <div>
+              <p className="life-kicker text-[#e4b75d]">The heart of the ministry</p>
+              <h2 className="mt-5 max-w-4xl font-display text-5xl font-black leading-[0.95] sm:text-6xl lg:text-7xl">
+                God is present in every season.
+              </h2>
             </div>
-
-            <p
-              className="font-body text-lg leading-relaxed"
-              style={{ color: "#4a6580" }}
-            >
-              L.I.F.E. Ministry is built on a beautiful truth that spans from
-              ancient prophecy to present reality: God has always been, and will
-              always be, with His people. The name itself is a statement of faith
-              — each letter carrying the weight of a promise that God made and
-              has never broken.
+            <p className="max-w-xl text-lg leading-8 text-white/70">
+              L.I.F.E. Ministry is built on the promise of Emmanuel—God with us.
+              We gather online to worship, learn Scripture, pray honestly, and remind
+              one another that nobody is beyond the reach of God’s presence.
             </p>
           </div>
 
-          {/* 4 L.I.F.E. Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-20">
-            {(
-              [
-                {
-                  letter: "L",
-                  word: "Lord",
-                  desc: "Our sovereign God, the foundation of everything we are and do.",
-                },
-                {
-                  letter: "I",
-                  word: "Is",
-                  desc: "A declaration of truth. Not was, not will be — He IS, present and active.",
-                },
-                {
-                  letter: "F",
-                  word: "Forever",
-                  desc: "His love endures through every season. Unchanging. Unending.",
-                },
-                {
-                  letter: "E",
-                  word: "Emmanuel",
-                  desc: "God with us. In every moment, in every place, He is near.",
-                },
-              ] as const
-            ).map((item) => (
-              <Card
-                key={item.letter}
-                className="bg-white ring-1 ring-[#e0eaf3] rounded-xl hover:shadow-lg transition-shadow duration-300 py-0"
-              >
-                <CardContent className="p-6 md:p-8">
-                  <div
-                    className="text-5xl md:text-6xl font-display mb-3"
-                    style={{ fontWeight: 900, color: "#1a6fb5" }}
-                  >
-                    {item.letter}
-                  </div>
-                  <div
-                    className="font-body font-bold text-base mb-2"
-                    style={{ color: "#0a1a2f" }}
-                  >
-                    {item.word}
-                  </div>
-                  <p className="text-sm text-muted-foreground font-body leading-relaxed">
-                    {item.desc}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Scripture Connection Block */}
-          <div className="bg-[#f0f4f8] rounded-2xl p-8 md:p-14">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <h3
-                  className="text-3xl md:text-4xl font-display mb-8 tracking-tight"
-                  style={{ fontWeight: 900, color: "#0a1a2f" }}
-                >
-                  A Promise Fulfilled
-                </h3>
-                <div className="space-y-4 font-body leading-relaxed" style={{ color: "#4a6580" }}>
-                  <p>
-                    In{" "}
-                    <strong className="text-[#0a1a2f] font-bold">
-                      Isaiah 7:14
-                    </strong>
-                    , the prophet spoke of a coming sign:{" "}
-                    <em>
-                      &quot;The virgin will conceive and give birth to a son, and
-                      will call him Immanuel.&quot;
-                    </em>
-                  </p>
-                  <p>
-                    Centuries later,{" "}
-                    <strong className="text-[#0a1a2f] font-bold">
-                      Matthew 1:23
-                    </strong>{" "}
-                    reveals the fulfillment of this prophecy in Jesus Christ —
-                    Emmanuel, which means{" "}
-                    <em>&quot;God with us.&quot;</em>
-                  </p>
-                  <p>
-                    This is the foundation of L.I.F.E. Ministry: the eternal God
-                    chose to dwell among us, and through Jesus, He continues to
-                    be present with His people — including you, right where you
-                    are.
-                  </p>
-                </div>
+          <div className="mt-16 grid grid-cols-2 border-l border-t border-white/15 md:grid-cols-4">
+            {lifeWords.map(([letter, word]) => (
+              <div className="border-b border-r border-white/15 p-5 sm:p-7 lg:p-9" key={letter}>
+                <span className="font-display text-6xl font-black text-[#e4b75d] sm:text-7xl">{letter}</span>
+                <p className="mt-3 text-sm font-extrabold uppercase tracking-[0.18em] text-white/75">{word}</p>
               </div>
-              <Card className="bg-white ring-0 rounded-2xl shadow-sm py-0">
-                <CardContent className="p-8">
-                  <svg
-                    className="w-12 h-12 text-[#1a6fb5] mb-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                    />
-                  </svg>
-                  <blockquote
-                    className="font-display text-xl md:text-2xl leading-relaxed mb-4"
-                    style={{ fontWeight: 800, color: "#0a1a2f" }}
-                  >
-                    &ldquo;And surely I am with you always, to the very end of
-                    the age.&rdquo;
-                  </blockquote>
-                  <cite className="text-[#1a6fb5] font-body font-bold not-italic">
-                    — Matthew 28:20
-                  </cite>
-                </CardContent>
-              </Card>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ================================================
-          DAILY SCRIPTURE
-          ================================================ */}
       <DailyScriptureSection />
 
-      {/* ================================================
-          SECTION 4: WHAT WE BELIEVE
-          ================================================ */}
-      <section className="bg-[#f0f4f8] py-24 md:py-32 lg:py-40">
-        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16">
-          <div className="text-center mb-6">
-            <h2
-              className="font-display text-3xl md:text-4xl lg:text-5xl uppercase tracking-wide"
-              style={{ fontWeight: 900, color: "#0a1a2f" }}
-            >
-              What We Believe
-            </h2>
-          </div>
-
-          <div className="flex justify-center mb-16 md:mb-20">
-            <Separator className="w-24 bg-[#1a6fb5]" />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {beliefs.map((belief, index) => (
-              <Card
-                key={belief.title}
-                className="bg-white ring-1 ring-[#e0eaf3] rounded-xl hover:shadow-lg transition-shadow duration-300 py-0"
-              >
-                <CardContent className="p-8">
-                  <span
-                    className="text-5xl font-display leading-none"
-                    style={{ fontWeight: 900, color: "#1a6fb5" }}
-                  >
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <h3
-                    className="font-display text-xl mt-4 mb-3"
-                    style={{ fontWeight: 800, color: "#0a1a2f" }}
-                  >
-                    {belief.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground font-body leading-relaxed">
-                    {belief.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ================================================
-          SECTION 5: PASTOR MIKE
-          ================================================ */}
-      <section className="bg-white py-24 md:py-32 lg:py-40">
-        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16">
-          <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-start">
-            {/* Left: Bio */}
-            <div>
-              <Badge className="mb-6 bg-[#1a6fb5]/10 text-[#1a6fb5] border-[#1a6fb5]/20 font-body font-bold text-xs uppercase tracking-widest px-4 py-1 h-auto rounded-full">
-                Meet the Pastor
-              </Badge>
-
-              <h2
-                className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tight mb-8"
-                style={{ fontWeight: 900, color: "#0a1a2f" }}
-              >
-                Pastor Mike
-              </h2>
-
-              <div
-                className="space-y-5 font-body leading-relaxed text-lg"
-                style={{ color: "#4a6580" }}
-              >
-                <p>
-                  Pastor Mike founded L.I.F.E. Ministry with a simple vision: to
-                  create a welcoming space where people can experience
-                  God&apos;s presence together, no matter where they are in the
-                  world.
-                </p>
-                <p>
-                  With a heart for teaching and a passion for authentic
-                  connection, Pastor Mike brings Scripture to life in a way
-                  that&apos;s accessible, practical, and filled with warmth. His
-                  conversational style makes everyone feel like family.
-                </p>
-                <p>
-                  Beyond Sunday services, you can find Pastor Mike sharing daily
-                  encouragement on TikTok and Instagram, where he connects with
-                  thousands through short, powerful messages of faith and hope.
-                </p>
-              </div>
-
-              <blockquote className="mt-10 border-l-4 border-[#1a6fb5] pl-6">
-                <p
-                  className="font-display text-xl md:text-2xl leading-[1.3] italic"
-                  style={{ fontWeight: 800, color: "#0a1a2f" }}
-                >
-                  &ldquo;God is with you right now, right where you are.
-                  That&apos;s not just a nice thought — it&apos;s the truth that
-                  changes everything.&rdquo;
-                </p>
-                <cite className="block mt-4 text-[#1a6fb5] font-body font-bold not-italic text-base">
-                  — Pastor Mike
-                </cite>
+      <section className="bg-[#fffdf8] py-20 sm:py-28" id="pastor">
+        <div className="mx-auto grid max-w-screen-xl gap-12 px-5 sm:px-6 lg:grid-cols-2 lg:items-center lg:gap-20 lg:px-12">
+          <div className="relative min-h-[430px] overflow-hidden rounded-[2rem] bg-[#071521]">
+            <Image
+              alt="An open Bible in a warm worship setting"
+              className="object-cover object-[68%_center] opacity-70"
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              src="/images/life-ministry-hero.jpg"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#071521] via-[#071521]/20 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-7 text-white sm:p-10">
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#e4b75d]">A note from Pastor Mike</p>
+              <blockquote className="mt-4 max-w-md font-display text-2xl font-bold leading-snug sm:text-3xl">
+                “God is with you right now, right where you are.”
               </blockquote>
             </div>
+          </div>
 
-            {/* Right: TikTok Placeholder */}
-            <div className="bg-[#0a1a2f] rounded-2xl p-8 flex flex-col items-center justify-center min-h-[400px] text-center">
-              <svg
-                className="w-16 h-16 text-white/60 mb-6"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V9.17a8.16 8.16 0 004.76 1.52v-3.4a4.85 4.85 0 01-1-.6z" />
-              </svg>
-              <p className="text-white/40 font-body text-sm mb-4">
-                TikTok Video Coming Soon
+          <div>
+            <p className="life-kicker">Meet the pastor</p>
+            <h2 className="mt-5 font-display text-5xl font-black text-[#071521] sm:text-6xl">Pastor Mike</h2>
+            <div className="mt-7 space-y-5 text-lg leading-8 text-[#526675]">
+              <p>
+                Pastor Mike created L.I.F.E. Ministry as a welcoming place where
+                people can experience God’s presence together, wherever they live.
               </p>
-              <a
-                href="https://www.tiktok.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-[#00d4ff] font-body text-sm font-bold hover:text-white transition-colors"
-              >
-                Follow on TikTok
-                <ArrowRight className="size-4" />
-              </a>
+              <p>
+                His teaching is conversational, practical, and grounded in Scripture.
+                You do not need to know church language or have everything figured out
+                before you join.
+              </p>
             </div>
+            <Link className="mt-8 inline-flex min-h-12 items-center gap-2 font-bold text-[#1677a8]" href="/welcome">
+              Meet L.I.F.E. Ministry <ArrowRight className="size-4" />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ================================================
-          SECTION 7: WE ARE ALL MINISTERS
-          ================================================ */}
-      <section className="bg-[#0a1a2f] py-24 md:py-32 lg:py-40">
-        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16">
-          {/* Heading */}
-          <div className="text-center mb-6">
-            <h2
-              className="font-display text-4xl md:text-5xl lg:text-6xl uppercase tracking-tight text-white"
-              style={{ fontWeight: 900 }}
-            >
-              We Are All Ministers
-            </h2>
-          </div>
-          <p className="text-white/60 font-body text-lg text-center max-w-2xl mx-auto mb-12">
-            Share your faith. Lift each other up.
-          </p>
-
-          {/* Tab Toggle */}
-          <div className="flex justify-center mb-12">
-            <div className="flex w-full max-w-sm flex-col gap-1.5 rounded-xl bg-white/10 p-1.5 sm:inline-flex sm:w-auto sm:flex-row sm:gap-0">
+      <section className="bg-[#f3efe6] py-20 sm:py-28" aria-labelledby="community-heading">
+        <div className="mx-auto max-w-screen-xl px-5 sm:px-6 lg:px-12">
+          <div className="flex flex-col gap-7 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="life-kicker">Real people. Real prayer.</p>
+              <h2 className="mt-4 font-display text-4xl font-black text-[#071521] sm:text-5xl" id="community-heading">
+                We carry life together.
+              </h2>
+            </div>
+            <div className="flex rounded-full border border-[#071521]/15 bg-[#fffdf8] p-1.5" role="group" aria-label="Community stories">
               <button
+                aria-pressed={activeTab === "prayers"}
+                className={`min-h-11 rounded-full px-5 text-sm font-bold transition-colors ${activeTab === "prayers" ? "bg-[#071521] text-white" : "text-[#526675] hover:text-[#071521]"}`}
                 onClick={() => setActiveTab("prayers")}
-                className={`flex w-full items-center justify-center gap-2 px-4 py-3 rounded-lg font-body font-bold text-sm uppercase tracking-wider transition-all duration-200 cursor-pointer sm:w-auto sm:px-6 ${
-                  activeTab === "prayers"
-                    ? "bg-white text-[#0a1a2f] shadow-lg"
-                    : "text-white/60 hover:text-white"
-                }`}
+                type="button"
               >
-                <Heart className="size-4" />
-                Prayer Requests
+                Prayer requests
               </button>
               <button
+                aria-pressed={activeTab === "testimonies"}
+                className={`min-h-11 rounded-full px-5 text-sm font-bold transition-colors ${activeTab === "testimonies" ? "bg-[#071521] text-white" : "text-[#526675] hover:text-[#071521]"}`}
                 onClick={() => setActiveTab("testimonies")}
-                className={`flex w-full items-center justify-center gap-2 px-4 py-3 rounded-lg font-body font-bold text-sm uppercase tracking-wider transition-all duration-200 cursor-pointer sm:w-auto sm:px-6 ${
-                  activeTab === "testimonies"
-                    ? "bg-white text-[#0a1a2f] shadow-lg"
-                    : "text-white/60 hover:text-white"
-                }`}
+                type="button"
               >
-                <BookOpen className="size-4" />
                 Testimonies
               </button>
             </div>
           </div>
 
-          {/* Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            {(activeTab === "prayers" ? previewPrayers : previewTestimonies).length === 0 ? (
-              <div className="rounded-xl border border-white/15 bg-white/5 p-7 text-center font-body text-white/70 md:col-span-3">
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {communityItems.length ? (
+              communityItems.map((item) => (
+                <article className="rounded-[1.5rem] border border-[#071521]/10 bg-[#fffdf8] p-7" key={item.id}>
+                  <div className="flex size-11 items-center justify-center rounded-full bg-[#1677a8]/10 text-[#1677a8]">
+                    <User className="size-5" />
+                  </div>
+                  <p className="mt-6 line-clamp-5 text-base leading-7 text-[#526675]">{item.text}</p>
+                  <div className="mt-6 flex items-center justify-between border-t border-[#071521]/10 pt-5 text-sm">
+                    <span className="font-bold text-[#071521]">{item.name}</span>
+                    <span className="text-[#1677a8]">{item.count} {activeTab === "prayers" ? "praying" : "blessed"}</span>
+                  </div>
+                </article>
+              ))
+            ) : (
+              <div className="rounded-[1.5rem] border border-[#071521]/10 bg-[#fffdf8] p-8 text-lg text-[#526675] md:col-span-3">
                 {activeTab === "prayers"
                   ? "No public prayer requests have been shared yet."
                   : "No testimonies have been published yet."}
               </div>
-            ) : activeTab === "prayers"
-              ? previewPrayers.map((prayer) => (
-                  <Card
-                    key={prayer.id}
-                    className="bg-white ring-0 rounded-xl py-0"
-                  >
-                    <CardContent className="p-6">
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-10 h-10 rounded-full bg-[#f0f4f8] flex items-center justify-center">
-                          <User className="size-4 text-[#1a6fb5]" />
-                        </div>
-                        <div>
-                          <p
-                            className="font-body font-bold text-sm"
-                            style={{ color: "#0a1a2f" }}
-                          >
-                            {prayer.name}
-                          </p>
-                        </div>
-                      </div>
-                      <p
-                        className="font-body text-sm leading-relaxed mb-4"
-                        style={{ color: "#4a6580" }}
-                      >
-                        {prayer.text}
-                      </p>
-                      <div className="flex items-center gap-2 text-sm font-body">
-                        <Heart className="size-3.5 text-[#1a6fb5]" />
-                        <span className="font-bold text-[#1a6fb5]">
-                          {prayer.count}
-                        </span>
-                        <span style={{ color: "#4a6580" }}>praying</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))
-              : previewTestimonies.map((testimony) => (
-                  <Card
-                    key={testimony.id}
-                    className="bg-white ring-0 rounded-xl py-0"
-                  >
-                    <CardContent className="p-6">
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-10 h-10 rounded-full bg-[#f0f4f8] flex items-center justify-center">
-                          <User className="size-4 text-[#1a6fb5]" />
-                        </div>
-                        <div>
-                          <p
-                            className="font-body font-bold text-sm"
-                            style={{ color: "#0a1a2f" }}
-                          >
-                            {testimony.name}
-                          </p>
-                        </div>
-                      </div>
-                      <p
-                        className="font-body text-sm leading-relaxed mb-4"
-                        style={{ color: "#4a6580" }}
-                      >
-                        {testimony.text}
-                      </p>
-                      <div className="flex items-center gap-2 text-sm font-body">
-                        <BookOpen className="size-3.5 text-[#1a6fb5]" />
-                        <span className="font-bold text-[#1a6fb5]">
-                          {testimony.count}
-                        </span>
-                        <span style={{ color: "#4a6580" }}>blessed</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+            )}
           </div>
 
-          {/* CTA Button */}
-          <div className="text-center">
-            <Button
-              size="lg"
-              className="bg-gradient-to-r from-[#1a6fb5] to-[#00b4d8] hover:from-[#145a94] hover:to-[#0096b7] text-white font-body font-bold text-sm uppercase tracking-wider px-10 py-6 rounded-xl cursor-pointer"
-              render={<Link href="/community" />}
-            >
-              {activeTab === "prayers"
-                ? "View All / Submit"
-                : "View All / Share"}
-              <ArrowRight className="ml-2 size-4" />
-            </Button>
-          </div>
+          <Link className="mt-8 inline-flex min-h-12 items-center gap-2 font-bold text-[#1677a8]" href="/community">
+            {activeTab === "prayers" ? "Ask for prayer" : "Share your testimony"}
+            <ArrowRight className="size-4" />
+          </Link>
         </div>
       </section>
 
-      {/* ================================================
-          SECTION 8: EXPLORE
-          ================================================ */}
-      <section className="bg-[#fafcff] py-24 md:py-32 lg:py-40">
-        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16">
-          {/* Heading */}
-          <div className="text-center mb-6">
-            <h2
-              className="font-display text-3xl md:text-4xl lg:text-5xl uppercase tracking-wide"
-              style={{ fontWeight: 900, color: "#0a1a2f" }}
-            >
-              Explore
+      <section className="bg-[#071521] py-20 text-white sm:py-28" id="reminded">
+        <div className="mx-auto grid max-w-screen-xl gap-12 px-5 sm:px-6 lg:grid-cols-[1fr_0.8fr] lg:items-center lg:gap-20 lg:px-12">
+          <div>
+            <MessageCircleHeart className="size-11 text-[#e4b75d]" strokeWidth={1.7} />
+            <p className="life-kicker mt-8 text-[#e4b75d]">A gentle reminder</p>
+            <h2 className="mt-5 max-w-2xl font-display text-5xl font-black leading-[0.98] sm:text-6xl">
+              We’ll let you know before church begins.
             </h2>
-          </div>
-
-          <div className="flex justify-center mb-16 md:mb-20">
-            <Separator className="w-24 bg-[#1a6fb5]" />
-          </div>
-
-          {/* 3 Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {(
-              [
-                {
-                  icon: Play,
-                  title: "Watch Online",
-                  desc: "Stream our latest sermons and Bible studies. Grow in your faith from anywhere in the world.",
-                  href: "/watch",
-                  label: "Watch Now",
-                },
-                {
-                  icon: MessageCircle,
-                  title: "Ask The Word",
-                  desc: "Have a question about Scripture? Get thoughtful, biblically-grounded answers from our ministry.",
-                  href: "/ask",
-                  label: "Ask a Question",
-                },
-                {
-                  icon: Heart,
-                  title: "Give",
-                  desc: "Support the mission of L.I.F.E. Ministry. Every gift helps us reach more people with the love of Christ.",
-                  href: "/give",
-                  label: "Give Now",
-                },
-              ] as const
-            ).map((item) => (
-              <Card
-                key={item.title}
-                className="bg-white ring-1 ring-[#e0eaf3] rounded-xl hover:shadow-lg transition-all duration-300 py-0"
-              >
-                <CardHeader className="p-6 md:p-8 pb-0 md:pb-0">
-                  <div className="w-12 h-12 bg-[#1a6fb5]/10 rounded-xl flex items-center justify-center mb-4">
-                    <item.icon className="size-6 text-[#1a6fb5]" />
-                  </div>
-                  <h3
-                    className="font-display text-xl md:text-2xl mb-2"
-                    style={{ fontWeight: 800, color: "#0a1a2f" }}
-                  >
-                    {item.title}
-                  </h3>
-                </CardHeader>
-                <CardContent className="p-6 md:p-8 pt-2 md:pt-2">
-                  <p className="text-sm text-muted-foreground font-body leading-relaxed mb-6">
-                    {item.desc}
-                  </p>
-                  <Button
-                    variant="outline"
-                    className="border-[#1a6fb5] text-[#1a6fb5] hover:bg-[#1a6fb5] hover:text-white font-body font-bold text-xs uppercase tracking-wider rounded-lg cursor-pointer"
-                    render={<Link href={item.href} />}
-                  >
-                    {item.label}
-                    <ArrowRight className="ml-2 size-3" />
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ================================================
-          UPCOMING EVENTS CTA
-          ================================================ */}
-      <section className="bg-[#0a1a2f] py-16 md:py-20">
-        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-          <Calendar className="size-10 text-[#00d4ff] mx-auto mb-6" />
-          <h2
-            className="font-display text-3xl md:text-4xl lg:text-5xl uppercase tracking-tight text-white mb-4"
-            style={{ fontWeight: 900 }}
-          >
-            Upcoming Events
-          </h2>
-          <p className="text-white/60 font-body text-base md:text-lg max-w-xl mx-auto mb-8">
-            See what&apos;s happening at L.I.F.E. Ministry
-          </p>
-          <Button
-            size="lg"
-            className="bg-gradient-to-r from-[#1a6fb5] to-[#00b4d8] hover:from-[#145a94] hover:to-[#0096b7] text-white font-body font-bold text-sm uppercase tracking-wider px-10 py-6 rounded-xl cursor-pointer"
-            render={<Link href="/events" />}
-          >
-            View Events
-            <ArrowRight className="ml-2 size-4" />
-          </Button>
-        </div>
-      </section>
-
-      {/* ================================================
-          SECTION 9: STAY CONNECTED
-          ================================================ */}
-      <section className="bg-[#0a1a2f] text-white py-24 md:py-32 lg:py-40">
-        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16">
-          <div className="max-w-2xl mx-auto">
-            <Card className="bg-white text-[#0a1a2f] ring-0 rounded-2xl shadow-[0_12px_48px_rgba(0,0,0,0.25)] py-0">
-              <CardContent className="p-8 md:p-12 lg:p-16">
-                <h2
-                  className="font-display text-3xl md:text-4xl lg:text-5xl mb-3 tracking-tight"
-                  style={{ fontWeight: 900, color: "#0a1a2f" }}
-                >
-                  Stay Connected
-                </h2>
-                <p
-                  className="font-body text-base mb-10"
-                  style={{ color: "#4a6580" }}
-                >
-                  Get notified before each service. Stay in the loop with
-                  L.I.F.E. Ministry.
-                </p>
-
-                {nlSuccess ? (
-                  <div className="text-center py-6">
-                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <p className="font-body font-bold text-lg" style={{ color: "#0a1a2f" }}>
-                      You&apos;re signed up!
-                    </p>
-                    <p className="font-body text-sm mt-2" style={{ color: "#4a6580" }}>
-                      We&apos;ll keep you in the loop with L.I.F.E. Ministry updates.
-                    </p>
-                  </div>
-                ) : (
-                <form
-                  className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-                  onSubmit={async (e) => {
-                    e.preventDefault();
-                    setNlError("");
-                    setNlSubmitting(true);
-                    try {
-                      const res = await fetch("/api/subscribers", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                          name: nlName,
-                          contactType: "email",
-                          contact: nlEmail,
-                          consent: nlConsent,
-                          signupContext: "homepage",
-                        }),
-                      });
-                      if (!res.ok) {
-                        const data = await res.json();
-                        setNlError(data.error || "Something went wrong. Please try again.");
-                      } else {
-                        setNlSuccess(true);
-                        setNlName("");
-                        setNlEmail("");
-                        setNlConsent(false);
-                      }
-                    } catch {
-                      setNlError("Network error. Please try again.");
-                    } finally {
-                      setNlSubmitting(false);
-                    }
-                  }}
-                >
-                  <div className="flex flex-col gap-2 sm:col-span-2">
-                    <label
-                      className="text-xs font-body font-bold uppercase tracking-widest"
-                      style={{ color: "#4a6580" }}
-                      htmlFor="nlName"
-                    >
-                      Name
-                    </label>
-                    <Input
-                      id="nlName"
-                      type="text"
-                      placeholder="Alex Smith"
-                      value={nlName}
-                      onChange={(e) => setNlName(e.target.value)}
-                      required
-                      className="h-12 border-[#c8dded] focus-visible:border-[#1a6fb5] focus-visible:ring-[#1a6fb5]/20 rounded-lg font-body text-[#0a1a2f] px-4"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <label
-                      className="text-xs font-body font-bold uppercase tracking-widest"
-                      style={{ color: "#4a6580" }}
-                      htmlFor="nlEmail"
-                    >
-                      Email
-                    </label>
-                    <Input
-                      id="nlEmail"
-                      type="email"
-                      placeholder="alex@email.com"
-                      value={nlEmail}
-                      onChange={(e) => setNlEmail(e.target.value)}
-                      required
-                      className="h-12 border-[#c8dded] focus-visible:border-[#1a6fb5] focus-visible:ring-[#1a6fb5]/20 rounded-lg font-body text-[#0a1a2f] px-4"
-                    />
-                  </div>
-                  <div className="flex items-end">
-                    <Button
-                      type="submit"
-                      size="lg"
-                      disabled={nlSubmitting}
-                      className="w-full h-12 bg-[#1a6fb5] hover:bg-[#145a94] text-white font-body font-bold text-sm uppercase tracking-wider rounded-lg cursor-pointer disabled:opacity-60"
-                    >
-                      {nlSubmitting ? "Submitting..." : "Get Notified"}
-                    </Button>
-                  </div>
-                  <label className="sm:col-span-2 flex items-start gap-3 text-sm font-body leading-relaxed text-[#4a6580]">
-                    <input
-                      checked={nlConsent}
-                      className="mt-1 size-4 shrink-0 accent-[#1a6fb5]"
-                      onChange={(event) => setNlConsent(event.target.checked)}
-                      required
-                      type="checkbox"
-                    />
-                    I agree to receive service reminders and ministry updates by email. I can unsubscribe from any email.
-                  </label>
-                  {nlError && (
-                    <p className="sm:col-span-2 text-red-600 font-body text-sm">{nlError}</p>
-                  )}
-                </form>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* ================================================
-          GET IN TOUCH
-          ================================================ */}
-      <section className="bg-[#f0f4f8] py-20 md:py-24">
-        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16">
-          <div className="max-w-3xl mx-auto text-center mb-12">
-            <h2
-              className="font-display text-3xl md:text-4xl tracking-tight mb-4"
-              style={{ fontWeight: 900, color: "#0a1a2f" }}
-            >
-              Want to connect with Pastor Mike?
-            </h2>
-            <p className="font-body text-base" style={{ color: "#4a6580" }}>
-              We&apos;d love to hear from you. Reach out anytime.
+            <p className="mt-6 max-w-xl text-lg leading-8 text-white/70">
+              Choose email or text. We only use it for the reminders you request,
+              and you can opt out at any time.
             </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-            {/* Email Card */}
-            <Card className="bg-white ring-1 ring-[#e0eaf3] rounded-xl py-0">
-              <CardContent className="p-6 md:p-8 text-center">
-                <div className="w-12 h-12 bg-[#1a6fb5]/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Mail className="size-6 text-[#1a6fb5]" />
-                </div>
-                <h3
-                  className="font-display text-lg mb-2"
-                  style={{ fontWeight: 800, color: "#0a1a2f" }}
-                >
-                  Email Us
-                </h3>
-                <p className="font-body text-sm mb-4" style={{ color: "#4a6580" }}>
-                  ministry@lifeministry.org
-                </p>
-                <Button
-                  variant="outline"
-                  className="border-[#1a6fb5] text-[#1a6fb5] hover:bg-[#1a6fb5] hover:text-white font-body font-bold text-xs uppercase tracking-wider rounded-lg cursor-pointer"
-                  render={<a href="mailto:ministry@lifeministry.org" />}
-                >
-                  Send Email
-                  <ArrowRight className="ml-2 size-3" />
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Follow Card */}
-            <Card className="bg-white ring-1 ring-[#e0eaf3] rounded-xl py-0">
-              <CardContent className="p-6 md:p-8 text-center">
-                <div className="w-12 h-12 bg-[#1a6fb5]/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Share2 className="size-6 text-[#1a6fb5]" />
-                </div>
-                <h3
-                  className="font-display text-lg mb-2"
-                  style={{ fontWeight: 800, color: "#0a1a2f" }}
-                >
-                  Follow Us
-                </h3>
-                <p className="font-body text-sm mb-4" style={{ color: "#4a6580" }}>
-                  Stay inspired daily on social media
-                </p>
-                <div className="flex items-center justify-center gap-3">
-                  <a
-                    href="#"
-                    className="inline-flex items-center gap-1.5 text-[#1a6fb5] font-body text-xs font-bold uppercase tracking-wider hover:text-[#145a94] transition-colors"
-                  >
-                    TikTok
-                  </a>
-                  <span className="text-[#c8dded]">|</span>
-                  <a
-                    href="#"
-                    className="inline-flex items-center gap-1.5 text-[#1a6fb5] font-body text-xs font-bold uppercase tracking-wider hover:text-[#145a94] transition-colors"
-                  >
-                    Instagram
-                  </a>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          <ReminderSignup />
         </div>
       </section>
 
-      {/* ================================================
-          FOOTER SPACER
-          ================================================ */}
-      <section className="bg-[#fafcff] py-16 md:py-20">
-        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-          <p
-            className="font-body text-sm uppercase tracking-[0.2em]"
-            style={{ color: "#4a6580" }}
-          >
-            Lord Is Forever Emmanuel
-          </p>
+      <section className="bg-[#e4b75d] py-14 text-[#071521]">
+        <div className="mx-auto flex max-w-screen-xl flex-col gap-7 px-5 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-12">
+          <div>
+            <p className="text-xs font-extrabold uppercase tracking-[0.18em]">More ways to connect</p>
+            <h2 className="mt-2 font-display text-3xl font-black sm:text-4xl">See what’s happening at L.I.F.E.</h2>
+          </div>
+          <Link className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#071521] px-7 py-3 font-bold text-white" href="/events">
+            View all events <ArrowRight className="size-4" />
+          </Link>
         </div>
       </section>
     </div>

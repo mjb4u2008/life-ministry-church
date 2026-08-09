@@ -25,7 +25,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "L.I.F.E. Ministry | Lord Is Forever Emmanuel",
   description:
-    "Join L.I.F.E. Ministry every Sunday for interactive worship, connection, and community. Experience God's constant presence together.",
+    "Join L.I.F.E. Ministry online every Wednesday and Sunday for Scripture, worship, prayer, and genuine community.",
 };
 
 // Per-request CSP nonces require dynamic rendering so every framework script

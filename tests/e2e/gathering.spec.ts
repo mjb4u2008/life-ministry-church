@@ -116,7 +116,7 @@ test("gathering: Watch shows a real replay and no fabricated archive", async ({ 
   await page.goto("/watch");
 
   await expect(page.getByRole("heading", { name: "A Message to Remember" })).toBeVisible();
-  await expect(page.getByText("Latest replay")).toBeVisible();
+  await expect(page.getByText("Latest message")).toBeVisible();
   await expect(page.getByRole("link", { name: /watch replay/i })).toHaveAttribute(
     "href",
     REPLAY_URL,

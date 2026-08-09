@@ -37,7 +37,7 @@ test("responsive: public and admin foundations hold at every required width", as
     }).slice(0, 5));
     expect(publicOverflow, `homepage overflow at ${width}px`).toEqual([]);
     if (width < 768) {
-      const menu = page.getByRole("button", { name: "Toggle menu" });
+      const menu = page.getByRole("button", { name: "Open menu" });
       const box = await menu.boundingBox();
       expect(box?.width, `menu width at ${width}px`).toBeGreaterThanOrEqual(44);
       expect(box?.height, `menu height at ${width}px`).toBeGreaterThanOrEqual(44);

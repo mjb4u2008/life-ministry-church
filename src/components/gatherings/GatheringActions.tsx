@@ -7,9 +7,11 @@ import type { PublicGatheringOccurrence } from "@/lib/gatherings";
 export function GatheringActions({
   occurrence,
   reminderHref = "/watch#reminded",
+  tone = "dark",
 }: {
   occurrence: PublicGatheringOccurrence;
   reminderHref?: string;
+  tone?: "dark" | "gold";
 }) {
   const [copied, setCopied] = useState(false);
 
@@ -28,7 +30,7 @@ export function GatheringActions({
     return (
       <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
         <a
-          className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#1a6fb5] px-6 py-3 font-body text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-[#145a94] sm:w-auto"
+          className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3 font-body text-sm font-black text-[#071521] transition-colors hover:bg-[#f3efe6] sm:w-auto"
           href={occurrence.joinUrl}
           rel="noopener noreferrer"
           target="_blank"
@@ -36,7 +38,7 @@ export function GatheringActions({
           Join on Google Meet <ExternalLink className="size-4" />
         </a>
         <button
-          className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-white/25 px-5 py-3 font-body text-sm font-bold text-white transition-colors hover:bg-white/10 sm:w-auto"
+          className={`inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-5 py-3 font-body text-sm font-bold transition-colors sm:w-auto ${tone === "gold" ? "border border-[#071521]/25 text-[#071521] hover:bg-[#071521]/10" : "border border-white/30 text-white hover:bg-white/10"}`}
           onClick={copyJoinLink}
           type="button"
         >
@@ -50,7 +52,7 @@ export function GatheringActions({
   if (occurrence.replayUrl) {
     return (
       <a
-        className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#1a6fb5] px-6 py-3 font-body text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-[#145a94] sm:w-auto"
+        className={`inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 py-3 font-body text-sm font-black transition-colors sm:w-auto ${tone === "gold" ? "bg-[#071521] text-white hover:bg-[#162c3b]" : "bg-[#e4b75d] text-[#071521] hover:bg-[#f4d690]"}`}
         href={occurrence.replayUrl}
         rel="noopener noreferrer"
         target="_blank"
@@ -62,7 +64,7 @@ export function GatheringActions({
 
   return (
     <a
-      className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-white/30 px-6 py-3 font-body text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-white/10 sm:w-auto"
+      className={`inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 py-3 font-body text-sm font-black transition-colors sm:w-auto ${tone === "gold" ? "bg-[#071521] text-white hover:bg-[#162c3b]" : "bg-[#e4b75d] text-[#071521] hover:bg-[#f4d690]"}`}
       href={reminderHref}
     >
       Get a reminder <Bell className="size-4" />

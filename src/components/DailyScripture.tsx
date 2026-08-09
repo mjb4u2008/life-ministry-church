@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Separator } from "@/components/ui/separator";
 
 interface DailyScriptureData {
   verse: string;
@@ -38,50 +37,34 @@ export function DailyScriptureSection() {
   }, []);
 
   return (
-    <section className="py-20 md:py-28" style={{ background: "#f0f4f8" }}>
-      <div className="max-w-3xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-        <p
-          className="font-body font-bold text-xs uppercase tracking-[0.2em] mb-8"
-          style={{ color: "#1a6fb5" }}
-        >
-          Daily Inspiration
+    <section className="border-y border-[#071521]/10 bg-[#f3efe6] py-20 md:py-28">
+      <div className="mx-auto max-w-4xl px-5 text-center sm:px-6 lg:px-12">
+        <p className="life-kicker mb-8">
+          A word for today
         </p>
 
-        <Separator className="max-w-16 mx-auto mb-10" style={{ background: "#1a6fb5" }} />
+        <div className="mx-auto mb-10 h-px w-16 bg-[#e4b75d]" />
 
         {loading ? (
           <div className="animate-pulse space-y-4">
-            <div className="h-8 w-3/4 rounded mx-auto" style={{ background: "#dce8f2" }} />
-            <div className="h-8 w-1/2 rounded mx-auto" style={{ background: "#dce8f2" }} />
-            <div className="h-5 w-32 rounded mx-auto" style={{ background: "#dce8f2" }} />
+            <div className="mx-auto h-8 w-3/4 rounded bg-[#071521]/10" />
+            <div className="mx-auto h-8 w-1/2 rounded bg-[#071521]/10" />
+            <div className="mx-auto h-5 w-32 rounded bg-[#071521]/10" />
           </div>
         ) : (
           <>
             <blockquote className="mb-6">
-              <p
-                className="font-display italic leading-relaxed"
-                style={{
-                  fontSize: "clamp(1.5rem, 3.5vw, 2.5rem)",
-                  fontWeight: 500,
-                  color: "#0a1a2f",
-                }}
-              >
+              <p className="font-display text-[clamp(1.8rem,4vw,3.3rem)] font-bold leading-[1.15] text-[#071521]">
                 &ldquo;{scripture.verse}&rdquo;
               </p>
             </blockquote>
 
-            <p
-              className="font-body font-bold text-base uppercase tracking-[0.12em] mb-4"
-              style={{ color: "#1a6fb5" }}
-            >
+            <p className="mb-4 font-body text-sm font-extrabold uppercase tracking-[0.16em] text-[#1677a8]">
               {scripture.reference}
             </p>
 
             {scripture.reflection && (
-              <p
-                className="font-body text-base leading-relaxed max-w-lg mx-auto"
-                style={{ color: "#4a6580" }}
-              >
+              <p className="mx-auto max-w-xl font-body text-lg leading-8 text-[#526675]">
                 {scripture.reflection}
               </p>
             )}
