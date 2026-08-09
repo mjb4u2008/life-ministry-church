@@ -125,9 +125,10 @@ export function GatheringExperience({ mode }: { mode: "home" | "watch" }) {
       <GatheringHero mode={mode} occurrence={featured} series={seriesFor(data.series, featured)} />
 
       {otherUpcoming.length > 0 && (
-        <section className="bg-[#f3efe6] py-16 sm:py-20">
-          <div className="mx-auto max-w-screen-xl px-4 min-[360px]:px-5 sm:px-6 lg:px-12">
-            <h2 className="font-display text-3xl font-black text-[#071521]">Also coming up</h2>
+        <section className="life-modernist border-b-2 border-[#201e1d]/35 bg-[#f3f2f2] py-14 sm:py-20">
+          <div className="mx-auto max-w-[1200px] px-5 sm:px-8 lg:px-[clamp(2rem,5vw,4.5rem)]">
+            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#0b5e8e]">More gatherings</p>
+            <h2 className="mt-3 font-display text-3xl font-black text-[#201e1d]">Also coming up</h2>
             <div className="mt-7 grid grid-cols-1 gap-5 md:grid-cols-2">
               {otherUpcoming.map((occurrence) => (
                 <GatheringCard
@@ -142,12 +143,13 @@ export function GatheringExperience({ mode }: { mode: "home" | "watch" }) {
       )}
 
       {mode === "watch" && (
-        <section className="bg-[#f0f4f8] py-16 sm:py-24">
-          <div className="mx-auto max-w-screen-xl px-4 min-[360px]:px-5 sm:px-6 lg:px-12">
-            <h2 className="font-display text-3xl font-black text-[#0a1a2f] sm:text-4xl">
+        <section className="life-modernist border-b-2 border-[#201e1d]/35 bg-[#e9eef2] py-16 sm:py-24">
+          <div className="mx-auto max-w-[1200px] px-5 sm:px-8 lg:px-[clamp(2rem,5vw,4.5rem)]">
+            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#0b5e8e]">Sermon archive</p>
+            <h2 className="mt-3 font-display text-3xl font-black text-[#201e1d] sm:text-4xl">
               Past messages
             </h2>
-            <p className="mt-3 font-body text-[#4a6580]">Only published recordings appear here.</p>
+            <p className="mt-3 font-body text-[#201e1d]/68">Only published recordings appear here.</p>
             {recent.length > 0 ? (
               <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
                 {recent.map((occurrence) => (
@@ -159,7 +161,7 @@ export function GatheringExperience({ mode }: { mode: "home" | "watch" }) {
                 ))}
               </div>
             ) : (
-              <div className="mt-8 rounded-2xl border border-[#dce8f2] bg-white p-7 font-body text-[#4a6580]">
+              <div className="mt-8 border-2 border-[#201e1d]/35 bg-[#f3f2f2] p-7 font-body text-[#201e1d]/68">
                 {featuredIsReplay
                   ? "No additional message recordings have been published yet."
                   : "No message recordings have been published yet."}

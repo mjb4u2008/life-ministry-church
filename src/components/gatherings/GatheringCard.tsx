@@ -28,19 +28,19 @@ export function GatheringCard({
   series?: PublicGatheringSeries;
 }) {
   return (
-    <article className="flex h-full min-w-0 flex-col rounded-[1.5rem] border border-[#071521]/10 bg-[#fffdf8] p-6 shadow-sm sm:p-7">
-      <p className="font-body text-xs font-extrabold uppercase tracking-[0.16em] text-[#1677a8]">
+    <article className="life-modernist flex h-full min-w-0 flex-col border-2 border-[#201e1d]/35 bg-[#f3f2f2] p-6 sm:p-7">
+      <p className="font-body text-xs font-extrabold uppercase tracking-[0.13em] text-[#0b5e8e]">
         {series?.name ?? "L.I.F.E. Gathering"}
       </p>
-      <h3 className="mt-3 break-words font-display text-3xl font-black text-[#071521]">
+      <h3 className="mt-3 break-words font-display text-3xl font-black text-[#201e1d]">
         {occurrence.title || series?.name || "Upcoming gathering"}
       </h3>
       {occurrence.scripture && (
-        <p className="mt-2 font-body text-sm font-bold text-[#1677a8]">
+        <p className="mt-2 font-body text-sm font-bold text-[#0b5e8e]">
           {occurrence.scripture}
         </p>
       )}
-      <p className="mt-4 flex items-start gap-2 font-body text-sm leading-relaxed text-[#526675]">
+      <p className="mt-4 flex items-start gap-2 font-body text-sm leading-relaxed text-[#201e1d]/70">
         <CalendarDays className="mt-0.5 size-4 shrink-0" />
         <span>
           {formatGatheringDate(
@@ -50,13 +50,13 @@ export function GatheringCard({
         </span>
       </p>
       {occurrence.description && (
-        <p className="mt-4 flex-1 font-body text-sm leading-relaxed text-[#526675]">
+        <p className="mt-4 flex-1 font-body text-sm leading-relaxed text-[#201e1d]/70">
           {occurrence.description}
         </p>
       )}
       {occurrence.replayUrl && (
         <a
-          className="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#071521] px-5 py-3 font-body text-sm font-bold text-white hover:bg-[#1677a8]"
+          className="mt-6 inline-flex min-h-12 items-center justify-center gap-2 border-2 border-[#1677a8] bg-[#1677a8] px-5 py-3 font-body text-base font-extrabold text-white hover:border-[#0b5e8e] hover:bg-[#0b5e8e]"
           href={occurrence.replayUrl}
           rel="noopener noreferrer"
           target="_blank"
