@@ -449,12 +449,20 @@ npm run build
 
 ### PR-06 — Pastoral care and first-time welcome
 
-- [ ] Add care repository, validation, API, and public serializer.
-- [ ] Make prayers private/pending by default.
-- [ ] Add explicit public-sharing choice.
-- [ ] Add first-time welcome form.
-- [ ] Add care inbox with moderation, status, urgency, assignment, follow-up, and private notes.
-- [ ] Add privacy copy and prove private fields never reach public responses.
+- [x] Add care repository, validation, API, and public serializer.
+- [x] Make prayers private/pending by default.
+- [x] Add explicit public-sharing choice.
+- [x] Add first-time welcome form.
+- [x] Add care inbox with moderation, status, urgency, assignment, follow-up, and private notes.
+- [x] Add privacy copy and prove private fields never reach public responses.
+
+Evidence (2026-08-09): `npm run lint`, `npm run typecheck`, `npm run test`
+(49/49), desktop care E2E (4/4), mobile care E2E (4/4), `npm run build`,
+`git diff --check`, and the protected-route diff check all passed. The care
+repository uses atomic revisions, fail-loud writes, UUIDs, privacy-first legacy
+migration with backup, strict public/admin schemas, allowlisted serialization,
+durable endpoint quotas, and fail-closed production auth. A fresh independent
+review found no remaining P1/P2 issues after assignment and legacy-tab fixes.
 
 **Definition of Done**
 

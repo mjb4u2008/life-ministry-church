@@ -22,6 +22,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { DailyScriptureSection } from "@/components/DailyScripture";
 import { GatheringExperience } from "@/components/gatherings";
+import { WelcomeForm } from "@/components/care";
 
 interface CommunityPreview {
   id: string;
@@ -203,6 +204,20 @@ export default function HomePage() {
       </section>
 
       <GatheringExperience mode="home" />
+
+      <section className="bg-white py-16 md:py-20">
+        <div className="mx-auto grid max-w-screen-xl grid-cols-1 gap-10 px-6 md:grid-cols-[0.85fr_1.15fr] md:px-12 lg:px-16">
+          <div>
+            <p className="font-body text-xs font-bold uppercase tracking-[0.2em] text-[#1a6fb5]">First time with us?</p>
+            <h2 className="mt-4 font-display text-4xl font-black text-[#0a1a2f] md:text-5xl">You don’t have to walk in alone.</h2>
+            <p className="mt-5 font-body text-lg leading-relaxed text-[#4a6580]">Tell Pastor Mike you’re new. Your note stays private, and he can help with the Google Meet link or answer questions before you join.</p>
+            <Link className="mt-5 inline-flex min-h-11 items-center font-body font-bold text-[#1a6fb5]" href="/welcome">See what your first gathering is like <ArrowRight className="ml-2 size-4" /></Link>
+          </div>
+          <div className="rounded-3xl border border-[#dce8f2] bg-[#fafcff] p-5 sm:p-7">
+            <WelcomeForm compact />
+          </div>
+        </div>
+      </section>
 
       {/* ================================================
           GET REMINDED BANNER

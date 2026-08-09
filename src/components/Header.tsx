@@ -8,6 +8,7 @@ import { Music } from "lucide-react";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/watch", label: "Watch" },
+  { href: "/welcome", label: "I'm New" },
   { href: "/community", label: "Community" },
   { href: "/events", label: "Events" },
   { href: "/ask", label: "Ask The Word" },
