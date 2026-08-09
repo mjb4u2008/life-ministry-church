@@ -10,7 +10,6 @@ import {
   Play,
   Clock,
   ArrowRight,
-  Send,
   User,
   Mail,
   Share2,

@@ -187,7 +187,7 @@ function Toast({
 
 function WaterCrossLogo({ size = 60 }: { size?: number }) {
   return (
-    <img
+    <Image
       src="/logo-water-cross.png"
       alt="L.I.F.E. Ministry"
       width={size}
@@ -440,16 +440,6 @@ export default function AdminPage() {
   // AUTH LOGIC
   // ═══════════════════════════════════════════════════════════════════════════
 
-  useEffect(() => {
-    const savedToken = localStorage.getItem("admin_token");
-    if (savedToken) {
-      verifyExistingToken(savedToken);
-    } else {
-      setIsLoading(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const verifyExistingToken = async (t: string) => {
     try {
       const res = await fetch("/api/auth", {
@@ -465,6 +455,19 @@ export default function AdminPage() {
     }
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      const savedToken = localStorage.getItem("admin_token");
+      if (savedToken) {
+        void verifyExistingToken(savedToken);
+      } else {
+        setIsLoading(false);
+      }
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -586,16 +589,20 @@ export default function AdminPage() {
         }
       } catch (error) {
         console.error("Error loading data:", error);
-        showToast("Failed to load data", "error");
+        setToast({ message: "Failed to load data", type: "error" });
       }
     },
     []
   );
 
   useEffect(() => {
-    if (token) {
-      loadAllData(token);
-    }
+    if (!token) return;
+
+    const timer = window.setTimeout(() => {
+      void loadAllData(token);
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, [token, loadAllData]);
 
   // ═══════════════════════════════════════════════════════════════════════════

@@ -340,10 +340,10 @@ Each item is one reviewable commit. An item may be marked complete only after it
 
 ### PR-01 — Guide, branch, and baseline
 
-- [ ] Save this guide.
-- [ ] Create `codex/ministry-operations-rebuild` from current `main`.
-- [ ] Record baseline lint/typecheck/build output.
-- [ ] Add no product behavior.
+- [x] Save this guide.
+- [x] Create `codex/ministry-operations-rebuild` from current `main`.
+- [x] Record baseline lint/typecheck/build output.
+- [x] Add no product behavior.
 
 **Definition of Done**
 
@@ -356,10 +356,13 @@ npm run build       # pass
 
 ### PR-02 — Test harness and frozen-generator contracts
 
-- [ ] Add Vitest, Testing Library, Playwright, and scripts.
-- [ ] Add contract tests for sermon banner, flyer image, flyer, and Daily Scripture provider requests.
-- [ ] Fix the four baseline lint errors and relevant warnings without changing generator behavior.
-- [ ] Add desktop and mobile Playwright configuration.
+- [x] Add Vitest, Testing Library, Playwright, and scripts.
+- [x] Add contract tests for sermon banner, flyer image, flyer, and Daily Scripture provider requests.
+- [x] Fix the four baseline lint errors and relevant warnings without changing generator behavior.
+- [x] Add desktop and mobile Playwright configuration.
+
+Evidence (2026-08-09): `npm run lint`, `npm run typecheck`, `npm run test` (4/4),
+`npm run build`, `npm run test:e2e -- --list`, and `git diff --check` all passed.
 
 **Definition of Done**
 

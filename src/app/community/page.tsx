@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { Heart, BookOpen, Send, User, Plus } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { Heart, BookOpen, Send, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -101,10 +101,6 @@ export default function CommunityPage() {
   const [testimonyDialogOpen, setTestimonyDialogOpen] = useState(false);
   const [testimonyError, setTestimonyError] = useState("");
 
-  // Success toast
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-
   // Celebration overlays
   const [showPrayerCelebration, setShowPrayerCelebration] = useState(false);
   const [showTestimonyCelebration, setShowTestimonyCelebration] = useState(false);
@@ -116,18 +112,22 @@ export default function CommunityPage() {
   const [floatingBlessedId, setFloatingBlessedId] = useState<string | null>(null);
 
   // Stable random positions for celebration hearts (avoids hydration mismatch)
-  const heartPositionsRef = useRef<number[]>([]);
-  const heartDelaysRef = useRef<number[]>([]);
-  const burstParticlesRef = useRef<{ tx: number; ty: number; tx2: number; ty2: number; color: string }[]>([]);
+  const [heartPositions, setHeartPositions] = useState<number[]>([]);
+  const [heartDelays, setHeartDelays] = useState<number[]>([]);
+  const [burstParticles, setBurstParticles] = useState<
+    { tx: number; ty: number; tx2: number; ty2: number; color: string; size: number }[]
+  >([]);
 
   const generateHeartPositions = useCallback(() => {
-    heartPositionsRef.current = Array.from({ length: 10 }, () => 20 + Math.random() * 60);
-    heartDelaysRef.current = Array.from({ length: 10 }, (_, i) => i * 0.15);
+    setHeartPositions(
+      Array.from({ length: 10 }, () => 20 + Math.random() * 60)
+    );
+    setHeartDelays(Array.from({ length: 10 }, (_, i) => i * 0.15));
   }, []);
 
   const generateBurstParticles = useCallback(() => {
     const colors = ["#1a6fb5", "#00d4ff", "#145a94", "#4a9fd4", "#0a1a2f"];
-    burstParticlesRef.current = Array.from({ length: 18 }, () => {
+    setBurstParticles(Array.from({ length: 18 }, () => {
       const angle = Math.random() * Math.PI * 2;
       const distance = 80 + Math.random() * 120;
       const distance2 = distance + 40 + Math.random() * 60;
@@ -137,20 +137,25 @@ export default function CommunityPage() {
         tx2: Math.cos(angle) * distance2,
         ty2: Math.sin(angle) * distance2,
         color: colors[Math.floor(Math.random() * colors.length)],
+        size: 8 + Math.random() * 8,
       };
-    });
+    }));
   }, []);
 
   // Load persisted IDs from localStorage
   useEffect(() => {
-    const storedPrayed = localStorage.getItem("prayedIds");
-    if (storedPrayed) {
-      setPrayedIds(new Set(JSON.parse(storedPrayed)));
-    }
-    const storedBlessed = localStorage.getItem("blessedIds");
-    if (storedBlessed) {
-      setBlessedIds(new Set(JSON.parse(storedBlessed)));
-    }
+    const timer = window.setTimeout(() => {
+      const storedPrayed = localStorage.getItem("prayedIds");
+      if (storedPrayed) {
+        setPrayedIds(new Set(JSON.parse(storedPrayed)));
+      }
+      const storedBlessed = localStorage.getItem("blessedIds");
+      if (storedBlessed) {
+        setBlessedIds(new Set(JSON.parse(storedBlessed)));
+      }
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, []);
 
   // Fetch prayers
@@ -340,8 +345,6 @@ export default function CommunityPage() {
     }
   };
 
-  const loading = activeTab === "prayers" ? loadingPrayers : loadingTestimonies;
-
   return (
     <div className="pt-20">
       {/* ── Hero ── */}
@@ -393,28 +396,6 @@ export default function CommunityPage() {
           </div>
         </div>
       </section>
-
-      {/* ── Success Toast ── */}
-      {showSuccess && (
-        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 animate-fade-in-up">
-          <div className="bg-[#0a1a2f] text-white px-6 py-4 rounded-xl shadow-[0_8px_40px_rgba(26,111,181,0.25)] flex items-center gap-3">
-            <svg
-              className="w-6 h-6 text-[#00d4ff]"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            <span className="font-body font-semibold">{successMessage}</span>
-          </div>
-        </div>
-      )}
 
       {/* ── Content Section ── */}
       <section className="py-16 md:py-24 bg-[#fafcff]">
@@ -1069,14 +1050,14 @@ export default function CommunityPage() {
             </p>
           </div>
           {/* Floating hearts */}
-          {heartPositionsRef.current.map((left, i) => (
+          {heartPositions.map((left, i) => (
             <div
               key={i}
               className="absolute text-2xl md:text-3xl"
               style={{
                 left: `${left}%`,
                 bottom: "40%",
-                animation: `float-up-heart 2.5s ease-out ${heartDelaysRef.current[i]}s forwards`,
+                animation: `float-up-heart 2.5s ease-out ${heartDelays[i]}s forwards`,
                 opacity: 0,
               }}
             >
@@ -1103,13 +1084,13 @@ export default function CommunityPage() {
             </p>
           </div>
           {/* Burst particles */}
-          {burstParticlesRef.current.map((particle, i) => (
+          {burstParticles.map((particle, i) => (
             <div
               key={i}
               className="absolute rounded-full"
               style={{
-                width: `${8 + Math.random() * 8}px`,
-                height: `${8 + Math.random() * 8}px`,
+                width: `${particle.size}px`,
+                height: `${particle.size}px`,
                 backgroundColor: particle.color,
                 left: "50%",
                 top: "50%",
