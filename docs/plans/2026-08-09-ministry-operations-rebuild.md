@@ -505,11 +505,18 @@ npm run build
 
 ### PR-08 — Zeffy giving
 
-- [ ] Add validated Zeffy URL setting.
-- [ ] Add safe donation panel with embedded and external fallback behavior.
-- [ ] Remove the public custom Stripe checkout flow and demo language.
-- [ ] Ensure no payment details enter local APIs/storage/logs.
-- [ ] Add privacy and receipt expectation copy without making unverified tax claims.
+- [x] Add validated Zeffy URL setting.
+- [x] Add safe donation panel with embedded and external fallback behavior.
+- [x] Remove the public custom Stripe checkout flow and demo language.
+- [x] Ensure no payment details enter local APIs/storage/logs.
+- [x] Add privacy and receipt expectation copy without making unverified tax claims.
+
+Evidence: strict official-host/path validation, atomic settings revisions, public
+checkout disabled with the rollback implementation retained, Zeffy iframe plus
+permanent external fallback, no local payment fields, and honest receipt/privacy
+copy. Giving unit tests passed 7/7, Chromium E2E passed 3/3, mobile Chrome E2E
+passed 3/3, and lint, typecheck, and production build passed. Independent
+re-review found no remaining P1/P2 issues.
 
 **Definition of Done**
 

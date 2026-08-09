@@ -9,6 +9,7 @@ import {
   ChevronRight,
   CircleAlert,
   HeartHandshake,
+  HandCoins,
   ImageIcon,
   LoaderCircle,
   MessageSquareText,
@@ -203,8 +204,8 @@ export function AdminDashboard({ token, logout }: { token: string; logout: () =>
         </section>
 
         <section className="mt-10">
-          <h2 className="font-display text-2xl font-bold text-[#0a1a2f]">Coming next</h2>
-          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <h2 className="font-display text-2xl font-bold text-[#0a1a2f]">Ministry tools</h2>
+          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <Link className="rounded-xl border border-[#dce8f2] bg-white p-5 shadow-sm hover:border-[#1a6fb5]" href="/admin/care">
               <HeartHandshake className="size-6 text-[#1a6fb5]" />
               <h3 className="mt-3 font-display text-xl font-bold text-[#0a1a2f]">Pastoral care inbox</h3>
@@ -214,6 +215,11 @@ export function AdminDashboard({ token, logout }: { token: string; logout: () =>
               <CalendarDays className="size-6 text-[#1a6fb5]" />
               <h3 className="mt-3 font-display text-xl font-bold text-[#0a1a2f]">Events center</h3>
               <p className="mt-2 font-body text-sm text-[#4a6580]">Create, publish, cancel, and update special events.</p>
+            </Link>
+            <Link className="rounded-xl border border-[#dce8f2] bg-white p-5 shadow-sm hover:border-[#1a6fb5]" href="/admin/giving">
+              <HandCoins className="size-6 text-[#1a6fb5]" />
+              <h3 className="mt-3 font-display text-xl font-bold text-[#0a1a2f]">Online giving</h3>
+              <p className="mt-2 font-body text-sm text-[#4a6580]">Connect or update the secure Zeffy donation form.</p>
             </Link>
           </div>
         </section>
