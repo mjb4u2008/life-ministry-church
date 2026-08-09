@@ -106,7 +106,7 @@ test("gathering: homepage uses the canonical upcoming Wednesday", async ({ page 
   const viewport = page.viewportSize();
   expect(reminderBox?.y).toBeGreaterThanOrEqual(0);
   expect((reminderBox?.y ?? 0) + (reminderBox?.height ?? 0)).toBeLessThanOrEqual(
-    viewport?.height ?? 0,
+    (viewport?.height ?? 0) - 16,
   );
   await expect(page.getByText("No public prayer requests have been shared yet.")).toBeVisible();
   await expect(page.getByText("Sarah M.")).toHaveCount(0);
@@ -177,7 +177,7 @@ test("gathering: every homepage phase stays explicit and reachable on narrow scr
     const box = await action.boundingBox();
     expect(box?.height).toBeGreaterThanOrEqual(52);
     expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(
-      page.viewportSize()?.height ?? 0,
+      (page.viewportSize()?.height ?? 0) - 16,
     );
     const fontSize = await action.evaluate((element) =>
       Number.parseFloat(getComputedStyle(element).fontSize),
