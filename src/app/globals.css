@@ -16,6 +16,15 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  /* Modernist public-site tokens. Scoped through .life-modernist so the
+     established admin and generator surfaces keep their current system. */
+  --modernist-paper: #f3f2f2;
+  --modernist-ink: #201e1d;
+  --modernist-blue: #146fa3;
+  --modernist-deep-blue: #0b2940;
+  --modernist-panel: #e9eef2;
+  --modernist-rule: rgb(32 30 29 / 36%);
+
   --life-midnight: #071521;
   --life-water: #1677a8;
   --life-gold: #e4b75d;
@@ -145,6 +154,20 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.life-modernist {
+  background: var(--modernist-paper);
+  color: var(--modernist-ink);
+  font-family: var(--font-archivo), Arial, sans-serif;
+}
+
+.life-modernist :is(h1, h2, h3, h4) {
+  font-family: inherit;
+}
+
+.life-modernist-rule {
+  border-color: var(--modernist-rule);
 }
 
 .life-kicker {
