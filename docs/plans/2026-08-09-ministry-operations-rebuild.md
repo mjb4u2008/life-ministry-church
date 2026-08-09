@@ -375,11 +375,15 @@ npm run build
 
 ### PR-03 — Gathering domain and compatibility repository
 
-- [ ] Add shared types, runtime validation, time conversion, selectors, public serializer, repository, and legacy normalizer.
-- [ ] Add Sunday legacy compatibility and disabled Wednesday default.
-- [ ] Add version/revision conflict behavior and surfaced KV errors.
-- [ ] Add public/admin gathering API.
-- [ ] Unit-test Monday→Wednesday, Thursday→Sunday, live priority, replay fallback, stale/draft filtering, DST, and independent edits.
+- [x] Add shared types, runtime validation, time conversion, selectors, public serializer, repository, and legacy normalizer.
+- [x] Add Sunday legacy compatibility and disabled Wednesday default.
+- [x] Add version/revision conflict behavior and surfaced KV errors.
+- [x] Add public/admin gathering API.
+- [x] Unit-test Monday→Wednesday, Thursday→Sunday, live priority, replay fallback, stale/draft filtering, DST, and independent edits.
+
+Evidence (2026-08-09): `npm run lint`, `npm run typecheck`, `npm run test`
+(16/16), `npm run build`, and `git diff --check` all passed. The legacy
+`site-content` and protected generator route files were unchanged.
 
 **Definition of Done**
 
