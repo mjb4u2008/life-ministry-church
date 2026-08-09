@@ -18,6 +18,8 @@ export interface ServiceSchedule {
 export interface SocialLinks {
   tiktok: string;
   instagram: string;
+  youtube?: string;
+  facebook?: string;
 }
 
 export interface TikTokVideo {
@@ -75,18 +77,6 @@ export interface PrayersData {
   prayers: Prayer[];
 }
 
-export interface Subscriber {
-  id: string;
-  name: string;
-  contactType: "email" | "phone";
-  contact: string;
-  timestamp: string;
-}
-
-export interface SubscribersData {
-  subscribers: Subscriber[];
-}
-
 export interface Insight {
   id: string;
   topic: string;
@@ -138,6 +128,8 @@ const DEFAULT_CONTENT: SiteContent = {
   socialLinks: {
     tiktok: "",
     instagram: "",
+    youtube: "",
+    facebook: "",
   },
   tiktokVideos: [],
   lastUpdated: new Date().toISOString(),
@@ -179,20 +171,16 @@ export async function getContent(): Promise<SiteContent> {
 export async function updateContent(
   content: Partial<SiteContent>
 ): Promise<SiteContent> {
-  try {
-    const currentContent = await getContent();
-    const updatedContent: SiteContent = {
-      ...currentContent,
-      ...content,
-      lastUpdated: new Date().toISOString(),
-    };
-    await kv.set("site-content", updatedContent);
-    return updatedContent;
-  } catch (error) {
-    console.error("KV error:", error);
-    const currentContent = await getContent();
-    return { ...currentContent, ...content, lastUpdated: new Date().toISOString() };
-  }
+  // Writes must not use the public read fallback: a transient read failure
+  // must never turn into an apparently successful overwrite of real content.
+  const currentContent = await kv.get<SiteContent>("site-content") || DEFAULT_CONTENT;
+  const updatedContent: SiteContent = {
+    ...currentContent,
+    ...content,
+    lastUpdated: new Date().toISOString(),
+  };
+  await kv.set("site-content", updatedContent);
+  return updatedContent;
 }
 
 // ─── Prayer functions ──────────────────────────────────────────────────────────
@@ -285,66 +273,6 @@ export async function incrementPrayerCount(id: string): Promise<Prayer | null> {
   }
 
   return prayers[prayerIndex];
-}
-
-// ─── Subscriber functions ──────────────────────────────────────────────────────
-
-export async function getSubscribers(): Promise<Subscriber[]> {
-  try {
-    const data = await kv.get<Subscriber[]>("subscribers");
-    return data || [];
-  } catch (error) {
-    console.error("KV error:", error);
-    return [];
-  }
-}
-
-export async function addSubscriber(
-  subscriber: Omit<Subscriber, "id" | "timestamp">
-): Promise<Subscriber> {
-  const subscribers = await getSubscribers();
-
-  // Check if already subscribed
-  const exists = subscribers.some(
-    (s) => s.contact.toLowerCase() === subscriber.contact.toLowerCase()
-  );
-
-  if (exists) {
-    throw new Error("Already subscribed");
-  }
-
-  const newSubscriber: Subscriber = {
-    ...subscriber,
-    id: Date.now().toString(),
-    timestamp: new Date().toISOString(),
-  };
-
-  subscribers.push(newSubscriber);
-
-  try {
-    await kv.set("subscribers", subscribers);
-  } catch (error) {
-    console.error("KV error:", error);
-  }
-
-  return newSubscriber;
-}
-
-export async function deleteSubscriber(id: string): Promise<boolean> {
-  const subscribers = await getSubscribers();
-  const filteredSubscribers = subscribers.filter((s) => s.id !== id);
-
-  if (filteredSubscribers.length === subscribers.length) {
-    return false;
-  }
-
-  try {
-    await kv.set("subscribers", filteredSubscribers);
-  } catch (error) {
-    console.error("KV error:", error);
-  }
-
-  return true;
 }
 
 // ─── Insight functions ─────────────────────────────────────────────────────────

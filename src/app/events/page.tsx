@@ -1,233 +1,110 @@
 "use client";
 
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import {
-  ArrowRight,
-  Calendar,
-  Clock,
-  MapPin,
-} from "lucide-react";
-
+import { Calendar, CalendarPlus, Clock, ExternalLink, LoaderCircle, MapPin, Video } from "lucide-react";
+import type { PublicGatheringOccurrence } from "@/lib/gatherings";
+import type { PublicMinistryEvent } from "@/lib/events";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 
-/* ─────────────────────────────────────────────
-   Compute next 3 Sundays dynamically
-   ───────────────────────────────────────────── */
-function getNextSundays(count: number): Date[] {
-  const sundays: Date[] = [];
-  const now = new Date();
-  const current = new Date(now);
-  current.setHours(11, 30, 0, 0); // 11:30 AM EST
+type GatheringView = PublicGatheringOccurrence & { timezone: string };
 
-  // Start from today or next Sunday
-  const day = current.getDay();
-  if (day !== 0 || now > current) {
-    current.setDate(current.getDate() + ((7 - day) % 7 || 7));
-  }
-
-  for (let i = 0; i < count; i++) {
-    sundays.push(new Date(current));
-    current.setDate(current.getDate() + 7);
-  }
-
-  return sundays;
-}
-
-function formatDate(date: Date): string {
-  return date.toLocaleDateString("en-US", {
+function eventTime(startsAt: string, timezone: string) {
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: timezone,
     weekday: "long",
     month: "long",
     day: "numeric",
     year: "numeric",
-  });
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  }).format(new Date(startsAt));
 }
 
-function formatShortDate(date: Date): string {
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  });
+function EventCard({ event }: { event: PublicMinistryEvent }) {
+  return (
+    <article className="rounded-2xl border border-[#dce8f2] bg-white p-6 shadow-sm sm:p-7">
+      <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#1a6fb5]">Special event</p>
+      <h2 className="mt-3 font-display text-3xl font-bold text-[#0a1a2f]">{event.title}</h2>
+      <div className="mt-4 space-y-2 text-sm text-[#4a6580]">
+        <p className="flex items-start gap-2"><Clock className="mt-0.5 size-4 shrink-0 text-[#1a6fb5]" /> {eventTime(event.startsAt, event.timezone)}</p>
+        <p className="flex items-start gap-2"><MapPin className="mt-0.5 size-4 shrink-0 text-[#1a6fb5]" /> {event.locationLabel || (event.locationType === "online" ? "Online" : "Location shared by the ministry")}</p>
+      </div>
+      <p className="mt-5 whitespace-pre-wrap font-body leading-relaxed text-[#4a6580]">{event.description}</p>
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        {event.registrationUrl && <Button className="min-h-12 bg-[#1a6fb5] text-white" render={<a href={event.registrationUrl} rel="noopener noreferrer" target="_blank" />}>Register <ExternalLink className="size-4" /></Button>}
+        {event.joinUrl && <Button className="min-h-12 bg-emerald-700 text-white" render={<a href={event.joinUrl} rel="noopener noreferrer" target="_blank" />}>Join online <Video className="size-4" /></Button>}
+        <Button className="min-h-12" render={<a href={`/api/events/${encodeURIComponent(event.id)}/calendar`} />} variant="outline"><CalendarPlus className="size-4" /> Add to calendar</Button>
+      </div>
+    </article>
+  );
+}
+
+function GatheringCard({ gathering }: { gathering: GatheringView }) {
+  return (
+    <article className="rounded-2xl border border-[#c9dce9] bg-[#f7fbfe] p-5 sm:p-6">
+      <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#1a6fb5]">Weekly gathering</p>
+      <h3 className="mt-2 font-display text-2xl font-bold text-[#0a1a2f]">{gathering.title}</h3>
+      <p className="mt-3 flex items-start gap-2 text-sm text-[#4a6580]"><Clock className="mt-0.5 size-4 shrink-0 text-[#1a6fb5]" /> {eventTime(gathering.startsAt, gathering.timezone)}</p>
+      {gathering.description && <p className="mt-4 font-body text-sm leading-relaxed text-[#4a6580]">{gathering.description}</p>}
+      <Button className="mt-5 min-h-11" render={<Link href="/watch" />} variant="outline">Gathering details</Button>
+    </article>
+  );
 }
 
 export default function EventsPage() {
-  const nextSundays = useMemo(() => getNextSundays(3), []);
+  const [events, setEvents] = useState<PublicMinistryEvent[]>([]);
+  const [gatherings, setGatherings] = useState<GatheringView[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const load = useCallback(async () => {
+    setLoading(true); setError("");
+    try {
+      const [eventResponse, gatheringResponse] = await Promise.all([
+        fetch("/api/events", { cache: "no-store" }),
+        fetch("/api/gatherings", { cache: "no-store" }),
+      ]);
+      if (!eventResponse.ok || !gatheringResponse.ok) throw new Error("Unable to load events");
+      const eventPayload = await eventResponse.json();
+      const gatheringPayload = await gatheringResponse.json();
+      setEvents(eventPayload.events ?? []);
+      const candidates: PublicGatheringOccurrence[] = [
+        ...(gatheringPayload.featured && Date.parse(gatheringPayload.featured.startsAt) > Date.now() ? [gatheringPayload.featured] : []),
+        ...(gatheringPayload.upcoming ?? []),
+      ];
+      const seriesTimezones = new Map<string, string>((gatheringPayload.series ?? []).map((series: { id: string; schedule?: { timezone?: string } | null }) => [series.id, series.schedule?.timezone ?? "UTC"]));
+      setGatherings([...new Map(candidates.map((item) => [item.id, { ...item, timezone: seriesTimezones.get(item.seriesId) ?? "UTC" }])).values()].sort((a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt)));
+    } catch { setError("Events couldn’t load right now. Please try again."); }
+    finally { setLoading(false); }
+  }, []);
+  useEffect(() => { const timer = window.setTimeout(() => void load(), 0); return () => clearTimeout(timer); }, [load]);
+  const sortedEvents = useMemo(() => [...events].sort((a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt)), [events]);
 
   return (
-    <div>
-      {/* ================================================
-          HERO
-          ================================================ */}
-      <section className="bg-[#0a1a2f] text-white py-32 md:py-40 lg:py-48">
-        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-          <h1
-            className="font-display uppercase tracking-tight mb-6"
-            style={{
-              fontSize: "clamp(3rem, 10vw, 8rem)",
-              fontWeight: 900,
-              lineHeight: 0.9,
-            }}
-          >
-            Upcoming Events
-          </h1>
-          <p
-            className="font-body text-lg md:text-xl text-white/60 max-w-2xl mx-auto"
-          >
-            Join us for worship, fellowship, and community.
-          </p>
-        </div>
+    <main className="min-h-screen bg-[#fafcff] pb-24 pt-20">
+      <section className="bg-[#0a1a2f] px-4 py-20 text-center text-white sm:py-28">
+        <Calendar className="mx-auto size-9 text-[#00d4ff]" />
+        <h1 className="mt-5 font-display text-5xl font-black sm:text-7xl">Events & Gatherings</h1>
+        <p className="mx-auto mt-5 max-w-2xl font-body text-lg text-white/70">Real dates from the ministry calendar—special events plus our Wednesday and Sunday gatherings.</p>
       </section>
-
-      {/* ================================================
-          UPCOMING EVENTS
-          ================================================ */}
-      <section className="bg-[#fafcff] py-24 md:py-32 lg:py-40">
-        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16">
-          {/* Section heading */}
-          <div className="text-center mb-6">
-            <Badge className="mb-6 bg-[#1a6fb5]/10 text-[#1a6fb5] border-[#1a6fb5]/20 font-body font-bold text-xs uppercase tracking-widest px-4 py-1 h-auto rounded-full">
-              Sunday Services
-            </Badge>
-            <h2
-              className="font-display text-3xl md:text-4xl lg:text-5xl tracking-tight"
-              style={{ fontWeight: 900, color: "#0a1a2f" }}
-            >
-              Join Us This Sunday
-            </h2>
-          </div>
-
-          <div className="flex justify-center mb-16">
-            <Separator className="w-24 bg-[#1a6fb5]" />
-          </div>
-
-          {/* Event Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-            {nextSundays.map((sunday, i) => (
-              <Card
-                key={i}
-                className="bg-white ring-1 ring-[#e0eaf3] rounded-xl hover:shadow-lg transition-shadow duration-300 py-0"
-              >
-                <CardContent className="p-6 md:p-8">
-                  <Badge className="mb-4 bg-[#00d4ff]/10 text-[#0a1a2f] border-[#00d4ff]/30 font-body font-bold text-xs px-3 py-1 h-auto rounded-full">
-                    <Calendar className="size-3 mr-1.5" />
-                    {formatShortDate(sunday)}
-                  </Badge>
-
-                  <h3
-                    className="font-display text-xl md:text-2xl mb-3"
-                    style={{ fontWeight: 800, color: "#0a1a2f" }}
-                  >
-                    L.I.F.E. Sunday Worship
-                  </h3>
-
-                  <div className="space-y-2 mb-6">
-                    <div className="flex items-center gap-2 text-sm font-body" style={{ color: "#4a6580" }}>
-                      <Clock className="size-4 text-[#1a6fb5]" />
-                      <span>8:30 AM PST / 11:30 AM EST</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm font-body" style={{ color: "#4a6580" }}>
-                      <MapPin className="size-4 text-[#1a6fb5]" />
-                      <span>Online via Google Meet</span>
-                    </div>
-                    <p className="text-sm font-body leading-relaxed mt-3" style={{ color: "#4a6580" }}>
-                      {formatDate(sunday)} — Join us for an uplifting time of worship, prayer, and the Word. Everyone is welcome.
-                    </p>
-                  </div>
-
-                  <Button
-                    className="w-full bg-[#1a6fb5] hover:bg-[#145a94] text-white font-body font-bold text-xs uppercase tracking-wider rounded-lg cursor-pointer"
-                    render={
-                      <a
-                        href="https://meet.google.com/hqk-sryh-ado"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      />
-                    }
-                  >
-                    Join on Google Meet
-                    <ArrowRight className="ml-2 size-3" />
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Empty state / More events */}
-          <div className="text-center py-12 bg-white rounded-2xl ring-1 ring-[#e0eaf3]">
-            <Calendar className="size-10 text-[#1a6fb5]/30 mx-auto mb-4" />
-            <p
-              className="font-body text-lg font-semibold mb-2"
-              style={{ color: "#0a1a2f" }}
-            >
-              More events coming soon!
-            </p>
-            <p className="font-body text-sm" style={{ color: "#4a6580" }}>
-              Follow us to stay updated.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ================================================
-          PHOTO GALLERY PLACEHOLDER
-          ================================================ */}
-      <section className="bg-white py-24 md:py-32">
-        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16">
-          <div className="text-center mb-6">
-            <h2
-              className="font-display text-3xl md:text-4xl uppercase tracking-wide"
-              style={{ fontWeight: 900, color: "#0a1a2f" }}
-            >
-              Event Photos
-            </h2>
-          </div>
-
-          <div className="flex justify-center mb-16">
-            <Separator className="w-24 bg-[#1a6fb5]" />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={i}
-                className="bg-[#f0f4f8] rounded-2xl aspect-[4/3] flex items-center justify-center"
-              >
-                <p className="font-body text-sm font-semibold" style={{ color: "#4a6580" }}>
-                  Event Photos Coming Soon
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ================================================
-          BOTTOM CTA
-          ================================================ */}
-      <section className="bg-[#f0f4f8] py-16 md:py-20">
-        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-          <h3
-            className="font-display text-2xl md:text-3xl mb-4"
-            style={{ fontWeight: 800, color: "#0a1a2f" }}
-          >
-            Want to host or suggest an event?
-          </h3>
-          <p className="font-body text-base mb-8" style={{ color: "#4a6580" }}>
-            Get in touch with our team and let us know your ideas.
-          </p>
-          <Button
-            size="lg"
-            className="bg-[#1a6fb5] hover:bg-[#145a94] text-white font-body font-bold text-sm uppercase tracking-wider px-8 py-6 rounded-xl cursor-pointer"
-            render={<a href="mailto:ministry@lifeministry.org" />}
-          >
-            Get in Touch
-            <ArrowRight className="ml-2 size-4" />
-          </Button>
-        </div>
-      </section>
-    </div>
+      <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
+        {loading ? <div className="flex min-h-72 items-center justify-center"><LoaderCircle className="size-9 animate-spin text-[#1a6fb5]" aria-label="Loading events" /></div>
+          : error ? <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center text-red-800"><p>{error}</p><Button className="mt-5 min-h-11" onClick={() => void load()} variant="outline">Try again</Button></div>
+          : <>
+            <section>
+              <h2 className="font-display text-3xl font-bold text-[#0a1a2f]">Special events</h2>
+              {sortedEvents.length ? <div className="mt-6 space-y-5">{sortedEvents.map((event) => <EventCard event={event} key={event.id} />)}</div>
+                : <div className="mt-6 rounded-2xl border border-[#dce8f2] bg-white p-8 text-center"><Calendar className="mx-auto size-9 text-[#1a6fb5]" /><h3 className="mt-4 font-display text-2xl font-bold text-[#0a1a2f]">No special events are scheduled right now.</h3>{gatherings.length > 0 && <p className="mt-2 text-[#4a6580]">You can still join one of the published weekly gatherings below.</p>}</div>}
+            </section>
+            <section className="mt-14">
+              <h2 className="font-display text-3xl font-bold text-[#0a1a2f]">Weekly gatherings</h2>
+              {gatherings.length ? <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2">{gatherings.map((gathering) => <GatheringCard gathering={gathering} key={gathering.id} />)}</div>
+                : <div className="mt-6 rounded-2xl bg-[#f0f4f8] p-6 text-[#4a6580]">No upcoming gathering has been published yet. Check back soon.</div>}
+            </section>
+          </>}
+      </div>
+    </main>
   );
 }

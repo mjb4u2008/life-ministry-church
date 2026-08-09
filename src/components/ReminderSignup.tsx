@@ -9,6 +9,7 @@ export function ReminderSignup() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [consent, setConsent] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,6 +27,8 @@ export function ReminderSignup() {
           name: name.trim(),
           contactType,
           contact: contact.trim(),
+          consent,
+          signupContext: "reminder-form",
         }),
       });
 
@@ -35,6 +38,7 @@ export function ReminderSignup() {
         setStatus("success");
         setName("");
         setContact("");
+        setConsent(false);
       } else {
         setStatus("error");
         setErrorMessage(data.error || "Something went wrong");
@@ -154,9 +158,22 @@ export function ReminderSignup() {
           <p className="text-red-500 text-sm text-center">{errorMessage}</p>
         )}
 
+        <label className="flex items-start gap-3 text-sm leading-relaxed text-text-body">
+          <input
+            checked={consent}
+            className="mt-1 size-4 shrink-0 accent-water"
+            onChange={(event) => setConsent(event.target.checked)}
+            required
+            type="checkbox"
+          />
+          <span>
+            I agree to receive {contactType === "email" ? "email" : "text"} reminders from L.I.F.E. Ministry. I can opt out anytime.
+          </span>
+        </label>
+
         <button
           type="submit"
-          disabled={isSubmitting || !name.trim() || !contact.trim()}
+          disabled={isSubmitting || !name.trim() || !contact.trim() || !consent}
           className="w-full bg-water text-white font-semibold py-3 rounded-xl hover:bg-water-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? "Signing up..." : "Remind Me"}

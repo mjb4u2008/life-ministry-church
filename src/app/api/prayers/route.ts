@@ -1,145 +1,93 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getPrayers, addPrayer, deletePrayer, incrementPrayerCount, updatePrayer } from "@/lib/data";
-import { verifyToken } from "@/lib/auth";
+import {
+  CareRecordNotFoundError,
+  CareRepository,
+  CareValidationError,
+  parsePublicCareSubmission,
+  serializePublicPrayer,
+  serializePublicPrayers,
+} from "@/lib/care";
+import { checkDurableRateLimit, requestIdentifier } from "@/lib/rate-limit";
 
-// GET all prayers (public)
+function json(body: unknown, init?: ResponseInit) {
+  const response = NextResponse.json(body, init);
+  response.headers.set("Cache-Control", "no-store");
+  return response;
+}
+
+async function limited(request: NextRequest, scope: string, limit: number) {
+  return checkDurableRateLimit({
+    identifier: requestIdentifier(request.headers),
+    scope,
+    limit,
+    windowSeconds: 600,
+  });
+}
+
 export async function GET() {
   try {
-    const prayers = await getPrayers();
-    return NextResponse.json({ prayers });
+    const store = await new CareRepository().getStore();
+    return json({ prayers: serializePublicPrayers(store) });
   } catch (error) {
-    console.error("Error fetching prayers:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch prayers" },
-      { status: 500 }
-    );
+    console.error("Prayer read failed", error instanceof Error ? error.name : "UnknownError");
+    return json({ error: "Prayer requests could not be loaded" }, { status: 500 });
   }
 }
 
-// POST new prayer (public)
 export async function POST(request: NextRequest) {
+  const contentLength = Number(request.headers.get("content-length") ?? 0);
+  if (contentLength > 20_000) return json({ error: "Submission is too large" }, { status: 413 });
   try {
-    const { name, request: prayerRequest, isAnonymous } = await request.json();
-
-    if (!prayerRequest || prayerRequest.trim() === "") {
-      return NextResponse.json(
-        { error: "Prayer request is required" },
-        { status: 400 }
-      );
+    if (!(await limited(request, "prayer-submit", 6)).allowed) {
+      return json({ error: "Too many submissions. Please wait before trying again." }, { status: 429 });
     }
-
-    const sanitizedRequest = prayerRequest.trim().substring(0, 1000);
-    const sanitizedName = (name || "Anonymous").trim().substring(0, 100);
-
-    const newPrayer = await addPrayer({
-      name: isAnonymous ? "Anonymous" : sanitizedName,
-      request: sanitizedRequest,
-      isAnonymous: isAnonymous || false,
+    const body = await request.json() as Record<string, unknown>;
+    if (typeof body.website === "string" && body.website.trim()) {
+      return json({ submitted: true, pendingReview: true }, { status: 202 });
+    }
+    const submission = parsePublicCareSubmission({
+      kind: "prayer",
+      name: body.name,
+      message: body.request,
+      isAnonymous: body.isAnonymous,
+      sharePublic: body.sharePublic,
+      contactPermission: body.contactPermission,
+      email: body.email,
+      phone: body.phone,
+      preferredContact: body.preferredContact,
+      website: body.website,
     });
-
-    return NextResponse.json(newPrayer, { status: 201 });
+    const { record } = await new CareRepository().addSubmission(submission);
+    return json({ id: record.id, submitted: true, pendingReview: true }, { status: 202 });
   } catch (error) {
-    console.error("Error adding prayer:", error);
-    return NextResponse.json(
-      { error: "Failed to add prayer" },
-      { status: 500 }
-    );
+    if (error instanceof CareValidationError || error instanceof SyntaxError) {
+      return json(
+        { error: error instanceof CareValidationError ? error.issues.join(". ") : "Invalid JSON body" },
+        { status: 400 },
+      );
+    }
+    console.error("Prayer submission failed", error instanceof Error ? error.name : "UnknownError");
+    return json({ error: "Prayer request could not be submitted" }, { status: 500 });
   }
 }
 
-// DELETE prayer (requires auth)
-export async function DELETE(request: NextRequest) {
-  try {
-    const authHeader = request.headers.get("authorization");
-    const token = authHeader?.replace("Bearer ", "");
-
-    if (!token || !verifyToken(token)) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
-    }
-
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get("id");
-
-    if (!id) {
-      return NextResponse.json(
-        { error: "Prayer ID is required" },
-        { status: 400 }
-      );
-    }
-
-    const deleted = await deletePrayer(id);
-
-    if (!deleted) {
-      return NextResponse.json(
-        { error: "Prayer not found" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Error deleting prayer:", error);
-    return NextResponse.json(
-      { error: "Failed to delete prayer" },
-      { status: 500 }
-    );
-  }
-}
-
-// PATCH to update prayer - increment count (public) or full update (admin)
 export async function PATCH(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { id, increment, ...updates } = body;
-
-    if (!id) {
-      return NextResponse.json(
-        { error: "Prayer ID is required" },
-        { status: 400 }
-      );
+    if (!(await limited(request, "prayer-support", 30)).allowed) {
+      return json({ error: "Too many requests. Please wait before trying again." }, { status: 429 });
     }
-
-    // If only incrementing prayer count (public action)
-    if (increment) {
-      const updatedPrayer = await incrementPrayerCount(id);
-      if (!updatedPrayer) {
-        return NextResponse.json(
-          { error: "Prayer not found" },
-          { status: 404 }
-        );
-      }
-      return NextResponse.json(updatedPrayer);
+    const body = await request.json() as Record<string, unknown>;
+    if (typeof body.id !== "string" || body.increment !== true || Object.keys(body).some((key) => !["id", "increment"].includes(key))) {
+      return json({ error: "Invalid prayer action" }, { status: 400 });
     }
-
-    // Full update requires authentication
-    const authHeader = request.headers.get("authorization");
-    const token = authHeader?.replace("Bearer ", "");
-
-    if (!token || !verifyToken(token)) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
-    }
-
-    const updatedPrayer = await updatePrayer(id, updates);
-
-    if (!updatedPrayer) {
-      return NextResponse.json(
-        { error: "Prayer not found" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(updatedPrayer);
+    const { record } = await new CareRepository().incrementPrayer(body.id);
+    return json(serializePublicPrayer(record));
   } catch (error) {
-    console.error("Error updating prayer:", error);
-    return NextResponse.json(
-      { error: "Failed to update prayer" },
-      { status: 500 }
-    );
+    if (error instanceof CareRecordNotFoundError) {
+      return json({ error: "Prayer request not found" }, { status: 404 });
+    }
+    if (error instanceof SyntaxError) return json({ error: "Invalid JSON body" }, { status: 400 });
+    console.error("Prayer support failed", error instanceof Error ? error.name : "UnknownError");
+    return json({ error: "Prayer support could not be recorded" }, { status: 500 });
   }
 }

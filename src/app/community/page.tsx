@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { Heart, BookOpen, Send, User, Plus } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { Heart, BookOpen, Send, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -86,6 +86,10 @@ export default function CommunityPage() {
   const [prayerName, setPrayerName] = useState("");
   const [prayerRequest, setPrayerRequest] = useState("");
   const [prayerAnonymous, setPrayerAnonymous] = useState(false);
+  const [prayerSharePublic, setPrayerSharePublic] = useState(false);
+  const [prayerContactPermission, setPrayerContactPermission] = useState(false);
+  const [prayerEmail, setPrayerEmail] = useState("");
+  const [prayerWebsite, setPrayerWebsite] = useState("");
   const [prayerSubmitting, setPrayerSubmitting] = useState(false);
   const [prayerDialogOpen, setPrayerDialogOpen] = useState(false);
   const [prayerError, setPrayerError] = useState("");
@@ -101,10 +105,6 @@ export default function CommunityPage() {
   const [testimonyDialogOpen, setTestimonyDialogOpen] = useState(false);
   const [testimonyError, setTestimonyError] = useState("");
 
-  // Success toast
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-
   // Celebration overlays
   const [showPrayerCelebration, setShowPrayerCelebration] = useState(false);
   const [showTestimonyCelebration, setShowTestimonyCelebration] = useState(false);
@@ -116,18 +116,22 @@ export default function CommunityPage() {
   const [floatingBlessedId, setFloatingBlessedId] = useState<string | null>(null);
 
   // Stable random positions for celebration hearts (avoids hydration mismatch)
-  const heartPositionsRef = useRef<number[]>([]);
-  const heartDelaysRef = useRef<number[]>([]);
-  const burstParticlesRef = useRef<{ tx: number; ty: number; tx2: number; ty2: number; color: string }[]>([]);
+  const [heartPositions, setHeartPositions] = useState<number[]>([]);
+  const [heartDelays, setHeartDelays] = useState<number[]>([]);
+  const [burstParticles, setBurstParticles] = useState<
+    { tx: number; ty: number; tx2: number; ty2: number; color: string; size: number }[]
+  >([]);
 
   const generateHeartPositions = useCallback(() => {
-    heartPositionsRef.current = Array.from({ length: 10 }, () => 20 + Math.random() * 60);
-    heartDelaysRef.current = Array.from({ length: 10 }, (_, i) => i * 0.15);
+    setHeartPositions(
+      Array.from({ length: 10 }, () => 20 + Math.random() * 60)
+    );
+    setHeartDelays(Array.from({ length: 10 }, (_, i) => i * 0.15));
   }, []);
 
   const generateBurstParticles = useCallback(() => {
     const colors = ["#1a6fb5", "#00d4ff", "#145a94", "#4a9fd4", "#0a1a2f"];
-    burstParticlesRef.current = Array.from({ length: 18 }, () => {
+    setBurstParticles(Array.from({ length: 18 }, () => {
       const angle = Math.random() * Math.PI * 2;
       const distance = 80 + Math.random() * 120;
       const distance2 = distance + 40 + Math.random() * 60;
@@ -137,20 +141,25 @@ export default function CommunityPage() {
         tx2: Math.cos(angle) * distance2,
         ty2: Math.sin(angle) * distance2,
         color: colors[Math.floor(Math.random() * colors.length)],
+        size: 8 + Math.random() * 8,
       };
-    });
+    }));
   }, []);
 
   // Load persisted IDs from localStorage
   useEffect(() => {
-    const storedPrayed = localStorage.getItem("prayedIds");
-    if (storedPrayed) {
-      setPrayedIds(new Set(JSON.parse(storedPrayed)));
-    }
-    const storedBlessed = localStorage.getItem("blessedIds");
-    if (storedBlessed) {
-      setBlessedIds(new Set(JSON.parse(storedBlessed)));
-    }
+    const timer = window.setTimeout(() => {
+      const storedPrayed = localStorage.getItem("prayedIds");
+      if (storedPrayed) {
+        setPrayedIds(new Set(JSON.parse(storedPrayed)));
+      }
+      const storedBlessed = localStorage.getItem("blessedIds");
+      if (storedBlessed) {
+        setBlessedIds(new Set(JSON.parse(storedBlessed)));
+      }
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, []);
 
   // Fetch prayers
@@ -203,15 +212,22 @@ export default function CommunityPage() {
           name: prayerAnonymous ? "Anonymous" : prayerName || "Anonymous",
           request: prayerRequest.trim(),
           isAnonymous: prayerAnonymous,
+          sharePublic: prayerSharePublic,
+          contactPermission: prayerContactPermission,
+          email: prayerContactPermission && prayerEmail ? prayerEmail : undefined,
+          preferredContact: prayerContactPermission && prayerEmail ? "email" : undefined,
+          website: prayerWebsite,
         }),
       });
 
       if (res.ok) {
-        const newPrayer = await res.json();
-        setPrayers([newPrayer, ...prayers]);
         setPrayerName("");
         setPrayerRequest("");
         setPrayerAnonymous(false);
+        setPrayerSharePublic(false);
+        setPrayerContactPermission(false);
+        setPrayerEmail("");
+        setPrayerWebsite("");
         setPrayerDialogOpen(false);
         // Trigger celebration
         generateHeartPositions();
@@ -340,8 +356,6 @@ export default function CommunityPage() {
     }
   };
 
-  const loading = activeTab === "prayers" ? loadingPrayers : loadingTestimonies;
-
   return (
     <div className="pt-20">
       {/* ── Hero ── */}
@@ -366,10 +380,10 @@ export default function CommunityPage() {
             </p>
 
             {/* Tab Toggle */}
-            <div className="inline-flex bg-white/10 rounded-xl p-1.5">
+            <div className="flex w-full max-w-sm flex-col gap-1.5 rounded-xl bg-white/10 p-1.5 sm:inline-flex sm:w-auto sm:flex-row sm:gap-0">
               <button
                 onClick={() => setActiveTab("prayers")}
-                className={`flex items-center gap-2 px-6 py-3 rounded-lg font-body font-bold text-sm uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+                className={`flex w-full items-center justify-center gap-2 px-4 py-3 rounded-lg font-body font-bold text-sm uppercase tracking-wider transition-all duration-200 cursor-pointer sm:w-auto sm:px-6 ${
                   activeTab === "prayers"
                     ? "bg-white text-[#0a1a2f] shadow-lg"
                     : "text-white/60 hover:text-white"
@@ -380,7 +394,7 @@ export default function CommunityPage() {
               </button>
               <button
                 onClick={() => setActiveTab("testimonies")}
-                className={`flex items-center gap-2 px-6 py-3 rounded-lg font-body font-bold text-sm uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+                className={`flex w-full items-center justify-center gap-2 px-4 py-3 rounded-lg font-body font-bold text-sm uppercase tracking-wider transition-all duration-200 cursor-pointer sm:w-auto sm:px-6 ${
                   activeTab === "testimonies"
                     ? "bg-white text-[#0a1a2f] shadow-lg"
                     : "text-white/60 hover:text-white"
@@ -393,28 +407,6 @@ export default function CommunityPage() {
           </div>
         </div>
       </section>
-
-      {/* ── Success Toast ── */}
-      {showSuccess && (
-        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 animate-fade-in-up">
-          <div className="bg-[#0a1a2f] text-white px-6 py-4 rounded-xl shadow-[0_8px_40px_rgba(26,111,181,0.25)] flex items-center gap-3">
-            <svg
-              className="w-6 h-6 text-[#00d4ff]"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            <span className="font-body font-semibold">{successMessage}</span>
-          </div>
-        </div>
-      )}
 
       {/* ── Content Section ── */}
       <section className="py-16 md:py-24 bg-[#fafcff]">
@@ -490,9 +482,21 @@ export default function CommunityPage() {
                           className="font-body text-sm"
                           style={{ color: "#4a6580" }}
                         >
-                          Post anonymously
+                          Show me as Anonymous if this is approved for the public wall
                         </label>
                       </div>
+
+                      <fieldset className="rounded-xl border border-[#c8dded] p-4">
+                        <legend className="px-1 text-xs font-body font-bold uppercase tracking-widest text-[#4a6580]">Who may see this?</legend>
+                        <label className="mt-2 flex min-h-11 items-start gap-3 font-body text-sm text-[#0a1a2f]">
+                          <input checked={!prayerSharePublic} className="mt-0.5 size-5 shrink-0" name="prayer-visibility" onChange={() => setPrayerSharePublic(false)} type="radio" />
+                          <span><strong className="block">Pastor only</strong><span className="text-[#4a6580]">Private in the pastoral care inbox.</span></span>
+                        </label>
+                        <label className="mt-3 flex min-h-11 items-start gap-3 font-body text-sm text-[#0a1a2f]">
+                          <input checked={prayerSharePublic} className="mt-0.5 size-5 shrink-0" name="prayer-visibility" onChange={() => setPrayerSharePublic(true)} type="radio" />
+                          <span><strong className="block">Request public sharing</strong><span className="text-[#4a6580]">Pastor Mike must review and approve it first.</span></span>
+                        </label>
+                      </fieldset>
 
                       <div>
                         <label
@@ -512,6 +516,21 @@ export default function CommunityPage() {
                           required
                         />
                       </div>
+
+                      <label className="flex min-h-11 items-start gap-3 rounded-xl bg-[#f0f4f8] p-4 font-body text-sm text-[#0a1a2f]">
+                        <input checked={prayerContactPermission} className="mt-0.5 size-5 shrink-0" onChange={(event) => setPrayerContactPermission(event.target.checked)} type="checkbox" />
+                        Pastor Mike may follow up with me by email.
+                      </label>
+                      {prayerContactPermission && (
+                        <label className="block text-xs font-body font-bold uppercase tracking-widest text-[#4a6580]">Email for private follow-up
+                          <Input className="mt-2 h-12 px-4 text-base normal-case tracking-normal" onChange={(event) => setPrayerEmail(event.target.value)} required type="email" value={prayerEmail} />
+                        </label>
+                      )}
+                      <label className="hidden" aria-hidden="true">Website
+                        <Input autoComplete="off" onChange={(event) => setPrayerWebsite(event.target.value)} tabIndex={-1} value={prayerWebsite} />
+                      </label>
+
+                      <p className="font-body text-xs leading-relaxed text-[#4a6580]">This form is not monitored as an emergency or crisis service. If anyone is in immediate danger, contact local emergency services.</p>
 
                       {prayerError && (
                         <p className="text-red-500 text-sm text-center font-body font-medium">
@@ -602,7 +621,7 @@ export default function CommunityPage() {
                     className="font-body mb-8"
                     style={{ color: "#4a6580" }}
                   >
-                    Be the first to share a prayer request with our community.
+                    Public prayer requests appear here only after the person asks to share and Pastor Mike approves them.
                   </p>
                   <Button
                     onClick={() => setPrayerDialogOpen(true)}
@@ -1069,14 +1088,14 @@ export default function CommunityPage() {
             </p>
           </div>
           {/* Floating hearts */}
-          {heartPositionsRef.current.map((left, i) => (
+          {heartPositions.map((left, i) => (
             <div
               key={i}
               className="absolute text-2xl md:text-3xl"
               style={{
                 left: `${left}%`,
                 bottom: "40%",
-                animation: `float-up-heart 2.5s ease-out ${heartDelaysRef.current[i]}s forwards`,
+                animation: `float-up-heart 2.5s ease-out ${heartDelays[i]}s forwards`,
                 opacity: 0,
               }}
             >
@@ -1103,13 +1122,13 @@ export default function CommunityPage() {
             </p>
           </div>
           {/* Burst particles */}
-          {burstParticlesRef.current.map((particle, i) => (
+          {burstParticles.map((particle, i) => (
             <div
               key={i}
               className="absolute rounded-full"
               style={{
-                width: `${8 + Math.random() * 8}px`,
-                height: `${8 + Math.random() * 8}px`,
+                width: `${particle.size}px`,
+                height: `${particle.size}px`,
                 backgroundColor: particle.color,
                 left: "50%",
                 top: "50%",
