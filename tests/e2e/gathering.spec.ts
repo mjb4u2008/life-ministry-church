@@ -184,6 +184,15 @@ test("gathering: every homepage phase stays explicit and reachable on narrow scr
     ).toBe(false);
   };
 
+  const assertVisibleStatus = async (text: string) => {
+    const status = page.getByTestId("gathering-visible-status");
+    await expect(status).toHaveText(text);
+    const box = await status.boundingBox();
+    expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(
+      page.viewportSize()?.height ?? 0,
+    );
+  };
+
   for (const width of [320, 390, 430]) {
     await page.setViewportSize({ width, height: width === 320 ? 700 : 844 });
 
@@ -191,17 +200,20 @@ test("gathering: every homepage phase stays explicit and reachable on narrow scr
     service = "wednesday";
     await page.goto("/");
     await expect(page.getByText("Live now", { exact: true })).toBeVisible();
+    await assertVisibleStatus("Live now: Wednesday Word");
     await assertPrimaryAction(/join wednesday now/i);
 
     state = "replay";
     await page.reload();
     await expect(page.getByText("Latest message", { exact: true })).toBeVisible();
+    await assertVisibleStatus("Latest: Wednesday Word");
     await assertPrimaryAction(/watch wednesday’s message/i);
 
     state = "upcoming";
     service = "sunday";
     await page.reload();
     await expect(page.getByText("Next: Sunday Worship")).toBeVisible();
+    await assertVisibleStatus("Next: Sunday Worship");
     await assertPrimaryAction(/remind me about sunday/i);
   }
 });

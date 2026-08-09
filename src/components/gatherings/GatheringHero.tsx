@@ -37,6 +37,14 @@ const phaseLabel: Record<GatheringPhase, string> = {
   ended: "Gathering complete",
 };
 
+const phaseLead: Record<GatheringPhase, string> = {
+  upcoming: "Next",
+  joining: "Room open",
+  live: "Live now",
+  replay: "Latest",
+  ended: "Completed",
+};
+
 export function GatheringHero({
   occurrence,
   series,
@@ -89,8 +97,11 @@ export function GatheringHero({
             <p className="mt-5 max-w-xl text-base leading-7 text-white/76 sm:text-lg sm:leading-8">
               Worship, Scripture, and real community every Wednesday and Sunday—wherever you are.
             </p>
-            <p className="mt-4 text-base font-extrabold text-[#f4d690]">
-              {phase === "replay" ? "Latest" : "Next"}: {gatheringName}
+            <p
+              className="mt-4 text-base font-extrabold text-[#f4d690]"
+              data-testid="gathering-visible-status"
+            >
+              {phaseLead[phase]}: {gatheringName}
             </p>
             <div className="mt-5 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
               <GatheringActions gatheringName={gatheringName} occurrence={occurrence} />

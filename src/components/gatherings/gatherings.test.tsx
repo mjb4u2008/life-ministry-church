@@ -210,6 +210,13 @@ describe("gathering public components", () => {
     });
 
     expect(screen.getByText("Schedule temporarily unavailable")).toBeVisible();
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "We couldn’t load the gathering schedule right now.",
+    );
     expect(screen.getByRole("button", { name: "Try again" })).toBeVisible();
+    expect(screen.getByRole("link", { name: "Get help joining" })).toHaveAttribute(
+      "href",
+      "/welcome",
+    );
   });
 });

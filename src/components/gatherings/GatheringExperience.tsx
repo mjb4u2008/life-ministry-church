@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { AlertCircle, CalendarDays, LoaderCircle } from "lucide-react";
 import type {
   PublicGatheringOccurrence,
@@ -50,6 +51,7 @@ export function GatheringExperience({ mode }: { mode: "home" | "watch" }) {
       <section
         className={`relative isolate flex items-center justify-center overflow-hidden bg-[#071521] px-5 text-white ${mode === "home" ? "min-h-screen pt-20" : "min-h-[540px] pt-20"}`}
         id="next-gathering"
+        role="alert"
       >
         <Image alt="" aria-hidden="true" className="-z-20 object-cover object-[67%_center] opacity-45" fill priority={mode === "home"} sizes="100vw" src="/images/life-ministry-hero.jpg" />
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(7,21,33,0.96),rgba(7,21,33,0.55))]" />
@@ -58,13 +60,21 @@ export function GatheringExperience({ mode }: { mode: "home" | "watch" }) {
           <AlertCircle className="mx-auto size-9 text-[#e4b75d]" />
           <h2 className="mt-5 font-display text-3xl font-bold">Schedule temporarily unavailable</h2>
           <p className="mt-3 font-body text-white/70">{error}</p>
-          <button
-            className="mt-6 min-h-12 rounded-full border border-white/30 px-6 py-3 font-body font-bold hover:bg-white/10"
-            onClick={retry}
-            type="button"
-          >
-            Try again
-          </button>
+          <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <button
+              className="min-h-12 rounded-full border border-white/30 px-6 py-3 font-body font-bold hover:bg-white/10"
+              onClick={retry}
+              type="button"
+            >
+              Try again
+            </button>
+            <Link
+              className="inline-flex min-h-12 items-center rounded-full border border-white/30 px-6 py-3 font-body font-bold hover:bg-white/10"
+              href="/welcome"
+            >
+              Get help joining
+            </Link>
+          </div>
         </div>
       </section>
     );
