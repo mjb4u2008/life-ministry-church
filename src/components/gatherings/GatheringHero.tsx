@@ -80,7 +80,7 @@ export function GatheringHero({
               <div
                 className="inline-flex min-h-9 items-center gap-2 border-2 border-[#1677a8] px-3 py-1.5 text-[0.8rem] font-extrabold uppercase tracking-[0.1em] text-[#0b5e8e]"
               >
-                {isLiveState && <Radio className="size-3.5" />}
+                {phase === "live" && <Radio className="size-3.5 animate-pulse" />}
                 <span>{phaseLabel[phase]}</span>
               </div>
               <p className="mt-3 text-sm font-extrabold text-[#0b5e8e]" data-testid="gathering-visible-status">
@@ -167,7 +167,7 @@ export function GatheringHero({
       <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-10 px-5 py-12 sm:px-8 sm:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.8fr)] lg:items-center lg:gap-16 lg:px-[clamp(2rem,5vw,4.5rem)] lg:py-24">
         <div className="min-w-0">
           <div className="inline-flex items-center gap-2 border-2 border-[#1677a8] px-3 py-1.5 text-sm font-black uppercase tracking-[0.12em] text-[#0b5e8e]">
-            {isLiveState && <Radio className="size-3.5" />}
+            {phase === "live" && <Radio className="size-3.5 animate-pulse" />}
             {phaseLabel[phase]}
           </div>
           <p className="mt-6 text-sm font-bold uppercase tracking-[0.16em] text-[#201e1d]/58">{gatheringName}</p>
