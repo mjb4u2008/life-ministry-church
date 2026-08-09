@@ -30,7 +30,7 @@ export function GatheringExperience({ mode }: { mode: "home" | "watch" }) {
       >
         <div className="mx-auto grid max-w-[1200px] gap-9 px-5 py-10 sm:px-8 sm:py-16 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-[clamp(2rem,5vw,4.5rem)] lg:py-24">
           <div className="max-w-xl">
-            {mode === "home" && <h1 className="font-display text-[clamp(2.5rem,5.6vw,4.875rem)] font-black leading-[0.98] tracking-[-0.035em]">Come as you are.<br />Worship from anywhere.</h1>}
+            {mode === "home" && <h1 className="max-w-[16ch] font-display text-[clamp(2.5rem,5vw,4.25rem)] font-black leading-[0.98] tracking-[-0.035em]">Come as you are.<br />Worship from anywhere.</h1>}
             <div className={mode === "home" ? "mt-8" : ""}>
               <LoaderCircle className="size-8 animate-spin text-[#1677a8]" />
               <p className="mt-4 text-lg font-extrabold">Loading the next gathering…</p>
@@ -61,7 +61,7 @@ export function GatheringExperience({ mode }: { mode: "home" | "watch" }) {
       >
         <div className="mx-auto grid max-w-[1200px] gap-9 px-5 py-10 sm:px-8 sm:py-16 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-[clamp(2rem,5vw,4.5rem)] lg:py-24">
           <div className="max-w-xl">
-            {mode === "home" && <h1 className="font-display text-[clamp(2.5rem,5.6vw,4.875rem)] font-black leading-[0.98] tracking-[-0.035em]">Come as you are.<br />Worship from anywhere.</h1>}
+            {mode === "home" && <h1 className="max-w-[16ch] font-display text-[clamp(2.5rem,5vw,4.25rem)] font-black leading-[0.98] tracking-[-0.035em]">Come as you are.<br />Worship from anywhere.</h1>}
             <div className={mode === "home" ? "mt-8" : ""}>
               <AlertCircle className="size-9 text-[#1677a8]" />
               <h2 className="mt-5 font-display text-3xl font-black">Schedule temporarily unavailable</h2>
@@ -97,7 +97,7 @@ export function GatheringExperience({ mode }: { mode: "home" | "watch" }) {
       <section className={`life-modernist border-b-2 border-[#201e1d]/35 bg-[#f3f2f2] text-[#201e1d] ${mode === "home" ? "pt-[4.5rem] md:pt-20" : "pt-20"}`} id="next-gathering">
         <div className="mx-auto grid max-w-[1200px] gap-9 px-5 py-10 sm:px-8 sm:py-16 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-[clamp(2rem,5vw,4.5rem)] lg:py-24">
           <div className="min-w-0">
-            {mode === "home" && <h1 className="max-w-[12ch] font-display text-[clamp(2.5rem,5.6vw,4.875rem)] font-black leading-[0.98] tracking-[-0.035em]">Come as you are.<br />Worship from anywhere.</h1>}
+            {mode === "home" && <h1 className="max-w-[16ch] font-display text-[clamp(2.5rem,5vw,4.25rem)] font-black leading-[0.98] tracking-[-0.035em]">Come as you are.<br />Worship from anywhere.</h1>}
           <div className={`${mode === "home" ? "mt-8" : ""} max-w-xl border-2 border-[#201e1d]/35 bg-[#e9eef2] p-6`}>
             <CalendarDays className="size-8 text-[#1677a8]" />
             <h2 className="mt-4 font-display text-2xl font-black">The next gathering is being prepared</h2>

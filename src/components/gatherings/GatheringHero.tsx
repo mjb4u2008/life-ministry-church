@@ -75,7 +75,7 @@ export function GatheringHero({
           {phaseLabel[phase]}. {gatheringName}. {getGatheringActionLabel(occurrence, gatheringName)}.
         </p>
         <div className="mx-auto max-w-[1200px] px-5 sm:px-8 lg:px-[clamp(2rem,5vw,4.5rem)]">
-          <div className="grid items-center gap-9 py-9 sm:py-14 lg:grid-cols-2 lg:gap-[clamp(2.5rem,5vw,4.5rem)] lg:py-24">
+          <div className="grid items-center gap-9 py-9 sm:py-14 lg:grid-cols-2 lg:gap-[clamp(2.5rem,5vw,4.5rem)] lg:py-16">
             <div className="min-w-0">
               <div
                 className="inline-flex min-h-9 items-center gap-2 border-2 border-[#1677a8] px-3 py-1.5 text-[0.8rem] font-extrabold uppercase tracking-[0.1em] text-[#0b5e8e]"
@@ -86,7 +86,7 @@ export function GatheringHero({
               <p className="mt-3 text-sm font-extrabold text-[#0b5e8e]" data-testid="gathering-visible-status">
                 {phaseLead[phase]}: {gatheringName}
               </p>
-              <h1 className="mt-4 max-w-[12ch] font-display text-[clamp(2.5rem,5.6vw,4.875rem)] font-black leading-[0.98] tracking-[-0.035em] sm:mt-5">
+              <h1 className="mt-4 max-w-[16ch] font-display text-[clamp(2.5rem,5vw,4.25rem)] font-black leading-[0.98] tracking-[-0.035em] sm:mt-5">
                 <span className="block">Come as you are.</span>
                 <span className="block">Worship from anywhere.</span>
               </h1>
