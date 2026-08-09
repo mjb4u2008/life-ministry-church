@@ -71,20 +71,20 @@ npm run typecheck
 
 ### PR-02 — One-screen gathering editor
 
-- [ ] Replace configurable timezone, weekday, duration, enabled, series-name, and
+- [x] Replace configurable timezone, weekday, duration, enabled, series-name, and
   join-window inputs with plain-language automatic behavior.
-- [ ] Put Date, Start time, End time, Message title, Scripture, and Description in
+- [x] Put Date, Start time, End time, Message title, Scripture, and Description in
   the primary `Gathering details` card.
-- [ ] Retain Google Meet and optional replay links in a small `Links` card.
-- [ ] Show a clear preview with both start and end in Eastern Time.
-- [ ] Replace the five status buttons with one primary **Put on website** action and
+- [x] Retain Google Meet and optional replay links in a small `Links` card.
+- [x] Show a clear preview with both start and end in Eastern Time.
+- [x] Replace the five status buttons with one primary **Put on website** action and
   one confirmed **Delete this gathering** action.
-- [ ] Automatically enable the selected Sunday/Wednesday series when publishing.
-- [ ] Place **Generate header** directly after Sunday message content; require a
+- [x] Automatically enable the selected Sunday/Wednesday series when publishing.
+- [x] Place **Generate header** directly after Sunday message content; require a
   title, call the unchanged protected endpoint only on click, preview the result,
   and retain download. Do not offer the Sunday-labelled generator on Wednesday or
   change its protected prompt contract.
-- [ ] Add calm copy explaining that the website opens the Meet link 30 minutes
+- [x] Add calm copy explaining that the website opens the Meet link 30 minutes
   before start and chooses the next date automatically.
 
 Definition of Done:
@@ -164,5 +164,16 @@ passing output remains `[NEEDS-VERIFICATION]`.
 ### PR-01 evidence — 2026-08-09
 
 - `npm run test -- src/lib/gatherings/gatherings.test.ts` — PASS, 24/24 tests.
+- `npm run typecheck` — PASS, exit 0.
+- `git diff --check` — PASS (delivery-agent check).
+
+### PR-02 evidence — 2026-08-09
+
+- `npm run test -- src/components/admin/admin-gathering.test.tsx` — PASS,
+  12/12 tests.
+- `npm run test:e2e -- --project=chromium --grep admin-gathering` — PASS,
+  5/5 tests.
+- `npm run test:e2e -- --project=mobile-chrome --grep admin-gathering` — PASS,
+  5/5 tests at the mobile viewport.
 - `npm run typecheck` — PASS, exit 0.
 - `git diff --check` — PASS (delivery-agent check).
