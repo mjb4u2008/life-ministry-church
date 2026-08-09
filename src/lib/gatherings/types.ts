@@ -76,6 +76,12 @@ export type GatheringPutCommand =
       occurrence: GatheringOccurrence;
     }
   | {
+      operation: "publish-occurrence";
+      expectedRevision: number;
+      series: GatheringSeries;
+      occurrence: GatheringOccurrence;
+    }
+  | {
       operation: "delete-occurrence";
       expectedRevision: number;
       occurrenceId: string;

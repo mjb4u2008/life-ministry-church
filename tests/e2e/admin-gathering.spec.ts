@@ -148,9 +148,9 @@ test("admin-gathering: Wednesday is one simple Eastern Time publish form", async
   await page.getByLabel("Description").fill("Ask God for wisdom in every season.");
   await page.getByRole("button", { name: "Put on website" }).click();
 
-  await expect.poll(() => writes.length).toBe(2);
+  await expect.poll(() => writes.length).toBe(1);
   expect(writes[0]).toMatchObject({
-    operation: "upsert-series",
+    operation: "publish-occurrence",
     expectedRevision: 0,
     series: {
       id: "wednesday-word",
@@ -164,10 +164,6 @@ test("admin-gathering: Wednesday is one simple Eastern Time publish form", async
         durationMinutes: 90,
       },
     },
-  });
-  expect(writes[1]).toMatchObject({
-    operation: "upsert-occurrence",
-    expectedRevision: 1,
     occurrence: {
       id: "wednesday-word:2030-08-14",
       startsAt: "2030-08-14T23:00:00.000Z",
@@ -213,7 +209,7 @@ test("admin-gathering: Sunday header is explicit and delete is confirmed", async
   expect(bannerRequests).toHaveLength(0);
 
   await page.getByRole("button", { name: "Put on website" }).click();
-  await expect.poll(() => writes.length).toBe(2);
+  await expect.poll(() => writes.length).toBe(1);
   expect(bannerRequests).toHaveLength(0);
 
   await page.getByRole("button", { name: "Generate header" }).click();
@@ -226,10 +222,10 @@ test("admin-gathering: Sunday header is explicit and delete is confirmed", async
 
   page.once("dialog", (dialog) => dialog.accept());
   await page.getByRole("button", { name: "Delete this gathering" }).click();
-  await expect.poll(() => writes.length).toBe(3);
-  expect(writes[2]).toEqual({
+  await expect.poll(() => writes.length).toBe(2);
+  expect(writes[1]).toEqual({
     operation: "delete-occurrence",
-    expectedRevision: 2,
+    expectedRevision: 1,
     occurrenceId: "sunday-worship:2030-08-18",
   });
   await expectNoHorizontalOverflow(page);

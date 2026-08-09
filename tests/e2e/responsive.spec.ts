@@ -62,7 +62,9 @@ test("responsive: public and admin foundations hold at every required width", as
       return rect.right > window.innerWidth + 1 || rect.left < -1 ? [{ tag: element.tagName, className: element.getAttribute("class"), left: rect.left, right: rect.right }] : [];
     }).slice(0, 5));
     expect(adminOverflow, `admin overflow at ${width}px`).toEqual([]);
-    const prepare = page.getByRole("link", { name: /prepare gathering/i }).first();
+    const prepare = page
+      .getByRole("link", { name: /set up gathering|view or update/i })
+      .first();
     const prepareBox = await prepare.boundingBox();
     expect(prepareBox?.height, `admin primary target at ${width}px`).toBeGreaterThanOrEqual(44);
   }

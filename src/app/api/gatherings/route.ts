@@ -63,6 +63,12 @@ export async function PUT(request: NextRequest) {
         command.occurrence,
         command.expectedRevision,
       );
+    } else if (command.operation === "publish-occurrence") {
+      store = await repository.publishOccurrence(
+        command.series,
+        command.occurrence,
+        command.expectedRevision,
+      );
     } else {
       store = await repository.deleteOccurrence(
         command.occurrenceId,

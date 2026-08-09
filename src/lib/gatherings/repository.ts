@@ -1,6 +1,6 @@
 import { kv } from "@vercel/kv";
 import { normalizeLegacyGatherings } from "./legacy";
-import { parseGatheringStore } from "./schema";
+import { GatheringValidationError, parseGatheringStore } from "./schema";
 import type {
   GatheringOccurrence,
   GatheringSeries,
@@ -104,6 +104,37 @@ export class GatheringRepository {
     }));
   }
 
+  async publishOccurrence(
+    series: GatheringSeries,
+    occurrence: GatheringOccurrence,
+    expectedRevision: number,
+    now = new Date(),
+  ): Promise<GatheringStoreV1> {
+    const issues: string[] = [];
+    if (occurrence.seriesId !== series.id) {
+      issues.push("occurrence.seriesId must match series.id");
+    }
+    if (!series.enabled) {
+      issues.push("series.enabled must be true when publishing");
+    }
+    if (occurrence.status !== "published") {
+      issues.push("occurrence.status must be published");
+    }
+    const endsAt = Date.parse(occurrence.endsAt);
+    if (Number.isNaN(endsAt)) {
+      issues.push("occurrence.endsAt must be a canonical ISO timestamp");
+    } else if (endsAt <= now.getTime()) {
+      issues.push("occurrence.endsAt must be in the future when publishing");
+    }
+    if (issues.length > 0) throw new GatheringValidationError(issues);
+
+    return this.saveChange(expectedRevision, now, (current) => ({
+      ...current,
+      series: replaceById(current.series, series),
+      occurrences: replaceById(current.occurrences, occurrence),
+    }));
+  }
+
   async deleteOccurrence(
     occurrenceId: string,
     expectedRevision: number,
@@ -113,6 +144,9 @@ export class GatheringRepository {
       ...current,
       occurrences: current.occurrences.filter(
         (occurrence) => occurrence.id !== occurrenceId,
+      ),
+      reminderDeliveries: current.reminderDeliveries.filter(
+        (delivery) => delivery.occurrenceId !== occurrenceId,
       ),
     }));
   }

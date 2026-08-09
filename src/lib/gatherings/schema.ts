@@ -320,6 +320,27 @@ export function parseGatheringPutCommand(value: unknown): GatheringPutCommand {
       occurrence: parseGatheringOccurrence(value.occurrence),
     };
   }
+  if (value.operation === "publish-occurrence") {
+    const series = parseGatheringSeries(value.series);
+    const occurrence = parseGatheringOccurrence(value.occurrence);
+    const issues: string[] = [];
+    if (occurrence.seriesId !== series.id) {
+      issues.push("occurrence.seriesId must match series.id");
+    }
+    if (!series.enabled) {
+      issues.push("series.enabled must be true when publishing");
+    }
+    if (occurrence.status !== "published") {
+      issues.push("occurrence.status must be published");
+    }
+    if (issues.length > 0) throw new GatheringValidationError(issues);
+    return {
+      operation: value.operation,
+      expectedRevision: value.expectedRevision as number,
+      series,
+      occurrence,
+    };
+  }
   if (value.operation === "delete-occurrence") {
     if (typeof value.occurrenceId !== "string" || !ID_PATTERN.test(value.occurrenceId)) {
       throw new GatheringValidationError(["occurrenceId is invalid"]);
@@ -331,6 +352,6 @@ export function parseGatheringPutCommand(value: unknown): GatheringPutCommand {
     };
   }
   throw new GatheringValidationError([
-    "operation must be upsert-series, upsert-occurrence, or delete-occurrence",
+    "operation must be upsert-series, upsert-occurrence, publish-occurrence, or delete-occurrence",
   ]);
 }

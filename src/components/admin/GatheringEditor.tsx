@@ -334,6 +334,9 @@ export function GatheringEditor({
       if (!localDate || !previewTimes) {
         throw new Error("Choose a valid date, start time, and end time.");
       }
+      if (Date.parse(previewTimes.endsAt) <= Date.now()) {
+        throw new Error("Choose a gathering time that has not already ended.");
+      }
       const requiredDay = expectedDay(series);
       if (localDateWeekday(localDate) !== requiredDay) {
         const dayName = requiredDay === 0 ? "Sunday" : requiredDay === 3 ? "Wednesday" : "correct";
@@ -363,11 +366,6 @@ export function GatheringEditor({
         joinWindowMinutes: MINISTRY_JOIN_WINDOW_MINUTES,
         updatedAt: now,
       };
-      const afterSeries = await put({
-        operation: "upsert-series",
-        expectedRevision: store.revision,
-        series: nextSeries,
-      });
       const existing = occurrenceId
         ? store.occurrences.find((item) => item.id === occurrenceId)
         : undefined;
@@ -385,12 +383,13 @@ export function GatheringEditor({
         publishedAt: existing?.publishedAt ?? now,
         ...(replayUrl.trim() ? { replayUrl: replayUrl.trim() } : {}),
       };
-      const afterOccurrence = await put({
-        operation: "upsert-occurrence",
-        expectedRevision: afterSeries.revision,
+      const publishedStore = await put({
+        operation: "publish-occurrence",
+        expectedRevision: store.revision,
+        series: nextSeries,
         occurrence,
       });
-      setStore(afterOccurrence);
+      setStore(publishedStore);
       setOccurrenceId(occurrence.id);
       setStatus("published");
       setSuccess(
@@ -478,7 +477,8 @@ export function GatheringEditor({
     );
   }
 
-  const isOnWebsite = status === "published" || status === "live";
+  const isOnWebsite =
+    series.enabled && (status === "published" || status === "live");
 
   return (
     <div className="min-h-screen bg-[#f0f4f8] pb-24 pt-20">
@@ -618,7 +618,9 @@ export function GatheringEditor({
                   </Button>
                 </div>
                 {bannerError && (
-                  <p className="mt-4 text-sm text-red-700">{bannerError}</p>
+                  <p className="mt-4 text-sm text-red-700" role="alert">
+                    {bannerError}
+                  </p>
                 )}
                 {banner && bannerMime && (
                   <div className="mt-5 space-y-4">

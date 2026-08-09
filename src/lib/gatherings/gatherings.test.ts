@@ -378,6 +378,73 @@ describe("gathering validation", () => {
     });
   });
 
+  it("parses one atomic publish command with a matching series and occurrence", () => {
+    const sundaySeries = series({ id: "sunday-worship", kind: "sunday" });
+    const sundayOccurrence = occurrence({
+      id: "sunday-worship:2026-08-16",
+      seriesId: sundaySeries.id,
+      startsAt: "2026-08-16T15:30:00.000Z",
+      endsAt: "2026-08-16T17:00:00.000Z",
+    });
+
+    expect(
+      parseGatheringPutCommand({
+        operation: "publish-occurrence",
+        expectedRevision: 4,
+        series: sundaySeries,
+        occurrence: sundayOccurrence,
+      }),
+    ).toEqual({
+      operation: "publish-occurrence",
+      expectedRevision: 4,
+      series: sundaySeries,
+      occurrence: sundayOccurrence,
+    });
+  });
+
+  it("rejects an atomic publish whose occurrence belongs to another series", () => {
+    expect(() =>
+      parseGatheringPutCommand({
+        operation: "publish-occurrence",
+        expectedRevision: 4,
+        series: series({ id: "sunday-worship", kind: "sunday" }),
+        occurrence: occurrence({
+          id: "wednesday-word:2026-08-12",
+          seriesId: "wednesday-word",
+          startsAt: "2026-08-12T23:00:00.000Z",
+          endsAt: "2026-08-13T00:30:00.000Z",
+        }),
+      }),
+    ).toThrow(/occurrence\.seriesId must match series\.id/);
+  });
+
+  it("rejects disabled series and non-published states at the publish boundary", () => {
+    const sundaySeries = series({ id: "sunday-worship", kind: "sunday" });
+    const sundayOccurrence = occurrence({
+      id: "sunday-worship:2026-08-16",
+      seriesId: sundaySeries.id,
+      startsAt: "2026-08-16T15:30:00.000Z",
+      endsAt: "2026-08-16T17:00:00.000Z",
+    });
+
+    expect(() =>
+      parseGatheringPutCommand({
+        operation: "publish-occurrence",
+        expectedRevision: 4,
+        series: { ...sundaySeries, enabled: false },
+        occurrence: sundayOccurrence,
+      }),
+    ).toThrow(/series\.enabled must be true/);
+    expect(() =>
+      parseGatheringPutCommand({
+        operation: "publish-occurrence",
+        expectedRevision: 4,
+        series: sundaySeries,
+        occurrence: { ...sundayOccurrence, status: "draft" },
+      }),
+    ).toThrow(/occurrence\.status must be published/);
+  });
+
   it("rejects malformed delete IDs and revisions", () => {
     expect(() =>
       parseGatheringPutCommand({
@@ -488,6 +555,116 @@ describe("GatheringRepository", () => {
     expect(storage.values.get(GATHERINGS_KEY)).toEqual(existing);
   });
 
+  it("publishes the series and occurrence in one revision-protected mutation", async () => {
+    const storage = new MemoryStorage();
+    const existing = store({ revision: 2 });
+    storage.values.set(GATHERINGS_KEY, structuredClone(existing));
+    const nextSeries = {
+      ...existing.series[1],
+      enabled: true,
+      defaultMeetUrl: "https://meet.google.com/new-meet-link",
+      updatedAt: "2026-08-09T13:00:00.000Z",
+    };
+    const nextOccurrence = occurrence({
+      id: "wednesday-word:2026-08-12",
+      seriesId: nextSeries.id,
+      startsAt: "2026-08-12T23:00:00.000Z",
+      endsAt: "2026-08-13T00:30:00.000Z",
+      title: "Midweek Wisdom",
+    });
+
+    const saved = await new GatheringRepository(storage).publishOccurrence(
+      nextSeries,
+      nextOccurrence,
+      existing.revision,
+      new Date("2026-08-09T13:00:00.000Z"),
+    );
+
+    expect(saved.revision).toBe(3);
+    expect(saved.series.find((item) => item.id === nextSeries.id)).toEqual(nextSeries);
+    expect(saved.occurrences).toEqual([nextOccurrence]);
+    expect(storage.values.get(GATHERINGS_KEY)).toEqual(saved);
+  });
+
+  it("rejects a stale atomic publish without changing either collection", async () => {
+    const storage = new MemoryStorage();
+    const existing = store({ revision: 4 });
+    storage.values.set(GATHERINGS_KEY, structuredClone(existing));
+    const nextSeries = { ...existing.series[1], enabled: true };
+    const nextOccurrence = occurrence({
+      id: "wednesday-word:2026-08-12",
+      seriesId: nextSeries.id,
+      startsAt: "2026-08-12T23:00:00.000Z",
+      endsAt: "2026-08-13T00:30:00.000Z",
+    });
+
+    await expect(
+      new GatheringRepository(storage).publishOccurrence(
+        nextSeries,
+        nextOccurrence,
+        3,
+        new Date("2026-08-09T13:00:00.000Z"),
+      ),
+    ).rejects.toBeInstanceOf(GatheringRevisionConflictError);
+    expect(storage.values.get(GATHERINGS_KEY)).toEqual(existing);
+  });
+
+  it("rejects an already-ended publish as validation without changing storage", async () => {
+    const storage = new MemoryStorage();
+    const existing = store();
+    storage.values.set(GATHERINGS_KEY, structuredClone(existing));
+    const nextSeries = { ...existing.series[1], enabled: true };
+    const endedOccurrence = occurrence({
+      id: "wednesday-word:2026-08-05",
+      seriesId: nextSeries.id,
+      startsAt: "2026-08-05T23:00:00.000Z",
+      endsAt: "2026-08-06T00:30:00.000Z",
+    });
+
+    await expect(
+      new GatheringRepository(storage).publishOccurrence(
+        nextSeries,
+        endedOccurrence,
+        existing.revision,
+        new Date("2026-08-06T00:30:00.000Z"),
+      ),
+    ).rejects.toMatchObject({
+      name: "GatheringValidationError",
+      issues: ["occurrence.endsAt must be in the future when publishing"],
+    });
+    expect(storage.values.get(GATHERINGS_KEY)).toEqual(existing);
+  });
+
+  it("rejects invalid publish state when the repository is called directly", async () => {
+    const storage = new MemoryStorage();
+    const existing = store();
+    storage.values.set(GATHERINGS_KEY, structuredClone(existing));
+    const disabledSeries = { ...existing.series[1], enabled: false };
+    const draftOccurrence = occurrence({
+      id: "wednesday-word:2026-08-12",
+      seriesId: disabledSeries.id,
+      startsAt: "2026-08-12T23:00:00.000Z",
+      endsAt: "2026-08-13T00:30:00.000Z",
+      status: "draft",
+    });
+
+    await expect(
+      new GatheringRepository(storage).publishOccurrence(
+        disabledSeries,
+        draftOccurrence,
+        existing.revision,
+        new Date("2026-08-09T13:00:00.000Z"),
+      ),
+    ).rejects.toMatchObject({
+      name: "GatheringValidationError",
+      issues: [
+        "series.enabled must be true when publishing",
+        "occurrence.status must be published",
+      ],
+    });
+    expect(storage.values.get(GATHERINGS_KEY)).toEqual(existing);
+  });
+
   it("deletes only the selected occurrence and advances the revision", async () => {
     const storage = new MemoryStorage();
     const sunday = occurrence({
@@ -511,6 +688,12 @@ describe("GatheringRepository", () => {
           status: "sent",
           sentAt: "2026-08-10T12:00:00.000Z",
         },
+        {
+          occurrenceId: sunday.id,
+          reminderType: "weekly-email:two",
+          status: "sent",
+          sentAt: "2026-08-10T12:00:00.000Z",
+        },
       ],
     });
     storage.values.set(GATHERINGS_KEY, structuredClone(existing));
@@ -524,7 +707,7 @@ describe("GatheringRepository", () => {
     expect(saved.revision).toBe(1);
     expect(saved.series).toEqual(existing.series);
     expect(saved.occurrences).toEqual([sunday]);
-    expect(saved.reminderDeliveries).toEqual(existing.reminderDeliveries);
+    expect(saved.reminderDeliveries).toEqual([existing.reminderDeliveries[1]]);
     expect(storage.values.get(GATHERINGS_KEY)).toEqual(saved);
   });
 
