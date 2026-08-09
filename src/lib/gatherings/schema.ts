@@ -210,6 +210,12 @@ function validateDelivery(
     issues.push(`${path}.occurrenceId is invalid`);
   }
   text(value.reminderType, `${path}.reminderType`, issues, 80);
+  if (value.status !== undefined && !["sending", "sent"].includes(String(value.status))) {
+    issues.push(`${path}.status is invalid`);
+  }
+  if (value.leaseId !== undefined) {
+    text(value.leaseId, `${path}.leaseId`, issues, 80);
+  }
   if (!isIsoDate(value.sentAt)) {
     issues.push(`${path}.sentAt must be a canonical ISO timestamp`);
   }

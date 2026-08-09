@@ -1,6 +1,7 @@
 import { expect, type Page, test } from "@playwright/test";
+import { futureAdminToken } from "./helpers";
 
-const TOKEN = "e2e-admin-token";
+const TOKEN = futureAdminToken("admin-gathering");
 const UPDATED_AT = "2030-08-01T12:00:00.000Z";
 
 function gatheringStore(revision = 0) {

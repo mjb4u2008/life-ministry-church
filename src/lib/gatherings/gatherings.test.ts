@@ -418,4 +418,64 @@ describe("GatheringRepository", () => {
     expect(results.filter((result) => result.status === "rejected")).toHaveLength(1);
     expect((storage.values.get(GATHERINGS_KEY) as GatheringStoreV1).revision).toBe(3);
   });
+
+  it("atomically leases, completes, and retains one scheduled recipient reminder", async () => {
+    const storage = new MemoryStorage();
+    storage.values.set(GATHERINGS_KEY, store());
+    const first = new GatheringRepository(storage);
+    const second = new GatheringRepository(storage);
+    const results = await Promise.all([
+      first.claimReminderDelivery("wednesday:2030-08-14", "weekly-reminder", new Date("2030-08-10T12:00:00.000Z")),
+      second.claimReminderDelivery("wednesday:2030-08-14", "weekly-reminder", new Date("2030-08-10T12:00:00.000Z")),
+    ]);
+    expect(results.filter((result) => result.claimed)).toHaveLength(1);
+    expect((storage.values.get(GATHERINGS_KEY) as GatheringStoreV1).reminderDeliveries).toHaveLength(1);
+    const lease = results.find((result) => result.claimed);
+    if (!lease?.claimed) throw new Error("Expected one lease owner");
+    await first.completeReminderDelivery(
+      "wednesday:2030-08-14",
+      "weekly-reminder",
+      lease.leaseId,
+      new Date("2030-08-10T12:01:00.000Z"),
+    );
+    const retry = await second.claimReminderDelivery(
+      "wednesday:2030-08-14",
+      "weekly-reminder",
+      new Date("2030-08-10T12:20:00.000Z"),
+    );
+    expect(retry.claimed).toBe(false);
+    expect((storage.values.get(GATHERINGS_KEY) as GatheringStoreV1).reminderDeliveries[0]).toMatchObject({ status: "sent" });
+  });
+
+  it("releases failed leases and recovers stale in-progress deliveries", async () => {
+    const storage = new MemoryStorage();
+    storage.values.set(GATHERINGS_KEY, store());
+    const repository = new GatheringRepository(storage);
+    const firstLease = await repository.claimReminderDelivery("wednesday:2030-08-14", "weekly-email:one", new Date("2030-08-10T12:00:00.000Z"));
+    if (!firstLease.claimed) throw new Error("Expected first lease");
+    await repository.releaseReminderDelivery("wednesday:2030-08-14", "weekly-email:one", firstLease.leaseId, new Date("2030-08-10T12:01:00.000Z"));
+    expect((await repository.claimReminderDelivery("wednesday:2030-08-14", "weekly-email:one", new Date("2030-08-10T12:02:00.000Z"))).claimed).toBe(true);
+    expect((await repository.claimReminderDelivery("wednesday:2030-08-14", "weekly-email:one", new Date("2030-08-10T12:20:00.000Z"), true)).claimed).toBe(true);
+  });
+
+  it("fences an expired worker from changing a replacement lease", async () => {
+    const storage = new MemoryStorage();
+    storage.values.set(GATHERINGS_KEY, store());
+    const repository = new GatheringRepository(storage);
+    const expired = await repository.claimReminderDelivery("wednesday:2030-08-14", "weekly-email:one", new Date("2030-08-10T12:00:00.000Z"));
+    const replacement = await repository.claimReminderDelivery("wednesday:2030-08-14", "weekly-email:one", new Date("2030-08-10T12:20:00.000Z"), true);
+    if (!expired.claimed || !replacement.claimed) throw new Error("Expected both sequential leases");
+
+    expect(await repository.ownsReminderLease("wednesday:2030-08-14", "weekly-email:one", expired.leaseId)).toBe(false);
+    expect(await repository.ownsReminderLease("wednesday:2030-08-14", "weekly-email:one", replacement.leaseId)).toBe(true);
+
+    expect((await repository.releaseReminderDelivery("wednesday:2030-08-14", "weekly-email:one", expired.leaseId, new Date("2030-08-10T12:21:00.000Z"))).updated).toBe(false);
+    expect((await repository.completeReminderDelivery("wednesday:2030-08-14", "weekly-email:one", expired.leaseId, new Date("2030-08-10T12:22:00.000Z"))).updated).toBe(false);
+    expect((await repository.completeReminderDelivery("wednesday:2030-08-14", "weekly-email:one", replacement.leaseId, new Date("2030-08-10T12:23:00.000Z"))).updated).toBe(true);
+
+    expect((storage.values.get(GATHERINGS_KEY) as GatheringStoreV1).reminderDeliveries[0]).toMatchObject({
+      leaseId: replacement.leaseId,
+      status: "sent",
+    });
+  });
 });

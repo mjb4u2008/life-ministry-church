@@ -6,6 +6,7 @@ import { LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { adminTokenExpiresAt } from "@/lib/admin-token-client";
 
 export interface AdminSessionValue {
   token: string;
@@ -74,6 +75,26 @@ export function AdminSession({
     localStorage.removeItem("admin_token");
     setToken(null);
   }, []);
+
+  useEffect(() => {
+    if (!token) return;
+    const expiresAt = adminTokenExpiresAt(token);
+    if (!expiresAt || expiresAt <= Date.now()) {
+      const timer = window.setTimeout(logout, 0);
+      return () => window.clearTimeout(timer);
+    }
+    const expiryTimer = window.setTimeout(logout, expiresAt - Date.now());
+    const checkVisibility = () => {
+      if (document.visibilityState === "visible" && Date.now() >= expiresAt) logout();
+    };
+    document.addEventListener("visibilitychange", checkVisibility);
+    window.addEventListener("focus", checkVisibility);
+    return () => {
+      window.clearTimeout(expiryTimer);
+      document.removeEventListener("visibilitychange", checkVisibility);
+      window.removeEventListener("focus", checkVisibility);
+    };
+  }, [logout, token]);
 
   if (loading) {
     return (

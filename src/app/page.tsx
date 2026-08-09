@@ -127,6 +127,7 @@ export default function HomePage() {
 
   /* GSAP: One orchestrated hero entrance */
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
@@ -551,10 +552,10 @@ export default function HomePage() {
 
           {/* Tab Toggle */}
           <div className="flex justify-center mb-12">
-            <div className="inline-flex bg-white/10 rounded-xl p-1.5">
+            <div className="flex w-full max-w-sm flex-col gap-1.5 rounded-xl bg-white/10 p-1.5 sm:inline-flex sm:w-auto sm:flex-row sm:gap-0">
               <button
                 onClick={() => setActiveTab("prayers")}
-                className={`flex items-center gap-2 px-6 py-3 rounded-lg font-body font-bold text-sm uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+                className={`flex w-full items-center justify-center gap-2 px-4 py-3 rounded-lg font-body font-bold text-sm uppercase tracking-wider transition-all duration-200 cursor-pointer sm:w-auto sm:px-6 ${
                   activeTab === "prayers"
                     ? "bg-white text-[#0a1a2f] shadow-lg"
                     : "text-white/60 hover:text-white"
@@ -565,7 +566,7 @@ export default function HomePage() {
               </button>
               <button
                 onClick={() => setActiveTab("testimonies")}
-                className={`flex items-center gap-2 px-6 py-3 rounded-lg font-body font-bold text-sm uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+                className={`flex w-full items-center justify-center gap-2 px-4 py-3 rounded-lg font-body font-bold text-sm uppercase tracking-wider transition-all duration-200 cursor-pointer sm:w-auto sm:px-6 ${
                   activeTab === "testimonies"
                     ? "bg-white text-[#0a1a2f] shadow-lg"
                     : "text-white/60 hover:text-white"

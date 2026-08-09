@@ -71,7 +71,9 @@ export async function POST(request: NextRequest) {
     }
 
     if (channels.includes("sms") && phoneSubscribers.length > 0) {
-      if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN || !process.env.TWILIO_PHONE_NUMBER) {
+      if (process.env.TWILIO_STOP_SYNC_VERIFIED !== "true") {
+        errors.push("Text-message delivery is disabled until STOP synchronization is verified");
+      } else if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN || !process.env.TWILIO_PHONE_NUMBER) {
         errors.push("Text-message delivery is not configured");
       } else {
         const twilio = (await import("twilio")).default;

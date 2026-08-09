@@ -1,6 +1,7 @@
 import { expect, type Page, test } from "@playwright/test";
+import { futureAdminToken } from "./helpers";
 
-const TOKEN = "giving-e2e-token";
+const TOKEN = futureAdminToken("giving");
 const CAMPAIGN = "https://www.zeffy.com/en-US/donation-form/life-ministry-123";
 const EMBED = "https://www.zeffy.com/en-US/embed/donation-form/life-ministry-123";
 

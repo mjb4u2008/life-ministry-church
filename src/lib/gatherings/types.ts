@@ -50,6 +50,8 @@ export interface GatheringOccurrence {
 export interface ReminderDelivery {
   occurrenceId: string;
   reminderType: string;
+  status?: "sending" | "sent";
+  leaseId?: string;
   sentAt: string;
 }
 

@@ -22,6 +22,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { adminTokenExpiresAt } from "@/lib/admin-token-client";
 
 // ─── Interfaces ─────────────────────────────────────────────────────────────────
 
@@ -528,6 +529,35 @@ export default function AdminPage() {
     setActiveTab("flyer");
   };
 
+  useEffect(() => {
+    if (!token) return;
+    const expiresAt = adminTokenExpiresAt(token);
+    const expire = () => {
+      localStorage.removeItem("admin_token");
+      setToken(null);
+      setContent(null);
+      setPrayers([]);
+      setTestimonies([]);
+      setMessagingSubscribers([]);
+      setDailyScripture(null);
+    };
+    if (!expiresAt || expiresAt <= Date.now()) {
+      const immediate = window.setTimeout(expire, 0);
+      return () => window.clearTimeout(immediate);
+    }
+    const timer = window.setTimeout(expire, expiresAt - Date.now());
+    const checkVisibility = () => {
+      if (document.visibilityState === "visible" && Date.now() >= expiresAt) expire();
+    };
+    document.addEventListener("visibilitychange", checkVisibility);
+    window.addEventListener("focus", checkVisibility);
+    return () => {
+      window.clearTimeout(timer);
+      document.removeEventListener("visibilitychange", checkVisibility);
+      window.removeEventListener("focus", checkVisibility);
+    };
+  }, [token]);
+
   // ═══════════════════════════════════════════════════════════════════════════
   // DATA LOADING
   // ═══════════════════════════════════════════════════════════════════════════
@@ -537,7 +567,9 @@ export default function AdminPage() {
       try {
         const [contentRes, prayersRes, testimoniesRes, scriptureRes, insightsRes, subscribersRes, blastLogsRes] =
           await Promise.all([
-            fetch("/api/content"),
+            fetch("/api/content?admin=1", {
+              headers: { Authorization: `Bearer ${t}` },
+            }),
             fetch("/api/prayers"),
             fetch("/api/testimonies", {
               headers: { Authorization: `Bearer ${t}` },

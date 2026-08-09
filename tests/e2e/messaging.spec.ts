@@ -27,6 +27,10 @@ test("messaging: homepage signup requires explicit versioned-consent input", asy
   expect(response?.headers()["referrer-policy"]).toBe("strict-origin-when-cross-origin");
   expect(response?.headers()["permissions-policy"]).toContain("camera=()");
   expect(response?.headers()["x-powered-by"]).toBeUndefined();
+  const csp = response?.headers()["content-security-policy"] ?? "";
+  expect(csp).toContain("default-src 'self'");
+  expect(csp).toMatch(/script-src 'self' 'nonce-[^']+' 'strict-dynamic'/);
+  expect(csp).toContain("connect-src 'self'");
   expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false);
 });
 

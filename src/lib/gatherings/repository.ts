@@ -104,6 +104,127 @@ export class GatheringRepository {
     }));
   }
 
+  async claimReminderDelivery(
+    occurrenceId: string,
+    reminderType: string,
+    now = new Date(),
+    allowStaleRecovery = false,
+  ): Promise<
+    | { claimed: true; leaseId: string; store: GatheringStoreV1 }
+    | { claimed: false; store: GatheringStoreV1 }
+  > {
+    const leaseMilliseconds = 10 * 60 * 1000;
+    const leaseId = crypto.randomUUID();
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      const current = await this.getEffectiveStore(now);
+      const existing = current.reminderDeliveries.find(
+        (delivery) =>
+          delivery.occurrenceId === occurrenceId &&
+          delivery.reminderType === reminderType,
+      );
+      const staleLeaseCanBeRecovered = existing?.status === "sending" &&
+        allowStaleRecovery &&
+        now.getTime() - Date.parse(existing.sentAt) >= leaseMilliseconds;
+      if (existing && !staleLeaseCanBeRecovered) {
+        return { claimed: false, store: current };
+      }
+      try {
+        const store = await this.saveChange(current.revision, now, (value) => ({
+          ...value,
+          reminderDeliveries: [
+            ...value.reminderDeliveries.filter(
+              (delivery) =>
+                delivery.occurrenceId !== occurrenceId ||
+                delivery.reminderType !== reminderType,
+            ),
+            { occurrenceId, reminderType, status: "sending", leaseId, sentAt: now.toISOString() },
+          ],
+        }));
+        return { claimed: true, leaseId, store };
+      } catch (error) {
+        if (!(error instanceof GatheringRevisionConflictError) || attempt === 2) throw error;
+      }
+    }
+    throw new Error("Unable to claim gathering reminder");
+  }
+
+  async ownsReminderLease(
+    occurrenceId: string,
+    reminderType: string,
+    leaseId: string,
+    now = new Date(),
+  ): Promise<boolean> {
+    const current = await this.getEffectiveStore(now);
+    return current.reminderDeliveries.some(
+      (delivery) =>
+        delivery.occurrenceId === occurrenceId &&
+        delivery.reminderType === reminderType &&
+        delivery.status === "sending" &&
+        delivery.leaseId === leaseId,
+    );
+  }
+
+  async completeReminderDelivery(
+    occurrenceId: string,
+    reminderType: string,
+    leaseId: string,
+    now = new Date(),
+  ): Promise<{ updated: boolean; store: GatheringStoreV1 }> {
+    return this.updateReminderDelivery(occurrenceId, reminderType, leaseId, now, "complete");
+  }
+
+  async releaseReminderDelivery(
+    occurrenceId: string,
+    reminderType: string,
+    leaseId: string,
+    now = new Date(),
+  ): Promise<{ updated: boolean; store: GatheringStoreV1 }> {
+    return this.updateReminderDelivery(occurrenceId, reminderType, leaseId, now, "release");
+  }
+
+  private async updateReminderDelivery(
+    occurrenceId: string,
+    reminderType: string,
+    leaseId: string,
+    now: Date,
+    operation: "complete" | "release",
+  ): Promise<{ updated: boolean; store: GatheringStoreV1 }> {
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      const current = await this.getEffectiveStore(now);
+      const ownsLease = current.reminderDeliveries.some(
+        (delivery) =>
+          delivery.occurrenceId === occurrenceId &&
+          delivery.reminderType === reminderType &&
+          delivery.status === "sending" &&
+          delivery.leaseId === leaseId,
+      );
+      if (!ownsLease) return { updated: false, store: current };
+      try {
+        const store = await this.saveChange(current.revision, now, (value) => ({
+          ...value,
+          reminderDeliveries: operation === "release"
+            ? value.reminderDeliveries.filter(
+              (delivery) =>
+                delivery.occurrenceId !== occurrenceId ||
+                delivery.reminderType !== reminderType ||
+                delivery.leaseId !== leaseId,
+            )
+            : value.reminderDeliveries.map((delivery) =>
+              delivery.occurrenceId === occurrenceId &&
+              delivery.reminderType === reminderType &&
+              delivery.leaseId === leaseId
+                ? { ...delivery, status: "sent" as const, sentAt: now.toISOString() }
+                : delivery,
+            ),
+        }));
+        return { updated: true, store };
+      } catch (error) {
+        if (!(error instanceof GatheringRevisionConflictError) || attempt === 2) throw error;
+      }
+    }
+    throw new Error(`Unable to ${operation} gathering reminder`);
+  }
+
   private async saveChange(
     expectedRevision: number,
     now: Date,

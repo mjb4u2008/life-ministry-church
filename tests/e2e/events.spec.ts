@@ -1,6 +1,7 @@
 import { expect, type Page, test } from "@playwright/test";
+import { futureAdminToken } from "./helpers";
 
-const TOKEN = "events-e2e-token";
+const TOKEN = futureAdminToken("events");
 const UPDATED_AT = "2030-08-09T12:00:00.000Z";
 
 async function authenticate(page: Page) {

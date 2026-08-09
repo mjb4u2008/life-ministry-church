@@ -35,3 +35,11 @@ Before enabling production SMS, configure and test a Twilio webhook that:
 
 Until that work is complete, Twilio's provider-level STOP handling is the external
 safety net; the site does not claim that inbound STOP is synchronized locally.
+SMS delivery fails closed unless `TWILIO_STOP_SYNC_VERIFIED=true` is deliberately
+set after the production webhook passes every check above.
+
+Scheduled email retries use a stable
+[Resend idempotency key](https://resend.com/docs/dashboard/emails/idempotency-keys).
+SMS delivery leases are intentionally not auto-reclaimed because Twilio message
+creation does not provide an equivalent deduplication guarantee; investigate an
+in-flight SMS lease manually instead of risking a duplicate text.

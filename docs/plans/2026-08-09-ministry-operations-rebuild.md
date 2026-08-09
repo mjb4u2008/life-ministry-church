@@ -543,10 +543,11 @@ Evidence: legacy subscriber migration with backup, canonical delivery identities
 admin-only suppression reactivation, confirm-to-unsubscribe links, suppression-
 aware Wednesday/Sunday scheduled and manual sends, aggregate error reporting,
 strict content payloads and URL hosts, no-store PII responses, and hardened global
-headers. Full unit suite passed 79/79, messaging Chromium and 320px mobile E2E
+headers. Full unit suite passed 88/88, messaging Chromium and 320px mobile E2E
 passed 2/2 each, lint, typecheck, and production build passed. Independent final
-review found no remaining P1/P2 issues. Twilio inbound STOP synchronization remains
-explicitly blocked and documented in `docs/operations/messaging.md`.
+review found no remaining P1/P2 issues. SMS remains fail-closed until production
+Twilio STOP synchronization is verified and explicitly enabled as documented in
+`docs/operations/messaging.md`.
 
 **Definition of Done**
 
@@ -559,11 +560,22 @@ npm run build
 
 ### PR-10 — Mobile and end-to-end convergence
 
-- [ ] Test public and admin flows at required widths.
-- [ ] Fix overflow, focus, keyboard, reduced-motion, and touch-target failures.
-- [ ] Run two independent high-risk reviews for auth, care privacy, public endpoints, and giving.
-- [ ] Fix all P1/P2 findings, then re-review the changed diff.
-- [ ] Run full raw verification and capture screenshots/evidence.
+- [x] Test public and admin flows at required widths.
+- [x] Fix overflow, focus, keyboard, reduced-motion, and touch-target failures.
+- [x] Run two independent high-risk reviews for auth, care privacy, public endpoints, and giving.
+- [x] Fix all P1/P2 findings, then re-review the changed diff.
+- [x] Run full raw verification and capture screenshots/evidence.
+
+Evidence: responsive browser coverage exercises public and authenticated admin
+flows at 320, 360, 390, 430, and 768 pixels, verifies no horizontal overflow,
+44-pixel touch targets, and reduced-motion behavior. The final suite passed lint,
+typecheck, 88/88 unit tests, 23/23 Chromium tests, 23/23 mobile Chrome tests, and
+the Next.js 16.3.0 production build. Coverage is 68.83% statements, 64.33%
+branches, 75.57% functions, and 72.74% lines. Two independent reviewers checked
+the high-risk product and security diff; all P1/P2 findings were fixed and sent
+through re-review. The dependency audit reports zero known vulnerabilities. The
+protected generator route implementations and their contract tests remain
+unchanged.
 
 **Definition of Done**
 

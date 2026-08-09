@@ -9,11 +9,34 @@ function json(body: unknown, init?: ResponseInit) {
   return response;
 }
 
-// GET content (public)
-export async function GET() {
+function publicContent(content: Awaited<ReturnType<typeof getContent>>) {
+  return {
+    weeklyMessage: content.weeklyMessage,
+    serviceSchedule: content.serviceSchedule,
+    lobbyOpen: content.lobbyOpen,
+    serviceLive: content.serviceLive,
+    socialLinks: content.socialLinks,
+    tiktokVideos: content.tiktokVideos,
+    youtubeLatestUrl: content.youtubeLatestUrl,
+    thisSunday: content.thisSunday,
+    contactEmail: content.contactEmail,
+    contactPhone: content.contactPhone,
+    youtubeVideos: content.youtubeVideos,
+    lastUpdated: content.lastUpdated,
+  };
+}
+
+// GET allowlisted public content or the full authenticated legacy-admin record.
+export async function GET(request: NextRequest) {
   try {
     const content = await getContent();
-    return json(content);
+    if (request.nextUrl.searchParams.get("admin") === "1") {
+      const authHeader = request.headers.get("authorization");
+      const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
+      if (!token || !verifyToken(token)) return json({ error: "Unauthorized" }, { status: 401 });
+      return json(content);
+    }
+    return json(publicContent(content));
   } catch (error) {
     console.error("Content read failed", error instanceof Error ? error.name : "UnknownError");
     return json(

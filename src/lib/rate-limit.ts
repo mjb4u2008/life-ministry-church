@@ -1,4 +1,3 @@
-import crypto from "crypto";
 import { kv } from "@vercel/kv";
 
 export interface RateLimitStorage {
@@ -24,7 +23,8 @@ export async function checkDurableRateLimit({
   windowSeconds: number;
   storage?: RateLimitStorage;
 }) {
-  const digest = crypto.createHash("sha256").update(identifier).digest("hex").slice(0, 32);
+  const digestBytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(identifier));
+  const digest = Array.from(new Uint8Array(digestBytes), (byte) => byte.toString(16).padStart(2, "0")).join("").slice(0, 32);
   const bucket = Math.floor(Date.now() / (windowSeconds * 1000));
   const key = `rate-limit:${scope}:${bucket}:${digest}`;
   const count = await storage.incr(key);
@@ -38,4 +38,11 @@ export function requestIdentifier(headers: Headers) {
     headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
     "unknown"
   );
+}
+
+export function trustedRequestIdentifier(headers: Headers) {
+  const vercelForwarded = headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim();
+  if (vercelForwarded) return vercelForwarded;
+  if (process.env.NODE_ENV === "production") return "unavailable-platform-ip";
+  return requestIdentifier(headers);
 }
