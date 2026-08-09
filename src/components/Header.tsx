@@ -82,7 +82,7 @@ export function Header() {
             <Music className={`size-4 ${isPlaying ? "animate-pulse" : ""}`} />
           </button>
 
-          <Link className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#e4b75d] px-4 text-sm font-black text-[#071521] transition-colors hover:bg-[#f4d690] sm:px-5" href="/watch">
+          <Link className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#e4b75d] px-4 text-sm font-black text-[#071521] transition-colors hover:bg-[#f4d690] sm:px-5" href="/watch" onClick={closeMenu}>
             <span className="sm:hidden">Join</span>
             <span className="hidden sm:inline">Join / Watch</span>
           </Link>

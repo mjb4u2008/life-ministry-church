@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -152,18 +151,15 @@ export default function HomePage() {
               Start where you are.
             </h2>
           </div>
-          <div className="mt-12 grid gap-5 lg:grid-cols-3">
-            {nextSteps.map((step, index) => (
+          <div className="mt-12 grid border-t border-[#071521]/25 lg:grid-cols-3">
+            {nextSteps.map((step) => (
               <Link
-                className="group flex min-h-72 flex-col rounded-[1.75rem] border border-[#071521]/10 bg-[#fffdf8] p-7 text-[#071521] transition-[transform,box-shadow] hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(7,21,33,0.1)] focus-visible:-translate-y-1 sm:p-8"
+                className="group flex min-h-64 flex-col border-b border-[#071521]/25 p-6 text-[#071521] transition-colors hover:bg-[#fffdf8] focus-visible:bg-[#fffdf8] sm:p-8 lg:border-r last:lg:border-r-0"
                 href={step.href}
                 key={step.title}
               >
-                <div className="flex items-center justify-between">
-                  <step.icon className="size-8 text-[#1677a8]" strokeWidth={1.8} />
-                  <span className="text-sm font-bold tabular-nums text-[#526675]">0{index + 1}</span>
-                </div>
-                <p className="mt-10 text-xs font-extrabold uppercase tracking-[0.18em] text-[#1677a8]">
+                <step.icon className="size-8 text-[#1677a8]" strokeWidth={1.8} />
+                <p className="mt-9 text-xs font-extrabold uppercase tracking-[0.18em] text-[#1677a8]">
                   {step.eyebrow}
                 </p>
                 <h3 className="mt-3 font-display text-3xl font-black">{step.title}</h3>
@@ -208,18 +204,11 @@ export default function HomePage() {
 
       <section className="bg-[#fffdf8] py-20 sm:py-28" id="pastor">
         <div className="mx-auto grid max-w-screen-xl gap-12 px-5 sm:px-6 lg:grid-cols-2 lg:items-center lg:gap-20 lg:px-12">
-          <div className="relative min-h-[430px] overflow-hidden rounded-[2rem] bg-[#071521]">
-            <Image
-              alt="An open Bible in a warm worship setting"
-              className="object-cover object-[68%_center] opacity-70"
-              fill
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              src="/images/life-ministry-hero.jpg"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#071521] via-[#071521]/20 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 p-7 text-white sm:p-10">
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#e4b75d]">A note from Pastor Mike</p>
-              <blockquote className="mt-4 max-w-md font-display text-2xl font-bold leading-snug sm:text-3xl">
+          <div className="relative flex min-h-[430px] overflow-hidden bg-[#071521] p-7 text-white sm:p-10">
+            <span aria-hidden="true" className="absolute inset-0 flex items-center justify-center font-display text-[11rem] font-black leading-none text-white/[0.035] sm:text-[18rem]">PM</span>
+            <div className="relative mt-auto border-l-4 border-[#e4b75d] pl-6">
+              <p className="text-sm font-extrabold uppercase tracking-[0.16em] text-[#e4b75d]">A note from Pastor Mike</p>
+              <blockquote className="mt-5 max-w-md font-display text-3xl font-bold leading-snug sm:text-4xl">
                 “God is with you right now, right where you are.”
               </blockquote>
             </div>

@@ -69,3 +69,29 @@ test("responsive: public and admin foundations hold at every required width", as
     expect(prepareBox?.height, `admin primary target at ${width}px`).toBeGreaterThanOrEqual(44);
   }
 });
+
+test("responsive: mobile navigation closes and welcome keeps a single page heading", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.route("**/api/gatherings**", (route) =>
+    route.fulfill({
+      contentType: "application/json",
+      json: { series: [], featured: null, upcoming: [], recent: [], generatedAt: UPDATED_AT },
+    }),
+  );
+  await page.route("**/api/prayers", (route) => route.fulfill({ contentType: "application/json", json: { prayers: [] } }));
+  await page.route("**/api/testimonies", (route) => route.fulfill({ contentType: "application/json", json: { testimonies: [] } }));
+  await page.route("**/api/daily-scripture", (route) => route.fulfill({ contentType: "application/json", json: {} }));
+
+  await page.goto("/");
+  await page.getByRole("button", { name: "Open menu" }).click();
+  await expect(page.getByRole("button", { name: "Close menu" })).toBeVisible();
+  await page.getByRole("link", { name: "Join", exact: true }).click();
+  await expect(page).toHaveURL(/\/watch$/);
+  await expect(page.getByRole("button", { name: "Open menu" })).toBeVisible();
+  await expect(page.locator("#mobile-navigation")).toHaveCount(0);
+
+  await page.goto("/welcome");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+  await expect(page.getByRole("heading", { name: "Let us welcome you personally" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "See the next gathering" })).toHaveAttribute("href", "/watch");
+});

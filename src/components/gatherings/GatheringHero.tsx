@@ -5,7 +5,7 @@ import type {
   PublicGatheringOccurrence,
   PublicGatheringSeries,
 } from "@/lib/gatherings";
-import { GatheringActions } from "./GatheringActions";
+import { GatheringActions, getGatheringActionLabel } from "./GatheringActions";
 import { GatheringCountdown } from "./GatheringCountdown";
 import { formatGatheringDate } from "./GatheringCard";
 
@@ -64,6 +64,9 @@ export function GatheringHero({
         data-gathering-phase={phase}
         id="next-gathering"
       >
+        <p aria-atomic="true" aria-live="polite" className="sr-only" role="status">
+          {phaseLabel[phase]}. {gatheringName}. {getGatheringActionLabel(occurrence, gatheringName)}.
+        </p>
         <Image
           alt="An open Bible in a warm worship setting"
           className="-z-20 object-cover object-[67%_center]"
@@ -86,8 +89,11 @@ export function GatheringHero({
             <p className="mt-5 max-w-xl text-base leading-7 text-white/76 sm:text-lg sm:leading-8">
               Worship, Scripture, and real community every Wednesday and Sunday—wherever you are.
             </p>
+            <p className="mt-4 text-base font-extrabold text-[#f4d690]">
+              {phase === "replay" ? "Latest" : "Next"}: {gatheringName}
+            </p>
             <div className="mt-5 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
-              <GatheringActions occurrence={occurrence} />
+              <GatheringActions gatheringName={gatheringName} occurrence={occurrence} />
               <Link
                 className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/30 bg-white/5 px-6 py-3 font-bold text-white transition-colors hover:bg-white hover:text-[#071521]"
                 href="/welcome"
@@ -100,11 +106,11 @@ export function GatheringHero({
           <div className={`-mx-5 grid gap-5 border-t px-5 py-5 sm:-mx-6 sm:px-6 sm:py-6 lg:-mx-12 lg:grid-cols-[minmax(0,1.25fr)_minmax(280px,0.75fr)] lg:items-center lg:gap-12 lg:px-12 ${isLiveState ? "border-red-400/35 bg-[#9f2925]/95" : isWednesday ? "border-[#77dff4]/35 bg-[#0d4d69]/95" : "border-[#f4d690]/35 bg-[#b68935]/95 text-[#071521]"}`}>
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-3">
-                <span className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] ${isLiveState ? "bg-white text-[#9f2925]" : "bg-[#071521] text-white"}`}>
+                <span className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-black uppercase tracking-[0.12em] ${isLiveState ? "bg-white text-[#9f2925]" : "bg-[#071521] text-white"}`}>
                   {isLiveState && <Radio className="size-3.5" />}
                   {phaseLabel[phase]}
                 </span>
-                <span className={`text-xs font-extrabold uppercase tracking-[0.16em] ${isLiveState || isWednesday ? "text-white/72" : "text-[#071521]/68"}`}>
+                <span className={`text-sm font-extrabold uppercase tracking-[0.12em] ${isLiveState || isWednesday ? "text-white/72" : "text-[#071521]/68"}`}>
                   {gatheringName}
                 </span>
               </div>
@@ -115,7 +121,7 @@ export function GatheringHero({
                 {formatGatheringDate(occurrence.startsAt)}
               </p>
               {occurrence.scripture && (
-                <p className={`mt-2 text-sm font-bold ${isLiveState || isWednesday ? "text-white" : "text-[#071521]"}`}>
+                <p className={`mt-2 text-base font-bold ${isLiveState || isWednesday ? "text-white" : "text-[#071521]"}`}>
                   {occurrence.scripture}
                 </p>
               )}
@@ -124,7 +130,7 @@ export function GatheringHero({
             {showCountdown && phase === "upcoming" && (
               <div className="min-w-0">
                 <div>
-                  <p className={`mb-3 text-xs font-extrabold uppercase tracking-[0.16em] ${isWednesday ? "text-white/65" : "text-[#071521]/65"}`}>Starts in</p>
+                  <p className={`mb-3 text-sm font-extrabold uppercase tracking-[0.12em] ${isWednesday ? "text-white/65" : "text-[#071521]/65"}`}>Starts in</p>
                   <GatheringCountdown startsAt={occurrence.startsAt} tone={isWednesday ? "dark" : "gold"} />
                 </div>
               </div>
@@ -141,6 +147,9 @@ export function GatheringHero({
       data-gathering-phase={phase}
       id="next-gathering"
     >
+      <p aria-atomic="true" aria-live="polite" className="sr-only" role="status">
+        {phaseLabel[phase]}. {gatheringName}. {getGatheringActionLabel(occurrence, gatheringName)}.
+      </p>
       <Image
         alt="An open Bible in a warm worship setting"
         className="-z-20 object-cover object-[68%_center] opacity-55"
@@ -150,20 +159,20 @@ export function GatheringHero({
         src="/images/life-ministry-hero.jpg"
       />
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(7,21,33,0.98),rgba(7,21,33,0.66))]" />
-      <div className="mx-auto grid min-h-[650px] max-w-screen-xl grid-cols-1 gap-10 px-5 py-20 sm:px-6 md:py-24 lg:grid-cols-[minmax(0,1fr)_minmax(280px,0.72fr)] lg:items-center lg:gap-16 lg:px-12">
+      <div className="mx-auto grid min-h-[620px] max-w-screen-xl grid-cols-1 gap-10 px-5 py-10 sm:px-6 sm:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(280px,0.72fr)] lg:items-center lg:gap-16 lg:px-12">
         <div className="min-w-0">
-          <div className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] ${isLiveState ? "bg-[#c8322b] text-white" : "bg-[#e4b75d] text-[#071521]"}`}>
+          <div className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-black uppercase tracking-[0.12em] ${isLiveState ? "bg-[#c8322b] text-white" : "bg-[#e4b75d] text-[#071521]"}`}>
             {isLiveState && <Radio className="size-3.5" />}
             {phaseLabel[phase]}
           </div>
           <p className="mt-6 text-sm font-bold uppercase tracking-[0.16em] text-white/62">{gatheringName}</p>
           <h1 className="mt-3 break-words font-display text-5xl font-black leading-[0.98] sm:text-6xl" id={titleId}>{title}</h1>
           {occurrence.scripture && <p className="mt-5 text-lg font-bold text-[#e4b75d]">{occurrence.scripture}</p>}
+          <p className="mt-5 text-base font-bold text-white/68">{formatGatheringDate(occurrence.startsAt)}</p>
+          <div className="mt-6"><GatheringActions gatheringName={gatheringName} occurrence={occurrence} /></div>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-white/72">
             {occurrence.description || "Come worship, pray, and spend time in God’s Word with us online."}
           </p>
-          <p className="mt-5 text-base font-bold text-white/68">{formatGatheringDate(occurrence.startsAt)}</p>
-          <div className="mt-8"><GatheringActions occurrence={occurrence} /></div>
         </div>
 
         <div className="min-w-0">

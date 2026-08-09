@@ -11,6 +11,7 @@ interface GatheringsState {
 }
 
 const REFRESH_INTERVAL_MS = 30_000;
+export const GATHERINGS_REQUEST_TIMEOUT_MS = 8_000;
 
 function isPublicGatheringsResponse(value: unknown): value is PublicGatheringsResponse {
   if (!value || typeof value !== "object") return false;
@@ -30,10 +31,19 @@ export function useGatherings(): GatheringsState {
   const [requestVersion, setRequestVersion] = useState(0);
 
   const load = useCallback(async (signal?: AbortSignal) => {
+    const requestController = new AbortController();
+    let timedOut = false;
+    const abortRequest = () => requestController.abort();
+    signal?.addEventListener("abort", abortRequest, { once: true });
+    const timeout = window.setTimeout(() => {
+      timedOut = true;
+      requestController.abort();
+    }, GATHERINGS_REQUEST_TIMEOUT_MS);
+
     try {
       const response = await fetch("/api/gatherings", {
         cache: "no-store",
-        signal,
+        signal: requestController.signal,
       });
       if (!response.ok) throw new Error(`Request failed with ${response.status}`);
       const payload: unknown = await response.json();
@@ -43,9 +53,16 @@ export function useGatherings(): GatheringsState {
       setData(payload);
       setError(null);
     } catch (loadError) {
-      if (loadError instanceof DOMException && loadError.name === "AbortError") return;
+      if (signal?.aborted) return;
+      if (
+        loadError instanceof DOMException &&
+        loadError.name === "AbortError" &&
+        !timedOut
+      ) return;
       setError("We couldn’t load the gathering schedule right now.");
     } finally {
+      window.clearTimeout(timeout);
+      signal?.removeEventListener("abort", abortRequest);
       if (!signal?.aborted) setLoading(false);
     }
   }, []);

@@ -29,10 +29,17 @@ export function GatheringExperience({ mode }: { mode: "home" | "watch" }) {
       >
         <Image alt="" aria-hidden="true" className="-z-20 object-cover object-[67%_center] opacity-45" fill priority={mode === "home"} sizes="100vw" src="/images/life-ministry-hero.jpg" />
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(7,21,33,0.96),rgba(7,21,33,0.55))]" />
-        <div className="text-center font-body">
+        <div className="max-w-xl text-center font-body">
           {mode === "home" && <h1 className="mb-7 font-display text-5xl font-black">God is with you.</h1>}
           <LoaderCircle className="mx-auto size-8 animate-spin text-[#e4b75d]" />
-          <p className="mt-4">Loading gathering details…</p>
+          <p className="mt-4 text-lg font-bold">Loading the next gathering…</p>
+          <p className="mt-3 leading-7 text-white/68">
+            L.I.F.E. meets online every Wednesday and Sunday. If this is taking a while,
+            Pastor Mike can help you join.
+          </p>
+          <a className="mt-5 inline-flex min-h-12 items-center rounded-full border border-white/30 px-6 py-3 font-bold hover:bg-white/10" href="/welcome">
+            Get help joining
+          </a>
         </div>
       </section>
     );
