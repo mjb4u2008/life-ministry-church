@@ -102,7 +102,7 @@ Definition of Done:
 - [x] Capture desktop and 320px screenshots and visually critique both.
 - [x] Run independent P1/P2 review, fix every finding, and re-review until clean.
 - [x] Run the full raw release gates.
-- [ ] Update and push the existing visual-experiment PR.
+- [x] Update and push the existing visual-experiment PR.
 
 Definition of Done:
 
