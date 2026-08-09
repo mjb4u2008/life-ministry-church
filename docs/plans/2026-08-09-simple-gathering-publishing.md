@@ -47,14 +47,14 @@ its next scheduled 30-second refresh.
 
 ### PR-01 — Ministry time and occurrence lifecycle
 
-- [ ] Add a shared `MINISTRY_TIMEZONE` (`America/New_York`),
+- [x] Add a shared `MINISTRY_TIMEZONE` (`America/New_York`),
   `MINISTRY_TIMEZONE_LABEL` (`Eastern Time`), and fixed 30-minute join-window
   constants.
-- [ ] Add an explicit start/end local-time helper that emits canonical UTC
+- [x] Add an explicit start/end local-time helper that emits canonical UTC
   timestamps and rejects an end that is not later than the start.
-- [ ] Add a revision-protected `delete-occurrence` gathering command and repository
+- [x] Add a revision-protected `delete-occurrence` gathering command and repository
   operation; only the occurrence is removed.
-- [ ] Keep legacy schemas and existing stored statuses readable.
+- [x] Keep legacy schemas and existing stored statuses readable.
 
 Definition of Done:
 
@@ -160,3 +160,9 @@ git diff --check
 
 Evidence is appended here as each ledger item is completed. An item without raw
 passing output remains `[NEEDS-VERIFICATION]`.
+
+### PR-01 evidence — 2026-08-09
+
+- `npm run test -- src/lib/gatherings/gatherings.test.ts` — PASS, 24/24 tests.
+- `npm run typecheck` — PASS, exit 0.
+- `git diff --check` — PASS (delivery-agent check).

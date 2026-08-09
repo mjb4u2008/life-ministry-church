@@ -52,16 +52,23 @@ export async function PUT(request: NextRequest) {
   try {
     const command = parseGatheringPutCommand(await request.json());
     const repository = new GatheringRepository();
-    const store =
-      command.operation === "upsert-series"
-        ? await repository.upsertSeries(
-            command.series,
-            command.expectedRevision,
-          )
-        : await repository.upsertOccurrence(
-            command.occurrence,
-            command.expectedRevision,
-          );
+    let store;
+    if (command.operation === "upsert-series") {
+      store = await repository.upsertSeries(
+        command.series,
+        command.expectedRevision,
+      );
+    } else if (command.operation === "upsert-occurrence") {
+      store = await repository.upsertOccurrence(
+        command.occurrence,
+        command.expectedRevision,
+      );
+    } else {
+      store = await repository.deleteOccurrence(
+        command.occurrenceId,
+        command.expectedRevision,
+      );
+    }
     return noStoreJson(store);
   } catch (error) {
     if (error instanceof GatheringValidationError) {

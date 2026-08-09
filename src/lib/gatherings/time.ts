@@ -1,6 +1,10 @@
 const DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
 const TIME_PATTERN = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
+export const MINISTRY_TIMEZONE = "America/New_York";
+export const MINISTRY_TIMEZONE_LABEL = "Eastern Time";
+export const MINISTRY_JOIN_WINDOW_MINUTES = 30;
+
 interface DateTimeParts {
   year: number;
   month: number;
@@ -131,5 +135,24 @@ export function buildOccurrenceTimes(
   return {
     startsAt: start.toISOString(),
     endsAt: new Date(start.getTime() + durationMinutes * 60_000).toISOString(),
+  };
+}
+
+export function buildOccurrenceTimesFromLocalRange(
+  localDate: string,
+  startTime: string,
+  endTime: string,
+  timezone: string,
+): { startsAt: string; endsAt: string } {
+  const start = zonedDateTimeToUtc(localDate, startTime, timezone);
+  const end = zonedDateTimeToUtc(localDate, endTime, timezone);
+
+  if (end.getTime() <= start.getTime()) {
+    throw new Error("End time must be later than start time");
+  }
+
+  return {
+    startsAt: start.toISOString(),
+    endsAt: end.toISOString(),
   };
 }

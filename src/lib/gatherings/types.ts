@@ -74,6 +74,11 @@ export type GatheringPutCommand =
       operation: "upsert-occurrence";
       expectedRevision: number;
       occurrence: GatheringOccurrence;
+    }
+  | {
+      operation: "delete-occurrence";
+      expectedRevision: number;
+      occurrenceId: string;
     };
 
 export interface PublicGatheringSeries {

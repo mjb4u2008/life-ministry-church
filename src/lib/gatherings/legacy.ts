@@ -4,7 +4,13 @@ import type {
   GatheringSeries,
   GatheringStoreV1,
 } from "./types";
-import { buildOccurrenceTimes, isValidLocalDate, isValidTimeZone } from "./time";
+import {
+  MINISTRY_JOIN_WINDOW_MINUTES,
+  MINISTRY_TIMEZONE,
+  buildOccurrenceTimes,
+  isValidLocalDate,
+  isValidTimeZone,
+} from "./time";
 
 const SUNDAY_SERIES_ID = "sunday-worship";
 const WEDNESDAY_SERIES_ID = "wednesday-word";
@@ -48,7 +54,7 @@ function legacySchedule(value: unknown): GatheringSchedule {
   return {
     dayOfWeek: validDay as GatheringSchedule["dayOfWeek"],
     localTime: `${String(validHour).padStart(2, "0")}:${String(validMinute).padStart(2, "0")}`,
-    timezone: isValidTimeZone(timezone) ? timezone : "America/New_York",
+    timezone: isValidTimeZone(timezone) ? timezone : MINISTRY_TIMEZONE,
     durationMinutes: 120,
   };
 }
@@ -72,7 +78,7 @@ export function normalizeLegacyGatherings(
     themeKey: "sunday",
     schedule: sundaySchedule,
     defaultMeetUrl: safeMeetUrl(legacy.googleMeetLink),
-    joinWindowMinutes: 30,
+    joinWindowMinutes: MINISTRY_JOIN_WINDOW_MINUTES,
     updatedAt: timestamp,
   };
   const wednesdaySeries: GatheringSeries = {
@@ -84,7 +90,7 @@ export function normalizeLegacyGatherings(
     themeKey: "wednesday",
     schedule: null,
     defaultMeetUrl: "",
-    joinWindowMinutes: 30,
+    joinWindowMinutes: MINISTRY_JOIN_WINDOW_MINUTES,
     updatedAt: timestamp,
   };
 

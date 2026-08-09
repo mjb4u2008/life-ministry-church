@@ -104,6 +104,19 @@ export class GatheringRepository {
     }));
   }
 
+  async deleteOccurrence(
+    occurrenceId: string,
+    expectedRevision: number,
+    now = new Date(),
+  ): Promise<GatheringStoreV1> {
+    return this.saveChange(expectedRevision, now, (current) => ({
+      ...current,
+      occurrences: current.occurrences.filter(
+        (occurrence) => occurrence.id !== occurrenceId,
+      ),
+    }));
+  }
+
   async claimReminderDelivery(
     occurrenceId: string,
     reminderType: string,

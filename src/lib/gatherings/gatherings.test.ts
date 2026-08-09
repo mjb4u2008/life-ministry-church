@@ -10,6 +10,7 @@ import {
 } from "./repository";
 import {
   GatheringValidationError,
+  parseGatheringPutCommand,
   parseGatheringSeries,
   parseGatheringStore,
 } from "./schema";
@@ -17,7 +18,14 @@ import {
   selectFeaturedOccurrence,
   serializePublicGatherings,
 } from "./selectors";
-import { buildOccurrenceTimes, zonedDateTimeToUtc } from "./time";
+import {
+  MINISTRY_JOIN_WINDOW_MINUTES,
+  MINISTRY_TIMEZONE,
+  MINISTRY_TIMEZONE_LABEL,
+  buildOccurrenceTimes,
+  buildOccurrenceTimesFromLocalRange,
+  zonedDateTimeToUtc,
+} from "./time";
 import type {
   GatheringOccurrence,
   GatheringSeries,
@@ -117,6 +125,12 @@ class MemoryStorage implements GatheringStorage {
 }
 
 describe("gathering time helpers", () => {
+  it("defines the shared Eastern ministry schedule", () => {
+    expect(MINISTRY_TIMEZONE).toBe("America/New_York");
+    expect(MINISTRY_TIMEZONE_LABEL).toBe("Eastern Time");
+    expect(MINISTRY_JOIN_WINDOW_MINUTES).toBe(30);
+  });
+
   it("converts Eastern wall time using the correct offset across DST", () => {
     expect(
       zonedDateTimeToUtc("2026-03-01", "11:30", "America/New_York").toISOString(),
@@ -141,6 +155,50 @@ describe("gathering time helpers", () => {
       startsAt: "2026-08-12T23:00:00.000Z",
       endsAt: "2026-08-13T00:30:00.000Z",
     });
+  });
+
+  it("builds explicit Eastern start and end timestamps across standard and daylight time", () => {
+    expect(
+      buildOccurrenceTimesFromLocalRange(
+        "2026-01-11",
+        "11:30",
+        "13:00",
+        MINISTRY_TIMEZONE,
+      ),
+    ).toEqual({
+      startsAt: "2026-01-11T16:30:00.000Z",
+      endsAt: "2026-01-11T18:00:00.000Z",
+    });
+    expect(
+      buildOccurrenceTimesFromLocalRange(
+        "2026-08-12",
+        "19:00",
+        "20:30",
+        MINISTRY_TIMEZONE,
+      ),
+    ).toEqual({
+      startsAt: "2026-08-12T23:00:00.000Z",
+      endsAt: "2026-08-13T00:30:00.000Z",
+    });
+  });
+
+  it("rejects an explicit end time that is not later than the start", () => {
+    expect(() =>
+      buildOccurrenceTimesFromLocalRange(
+        "2026-08-12",
+        "19:00",
+        "19:00",
+        MINISTRY_TIMEZONE,
+      ),
+    ).toThrow("End time must be later than start time");
+    expect(() =>
+      buildOccurrenceTimesFromLocalRange(
+        "2026-08-12",
+        "19:00",
+        "18:59",
+        MINISTRY_TIMEZONE,
+      ),
+    ).toThrow("End time must be later than start time");
   });
 });
 
@@ -305,6 +363,62 @@ describe("gathering validation", () => {
       ),
     ).toThrow(/references missing series/);
   });
+
+  it("parses a revision-protected delete occurrence command", () => {
+    expect(
+      parseGatheringPutCommand({
+        operation: "delete-occurrence",
+        expectedRevision: 4,
+        occurrenceId: "wednesday-word:2026-08-12",
+      }),
+    ).toEqual({
+      operation: "delete-occurrence",
+      expectedRevision: 4,
+      occurrenceId: "wednesday-word:2026-08-12",
+    });
+  });
+
+  it("rejects malformed delete IDs and revisions", () => {
+    expect(() =>
+      parseGatheringPutCommand({
+        operation: "delete-occurrence",
+        expectedRevision: 4,
+        occurrenceId: "Not a valid ID!",
+      }),
+    ).toThrow(/occurrenceId is invalid/);
+    expect(() =>
+      parseGatheringPutCommand({
+        operation: "delete-occurrence",
+        expectedRevision: -1,
+        occurrenceId: "wednesday-word:2026-08-12",
+      }),
+    ).toThrow(/expectedRevision must be a non-negative integer/);
+  });
+
+  it("keeps every existing stored occurrence status readable", () => {
+    const statuses: GatheringOccurrence["status"][] = [
+      "draft",
+      "published",
+      "live",
+      "completed",
+      "cancelled",
+    ];
+    expect(() =>
+      parseGatheringStore(
+        store({
+          occurrences: statuses.map((status, index) =>
+            occurrence({
+              id: `sunday-worship:2026-08-${String(10 + index).padStart(2, "0")}`,
+              seriesId: "sunday-worship",
+              startsAt: `2026-08-${String(10 + index).padStart(2, "0")}T15:30:00.000Z`,
+              endsAt: `2026-08-${String(10 + index).padStart(2, "0")}T17:00:00.000Z`,
+              status,
+            }),
+          ),
+        }),
+      ),
+    ).not.toThrow();
+  });
 });
 
 describe("GatheringRepository", () => {
@@ -370,6 +484,70 @@ describe("GatheringRepository", () => {
 
     await expect(
       repository.upsertSeries(existing.series[1], 3),
+    ).rejects.toBeInstanceOf(GatheringRevisionConflictError);
+    expect(storage.values.get(GATHERINGS_KEY)).toEqual(existing);
+  });
+
+  it("deletes only the selected occurrence and advances the revision", async () => {
+    const storage = new MemoryStorage();
+    const sunday = occurrence({
+      id: "sunday-worship:2026-08-16",
+      seriesId: "sunday-worship",
+      startsAt: "2026-08-16T15:30:00.000Z",
+      endsAt: "2026-08-16T17:00:00.000Z",
+    });
+    const wednesday = occurrence({
+      id: "wednesday-word:2026-08-12",
+      seriesId: "wednesday-word",
+      startsAt: "2026-08-12T23:00:00.000Z",
+      endsAt: "2026-08-13T00:30:00.000Z",
+    });
+    const existing = store({
+      occurrences: [sunday, wednesday],
+      reminderDeliveries: [
+        {
+          occurrenceId: wednesday.id,
+          reminderType: "weekly-email:one",
+          status: "sent",
+          sentAt: "2026-08-10T12:00:00.000Z",
+        },
+      ],
+    });
+    storage.values.set(GATHERINGS_KEY, structuredClone(existing));
+
+    const saved = await new GatheringRepository(storage).deleteOccurrence(
+      wednesday.id,
+      existing.revision,
+      new Date("2026-08-10T13:00:00.000Z"),
+    );
+
+    expect(saved.revision).toBe(1);
+    expect(saved.series).toEqual(existing.series);
+    expect(saved.occurrences).toEqual([sunday]);
+    expect(saved.reminderDeliveries).toEqual(existing.reminderDeliveries);
+    expect(storage.values.get(GATHERINGS_KEY)).toEqual(saved);
+  });
+
+  it("rejects a stale occurrence delete without changing persisted data", async () => {
+    const storage = new MemoryStorage();
+    const existing = store({
+      revision: 4,
+      occurrences: [
+        occurrence({
+          id: "wednesday-word:2026-08-12",
+          seriesId: "wednesday-word",
+          startsAt: "2026-08-12T23:00:00.000Z",
+          endsAt: "2026-08-13T00:30:00.000Z",
+        }),
+      ],
+    });
+    storage.values.set(GATHERINGS_KEY, structuredClone(existing));
+
+    await expect(
+      new GatheringRepository(storage).deleteOccurrence(
+        "wednesday-word:2026-08-12",
+        3,
+      ),
     ).rejects.toBeInstanceOf(GatheringRevisionConflictError);
     expect(storage.values.get(GATHERINGS_KEY)).toEqual(existing);
   });

@@ -320,7 +320,17 @@ export function parseGatheringPutCommand(value: unknown): GatheringPutCommand {
       occurrence: parseGatheringOccurrence(value.occurrence),
     };
   }
+  if (value.operation === "delete-occurrence") {
+    if (typeof value.occurrenceId !== "string" || !ID_PATTERN.test(value.occurrenceId)) {
+      throw new GatheringValidationError(["occurrenceId is invalid"]);
+    }
+    return {
+      operation: value.operation,
+      expectedRevision: value.expectedRevision as number,
+      occurrenceId: value.occurrenceId,
+    };
+  }
   throw new GatheringValidationError([
-    "operation must be upsert-series or upsert-occurrence",
+    "operation must be upsert-series, upsert-occurrence, or delete-occurrence",
   ]);
 }
