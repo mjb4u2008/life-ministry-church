@@ -131,13 +131,13 @@ npm run test:e2e -- --project=mobile-chrome --grep "gathering|events"
 
 ### PR-04 — Convergence and release proof
 
-- [ ] Run independent product/code review against this guide.
-- [ ] Fix every P1/P2 finding and re-review the refreshed diff until clean.
-- [ ] Exercise Sunday and Wednesday editor flows in a real browser on desktop and
+- [x] Run independent product/code review against this guide.
+- [x] Fix every P1/P2 finding and re-review the refreshed diff until clean.
+- [x] Exercise Sunday and Wednesday editor flows in a real browser on desktop and
   320px mobile, including Generate header request wiring, publish, and delete.
-- [ ] Exercise the homepage with Wednesday-before-Sunday data and after-Wednesday
+- [x] Exercise the homepage with Wednesday-before-Sunday data and after-Wednesday
   rollover data.
-- [ ] Run all repository gates and production build.
+- [x] Run all repository gates and production build.
 
 Definition of Done:
 
@@ -187,3 +187,18 @@ passing output remains `[NEEDS-VERIFICATION]`.
 - `npm run test:e2e -- --project=mobile-chrome --grep "gathering|events"` — PASS,
   15/15 tests.
 - `npm run typecheck` — PASS, exit 0.
+
+### PR-04 evidence — 2026-08-09
+
+- Initial independent product/security reviews found atomicity, ended-time,
+  reminder-cleanup, status-copy, and accessible-error issues. All were fixed with
+  regression tests.
+- Refreshed independent product review — CLEAN, no active P1/P2 findings.
+- Refreshed independent security/data-integrity review — CLEAN, no active P1/P2
+  findings.
+- `npm run lint` — PASS, exit 0.
+- `npm run typecheck` — PASS, exit 0.
+- `npm run test` — PASS, 107/107 tests.
+- `npm run test:e2e` — PASS, 52/52 desktop and mobile browser tests.
+- `npm run build` — PASS, production compilation and 22/22 static pages.
+- `git diff --check` — PASS.
