@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Separator } from "@/components/ui/separator";
 
 interface DailyScriptureData {
   verse: string;
@@ -38,50 +37,34 @@ export function DailyScriptureSection() {
   }, []);
 
   return (
-    <section className="py-20 md:py-28" style={{ background: "#f0f4f8" }}>
-      <div className="max-w-3xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-        <p
-          className="font-body font-bold text-xs uppercase tracking-[0.2em] mb-8"
-          style={{ color: "#1a6fb5" }}
-        >
-          Daily Inspiration
+    <section className="border-b-2 life-modernist-rule bg-[var(--modernist-paper)] py-14 sm:py-16 lg:py-20">
+      <div className="mx-auto max-w-[1120px] px-5 text-center sm:px-8 lg:px-12">
+        <p className="mb-6 text-xs font-extrabold uppercase tracking-[0.18em] text-[var(--modernist-blue)]">
+          A word for today
         </p>
 
-        <Separator className="max-w-16 mx-auto mb-10" style={{ background: "#1a6fb5" }} />
+        <div className="mx-auto mb-8 h-0.5 w-16 bg-[var(--modernist-blue)]" />
 
         {loading ? (
           <div className="animate-pulse space-y-4">
-            <div className="h-8 w-3/4 rounded mx-auto" style={{ background: "#dce8f2" }} />
-            <div className="h-8 w-1/2 rounded mx-auto" style={{ background: "#dce8f2" }} />
-            <div className="h-5 w-32 rounded mx-auto" style={{ background: "#dce8f2" }} />
+            <div className="mx-auto h-8 w-3/4 bg-[var(--modernist-ink)]/10" />
+            <div className="mx-auto h-8 w-1/2 bg-[var(--modernist-ink)]/10" />
+            <div className="mx-auto h-5 w-32 bg-[var(--modernist-ink)]/10" />
           </div>
         ) : (
           <>
             <blockquote className="mb-6">
-              <p
-                className="font-display italic leading-relaxed"
-                style={{
-                  fontSize: "clamp(1.5rem, 3.5vw, 2.5rem)",
-                  fontWeight: 500,
-                  color: "#0a1a2f",
-                }}
-              >
+              <p className="text-[clamp(1.8rem,4vw,3.3rem)] font-semibold leading-[1.13] tracking-[-0.035em] text-[var(--modernist-ink)]">
                 &ldquo;{scripture.verse}&rdquo;
               </p>
             </blockquote>
 
-            <p
-              className="font-body font-bold text-base uppercase tracking-[0.12em] mb-4"
-              style={{ color: "#1a6fb5" }}
-            >
+            <p className="mb-4 text-sm font-extrabold uppercase tracking-[0.16em] text-[var(--modernist-blue)]">
               {scripture.reference}
             </p>
 
             {scripture.reflection && (
-              <p
-                className="font-body text-base leading-relaxed max-w-lg mx-auto"
-                style={{ color: "#4a6580" }}
-              >
+              <p className="mx-auto max-w-xl text-lg leading-8 text-[var(--modernist-ink)]/70">
                 {scripture.reflection}
               </p>
             )}

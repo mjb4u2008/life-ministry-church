@@ -49,10 +49,10 @@ export function WelcomeForm({ compact = false }: { compact?: boolean }) {
 
   if (submitted) {
     return (
-      <div className="rounded-2xl bg-emerald-50 p-6 text-emerald-900" role="status">
+      <div className="border-2 border-emerald-800 bg-emerald-50 p-6 text-emerald-900" role="status">
         <CheckCircle2 className="size-7" />
-        <h3 className="mt-3 font-display text-2xl font-bold">You’re welcome here.</h3>
-        <p className="mt-2 font-body">Pastor Mike received your private note and can follow up using your chosen contact.</p>
+        <h3 className="mt-3 text-2xl font-extrabold">You’re welcome here.</h3>
+        <p className="mt-2">Pastor Mike received your private note and can follow up using your chosen contact.</p>
       </div>
     );
   }
@@ -60,37 +60,37 @@ export function WelcomeForm({ compact = false }: { compact?: boolean }) {
   return (
     <form className="space-y-4" onSubmit={submit}>
       <div className={compact ? "grid gap-4 sm:grid-cols-2" : "space-y-4"}>
-        <label className="block font-body text-sm font-bold">First name
-          <Input className="mt-2 h-12 px-4 text-base" maxLength={120} onChange={(event) => setName(event.target.value)} required value={name} />
+        <label className="block text-sm font-bold">First name
+          <Input className="mt-2 h-12 rounded-none border-2 life-modernist-rule bg-white px-4 text-base focus-visible:border-[var(--modernist-blue)] focus-visible:ring-0" maxLength={120} onChange={(event) => setName(event.target.value)} required value={name} />
         </label>
-        <label className="block font-body text-sm font-bold">Email
-          <Input className="mt-2 h-12 px-4 text-base" maxLength={254} onChange={(event) => setEmail(event.target.value)} required={preferredContact === "email"} type="email" value={email} />
+        <label className="block text-sm font-bold">Email
+          <Input className="mt-2 h-12 rounded-none border-2 life-modernist-rule bg-white px-4 text-base focus-visible:border-[var(--modernist-blue)] focus-visible:ring-0" maxLength={254} onChange={(event) => setEmail(event.target.value)} required={preferredContact === "email"} type="email" value={email} />
         </label>
-        <label className="block font-body text-sm font-bold">Phone
-          <Input className="mt-2 h-12 px-4 text-base" maxLength={40} onChange={(event) => setPhone(event.target.value)} required={preferredContact === "phone"} type="tel" value={phone} />
+        <label className="block text-sm font-bold">Phone
+          <Input className="mt-2 h-12 rounded-none border-2 life-modernist-rule bg-white px-4 text-base focus-visible:border-[var(--modernist-blue)] focus-visible:ring-0" maxLength={40} onChange={(event) => setPhone(event.target.value)} required={preferredContact === "phone"} type="tel" value={phone} />
         </label>
-        <label className="block font-body text-sm font-bold">Best way to reach you
-          <select className="mt-2 h-12 w-full rounded-lg border border-input bg-white px-4 text-base" onChange={(event) => setPreferredContact(event.target.value as "email" | "phone")} value={preferredContact}>
+        <label className="block text-sm font-bold">Best way to reach you
+          <select className="mt-2 h-12 w-full border-2 life-modernist-rule bg-white px-4 text-base" onChange={(event) => setPreferredContact(event.target.value as "email" | "phone")} value={preferredContact}>
             <option value="email">Email</option>
             <option value="phone">Phone or text</option>
           </select>
         </label>
       </div>
-      <label className="block font-body text-sm font-bold">Anything you’d like Pastor Mike to know? (optional)
-        <Textarea className="mt-2 min-h-28 px-4 py-3 text-base" maxLength={4000} onChange={(event) => setMessage(event.target.value)} value={message} />
+      <label className="block text-sm font-bold">Anything you’d like Pastor Mike to know? (optional)
+        <Textarea className="mt-2 min-h-28 rounded-none border-2 life-modernist-rule bg-white px-4 py-3 text-base focus-visible:border-[var(--modernist-blue)] focus-visible:ring-0" maxLength={4000} onChange={(event) => setMessage(event.target.value)} value={message} />
       </label>
       <label className="hidden" aria-hidden="true">Website
         <Input autoComplete="off" onChange={(event) => setWebsite(event.target.value)} tabIndex={-1} value={website} />
       </label>
-      <label className="flex min-h-11 items-start gap-3 rounded-xl bg-[#f0f4f8] p-4 font-body text-sm text-[#0a1a2f]">
+      <label className="flex min-h-11 items-start gap-3 border-2 life-modernist-rule bg-[var(--modernist-paper)] p-4 text-sm text-[var(--modernist-ink)]">
         <input checked={permission} className="mt-0.5 size-5 shrink-0" onChange={(event) => setPermission(event.target.checked)} required type="checkbox" />
         Pastor Mike may contact me about my visit. This does not subscribe me to marketing or reminders.
       </label>
-      {error && <p aria-live="polite" className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</p>}
-      <Button className="min-h-12 w-full bg-[#1a6fb5] font-body font-bold text-white" disabled={submitting || !permission || (!email && !phone)} type="submit">
+      {error && <p aria-live="polite" className="border-2 border-red-700 bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+      <Button className="min-h-13 w-full rounded-none bg-[var(--modernist-blue)] font-bold text-white hover:bg-[var(--modernist-deep-blue)]" disabled={submitting || !permission || (!email && !phone)} type="submit">
         {submitting ? <><LoaderCircle className="size-4 animate-spin" /> Sending…</> : "Let Pastor Mike know I’m new"}
       </Button>
-      <p className="font-body text-xs leading-relaxed text-[#4a6580]">Your note and contact information stay in the private pastoral care inbox.</p>
+      <p className="text-xs leading-relaxed text-[var(--modernist-ink)]/65">Your note and contact information stay in the private pastoral care inbox.</p>
     </form>
   );
 }

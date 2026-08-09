@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { act, cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type {
   PublicGatheringOccurrence,
@@ -7,6 +7,7 @@ import type {
 import { GatheringExperience } from "./GatheringExperience";
 import { formatGatheringDate } from "./GatheringCard";
 import { GatheringHero, getGatheringPhase } from "./GatheringHero";
+import { GATHERINGS_REQUEST_TIMEOUT_MS } from "./useGatherings";
 
 const upcoming: PublicGatheringOccurrence = {
   id: "wednesday-word:2030-08-14",
@@ -46,6 +47,7 @@ afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
+  vi.useRealTimers();
 });
 
 describe("gathering public components", () => {
@@ -87,7 +89,7 @@ describe("gathering public components", () => {
 
     expect(screen.getByRole("heading", { name: "Wisdom for the Week" })).toBeVisible();
     expect(screen.getByText("Wednesday Word")).toBeVisible();
-    expect(screen.getByRole("link", { name: /get a reminder/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /remind me about wednesday/i })).toHaveAttribute(
       "href",
       "/watch#reminded",
     );
@@ -102,7 +104,7 @@ describe("gathering public components", () => {
         series={payload.series[0]}
       />,
     );
-    expect(screen.getByRole("link", { name: /join on google meet/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /join wednesday now/i })).toHaveAttribute(
       "href",
       "https://meet.google.com/abc-defg-hij",
     );
@@ -118,7 +120,7 @@ describe("gathering public components", () => {
         series={payload.series[0]}
       />,
     );
-    expect(screen.getByRole("link", { name: /watch replay/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /watch wednesday’s message/i })).toHaveAttribute(
       "href",
       "https://youtube.com/watch?v=abc",
     );
@@ -174,12 +176,47 @@ describe("gathering public components", () => {
       });
     vi.stubGlobal("fetch", fetchMock);
     render(<GatheringExperience mode="home" />);
-    expect(await screen.findByText("No gathering is published yet")).toBeVisible();
+    expect(await screen.findByText("The next gathering is being prepared")).toBeVisible();
 
     cleanup();
     fetchMock.mockRejectedValueOnce(new Error("offline"));
     render(<GatheringExperience mode="home" />);
     expect(await screen.findByText("Schedule temporarily unavailable")).toBeVisible();
     expect(screen.getByRole("button", { name: "Try again" })).toBeVisible();
+  });
+
+  it("recovers from a gathering request that never responds", async () => {
+    vi.useFakeTimers();
+    vi.stubGlobal(
+      "fetch",
+      vi.fn((_url: string, options?: RequestInit) =>
+        new Promise((_resolve, reject) => {
+          options?.signal?.addEventListener("abort", () => {
+            reject(new DOMException("Aborted", "AbortError"));
+          });
+        }),
+      ),
+    );
+
+    render(<GatheringExperience mode="home" />);
+    expect(screen.getByText("Loading the next gathering…")).toBeVisible();
+    expect(screen.getByRole("link", { name: "Get help joining" })).toHaveAttribute(
+      "href",
+      "/welcome",
+    );
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(GATHERINGS_REQUEST_TIMEOUT_MS);
+    });
+
+    expect(screen.getByText("Schedule temporarily unavailable")).toBeVisible();
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "We couldn’t load the gathering schedule right now.",
+    );
+    expect(screen.getByRole("button", { name: "Try again" })).toBeVisible();
+    expect(screen.getByRole("link", { name: "Get help joining" })).toHaveAttribute(
+      "href",
+      "/welcome",
+    );
   });
 });

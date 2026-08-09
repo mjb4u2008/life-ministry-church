@@ -20,7 +20,15 @@ function remaining(target: string, now: number): TimeLeft {
   };
 }
 
-export function GatheringCountdown({ startsAt }: { startsAt: string }) {
+export function GatheringCountdown({
+  startsAt,
+  tone = "dark",
+  appearance = "cards",
+}: {
+  startsAt: string;
+  tone?: "dark" | "gold";
+  appearance?: "cards" | "modernist";
+}) {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(() => remaining(startsAt, Date.now()));
 
   useEffect(() => {
@@ -38,16 +46,22 @@ export function GatheringCountdown({ startsAt }: { startsAt: string }) {
 
   return (
     <div aria-label="Time until gathering" className="w-full max-w-md">
-      <div className="grid grid-cols-4 gap-1.5 min-[360px]:gap-2 sm:gap-3">
+      <div className={appearance === "modernist" ? "grid grid-cols-4 border-2 border-[#201e1d]/35" : "grid grid-cols-4 gap-1.5 min-[360px]:gap-2 sm:gap-3"}>
         {units.map(([value, label]) => (
           <div
-            className="min-w-0 rounded-xl border border-white/10 bg-white/5 px-1 py-3 text-center sm:px-3 sm:py-4"
+            className={appearance === "modernist"
+              ? "min-w-0 border-r-2 border-[#201e1d]/35 px-1 py-4 text-center last:border-r-0 sm:px-3 sm:py-5"
+              : `min-w-0 rounded-xl px-1 py-3 text-center sm:px-3 sm:py-4 ${
+                  tone === "gold"
+                    ? "border border-[#071521]/15 bg-[#071521]/8"
+                    : "border border-white/15 bg-white/8"
+                }`}
             key={label}
           >
-            <div className="font-body text-2xl font-black tabular-nums text-white min-[360px]:text-3xl sm:text-4xl">
+            <div className={`font-body text-2xl font-black tabular-nums min-[360px]:text-3xl sm:text-4xl ${appearance === "modernist" ? "text-[var(--modernist-blue)]" : tone === "gold" ? "text-[#071521]" : "text-white"}`}>
               {String(value).padStart(2, "0")}
             </div>
-            <div className="mt-1 truncate font-body text-[9px] font-semibold uppercase tracking-wider text-white/55 min-[360px]:text-[10px] sm:text-xs">
+            <div className={`mt-1 truncate font-body text-xs font-bold uppercase tracking-wide ${appearance === "modernist" ? "text-[#201e1d]/65" : tone === "gold" ? "text-[#071521]/65" : "text-white/60"}`}>
               {label}
             </div>
           </div>

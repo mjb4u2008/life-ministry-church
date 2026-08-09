@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, Playfair_Display, Geist } from "next/font/google";
+import { Archivo, Outfit, Playfair_Display, Geist } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -22,10 +22,17 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
+const archivo = Archivo({
+  variable: "--font-archivo",
+  subsets: ["latin"],
+  weight: ["400", "600", "800"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "L.I.F.E. Ministry | Lord Is Forever Emmanuel",
   description:
-    "Join L.I.F.E. Ministry every Sunday for interactive worship, connection, and community. Experience God's constant presence together.",
+    "Join L.I.F.E. Ministry online every Wednesday and Sunday for Scripture, worship, prayer, and genuine community.",
 };
 
 // Per-request CSP nonces require dynamic rendering so every framework script
@@ -40,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("scroll-smooth", "font-sans", geist.variable)}>
       <body
-        className={`${outfit.variable} ${playfair.variable} font-body antialiased bg-bg text-text`}
+        className={`${outfit.variable} ${playfair.variable} ${archivo.variable} font-body antialiased bg-bg text-text`}
       >
         <Header />
         <main className="min-h-screen">{children}</main>

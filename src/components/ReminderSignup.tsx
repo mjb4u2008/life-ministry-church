@@ -53,8 +53,8 @@ export function ReminderSignup() {
 
   if (status === "success") {
     return (
-      <div className="bg-sky rounded-2xl p-6 text-center animate-fade-in">
-        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-water flex items-center justify-center">
+      <div className="animate-fade-in border-2 life-modernist-rule bg-[var(--modernist-paper)] p-7 text-center text-[var(--modernist-ink)] sm:p-9" role="status">
+        <div className="mx-auto mb-4 flex size-16 items-center justify-center bg-[var(--modernist-blue)]">
           <svg
             className="w-8 h-8 text-white"
             fill="none"
@@ -69,10 +69,10 @@ export function ReminderSignup() {
             />
           </svg>
         </div>
-        <h3 className="font-display text-xl font-semibold text-deep mb-2">
-          You&apos;re All Set!
+        <h3 className="mb-2 text-2xl font-extrabold">
+          You&apos;re all set.
         </h3>
-        <p className="text-text-body">
+        <p className="text-[var(--modernist-ink)]/70">
           We&apos;ll remind you before the next service.
         </p>
       </div>
@@ -80,11 +80,11 @@ export function ReminderSignup() {
   }
 
   return (
-    <div className="bg-cloud rounded-2xl p-6 shadow-lg shadow-water/10">
-      <div className="text-center mb-6">
-        <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-water/10 flex items-center justify-center">
+    <div className="border-2 life-modernist-rule bg-[var(--modernist-paper)] p-6 text-[var(--modernist-ink)] sm:p-8">
+      <div className="mb-7">
+        <div className="mb-4 flex size-12 items-center justify-center border-2 border-[var(--modernist-blue)]">
           <svg
-            className="w-6 h-6 text-water"
+            className="size-6 text-[var(--modernist-blue)]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -97,35 +97,38 @@ export function ReminderSignup() {
             />
           </svg>
         </div>
-        <h3 className="font-display text-xl font-semibold text-deep">
-          Get Reminded
+        <h3 className="text-3xl font-extrabold tracking-[-0.035em]">
+          Get a reminder
         </h3>
-        <p className="text-text-body text-sm mt-1">
-          We&apos;ll send you a reminder before we go live
+        <p className="mt-2 text-base text-[var(--modernist-ink)]/70">
+          We&apos;ll send one before the next gathering begins.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <label className="block text-sm font-bold" htmlFor="reminder-name">
+          Name
           <input
+            id="reminder-name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Your name"
-            className="w-full px-4 py-3 rounded-xl border border-border-light focus:border-water focus:ring-2 focus:ring-water/20 outline-none transition-colors bg-white"
+            autoComplete="name"
+            className="mt-2 min-h-12 w-full border-2 life-modernist-rule bg-white px-4 py-3 text-base outline-none transition-colors focus:border-[var(--modernist-blue)]"
             required
           />
-        </div>
+        </label>
 
         {/* Contact Type Toggle */}
-        <div className="flex gap-2 p-1 bg-white rounded-xl">
+        <div className="flex border-2 life-modernist-rule bg-[var(--modernist-panel)] p-1" aria-label="Reminder type" role="group">
           <button
             type="button"
             onClick={() => setContactType("email")}
-            className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
+            aria-pressed={contactType === "email"}
+            className={`min-h-11 flex-1 px-3 py-2 text-sm font-bold transition-colors ${
               contactType === "email"
-                ? "bg-water text-white"
-                : "text-text-body hover:text-deep"
+                ? "bg-[var(--modernist-ink)] text-white"
+                : "text-[var(--modernist-ink)]/65 hover:text-[var(--modernist-ink)]"
             }`}
           >
             Email
@@ -133,35 +136,38 @@ export function ReminderSignup() {
           <button
             type="button"
             onClick={() => setContactType("phone")}
-            className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
+            aria-pressed={contactType === "phone"}
+            className={`min-h-11 flex-1 px-3 py-2 text-sm font-bold transition-colors ${
               contactType === "phone"
-                ? "bg-water text-white"
-                : "text-text-body hover:text-deep"
+                ? "bg-[var(--modernist-ink)] text-white"
+                : "text-[var(--modernist-ink)]/65 hover:text-[var(--modernist-ink)]"
             }`}
           >
             Text Me
           </button>
         </div>
 
-        <div>
+        <label className="block text-sm font-bold" htmlFor="reminder-contact">
+          {contactType === "email" ? "Email" : "Phone number"}
           <input
+            id="reminder-contact"
             type={contactType === "email" ? "email" : "tel"}
             value={contact}
             onChange={(e) => setContact(e.target.value)}
-            placeholder={contactType === "email" ? "your@email.com" : "Your phone number"}
-            className="w-full px-4 py-3 rounded-xl border border-border-light focus:border-water focus:ring-2 focus:ring-water/20 outline-none transition-colors bg-white"
+            autoComplete={contactType === "email" ? "email" : "tel"}
+            className="mt-2 min-h-12 w-full border-2 life-modernist-rule bg-white px-4 py-3 text-base outline-none transition-colors focus:border-[var(--modernist-blue)]"
             required
           />
-        </div>
+        </label>
 
         {status === "error" && (
-          <p className="text-red-500 text-sm text-center">{errorMessage}</p>
+          <p aria-live="polite" className="border-2 border-red-700 bg-red-50 p-3 text-sm text-red-700">{errorMessage}</p>
         )}
 
-        <label className="flex items-start gap-3 text-sm leading-relaxed text-text-body">
+        <label className="flex items-start gap-3 text-sm leading-relaxed text-[var(--modernist-ink)]/72">
           <input
             checked={consent}
-            className="mt-1 size-4 shrink-0 accent-water"
+            className="mt-0.5 size-5 shrink-0 accent-[var(--modernist-blue)]"
             onChange={(event) => setConsent(event.target.checked)}
             required
             type="checkbox"
@@ -174,7 +180,7 @@ export function ReminderSignup() {
         <button
           type="submit"
           disabled={isSubmitting || !name.trim() || !contact.trim() || !consent}
-          className="w-full bg-water text-white font-semibold py-3 rounded-xl hover:bg-water-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="min-h-13 w-full bg-[var(--modernist-blue)] px-6 py-3 font-extrabold text-white transition-colors hover:bg-[var(--modernist-deep-blue)] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isSubmitting ? "Signing up..." : "Remind Me"}
         </button>

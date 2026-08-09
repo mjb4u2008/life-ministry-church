@@ -1,18 +1,20 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
-import { useState, useRef } from "react";
-import { Music } from "lucide-react";
+import Link from "next/link";
+import { useRef, useState } from "react";
+import { Menu, Music, X } from "lucide-react";
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/watch", label: "Watch" },
-  { href: "/welcome", label: "I'm New" },
-  { href: "/community", label: "Community" },
+  { href: "/welcome", label: "I’m New" },
+  { href: "/community", label: "Prayer & Care" },
   { href: "/events", label: "Events" },
-  { href: "/ask", label: "Ask The Word" },
   { href: "/give", label: "Give" },
+];
+
+const mobileOnlyLinks = [
+  { href: "/ask", label: "Ask The Word" },
+  { href: "/testimonies", label: "Testimonies" },
 ];
 
 export function Header() {
@@ -38,121 +40,87 @@ export function Header() {
     }
   };
 
+  const closeMenu = () => setIsMenuOpen(false);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-[#e8edf2]">
-      {/* Audio element */}
+    <header className="life-modernist fixed inset-x-0 top-0 z-50 border-b-2 border-[#201e1d] bg-[#f3f2f2] text-[#201e1d] [font-family:var(--font-archivo)]">
       <audio ref={audioRef} loop preload="none">
         <source src="/audio/ambient.mp3" type="audio/mpeg" />
       </audio>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="flex items-center gap-3 group"
+      <div className="mx-auto flex h-[4.5rem] max-w-[1200px] items-stretch justify-between gap-3 px-4 sm:px-6 md:h-20 lg:px-[clamp(2rem,5vw,4.5rem)]">
+        <Link className="group flex min-w-0 items-center gap-3" href="/" onClick={closeMenu}>
+          <Image
+            alt="L.I.F.E. Ministry"
+            className="size-10 shrink-0 border-2 border-[#201e1d] bg-white object-cover"
+            height={40}
+            priority
+            src="/logo-water-cross.png"
+            width={40}
+          />
+          <span className="truncate text-xl font-extrabold uppercase leading-none tracking-[-0.04em] sm:text-2xl">
+            L.I.F.E.<span className="hidden sm:inline"> Ministry</span>
+          </span>
+        </Link>
+
+        <nav aria-label="Main navigation" className="hidden items-stretch lg:flex">
+          {navLinks.map((link) => (
+            <Link className="flex items-center border-l border-[#201e1d]/35 px-5 text-sm font-semibold text-[#201e1d] transition-colors hover:bg-[#e9eef2] hover:text-[#146fa3]" href={link.href} key={link.href}>
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex shrink-0 items-stretch gap-2 py-3 md:py-4">
+          <button
+            aria-label={isPlaying ? "Pause ambient music" : "Play ambient music"}
+            className={`hidden size-11 items-center justify-center border-2 transition-colors md:flex ${isPlaying ? "border-[#146fa3] bg-[#146fa3] text-white" : "border-[#201e1d] text-[#201e1d] hover:border-[#146fa3] hover:bg-[#e9eef2] hover:text-[#146fa3]"}`}
+            onClick={togglePlay}
+            title={isPlaying ? "Pause music" : "Play ambient music"}
+            type="button"
           >
-            <Image
-              src="/logo-water-cross.png"
-              alt="L.I.F.E. Ministry"
-              width={40}
-              height={40}
-              className="rounded-xl"
-            />
-            <span className="text-xl md:text-2xl font-semibold text-[#0a1a2f] group-hover:text-[#1a6fb5] transition-colors">
-              L.I.F.E. Ministry
-            </span>
+            <Music className={`size-4 ${isPlaying ? "animate-pulse" : ""}`} />
+          </button>
+
+          <Link className="inline-flex min-h-11 items-center justify-center border-2 border-[#146fa3] bg-[#146fa3] px-4 text-sm font-extrabold text-white transition-colors hover:border-[#0b2940] hover:bg-[#0b2940] sm:px-5" href="/watch" onClick={closeMenu}>
+            <span className="sm:hidden">Join</span>
+            <span className="hidden sm:inline">Join / Watch</span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-[#0a1a2f] hover:text-[#1a6fb5] font-medium text-sm tracking-wide uppercase transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-2">
-            {/* Desktop Music Toggle */}
-            <button
-              onClick={togglePlay}
-              className={`hidden md:flex items-center justify-center w-9 h-9 rounded-full transition-all duration-300 cursor-pointer ${
-                isPlaying
-                  ? "bg-[#1a6fb5] text-white shadow-md"
-                  : "bg-[#f0f4f8] text-[#4a6580] hover:bg-[#1a6fb5]/10 hover:text-[#1a6fb5]"
-              }`}
-              aria-label={isPlaying ? "Pause ambient music" : "Play ambient music"}
-              title={isPlaying ? "Pause music" : "Play ambient music"}
-            >
-              <Music className={`size-4 ${isPlaying ? "animate-pulse" : ""}`} />
-            </button>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-expanded={isMenuOpen}
-              aria-controls="mobile-navigation"
-              className="md:hidden min-h-11 min-w-11 p-2 text-[#0a1a2f] hover:text-[#1a6fb5] transition-colors"
-              aria-label="Toggle menu"
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                {isMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
-            </button>
-          </div>
+          <button
+            aria-controls="mobile-navigation"
+            aria-expanded={isMenuOpen}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            className="flex size-11 items-center justify-center border-2 border-[#201e1d] text-[#201e1d] transition-colors hover:border-[#146fa3] hover:bg-[#e9eef2] hover:text-[#146fa3] lg:hidden"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            type="button"
+          >
+            {isMenuOpen ? <X className="size-6" /> : <Menu className="size-6" />}
+          </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-t border-[#e8edf2]">
-          <nav className="px-4 py-4 space-y-2" id="mobile-navigation">
-            {navLinks.map((link) => (
+        <div className="border-t-2 border-[#201e1d] bg-[#f3f2f2] lg:hidden" id="mobile-navigation">
+          <nav aria-label="Mobile navigation" className="mx-auto grid max-w-[1200px] px-4 py-3 sm:px-6 lg:px-[clamp(2rem,5vw,4.5rem)]">
+            {[...navLinks, ...mobileOnlyLinks].map((link) => (
               <Link
-                key={link.href}
+                className="flex min-h-13 items-center border-b border-[#201e1d]/35 px-2 text-base font-semibold text-[#201e1d] transition-colors hover:bg-[#e9eef2] hover:text-[#146fa3]"
                 href={link.href}
-                onClick={() => setIsMenuOpen(false)}
-                className="flex min-h-11 items-center text-[#0a1a2f] hover:text-[#1a6fb5] font-medium text-sm tracking-wide uppercase py-2 transition-colors"
+                key={link.href}
+                onClick={closeMenu}
               >
                 {link.label}
               </Link>
             ))}
-
-            {/* Mobile Music Toggle */}
             <button
+              aria-label={isPlaying ? "Pause ambient music" : "Play ambient music"}
+              className="flex min-h-13 items-center gap-3 border-b border-[#201e1d]/35 px-2 text-left text-base font-semibold text-[#201e1d] transition-colors hover:bg-[#e9eef2] hover:text-[#146fa3] md:hidden"
               onClick={togglePlay}
-              className={`flex min-h-11 items-center gap-3 w-full py-2 font-medium text-sm tracking-wide uppercase transition-colors cursor-pointer ${
-                isPlaying
-                  ? "text-[#1a6fb5]"
-                  : "text-[#0a1a2f] hover:text-[#1a6fb5]"
-              }`}
+              type="button"
             >
-              <Music className={`size-4 ${isPlaying ? "animate-pulse" : ""}`} />
-              {isPlaying ? "Pause Music" : "Play Music"}
+              <Music className={`size-5 ${isPlaying ? "animate-pulse text-[#146fa3]" : ""}`} />
+              {isPlaying ? "Pause background music" : "Play background music"}
             </button>
           </nav>
         </div>
