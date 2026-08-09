@@ -88,7 +88,14 @@ test("gathering: homepage uses the canonical upcoming Wednesday", async ({ page 
   await expect(page.getByRole("heading", { name: "Wisdom for Wednesday" })).toBeVisible();
   await expect(page.getByText("Wednesday Word")).toBeVisible();
   await expect(page.getByLabel("Time until gathering")).toBeVisible();
-  await expect(page.getByRole("link", { name: /get a reminder/i })).toBeVisible();
+  const reminder = page.getByRole("link", { name: /get a reminder/i });
+  await expect(reminder).toBeVisible();
+  const reminderBox = await reminder.boundingBox();
+  const viewport = page.viewportSize();
+  expect(reminderBox?.y).toBeGreaterThanOrEqual(0);
+  expect((reminderBox?.y ?? 0) + (reminderBox?.height ?? 0)).toBeLessThanOrEqual(
+    viewport?.height ?? 0,
+  );
   await expect(page.getByText("No public prayer requests have been shared yet.")).toBeVisible();
   await expect(page.getByText("Sarah M.")).toHaveCount(0);
 

@@ -86,12 +86,15 @@ export function GatheringHero({
             <p className="mt-5 max-w-xl text-base leading-7 text-white/76 sm:text-lg sm:leading-8">
               Worship, Scripture, and real community every Wednesday and Sunday—wherever you are.
             </p>
-            <Link
-              className="mt-5 inline-flex min-h-12 items-center gap-2 rounded-full border border-white/30 bg-white/5 px-6 py-3 font-bold text-white transition-colors hover:bg-white hover:text-[#071521]"
-              href="/welcome"
-            >
-              I’m new here <ArrowRight className="size-4" />
-            </Link>
+            <div className="mt-5 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
+              <GatheringActions occurrence={occurrence} />
+              <Link
+                className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/30 bg-white/5 px-6 py-3 font-bold text-white transition-colors hover:bg-white hover:text-[#071521]"
+                href="/welcome"
+              >
+                I’m new here <ArrowRight className="size-4" />
+              </Link>
+            </div>
           </div>
 
           <div className={`-mx-5 grid gap-5 border-t px-5 py-5 sm:-mx-6 sm:px-6 sm:py-6 lg:-mx-12 lg:grid-cols-[minmax(0,1.25fr)_minmax(280px,0.75fr)] lg:items-center lg:gap-12 lg:px-12 ${isLiveState ? "border-red-400/35 bg-[#9f2925]/95" : isWednesday ? "border-[#77dff4]/35 bg-[#0d4d69]/95" : "border-[#f4d690]/35 bg-[#b68935]/95 text-[#071521]"}`}>
@@ -118,15 +121,14 @@ export function GatheringHero({
               )}
             </div>
 
-            <div className="min-w-0">
-              <GatheringActions occurrence={occurrence} tone={isLiveState || isWednesday ? "dark" : "gold"} />
-              {showCountdown && phase === "upcoming" && (
-                <div className="mt-5 sm:mt-6">
+            {showCountdown && phase === "upcoming" && (
+              <div className="min-w-0">
+                <div>
                   <p className={`mb-3 text-xs font-extrabold uppercase tracking-[0.16em] ${isWednesday ? "text-white/65" : "text-[#071521]/65"}`}>Starts in</p>
                   <GatheringCountdown startsAt={occurrence.startsAt} tone={isWednesday ? "dark" : "gold"} />
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
