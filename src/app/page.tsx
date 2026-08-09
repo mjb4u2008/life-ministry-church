@@ -8,7 +8,6 @@ import {
   BookOpen,
   MessageCircle,
   Play,
-  Clock,
   ArrowRight,
   User,
   Mail,
@@ -22,91 +21,14 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { DailyScriptureSection } from "@/components/DailyScripture";
+import { GatheringExperience } from "@/components/gatherings";
 
-/* ─────────────────────────────────────────────
-   Countdown Hook
-   ───────────────────────────────────────────── */
-function useCountdown() {
-  const getNext = () => {
-    const now = new Date();
-    const sunday = new Date(now);
-    sunday.setHours(11, 30, 0, 0); // 11:30 AM EST = 8:30 AM PST
-    const day = now.getDay();
-    const daysUntil = day === 0 && now < sunday ? 0 : (7 - day) % 7 || 7;
-    sunday.setDate(now.getDate() + daysUntil);
-    return sunday;
-  };
-
-  const [target] = useState(getNext);
-  const [diff, setDiff] = useState({ d: 0, h: 0, m: 0, s: 0 });
-
-  useEffect(() => {
-    const tick = () => {
-      const ms = target.getTime() - Date.now();
-      if (ms <= 0) {
-        setDiff({ d: 0, h: 0, m: 0, s: 0 });
-        return;
-      }
-      const total = Math.floor(ms / 1000);
-      setDiff({
-        d: Math.floor(total / 86400),
-        h: Math.floor((total % 86400) / 3600),
-        m: Math.floor((total % 3600) / 60),
-        s: total % 60,
-      });
-    };
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
-  }, [target]);
-
-  return diff;
+interface CommunityPreview {
+  id: string;
+  name: string;
+  text: string;
+  count: number;
 }
-
-/* ─────────────────────────────────────────────
-   Placeholder Data
-   ───────────────────────────────────────────── */
-const placeholderPrayers = [
-  {
-    id: "p1",
-    name: "Sarah M.",
-    text: "Please pray for my mother who is going through cancer treatment. We believe in God's healing power.",
-    count: 24,
-  },
-  {
-    id: "p2",
-    name: "Anonymous",
-    text: "Praying for guidance in a difficult career decision. I want to follow God's plan for my life.",
-    count: 18,
-  },
-  {
-    id: "p3",
-    name: "David R.",
-    text: "Pray for our family as we navigate a cross-country move. Trusting the Lord to open the right doors.",
-    count: 31,
-  },
-];
-
-const placeholderTestimonies = [
-  {
-    id: "t1",
-    name: "Maria L.",
-    text: "God answered my prayers! After months of searching, I found a job that aligns perfectly with my calling. He is faithful!",
-    count: 42,
-  },
-  {
-    id: "t2",
-    name: "James K.",
-    text: "I was healed from anxiety and depression through prayer and this community. God's presence is real and transformative.",
-    count: 56,
-  },
-  {
-    id: "t3",
-    name: "Anonymous",
-    text: "My marriage was restored after we started praying together. L.I.F.E. Ministry helped us find our way back to each other and to God.",
-    count: 37,
-  },
-];
 
 /* ─────────────────────────────────────────────
    Belief Data
@@ -149,12 +71,9 @@ const beliefs = [
    ───────────────────────────────────────────── */
 export default function HomePage() {
   const heroRef = useRef<HTMLElement>(null);
-  const countdown = useCountdown();
   const [activeTab, setActiveTab] = useState<"prayers" | "testimonies">(
     "prayers"
   );
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [content, setContent] = useState<any>(null);
 
   /* Newsletter form state */
   const [nlName, setNlName] = useState("");
@@ -164,18 +83,11 @@ export default function HomePage() {
   const [nlError, setNlError] = useState("");
 
   /* Prayer/testimony preview state */
-  const [previewPrayers, setPreviewPrayers] = useState(placeholderPrayers);
-  const [previewTestimonies, setPreviewTestimonies] = useState(placeholderTestimonies);
+  const [previewPrayers, setPreviewPrayers] = useState<CommunityPreview[]>([]);
+  const [previewTestimonies, setPreviewTestimonies] = useState<CommunityPreview[]>([]);
 
-  /* Fetch admin-managed content from KV */
+  /* Fetch only real, public community content. */
   useEffect(() => {
-    fetch("/api/content")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (data) setContent(data);
-      })
-      .catch(() => {});
-
     /* Fetch real prayers */
     fetch("/api/prayers")
       .then((res) => (res.ok ? res.json() : null))
@@ -273,9 +185,9 @@ export default function HomePage() {
             <Button
               size="lg"
               className="bg-[#1a6fb5] hover:bg-[#145a94] text-white font-body font-bold text-sm uppercase tracking-wider px-8 py-6 rounded-xl cursor-pointer"
-              render={<Link href="/watch" />}
+              render={<a href="#next-gathering" />}
             >
-              Join This Sunday
+              See Next Gathering
               <ArrowRight className="ml-2 size-4" />
             </Button>
             <Button
@@ -290,87 +202,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ================================================
-          SECTION 2: JOIN US LIVE
-          ================================================ */}
-      <section className="bg-[#0a1a2f] text-white py-24 md:py-32 lg:py-40">
-        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-            {/* LEFT COLUMN */}
-            <div className="flex flex-col gap-6">
-              <Badge className="w-fit bg-[#00d4ff]/15 text-[#00d4ff] border-[#00d4ff]/30 font-body font-bold text-xs uppercase tracking-widest px-4 py-1 h-auto rounded-full">
-                This Sunday
-              </Badge>
-
-              <h2
-                className="font-display text-4xl md:text-5xl leading-[1.05]"
-                style={{ fontWeight: 800 }}
-              >
-                {content?.thisSunday?.title || content?.weeklyMessage?.title || "Walking in the Spirit"}
-              </h2>
-
-              <p className="text-white/60 font-body text-base tracking-wide">
-                {content?.thisSunday?.scripture || content?.weeklyMessage?.scripture || "Galatians 5:16-25"}
-              </p>
-
-              <p className="text-white/70 font-body text-base leading-relaxed max-w-lg">
-                {content?.thisSunday?.description || content?.weeklyMessage?.description || "Discover what it means to live a life guided by the Spirit. Join us as we explore Paul\u2019s letter to the Galatians and uncover the fruit that grows when we walk in step with God."}
-              </p>
-
-              <div className="flex items-center gap-3 text-white/50 font-body text-sm tracking-wide">
-                <Clock className="size-4" />
-                <span>Every Sunday &mdash; 8:30 AM PST / 11:30 AM EST</span>
-              </div>
-
-              <Button
-                size="lg"
-                className="w-fit bg-gradient-to-r from-[#1a6fb5] to-[#00b4d8] hover:from-[#145a94] hover:to-[#0096b7] text-white font-body font-bold text-sm uppercase tracking-wider px-8 py-6 rounded-xl mt-2 cursor-pointer"
-                render={
-                  <a
-                    href={content?.googleMeetLink || "https://meet.google.com/hqk-sryh-ado"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  />
-                }
-              >
-                Join on Google Meet
-                <ArrowRight className="ml-2 size-4" />
-              </Button>
-            </div>
-
-            {/* RIGHT COLUMN: Countdown */}
-            <div className="flex flex-col items-center lg:items-end gap-6">
-              <div className="grid grid-cols-4 gap-3 md:gap-4">
-                {(
-                  [
-                    { val: countdown.d, label: "Days" },
-                    { val: countdown.h, label: "Hours" },
-                    { val: countdown.m, label: "Mins" },
-                    { val: countdown.s, label: "Secs" },
-                  ] as const
-                ).map((unit) => (
-                  <Card
-                    key={unit.label}
-                    className="bg-white/5 border-white/10 ring-0 text-center px-4 py-5 md:px-6 md:py-6 rounded-xl"
-                  >
-                    <CardContent className="p-0">
-                      <div className="text-4xl md:text-5xl font-body font-black text-white tabular-nums">
-                        {String(unit.val).padStart(2, "0")}
-                      </div>
-                      <div className="text-[11px] uppercase tracking-widest text-white/40 font-body font-semibold mt-2">
-                        {unit.label}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-              <p className="text-white/40 font-body text-sm uppercase tracking-widest">
-                until next service
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <GatheringExperience mode="home" />
 
       {/* ================================================
           GET REMINDED BANNER
@@ -378,7 +210,7 @@ export default function HomePage() {
       <section style={{ background: "linear-gradient(90deg, #1a6fb5, #00d4ff)" }} className="py-4">
         <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-white font-body font-semibold text-sm md:text-base tracking-wide">
-            Never miss a Sunday — get reminded before each service
+            Never miss a gathering — get reminded before we begin
           </p>
           <a
             href="/watch#reminded"
@@ -684,50 +516,6 @@ export default function HomePage() {
       </section>
 
       {/* ================================================
-          SECTION 6: LATEST MESSAGE
-          ================================================ */}
-      <section className="bg-[#f0f4f8] py-24 md:py-32 lg:py-40">
-        <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16">
-          <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-6 bg-[#1a6fb5]/10 text-[#1a6fb5] border-[#1a6fb5]/20 font-body font-bold text-xs uppercase tracking-widest px-4 py-1 h-auto rounded-full">
-              Latest Message
-            </Badge>
-
-            <h2
-              className="font-display text-3xl md:text-4xl lg:text-5xl mb-10 md:mb-14"
-              style={{ fontWeight: 800, color: "#0a1a2f" }}
-            >
-              {content?.thisSunday?.title || content?.weeklyMessage?.title || "Sunday Message"}
-            </h2>
-
-            {/* 16:9 Video placeholder */}
-            <div className="relative w-full aspect-video bg-gradient-to-br from-[#c8dded] to-[#93b5d0] rounded-xl flex items-center justify-center overflow-hidden shadow-[0_12px_48px_rgba(26,111,181,0.12)] mb-10">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-white/90 rounded-full flex items-center justify-center shadow-xl cursor-pointer hover:bg-white transition-colors">
-                  <Play
-                    className="size-6 md:size-8 text-[#0a1a2f] ml-1"
-                    fill="#0a1a2f"
-                  />
-                </div>
-              </div>
-              <span className="text-[#4a6580]/50 text-sm tracking-wide font-body">
-                Sermon Video
-              </span>
-            </div>
-
-            <Button
-              size="lg"
-              className="bg-[#1a6fb5] hover:bg-[#145a94] text-white font-body font-bold text-sm uppercase tracking-wider px-10 py-6 rounded-xl cursor-pointer"
-              render={<Link href="/watch" />}
-            >
-              Watch Now
-              <Play className="ml-2 size-4" />
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* ================================================
           SECTION 7: WE ARE ALL MINISTERS
           ================================================ */}
       <section className="bg-[#0a1a2f] py-24 md:py-32 lg:py-40">
@@ -775,7 +563,13 @@ export default function HomePage() {
 
           {/* Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            {activeTab === "prayers"
+            {(activeTab === "prayers" ? previewPrayers : previewTestimonies).length === 0 ? (
+              <div className="rounded-xl border border-white/15 bg-white/5 p-7 text-center font-body text-white/70 md:col-span-3">
+                {activeTab === "prayers"
+                  ? "No public prayer requests have been shared yet."
+                  : "No testimonies have been published yet."}
+              </div>
+            ) : activeTab === "prayers"
               ? previewPrayers.map((prayer) => (
                   <Card
                     key={prayer.id}

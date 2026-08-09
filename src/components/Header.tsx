@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Music } from "lucide-react";
 
 const navLinks = [
@@ -18,24 +18,6 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("lifeMinistryMusic");
-    // Auto-play on first visit OR if they had it playing before
-    // Only skip autoplay if they explicitly paused it
-    if (saved !== "paused" && audioRef.current) {
-      audioRef.current.volume = 0.3; // Start at 30% volume — not jarring
-      audioRef.current
-        .play()
-        .then(() => {
-          setIsPlaying(true);
-          localStorage.setItem("lifeMinistryMusic", "playing");
-        })
-        .catch(() => {
-          // Autoplay blocked by browser — user can click the icon
-        });
-    }
-  }, []);
 
   const togglePlay = async () => {
     if (!audioRef.current) return;
@@ -58,7 +40,7 @@ export function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-[#e8edf2]">
       {/* Audio element */}
-      <audio ref={audioRef} loop preload="auto" autoPlay>
+      <audio ref={audioRef} loop preload="none">
         <source src="/audio/ambient.mp3" type="audio/mpeg" />
       </audio>
 
@@ -112,7 +94,9 @@ export function Header() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-[#0a1a2f] hover:text-[#1a6fb5] transition-colors"
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-navigation"
+              className="md:hidden min-h-11 min-w-11 p-2 text-[#0a1a2f] hover:text-[#1a6fb5] transition-colors"
               aria-label="Toggle menu"
             >
               <svg
@@ -145,13 +129,13 @@ export function Header() {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t border-[#e8edf2]">
-          <nav className="px-4 py-4 space-y-4">
+          <nav className="px-4 py-4 space-y-2" id="mobile-navigation">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMenuOpen(false)}
-                className="block text-[#0a1a2f] hover:text-[#1a6fb5] font-medium text-sm tracking-wide uppercase py-2 transition-colors"
+                className="flex min-h-11 items-center text-[#0a1a2f] hover:text-[#1a6fb5] font-medium text-sm tracking-wide uppercase py-2 transition-colors"
               >
                 {link.label}
               </Link>
@@ -160,7 +144,7 @@ export function Header() {
             {/* Mobile Music Toggle */}
             <button
               onClick={togglePlay}
-              className={`flex items-center gap-3 w-full py-2 font-medium text-sm tracking-wide uppercase transition-colors cursor-pointer ${
+              className={`flex min-h-11 items-center gap-3 w-full py-2 font-medium text-sm tracking-wide uppercase transition-colors cursor-pointer ${
                 isPlaying
                   ? "text-[#1a6fb5]"
                   : "text-[#0a1a2f] hover:text-[#1a6fb5]"

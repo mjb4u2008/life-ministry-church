@@ -396,12 +396,18 @@ npm run build
 
 ### PR-04 — Dynamic public gathering experience
 
-- [ ] Replace homepage hardcoded countdown and Sunday copy.
-- [ ] Add gathering hero, countdown, action, and secondary gathering components.
-- [ ] Move Watch to the same selector/payload.
-- [ ] Remove fabricated sermons, prayers, and testimonies.
-- [ ] Ensure honest loading, empty, error, upcoming, live, and replay states.
-- [ ] Remove automatic ambient playback.
+- [x] Replace homepage hardcoded countdown and Sunday copy.
+- [x] Add gathering hero, countdown, action, and secondary gathering components.
+- [x] Move Watch to the same selector/payload.
+- [x] Remove fabricated sermons, prayers, and testimonies.
+- [x] Ensure honest loading, empty, error, upcoming, live, and replay states.
+- [x] Remove automatic ambient playback.
+
+Evidence (2026-08-09): `npm run lint`, `npm run typecheck`, `npm run test`
+(22/22), desktop gathering E2E (3/3), mobile gathering E2E (3/3),
+`npm run build`, and `git diff --check` all passed. A stale local Next dev
+process initially blocked the isolated Playwright server; after terminating only
+that repo process, both clean reruns passed on port 3107.
 
 **Definition of Done**
 
