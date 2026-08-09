@@ -177,12 +177,12 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1200px] px-5 sm:px-8 lg:px-12 xl:px-16">
           <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end lg:gap-16">
             <div>
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-white/75">The heart of the ministry</p>
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-white">The heart of the ministry</p>
               <h2 className="mt-4 max-w-4xl text-5xl font-extrabold leading-[0.94] tracking-[-0.05em] sm:text-6xl lg:text-7xl">
                 God is present in every season.
               </h2>
             </div>
-            <p className="max-w-xl text-lg leading-8 text-white/85">
+            <p className="max-w-xl text-lg leading-8 text-white">
               L.I.F.E. Ministry is built on the promise of Emmanuel—God with us.
               We gather online to worship, learn Scripture, pray honestly, and remind
               one another that nobody is beyond the reach of God’s presence.
@@ -193,7 +193,7 @@ export default function HomePage() {
             {lifeWords.map(([letter, word]) => (
               <div className="border-b-2 border-r-2 border-white/45 p-5 sm:p-7 lg:p-8" key={letter}>
                 <span className="text-6xl font-extrabold text-white sm:text-7xl">{letter}</span>
-                <p className="mt-2 text-sm font-extrabold uppercase tracking-[0.16em] text-white/80">{word}</p>
+                <p className="mt-2 text-sm font-extrabold uppercase tracking-[0.16em] text-white">{word}</p>
               </div>
             ))}
           </div>

@@ -102,7 +102,7 @@ export function GatheringHero({
                   First time here? <ArrowRight className="size-4" />
                 </Link>
               </div>
-              <p className="mt-5 max-w-[58ch] text-sm font-semibold leading-6 text-[#201e1d]/62">
+              <p className="mt-5 max-w-[58ch] text-sm font-semibold leading-6 text-[#201e1d]/72">
                 No account, no camera, and nothing to download. Times are always shown in Eastern Time.
               </p>
             </div>
@@ -132,7 +132,7 @@ export function GatheringHero({
             <div className="border-x-2 border-[#201e1d]/35 bg-[#f3f2f2] p-6 sm:p-8 lg:border-l-0 lg:p-10">
               {showCountdown && phase === "upcoming" ? (
                 <>
-                  <p className="mb-4 text-xs font-extrabold uppercase tracking-[0.12em] text-[#201e1d]/62">Starts in</p>
+                  <p className="mb-4 text-xs font-extrabold uppercase tracking-[0.12em] text-[#201e1d]/72">Starts in</p>
                   <GatheringCountdown appearance="modernist" startsAt={occurrence.startsAt} />
                 </>
               ) : (
@@ -169,7 +169,7 @@ export function GatheringHero({
             {phase === "live" && <Radio className="size-3.5 animate-pulse" />}
             {phaseLabel[phase]}
           </div>
-          <p className="mt-6 text-sm font-bold uppercase tracking-[0.16em] text-[#201e1d]/58">{gatheringName}</p>
+          <p className="mt-6 text-sm font-bold uppercase tracking-[0.16em] text-[#201e1d]/72">{gatheringName}</p>
           <h1 className="mt-3 break-words font-display text-5xl font-black leading-[0.98] sm:text-6xl" id={titleId}>{title}</h1>
           {occurrence.scripture && <p className="mt-5 text-lg font-bold text-[var(--modernist-deep-blue)]">{occurrence.scripture}</p>}
           <p className="mt-5 text-base font-bold text-[#201e1d]/68">{formatGatheringDate(occurrence.startsAt)}</p>
@@ -182,7 +182,7 @@ export function GatheringHero({
         <div className="min-w-0">
           {showCountdown ? (
             <div>
-              <p className="mb-4 text-xs font-extrabold uppercase tracking-[0.16em] text-[#201e1d]/55">Starts in</p>
+              <p className="mb-4 text-xs font-extrabold uppercase tracking-[0.16em] text-[#201e1d]/72">Starts in</p>
               <GatheringCountdown appearance="modernist" startsAt={occurrence.startsAt} />
             </div>
           ) : phase === "replay" ? (
