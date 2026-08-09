@@ -58,7 +58,6 @@ export function GatheringHero({
 }) {
   const phase = getGatheringPhase(occurrence, now);
   const showCountdown = phase === "upcoming" || phase === "joining";
-  const isLiveState = phase === "joining" || phase === "live";
   const gatheringName = series?.name ?? "L.I.F.E. Gathering";
   const title = occurrence.title || gatheringName;
   const titleId = `gathering-${occurrence.id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
