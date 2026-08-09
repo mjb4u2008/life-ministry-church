@@ -422,12 +422,19 @@ npm run build
 
 ### PR-05 — Lean admin and reusable gathering workflow
 
-- [ ] Add new admin shell and This Week dashboard.
-- [ ] Add independent Sunday and Wednesday readiness cards.
-- [ ] Add reusable gathering editor with preview, publish, status, replay, and error/conflict states.
-- [ ] Preserve existing generator/scripture access and contracts.
-- [ ] Preserve Sunday-save auto-banner behavior.
-- [ ] Keep legacy admin available during migration if any management panel is not yet extracted.
+- [x] Add new admin shell and This Week dashboard.
+- [x] Add independent Sunday and Wednesday readiness cards.
+- [x] Add reusable gathering editor with preview, publish, status, replay, and error/conflict states.
+- [x] Preserve existing generator/scripture access and contracts.
+- [x] Preserve Sunday-save auto-banner behavior.
+- [x] Keep legacy admin available during migration if any management panel is not yet extracted.
+
+Evidence (2026-08-09): `npm run lint`, `npm run typecheck`, `npm run test`
+(34/34), desktop admin E2E (3/3), mobile admin E2E (3/3), `npm run build`,
+`git diff --check`, and the protected-route diff check all passed. The editor
+uses atomic repository revisions, configured-timezone previews, explicit
+cancellation, and 401/403 sign-in recovery. A fresh independent review found
+no remaining P1/P2 issues after regression fixes.
 
 **Definition of Done**
 

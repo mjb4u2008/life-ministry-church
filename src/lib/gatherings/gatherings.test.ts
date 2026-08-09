@@ -99,6 +99,21 @@ class MemoryStorage implements GatheringStorage {
     if (this.failSet) throw new Error("write unavailable");
     this.values.set(key, structuredClone(value));
   }
+
+  async compareAndSet<T>(
+    key: string,
+    expectedRevision: number,
+    value: T,
+  ): Promise<{ saved: boolean; actualRevision: number }> {
+    if (this.failSet) throw new Error("write unavailable");
+    const current = this.values.get(key) as { revision?: number } | undefined;
+    const actualRevision = current?.revision ?? 0;
+    if (actualRevision !== expectedRevision) {
+      return { saved: false, actualRevision };
+    }
+    this.values.set(key, structuredClone(value));
+    return { saved: true, actualRevision: expectedRevision + 1 };
+  }
 }
 
 describe("gathering time helpers", () => {
@@ -377,5 +392,30 @@ describe("GatheringRepository", () => {
       repository.upsertSeries(initial.series[1], 0),
     ).rejects.toThrow("write unavailable");
     expect(writeStorage.values.has(GATHERINGS_KEY)).toBe(false);
+  });
+
+  it("allows only one writer to commit the same expected revision", async () => {
+    const storage = new MemoryStorage();
+    const existing = store({ revision: 2 });
+    storage.values.set(GATHERINGS_KEY, existing);
+    const first = new GatheringRepository(storage);
+    const second = new GatheringRepository(storage);
+
+    const results = await Promise.allSettled([
+      first.upsertSeries(
+        { ...existing.series[0], name: "First writer" },
+        2,
+        new Date("2026-08-09T14:00:00.000Z"),
+      ),
+      second.upsertSeries(
+        { ...existing.series[0], name: "Second writer" },
+        2,
+        new Date("2026-08-09T14:00:00.000Z"),
+      ),
+    ]);
+
+    expect(results.filter((result) => result.status === "fulfilled")).toHaveLength(1);
+    expect(results.filter((result) => result.status === "rejected")).toHaveLength(1);
+    expect((storage.values.get(GATHERINGS_KEY) as GatheringStoreV1).revision).toBe(3);
   });
 });

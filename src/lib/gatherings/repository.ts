@@ -14,6 +14,11 @@ export const LEGACY_BACKUP_KEY = "site-content:backup:gatherings-v1";
 export interface GatheringStorage {
   get<T>(key: string): Promise<T | null>;
   set<T>(key: string, value: T): Promise<unknown>;
+  compareAndSet?<T>(
+    key: string,
+    expectedRevision: number,
+    value: T,
+  ): Promise<{ saved: boolean; actualRevision: number }>;
 }
 
 export class GatheringRevisionConflictError extends Error {
@@ -31,6 +36,35 @@ export class GatheringRevisionConflictError extends Error {
 const vercelStorage: GatheringStorage = {
   get: <T>(key: string) => kv.get<T>(key),
   set: <T>(key: string, value: T) => kv.set(key, value),
+  compareAndSet: async <T>(
+    key: string,
+    expectedRevision: number,
+    value: T,
+  ) => {
+    const nextRevision = expectedRevision + 1;
+    const result = await kv.eval<[string, string], number>(
+      `
+        local current = redis.call("GET", KEYS[1])
+        if current then
+          local decoded = cjson.decode(current)
+          local actual = tonumber(decoded.revision)
+          if actual ~= tonumber(ARGV[1]) then
+            return actual
+          end
+        elseif tonumber(ARGV[1]) ~= 0 then
+          return -1
+        end
+        redis.call("SET", KEYS[1], ARGV[2])
+        return tonumber(ARGV[1]) + 1
+      `,
+      [key],
+      [String(expectedRevision), JSON.stringify(value)],
+    );
+    return {
+      saved: result === nextRevision,
+      actualRevision: result,
+    };
+  },
 };
 
 export class GatheringRepository {
@@ -102,7 +136,21 @@ export class GatheringRepository {
       }
     }
 
-    await this.storage.set(GATHERINGS_KEY, next);
+    if (this.storage.compareAndSet) {
+      const result = await this.storage.compareAndSet(
+        GATHERINGS_KEY,
+        expectedRevision,
+        next,
+      );
+      if (!result.saved) {
+        throw new GatheringRevisionConflictError(
+          expectedRevision,
+          result.actualRevision,
+        );
+      }
+    } else {
+      await this.storage.set(GATHERINGS_KEY, next);
+    }
     return next;
   }
 }
