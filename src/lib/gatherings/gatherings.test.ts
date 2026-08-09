@@ -292,7 +292,7 @@ describe("gathering selection and public privacy", () => {
     expect(
       selectFeaturedOccurrence(
         fixture,
-        new Date("2026-08-13T12:00:00.000Z"),
+        new Date("2026-08-13T00:30:00.000Z"),
       )?.id,
     ).toBe(sunday.id);
   });
@@ -308,7 +308,7 @@ describe("gathering selection and public privacy", () => {
 
     const joinable = serializePublicGatherings(
       fixture,
-      new Date("2026-08-12T22:45:00.000Z"),
+      new Date("2026-08-12T22:30:00.000Z"),
     );
     expect(joinable.featured?.joinUrl).toBe(MEET_URL);
     expect(joinable.series[0]).not.toHaveProperty("defaultMeetUrl");

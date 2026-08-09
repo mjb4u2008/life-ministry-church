@@ -82,11 +82,75 @@ test("events: admin publishes a timezone-correct event", async ({ page }, testIn
   await page.getByLabel("End date").fill("2030-08-14");
   await page.getByLabel("End time").fill("20:30");
   await page.getByLabel("Google Meet link").fill("https://meet.google.com/abc-defg-hij");
+  await expect(page.getByText(/all event times use eastern time/i)).toBeVisible();
+  await expect(page.getByLabel("Timezone")).toHaveCount(0);
   await page.getByRole("button", { name: "Publish" }).click();
 
   await expect(page.getByText("Community Bible Workshop saved as published.")).toBeVisible();
-  expect(write).toMatchObject({ expectedRevision: 0, event: { startsAt: "2030-08-14T23:00:00.000Z", endsAt: "2030-08-15T00:30:00.000Z", status: "published" } });
+  expect(write).toMatchObject({ expectedRevision: 0, event: { startsAt: "2030-08-14T23:00:00.000Z", endsAt: "2030-08-15T00:30:00.000Z", timezone: "America/New_York", status: "published" } });
   expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false);
+});
+
+test("events: admin converts a legacy event to Eastern when editing and re-saving", async ({ page }) => {
+  await authenticate(page);
+  const legacyEvent = {
+    id: "legacy-pacific-event",
+    title: "Legacy Pacific Event",
+    description: "Created before ministry scheduling was standardized.",
+    startsAt: "2030-08-15T02:00:00.000Z",
+    endsAt: "2030-08-15T03:30:00.000Z",
+    timezone: "America/Los_Angeles",
+    status: "draft",
+    locationType: "online",
+    locationLabel: "Online",
+    meetUrl: "https://meet.google.com/abc-defg-hij",
+    registrationUrl: "",
+    createdAt: UPDATED_AT,
+    updatedAt: UPDATED_AT,
+  };
+  let write: Record<string, unknown> | null = null;
+  await page.route("**/api/events**", async (route) => {
+    if (route.request().method() === "PATCH") {
+      write = route.request().postDataJSON();
+      const event = {
+        ...(write as { event: Record<string, unknown> }).event,
+        id: legacyEvent.id,
+        createdAt: legacyEvent.createdAt,
+        updatedAt: UPDATED_AT,
+      };
+      await route.fulfill({
+        contentType: "application/json",
+        json: { event, store: eventStore(5, [event]) },
+      });
+      return;
+    }
+    await route.fulfill({
+      contentType: "application/json",
+      json: eventStore(4, [legacyEvent]),
+    });
+  });
+
+  await page.goto("/admin/events");
+  await page.getByRole("button", { name: /legacy pacific event/i }).click();
+
+  await expect(page.getByLabel("Start date")).toHaveValue("2030-08-14");
+  await expect(page.getByLabel("Start time")).toHaveValue("22:00");
+  await expect(page.getByLabel("End date")).toHaveValue("2030-08-14");
+  await expect(page.getByLabel("End time")).toHaveValue("23:30");
+  await expect(page.getByLabel("Timezone")).toHaveCount(0);
+  await page.getByRole("button", { name: "Save draft" }).click();
+
+  await expect(page.getByText("Legacy Pacific Event saved as draft.")).toBeVisible();
+  expect(write).toMatchObject({
+    id: legacyEvent.id,
+    expectedRevision: 4,
+    event: {
+      startsAt: legacyEvent.startsAt,
+      endsAt: legacyEvent.endsAt,
+      timezone: "America/New_York",
+      status: "draft",
+    },
+  });
 });
 
 test("events: admin sees revision conflicts and can reload", async ({ page }) => {

@@ -5,6 +5,7 @@ import type {
   PublicGatheringsResponse,
 } from "@/lib/gatherings";
 import { GatheringExperience } from "./GatheringExperience";
+import { formatGatheringDate } from "./GatheringCard";
 import { GatheringHero, getGatheringPhase } from "./GatheringHero";
 
 const upcoming: PublicGatheringOccurrence = {
@@ -48,6 +49,12 @@ afterEach(() => {
 });
 
 describe("gathering public components", () => {
+  it("always formats gathering times in the ministry's Eastern timezone", () => {
+    expect(formatGatheringDate("2030-08-14T23:00:00.000Z")).toContain(
+      "7:00 PM EDT",
+    );
+  });
+
   it("derives upcoming, live, and replay phases deterministically", () => {
     expect(getGatheringPhase(upcoming, new Date("2030-08-10T12:00:00.000Z"))).toBe(
       "upcoming",

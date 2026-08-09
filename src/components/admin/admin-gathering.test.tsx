@@ -126,6 +126,8 @@ describe("pastor-simple gathering admin", () => {
     );
     expect(screen.getByText("Pastoral care inbox")).toBeVisible();
     expect(screen.getByText("Events center")).toBeVisible();
+    expect(screen.getAllByText("Needs details")).toHaveLength(2);
+    expect(screen.queryByText(/of 6 ready/i)).not.toBeInTheDocument();
   });
 
   it("does not count a cancelled occurrence as ready", async () => {
@@ -145,7 +147,7 @@ describe("pastor-simple gathering admin", () => {
     );
     render(<AdminDashboard logout={vi.fn()} token="token" />);
 
-    expect(await screen.findAllByText("No gathering occurrence prepared yet.")).toHaveLength(2);
+    expect(await screen.findAllByText("Nothing scheduled yet.")).toHaveLength(2);
     expect(screen.queryByText("Cancelled message")).not.toBeInTheDocument();
   });
 

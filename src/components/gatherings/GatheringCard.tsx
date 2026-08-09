@@ -1,11 +1,16 @@
 import { CalendarDays, Play } from "lucide-react";
-import type {
-  PublicGatheringOccurrence,
-  PublicGatheringSeries,
+import {
+  MINISTRY_TIMEZONE,
+  type PublicGatheringOccurrence,
+  type PublicGatheringSeries,
 } from "@/lib/gatherings";
 
-export function formatGatheringDate(startsAt: string): string {
+export function formatGatheringDate(
+  startsAt: string,
+  timezone = MINISTRY_TIMEZONE,
+): string {
   return new Intl.DateTimeFormat("en-US", {
+    timeZone: timezone,
     weekday: "long",
     month: "long",
     day: "numeric",
@@ -37,7 +42,12 @@ export function GatheringCard({
       )}
       <p className="mt-4 flex items-start gap-2 font-body text-sm leading-relaxed text-[#4a6580]">
         <CalendarDays className="mt-0.5 size-4 shrink-0" />
-        <span>{formatGatheringDate(occurrence.startsAt)}</span>
+        <span>
+          {formatGatheringDate(
+            occurrence.startsAt,
+            series?.schedule?.timezone ?? MINISTRY_TIMEZONE,
+          )}
+        </span>
       </p>
       {occurrence.description && (
         <p className="mt-4 flex-1 font-body text-sm leading-relaxed text-[#4a6580]">

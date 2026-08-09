@@ -2,13 +2,15 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { CalendarPlus, LoaderCircle, Save, Trash2 } from "lucide-react";
-import { zonedDateTimeToUtc } from "@/lib/gatherings";
+import {
+  MINISTRY_TIMEZONE,
+  MINISTRY_TIMEZONE_LABEL,
+  zonedDateTimeToUtc,
+} from "@/lib/gatherings";
 import type { EventLocationType, EventStoreV1, MinistryEvent, MinistryEventStatus } from "@/lib/events";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-
-const TIMEZONES = ["America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles", "America/Anchorage", "Pacific/Honolulu"];
 
 function localFields(instant: string, timezone: string) {
   const parts = new Intl.DateTimeFormat("en-US", {
@@ -20,8 +22,9 @@ function localFields(instant: string, timezone: string) {
 }
 
 function tomorrow() {
-  const date = new Date(); date.setDate(date.getDate() + 1);
-  return date.toISOString().slice(0, 10);
+  const easternToday = localFields(new Date().toISOString(), MINISTRY_TIMEZONE).date;
+  const [year, month, day] = easternToday.split("-").map(Number);
+  return new Date(Date.UTC(year, month - 1, day + 1)).toISOString().slice(0, 10);
 }
 
 export function EventCenter({ token, logout }: { token: string; logout: () => void }) {
@@ -33,7 +36,6 @@ export function EventCenter({ token, logout }: { token: string; logout: () => vo
   const [startTime, setStartTime] = useState("19:00");
   const [endDate, setEndDate] = useState(tomorrow());
   const [endTime, setEndTime] = useState("20:30");
-  const [timezone, setTimezone] = useState("America/New_York");
   const [locationType, setLocationType] = useState<EventLocationType>("online");
   const [locationLabel, setLocationLabel] = useState("Online");
   const [meetUrl, setMeetUrl] = useState("");
@@ -47,16 +49,19 @@ export function EventCenter({ token, logout }: { token: string; logout: () => vo
   const reset = () => {
     const date = tomorrow();
     setSelectedId(null); setTitle(""); setDescription(""); setStartDate(date); setEndDate(date);
-    setStartTime("19:00"); setEndTime("20:30"); setTimezone("America/New_York");
+    setStartTime("19:00"); setEndTime("20:30");
     setLocationType("online"); setLocationLabel("Online"); setMeetUrl(""); setRegistrationUrl(""); setStatus("draft"); setError(""); setSuccess("");
   };
 
   const choose = (event: MinistryEvent) => {
-    const start = localFields(event.startsAt, event.timezone);
-    const end = localFields(event.endsAt ?? new Date(Date.parse(event.startsAt) + 60 * 60_000).toISOString(), event.timezone);
+    const start = localFields(event.startsAt, MINISTRY_TIMEZONE);
+    const end = localFields(
+      event.endsAt ?? new Date(Date.parse(event.startsAt) + 60 * 60_000).toISOString(),
+      MINISTRY_TIMEZONE,
+    );
     setSelectedId(event.id); setTitle(event.title); setDescription(event.description);
     setStartDate(start.date); setStartTime(start.time); setEndDate(end.date); setEndTime(end.time);
-    setTimezone(event.timezone); setLocationType(event.locationType); setLocationLabel(event.locationLabel ?? "");
+    setLocationType(event.locationType); setLocationLabel(event.locationLabel ?? "");
     setMeetUrl(event.meetUrl ?? ""); setRegistrationUrl(event.registrationUrl ?? ""); setStatus(event.status); setError(""); setSuccess("");
   };
 
@@ -74,18 +79,18 @@ export function EventCenter({ token, logout }: { token: string; logout: () => vo
 
   const preview = useMemo(() => {
     try {
-      const startsAt = zonedDateTimeToUtc(startDate, startTime, timezone).toISOString();
-      const endsAt = zonedDateTimeToUtc(endDate, endTime, timezone).toISOString();
+      const startsAt = zonedDateTimeToUtc(startDate, startTime, MINISTRY_TIMEZONE).toISOString();
+      const endsAt = zonedDateTimeToUtc(endDate, endTime, MINISTRY_TIMEZONE).toISOString();
       return Date.parse(endsAt) > Date.parse(startsAt) ? { startsAt, endsAt } : null;
     } catch { return null; }
-  }, [endDate, endTime, startDate, startTime, timezone]);
+  }, [endDate, endTime, startDate, startTime]);
 
   const save = async (nextStatus: MinistryEventStatus) => {
     if (!store) return;
     setSaving(true); setError(""); setSuccess("");
     try {
       if (!preview) throw new Error("Choose a valid start and end time. The end must be later than the start.");
-      const event = { title, description, ...preview, timezone, status: nextStatus, locationType, locationLabel, meetUrl, registrationUrl };
+      const event = { title, description, ...preview, timezone: MINISTRY_TIMEZONE, status: nextStatus, locationType, locationLabel, meetUrl, registrationUrl };
       const response = await fetch("/api/events", {
         method: selectedId ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
@@ -129,7 +134,7 @@ export function EventCenter({ token, logout }: { token: string; logout: () => vo
               <h2 className="font-display text-xl font-bold text-[#0a1a2f]">Saved events</h2>
               {store?.events.length ? [...store.events].sort((a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt)).map((event) => (
                 <button className={`w-full rounded-xl border bg-white p-4 text-left ${selectedId === event.id ? "border-[#1a6fb5] ring-2 ring-[#1a6fb5]/10" : "border-[#dce8f2]"}`} key={event.id} onClick={() => choose(event)}>
-                  <span className="block font-body text-xs font-bold uppercase text-[#1a6fb5]">{event.status}</span><span className="mt-1 block font-display text-lg font-bold text-[#0a1a2f]">{event.title}</span><span className="mt-1 block text-sm text-[#4a6580]">{new Date(event.startsAt).toLocaleDateString()}</span>
+                  <span className="block font-body text-xs font-bold uppercase text-[#1a6fb5]">{event.status}</span><span className="mt-1 block font-display text-lg font-bold text-[#0a1a2f]">{event.title}</span><span className="mt-1 block text-sm text-[#4a6580]">{new Intl.DateTimeFormat("en-US", { timeZone: MINISTRY_TIMEZONE }).format(new Date(event.startsAt))}</span>
                 </button>
               )) : <p className="rounded-xl bg-white p-5 text-sm text-[#4a6580]">No special events yet.</p>}
             </aside>
@@ -138,18 +143,18 @@ export function EventCenter({ token, logout }: { token: string; logout: () => vo
               <div className="mt-6 space-y-5">
                 <label className="block text-sm font-bold">Title<Input className="mt-2 h-12 px-4 text-base" maxLength={120} onChange={(event) => setTitle(event.target.value)} value={title} /></label>
                 <label className="block text-sm font-bold">Description<Textarea className="mt-2 min-h-32 px-4 py-3 text-base" maxLength={3000} onChange={(event) => setDescription(event.target.value)} value={description} /></label>
+                <p className="rounded-xl bg-[#f0f4f8] p-4 text-sm text-[#4a6580]">All event times use <strong className="text-[#0a1a2f]">{MINISTRY_TIMEZONE_LABEL}</strong>.</p>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <label className="text-sm font-bold">Start date<Input className="mt-2 h-12 px-4 text-base" onChange={(event) => setStartDate(event.target.value)} type="date" value={startDate} /></label>
                   <label className="text-sm font-bold">Start time<Input className="mt-2 h-12 px-4 text-base" onChange={(event) => setStartTime(event.target.value)} type="time" value={startTime} /></label>
                   <label className="text-sm font-bold">End date<Input className="mt-2 h-12 px-4 text-base" onChange={(event) => setEndDate(event.target.value)} type="date" value={endDate} /></label>
                   <label className="text-sm font-bold">End time<Input className="mt-2 h-12 px-4 text-base" onChange={(event) => setEndTime(event.target.value)} type="time" value={endTime} /></label>
-                  <label className="text-sm font-bold">Timezone<select className="mt-2 h-12 w-full rounded-lg border border-input bg-white px-4 text-base" onChange={(event) => setTimezone(event.target.value)} value={timezone}>{TIMEZONES.map((zone) => <option key={zone} value={zone}>{zone.replace("America/", "").replace("_", " ")}</option>)}</select></label>
                   <label className="text-sm font-bold">Location type<select className="mt-2 h-12 w-full rounded-lg border border-input bg-white px-4 text-base" onChange={(event) => setLocationType(event.target.value as EventLocationType)} value={locationType}><option value="online">Online</option><option value="in-person">In person</option><option value="hybrid">Hybrid</option></select></label>
                 </div>
                 <label className="block text-sm font-bold">Location name or address<Input className="mt-2 h-12 px-4 text-base" maxLength={200} onChange={(event) => setLocationLabel(event.target.value)} value={locationLabel} /></label>
                 {(locationType === "online" || locationType === "hybrid") && <label className="block text-sm font-bold">Google Meet link<Input className="mt-2 h-12 px-4 text-base" onChange={(event) => setMeetUrl(event.target.value)} placeholder="https://meet.google.com/..." type="url" value={meetUrl} /></label>}
                 <label className="block text-sm font-bold">Registration link (optional)<Input className="mt-2 h-12 px-4 text-base" onChange={(event) => setRegistrationUrl(event.target.value)} type="url" value={registrationUrl} /></label>
-                {preview && <p className="rounded-xl bg-[#f0f4f8] p-4 text-sm text-[#4a6580]">Preview: {new Intl.DateTimeFormat("en-US", { timeZone: timezone, dateStyle: "full", timeStyle: "short" }).format(new Date(preview.startsAt))} ({timezone}) · {status}</p>}
+                {preview && <p className="rounded-xl bg-[#f0f4f8] p-4 text-sm text-[#4a6580]">Preview: {new Intl.DateTimeFormat("en-US", { timeZone: MINISTRY_TIMEZONE, dateStyle: "full", timeStyle: "short" }).format(new Date(preview.startsAt))} ({MINISTRY_TIMEZONE_LABEL}) · {status}</p>}
                 {error && <div className="rounded-xl bg-red-50 p-4 text-sm text-red-700" aria-live="polite">{error}{error.includes("Reload") && <Button className="mt-3 block" onClick={() => void load()} variant="outline">Reload latest</Button>}</div>}
                 {success && <p className="rounded-xl bg-emerald-50 p-4 text-sm text-emerald-700" role="status">{success}</p>}
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">

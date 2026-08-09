@@ -5,9 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import {
   BookOpen,
   CalendarDays,
-  CheckCircle2,
   ChevronRight,
-  CircleAlert,
   HeartHandshake,
   HandCoins,
   ImageIcon,
@@ -37,21 +35,6 @@ function currentOccurrence(
   return occurrences.find((item) => Date.parse(item.endsAt) > now);
 }
 
-function readiness(series: GatheringSeries, occurrence?: GatheringOccurrence) {
-  const checks = [
-    series.enabled,
-    Boolean(series.schedule),
-    Boolean(series.defaultMeetUrl),
-    Boolean(occurrence?.title.trim()),
-    Boolean(occurrence?.scripture.trim()),
-    Boolean(
-      occurrence &&
-        (occurrence.status === "published" || occurrence.status === "live"),
-    ),
-  ];
-  return { ready: checks.filter(Boolean).length, total: checks.length };
-}
-
 function GatheringReadinessCard({
   series,
   occurrence,
@@ -59,8 +42,11 @@ function GatheringReadinessCard({
   series: GatheringSeries;
   occurrence?: GatheringOccurrence;
 }) {
-  const progress = readiness(series, occurrence);
-  const complete = progress.ready === progress.total;
+  const onWebsite = Boolean(
+    series.enabled &&
+      occurrence &&
+      (occurrence.status === "published" || occurrence.status === "live"),
+  );
   return (
     <Card className="border-0 shadow-sm">
       <CardContent className="p-5 sm:p-6">
@@ -73,36 +59,31 @@ function GatheringReadinessCard({
               {series.name}
             </h2>
           </div>
-          {complete ? (
-            <CheckCircle2 className="size-6 shrink-0 text-emerald-600" aria-label="Ready" />
-          ) : (
-            <CircleAlert className="size-6 shrink-0 text-amber-600" aria-label="Needs attention" />
-          )}
-        </div>
-        <p className="mt-4 font-body text-sm text-[#4a6580]">
-          {series.enabled ? `${progress.ready} of ${progress.total} ready` : "Disabled — configure when ready"}
-        </p>
-        <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#e6eef5]">
-          <div
-            className="h-full rounded-full bg-[#1a6fb5]"
-            style={{ width: `${(progress.ready / progress.total) * 100}%` }}
-          />
+          <span
+            className={`shrink-0 rounded-full px-3 py-1 text-xs font-bold ${
+              onWebsite
+                ? "bg-emerald-100 text-emerald-800"
+                : "bg-amber-100 text-amber-800"
+            }`}
+          >
+            {onWebsite ? "On website" : "Needs details"}
+          </span>
         </div>
         <div className="mt-5 rounded-xl bg-[#f7fafc] p-4 font-body text-sm text-[#4a6580]">
           {occurrence ? (
             <>
               <p className="font-semibold text-[#0a1a2f]">{occurrence.title || "Message title needed"}</p>
-              <p className="mt-1 capitalize">{occurrence.status} · {occurrence.localDate}</p>
+              <p className="mt-1">Scheduled for {occurrence.localDate}</p>
             </>
           ) : (
-            <p>No gathering occurrence prepared yet.</p>
+            <p>Nothing scheduled yet.</p>
           )}
         </div>
         <Button
           className="mt-5 min-h-11 w-full bg-[#1a6fb5] font-body font-bold text-white hover:bg-[#155d99]"
           render={<Link href={`/admin/gatherings/${series.id}`} />}
         >
-          {series.enabled ? "Prepare gathering" : "Set up gathering"}
+          {occurrence ? "View or update" : "Set up gathering"}
           <ChevronRight className="size-4" />
         </Button>
       </CardContent>
@@ -155,7 +136,7 @@ export function AdminDashboard({ token, logout }: { token: string; logout: () =>
 
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         <p className="max-w-2xl font-body text-[#4a6580]">
-          Prepare Wednesday and Sunday, then use the focused tools below when you need them.
+          Choose Wednesday or Sunday. Add the message and time, then put it on the website.
         </p>
 
         {loading ? (

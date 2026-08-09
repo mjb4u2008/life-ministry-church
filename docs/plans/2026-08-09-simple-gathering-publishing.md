@@ -106,12 +106,12 @@ npm run test:e2e -- --project=mobile-chrome --grep admin-gathering
 
 ### PR-03 — Automatic public sequencing and admin clarity
 
-- [ ] Lock the public rule with tests: Wednesday features before Sunday when its
+- [x] Lock the public rule with tests: Wednesday features before Sunday when its
   timestamp is earlier; Sunday replaces it after Wednesday ends.
-- [ ] Lock the 30-minute Meet-link opening boundary with tests.
-- [ ] Update the admin dashboard readiness/copy so it describes `On website` versus
+- [x] Lock the 30-minute Meet-link opening boundary with tests.
+- [x] Update the admin dashboard readiness/copy so it describes `On website` versus
   `Needs details`, without exposing internal status vocabulary.
-- [ ] Hard-set the Events Center to Eastern Time and remove its timezone selector,
+- [x] Hard-set the Events Center to Eastern Time and remove its timezone selector,
   while retaining explicit start and end controls.
 
 Definition of Done:
@@ -177,3 +177,13 @@ passing output remains `[NEEDS-VERIFICATION]`.
   5/5 tests at the mobile viewport.
 - `npm run typecheck` — PASS, exit 0.
 - `git diff --check` — PASS (delivery-agent check).
+
+### PR-03 evidence — 2026-08-09
+
+- Focused unit matrix from the guide — PASS, 49/49 tests across gathering domain,
+  public gathering components, gathering admin, and event domain.
+- `npm run test:e2e -- --project=chromium --grep "gathering|events"` — PASS,
+  15/15 tests.
+- `npm run test:e2e -- --project=mobile-chrome --grep "gathering|events"` — PASS,
+  15/15 tests.
+- `npm run typecheck` — PASS, exit 0.
