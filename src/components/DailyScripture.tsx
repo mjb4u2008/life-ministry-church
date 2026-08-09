@@ -37,34 +37,34 @@ export function DailyScriptureSection() {
   }, []);
 
   return (
-    <section className="border-y border-[#071521]/10 bg-[#f3efe6] py-20 md:py-28">
-      <div className="mx-auto max-w-4xl px-5 text-center sm:px-6 lg:px-12">
-        <p className="life-kicker mb-8">
+    <section className="border-b-2 life-modernist-rule bg-[var(--modernist-paper)] py-14 sm:py-16 lg:py-20">
+      <div className="mx-auto max-w-[1120px] px-5 text-center sm:px-8 lg:px-12">
+        <p className="mb-6 text-xs font-extrabold uppercase tracking-[0.18em] text-[var(--modernist-blue)]">
           A word for today
         </p>
 
-        <div className="mx-auto mb-10 h-px w-16 bg-[#e4b75d]" />
+        <div className="mx-auto mb-8 h-0.5 w-16 bg-[var(--modernist-blue)]" />
 
         {loading ? (
           <div className="animate-pulse space-y-4">
-            <div className="mx-auto h-8 w-3/4 rounded bg-[#071521]/10" />
-            <div className="mx-auto h-8 w-1/2 rounded bg-[#071521]/10" />
-            <div className="mx-auto h-5 w-32 rounded bg-[#071521]/10" />
+            <div className="mx-auto h-8 w-3/4 bg-[var(--modernist-ink)]/10" />
+            <div className="mx-auto h-8 w-1/2 bg-[var(--modernist-ink)]/10" />
+            <div className="mx-auto h-5 w-32 bg-[var(--modernist-ink)]/10" />
           </div>
         ) : (
           <>
             <blockquote className="mb-6">
-              <p className="font-display text-[clamp(1.8rem,4vw,3.3rem)] font-bold leading-[1.15] text-[#071521]">
+              <p className="text-[clamp(1.8rem,4vw,3.3rem)] font-semibold leading-[1.13] tracking-[-0.035em] text-[var(--modernist-ink)]">
                 &ldquo;{scripture.verse}&rdquo;
               </p>
             </blockquote>
 
-            <p className="mb-4 font-body text-sm font-extrabold uppercase tracking-[0.16em] text-[#1677a8]">
+            <p className="mb-4 text-sm font-extrabold uppercase tracking-[0.16em] text-[var(--modernist-blue)]">
               {scripture.reference}
             </p>
 
             {scripture.reflection && (
-              <p className="mx-auto max-w-xl font-body text-lg leading-8 text-[#526675]">
+              <p className="mx-auto max-w-xl text-lg leading-8 text-[var(--modernist-ink)]/70">
                 {scripture.reflection}
               </p>
             )}

@@ -53,8 +53,8 @@ export function ReminderSignup() {
 
   if (status === "success") {
     return (
-      <div className="animate-fade-in rounded-[1.75rem] bg-[#fffdf8] p-7 text-center text-[#071521] sm:p-9" role="status">
-        <div className="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-[#1677a8]">
+      <div className="animate-fade-in border-2 life-modernist-rule bg-[var(--modernist-paper)] p-7 text-center text-[var(--modernist-ink)] sm:p-9" role="status">
+        <div className="mx-auto mb-4 flex size-16 items-center justify-center bg-[var(--modernist-blue)]">
           <svg
             className="w-8 h-8 text-white"
             fill="none"
@@ -69,10 +69,10 @@ export function ReminderSignup() {
             />
           </svg>
         </div>
-        <h3 className="mb-2 font-display text-2xl font-black">
+        <h3 className="mb-2 text-2xl font-extrabold">
           You&apos;re all set.
         </h3>
-        <p className="text-[#526675]">
+        <p className="text-[var(--modernist-ink)]/70">
           We&apos;ll remind you before the next service.
         </p>
       </div>
@@ -80,11 +80,11 @@ export function ReminderSignup() {
   }
 
   return (
-    <div className="rounded-[1.75rem] bg-[#fffdf8] p-6 text-[#071521] shadow-[0_24px_70px_rgba(0,0,0,0.18)] sm:p-8">
+    <div className="border-2 life-modernist-rule bg-[var(--modernist-paper)] p-6 text-[var(--modernist-ink)] sm:p-8">
       <div className="mb-7">
-        <div className="mb-4 flex size-12 items-center justify-center rounded-full bg-[#1677a8]/10">
+        <div className="mb-4 flex size-12 items-center justify-center border-2 border-[var(--modernist-blue)]">
           <svg
-            className="size-6 text-[#1677a8]"
+            className="size-6 text-[var(--modernist-blue)]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -97,10 +97,10 @@ export function ReminderSignup() {
             />
           </svg>
         </div>
-        <h3 className="font-display text-3xl font-black">
+        <h3 className="text-3xl font-extrabold tracking-[-0.035em]">
           Get a reminder
         </h3>
-        <p className="mt-2 text-base text-[#526675]">
+        <p className="mt-2 text-base text-[var(--modernist-ink)]/70">
           We&apos;ll send one before the next gathering begins.
         </p>
       </div>
@@ -114,21 +114,21 @@ export function ReminderSignup() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             autoComplete="name"
-            className="mt-2 min-h-12 w-full rounded-xl border border-[#071521]/20 bg-white px-4 py-3 text-base outline-none transition-colors focus:border-[#1677a8] focus:ring-2 focus:ring-[#1677a8]/20"
+            className="mt-2 min-h-12 w-full border-2 life-modernist-rule bg-white px-4 py-3 text-base outline-none transition-colors focus:border-[var(--modernist-blue)]"
             required
           />
         </label>
 
         {/* Contact Type Toggle */}
-        <div className="flex gap-2 rounded-xl bg-[#f3efe6] p-1" aria-label="Reminder type" role="group">
+        <div className="flex border-2 life-modernist-rule bg-[var(--modernist-panel)] p-1" aria-label="Reminder type" role="group">
           <button
             type="button"
             onClick={() => setContactType("email")}
             aria-pressed={contactType === "email"}
-            className={`min-h-11 flex-1 rounded-lg py-2 text-sm font-bold transition-colors ${
+            className={`min-h-11 flex-1 px-3 py-2 text-sm font-bold transition-colors ${
               contactType === "email"
-                ? "bg-[#071521] text-white"
-                : "text-[#526675] hover:text-[#071521]"
+                ? "bg-[var(--modernist-ink)] text-white"
+                : "text-[var(--modernist-ink)]/65 hover:text-[var(--modernist-ink)]"
             }`}
           >
             Email
@@ -137,10 +137,10 @@ export function ReminderSignup() {
             type="button"
             onClick={() => setContactType("phone")}
             aria-pressed={contactType === "phone"}
-            className={`min-h-11 flex-1 rounded-lg py-2 text-sm font-bold transition-colors ${
+            className={`min-h-11 flex-1 px-3 py-2 text-sm font-bold transition-colors ${
               contactType === "phone"
-                ? "bg-[#071521] text-white"
-                : "text-[#526675] hover:text-[#071521]"
+                ? "bg-[var(--modernist-ink)] text-white"
+                : "text-[var(--modernist-ink)]/65 hover:text-[var(--modernist-ink)]"
             }`}
           >
             Text Me
@@ -155,19 +155,19 @@ export function ReminderSignup() {
             value={contact}
             onChange={(e) => setContact(e.target.value)}
             autoComplete={contactType === "email" ? "email" : "tel"}
-            className="mt-2 min-h-12 w-full rounded-xl border border-[#071521]/20 bg-white px-4 py-3 text-base outline-none transition-colors focus:border-[#1677a8] focus:ring-2 focus:ring-[#1677a8]/20"
+            className="mt-2 min-h-12 w-full border-2 life-modernist-rule bg-white px-4 py-3 text-base outline-none transition-colors focus:border-[var(--modernist-blue)]"
             required
           />
         </label>
 
         {status === "error" && (
-          <p aria-live="polite" className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{errorMessage}</p>
+          <p aria-live="polite" className="border-2 border-red-700 bg-red-50 p-3 text-sm text-red-700">{errorMessage}</p>
         )}
 
-        <label className="flex items-start gap-3 text-sm leading-relaxed text-[#526675]">
+        <label className="flex items-start gap-3 text-sm leading-relaxed text-[var(--modernist-ink)]/72">
           <input
             checked={consent}
-            className="mt-0.5 size-5 shrink-0 accent-[#1677a8]"
+            className="mt-0.5 size-5 shrink-0 accent-[var(--modernist-blue)]"
             onChange={(event) => setConsent(event.target.checked)}
             required
             type="checkbox"
@@ -180,7 +180,7 @@ export function ReminderSignup() {
         <button
           type="submit"
           disabled={isSubmitting || !name.trim() || !contact.trim() || !consent}
-          className="min-h-12 w-full rounded-full bg-[#e4b75d] px-6 py-3 font-black text-[#071521] transition-colors hover:bg-[#f4d690] disabled:cursor-not-allowed disabled:opacity-50"
+          className="min-h-13 w-full bg-[var(--modernist-blue)] px-6 py-3 font-extrabold text-white transition-colors hover:bg-[var(--modernist-deep-blue)] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isSubmitting ? "Signing up..." : "Remind Me"}
         </button>
