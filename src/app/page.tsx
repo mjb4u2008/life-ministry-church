@@ -118,7 +118,7 @@ export default function HomePage() {
       <GatheringExperience mode="home" />
 
       <section className="border-b-2 life-modernist-rule py-14 sm:py-16 lg:py-20" id="welcome">
-        <div className="mx-auto grid max-w-[1440px] gap-10 px-5 sm:px-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:gap-16 lg:px-12 xl:px-16">
+        <div className="mx-auto grid max-w-[1200px] gap-10 px-5 sm:px-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:gap-16 lg:px-12 xl:px-16">
           <div className="lg:sticky lg:top-28">
             <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[var(--modernist-blue)]">First time with us?</p>
             <h2 className="mt-4 max-w-xl text-4xl font-extrabold leading-[0.98] tracking-[-0.045em] text-[var(--modernist-ink)] sm:text-5xl lg:text-6xl">
@@ -144,7 +144,7 @@ export default function HomePage() {
       </section>
 
       <section className="border-b-2 life-modernist-rule py-14 sm:py-16 lg:py-20" aria-labelledby="next-steps-heading">
-        <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12 xl:px-16">
+        <div className="mx-auto max-w-[1200px] px-5 sm:px-8 lg:px-12 xl:px-16">
           <div className="max-w-2xl">
             <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[var(--modernist-blue)]">A simple next step</p>
             <h2 className="mt-3 text-4xl font-extrabold leading-none tracking-[-0.04em] text-[var(--modernist-ink)] sm:text-5xl" id="next-steps-heading">
@@ -174,7 +174,7 @@ export default function HomePage() {
       </section>
 
       <section className="overflow-hidden bg-[var(--modernist-blue)] py-14 text-white sm:py-16 lg:py-20" id="heart">
-        <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12 xl:px-16">
+        <div className="mx-auto max-w-[1200px] px-5 sm:px-8 lg:px-12 xl:px-16">
           <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end lg:gap-16">
             <div>
               <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-white/75">The heart of the ministry</p>
@@ -203,7 +203,7 @@ export default function HomePage() {
       <DailyScriptureSection />
 
       <section className="border-b-2 life-modernist-rule py-14 sm:py-16 lg:py-20" id="pastor">
-        <div className="mx-auto grid max-w-[1440px] border-2 life-modernist-rule lg:grid-cols-2">
+        <div className="mx-auto grid max-w-[1200px] border-2 life-modernist-rule lg:grid-cols-2">
           <div className="relative flex min-h-[360px] overflow-hidden bg-[var(--modernist-ink)] p-7 text-white sm:min-h-[430px] sm:p-10 lg:p-12">
             <span aria-hidden="true" className="absolute inset-0 flex items-center justify-center text-[11rem] font-extrabold leading-none text-white/[0.04] sm:text-[18rem]">PM</span>
             <div className="relative mt-auto border-l-4 border-[var(--modernist-blue)] pl-5 sm:pl-7">
@@ -236,7 +236,7 @@ export default function HomePage() {
       </section>
 
       <section className="border-b-2 life-modernist-rule py-14 sm:py-16 lg:py-20" aria-labelledby="community-heading">
-        <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12 xl:px-16">
+        <div className="mx-auto max-w-[1200px] px-5 sm:px-8 lg:px-12 xl:px-16">
           <div className="flex flex-col gap-7 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[var(--modernist-blue)]">Real people. Real prayer.</p>
@@ -295,7 +295,7 @@ export default function HomePage() {
       </section>
 
       <section className="border-b-2 life-modernist-rule bg-[var(--modernist-panel)] py-14 sm:py-16 lg:py-20" id="reminded">
-        <div className="mx-auto grid max-w-[1440px] gap-10 px-5 sm:px-8 lg:grid-cols-[1fr_0.8fr] lg:items-center lg:gap-16 lg:px-12 xl:px-16">
+        <div className="mx-auto grid max-w-[1200px] gap-10 px-5 sm:px-8 lg:grid-cols-[1fr_0.8fr] lg:items-center lg:gap-16 lg:px-12 xl:px-16">
           <div>
             <MessageCircleHeart className="size-11 text-[var(--modernist-blue)]" strokeWidth={1.7} />
             <p className="mt-7 text-xs font-extrabold uppercase tracking-[0.18em] text-[var(--modernist-blue)]">A gentle reminder</p>
@@ -312,7 +312,7 @@ export default function HomePage() {
       </section>
 
       <section className="bg-[var(--modernist-paper)] py-12 text-[var(--modernist-ink)]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-7 px-5 sm:px-8 md:flex-row md:items-center md:justify-between lg:px-12 xl:px-16">
+        <div className="mx-auto flex max-w-[1200px] flex-col gap-7 px-5 sm:px-8 md:flex-row md:items-center md:justify-between lg:px-12 xl:px-16">
           <div>
             <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[var(--modernist-blue)]">More ways to connect</p>
             <h2 className="mt-2 text-3xl font-extrabold tracking-[-0.035em] sm:text-4xl">See what’s happening at L.I.F.E.</h2>

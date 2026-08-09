@@ -18,7 +18,7 @@ const learnLinks = [
 export function Footer() {
   return (
     <footer className="life-modernist border-t-2 border-[#201e1d] bg-[#f3f2f2] text-[#201e1d] [font-family:var(--font-archivo)]">
-      <div className="mx-auto max-w-[90rem] px-5 py-12 sm:px-6 sm:py-16 lg:px-10">
+      <div className="mx-auto max-w-[1200px] px-5 py-12 sm:px-6 sm:py-16 lg:px-10">
         <div className="grid border-y-2 border-[#201e1d] md:grid-cols-[1.4fr_0.8fr_0.8fr]">
           <div className="py-9 md:border-r-2 md:border-[#201e1d] md:py-12 md:pr-10">
             <Link className="inline-flex items-center gap-3" href="/">

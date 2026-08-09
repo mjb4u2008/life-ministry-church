@@ -48,7 +48,7 @@ export function Header() {
         <source src="/audio/ambient.mp3" type="audio/mpeg" />
       </audio>
 
-      <div className="mx-auto flex h-[4.5rem] max-w-[90rem] items-stretch justify-between gap-3 px-4 sm:px-6 md:h-20 lg:px-10">
+      <div className="mx-auto flex h-[4.5rem] max-w-[1200px] items-stretch justify-between gap-3 px-4 sm:px-6 md:h-20 lg:px-10">
         <Link className="group flex min-w-0 items-center gap-3" href="/" onClick={closeMenu}>
           <Image
             alt="L.I.F.E. Ministry"
@@ -102,7 +102,7 @@ export function Header() {
 
       {isMenuOpen && (
         <div className="border-t-2 border-[#201e1d] bg-[#f3f2f2] lg:hidden" id="mobile-navigation">
-          <nav aria-label="Mobile navigation" className="mx-auto grid max-w-[90rem] px-4 py-3 sm:px-6">
+          <nav aria-label="Mobile navigation" className="mx-auto grid max-w-[1200px] px-4 py-3 sm:px-6">
             {[...navLinks, ...mobileOnlyLinks].map((link) => (
               <Link
                 className="flex min-h-13 items-center border-b border-[#201e1d]/35 px-2 text-base font-semibold text-[#201e1d] transition-colors hover:bg-[#e9eef2] hover:text-[#146fa3]"
