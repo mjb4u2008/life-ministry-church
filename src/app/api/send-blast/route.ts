@@ -1,153 +1,100 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSubscribers, getBlastLogs, addBlastLog } from "@/lib/data";
+import { addBlastLog, getBlastLogs } from "@/lib/data";
 import { verifyToken } from "@/lib/auth";
+import { MessagingRepository, unsubscribeUrl } from "@/lib/messaging";
 
-function escapeHtml(str: string): string {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+function escapeHtml(value: string) {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 }
 
-// GET — return blast logs (requires auth)
+function tokenFrom(request: NextRequest) {
+  const header = request.headers.get("authorization");
+  return header?.startsWith("Bearer ") ? header.slice(7) : null;
+}
+
+function json(body: unknown, init?: ResponseInit) {
+  const response = NextResponse.json(body, init);
+  response.headers.set("Cache-Control", "no-store");
+  return response;
+}
+
 export async function GET(request: NextRequest) {
-  try {
-    const authHeader = request.headers.get("authorization");
-    const token = authHeader?.replace("Bearer ", "");
-
-    if (!token || !verifyToken(token)) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const logs = await getBlastLogs();
-    return NextResponse.json({ logs });
-  } catch (error) {
-    console.error("Error fetching blast logs:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch blast logs" },
-      { status: 500 }
-    );
+  const token = tokenFrom(request);
+  if (!token || !verifyToken(token)) return json({ error: "Unauthorized" }, { status: 401 });
+  try { return json({ logs: await getBlastLogs() }); }
+  catch (error) {
+    console.error("Blast log read failed", error instanceof Error ? error.name : "UnknownError");
+    return json({ error: "Failed to fetch blast logs" }, { status: 500 });
   }
 }
 
-// POST — send a blast message (requires auth)
 export async function POST(request: NextRequest) {
+  const token = tokenFrom(request);
+  if (!token || !verifyToken(token)) return json({ error: "Unauthorized" }, { status: 401 });
   try {
-    const authHeader = request.headers.get("authorization");
-    const token = authHeader?.replace("Bearer ", "");
-
-    if (!token || !verifyToken(token)) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const body = await request.json() as Record<string, unknown>;
+    const subject = typeof body.subject === "string" ? body.subject.trim() : "";
+    const message = typeof body.message === "string" ? body.message.trim() : "";
+    const channels = Array.isArray(body.channels) ? [...new Set(body.channels)] : [];
+    if (!subject || subject.length > 200 || !message || message.length > 10_000 || channels.length === 0 || channels.some((channel) => channel !== "email" && channel !== "sms")) {
+      return json({ error: "Provide a subject, message, and valid delivery channels" }, { status: 400 });
     }
 
-    const { subject, message, channels } = await request.json();
-
-    if (!subject || !message || !channels || !Array.isArray(channels)) {
-      return NextResponse.json(
-        { error: "subject, message, and channels are required" },
-        { status: 400 }
-      );
-    }
-
-    const subscribers = await getSubscribers();
-    const emailSubscribers = subscribers.filter(
-      (s) => s.contactType === "email"
-    );
-    const phoneSubscribers = subscribers.filter(
-      (s) => s.contactType === "phone"
-    );
-
+    const subscribers = await new MessagingRepository().getActiveSubscribers();
+    const emailSubscribers = subscribers.filter((subscriber) => subscriber.contactType === "email");
+    const phoneSubscribers = subscribers.filter((subscriber) => subscriber.contactType === "phone");
     let emailsSent = 0;
     let smsSent = 0;
+    let emailFailures = 0;
+    let smsFailures = 0;
     const errors: string[] = [];
 
-    // ─── Send Emails via Resend ──────────────────────────────────────────────
     if (channels.includes("email") && emailSubscribers.length > 0) {
-      if (!process.env.RESEND_API_KEY) {
-        errors.push(
-          "RESEND_API_KEY not configured — skipped email delivery"
-        );
-      } else {
+      if (!process.env.RESEND_API_KEY) errors.push("Email delivery is not configured");
+      else {
         const { Resend } = await import("resend");
         const resend = new Resend(process.env.RESEND_API_KEY);
-
         for (const subscriber of emailSubscribers) {
           try {
-            await resend.emails.send({
+            const optOut = unsubscribeUrl(request.nextUrl.origin, subscriber.id);
+            const result = await resend.emails.send({
               from: "L.I.F.E. Ministry <hello@lifeministry.com>",
               to: subscriber.contact,
-              subject: subject,
-              html: `
-                <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-                  <h1 style="color: #0a1a2f; font-size: 24px; margin-bottom: 20px;">${escapeHtml(subject)}</h1>
-                  <p style="color: #4a6580; font-size: 16px; line-height: 1.6;">${escapeHtml(message).replace(/\n/g, "<br>")}</p>
-                  <hr style="border: none; border-top: 1px solid #e0eaf3; margin: 30px 0;">
-                  <p style="color: #4a6580; font-size: 12px;">L.I.F.E. Ministry — Lord Is Forever Emmanuel</p>
-                  <p style="color: #4a6580; font-size: 12px;">Join us Sundays at 8:30 AM PST / 11:30 AM EST</p>
-                </div>
-              `,
+              subject,
+              html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:40px 20px"><h1 style="color:#0a1a2f;font-size:24px;margin-bottom:20px">${escapeHtml(subject)}</h1><p style="color:#4a6580;font-size:16px;line-height:1.6">${escapeHtml(message).replace(/\n/g, "<br>")}</p><hr style="border:none;border-top:1px solid #e0eaf3;margin:30px 0"><p style="color:#4a6580;font-size:12px">L.I.F.E. Ministry — Lord Is Forever Emmanuel</p><p style="color:#4a6580;font-size:12px">You received this because you asked for ministry updates. <a href="${escapeHtml(optOut)}">Unsubscribe</a>.</p></div>`,
             });
-            emailsSent++;
-          } catch (err) {
-            const errMsg =
-              err instanceof Error ? err.message : "Unknown error";
-            errors.push(`Email to ${subscriber.contact}: ${errMsg}`);
-          }
+            if (result.error) throw new Error("Provider rejected email");
+            emailsSent += 1;
+          } catch { emailFailures += 1; }
         }
       }
     }
 
-    // ─── Send SMS via Twilio ─────────────────────────────────────────────────
     if (channels.includes("sms") && phoneSubscribers.length > 0) {
-      if (
-        !process.env.TWILIO_ACCOUNT_SID ||
-        !process.env.TWILIO_AUTH_TOKEN ||
-        !process.env.TWILIO_PHONE_NUMBER
-      ) {
-        errors.push(
-          "Twilio credentials not configured — skipped SMS delivery"
-        );
+      if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN || !process.env.TWILIO_PHONE_NUMBER) {
+        errors.push("Text-message delivery is not configured");
       } else {
         const twilio = (await import("twilio")).default;
-        const twilioClient = twilio(
-          process.env.TWILIO_ACCOUNT_SID,
-          process.env.TWILIO_AUTH_TOKEN
-        );
-
+        const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
         for (const subscriber of phoneSubscribers) {
           try {
-            await twilioClient.messages.create({
-              body: `${subject}\n\n${message}\n\n— L.I.F.E. Ministry`,
+            await client.messages.create({
+              body: `${subject}\n\n${message}\n\n— L.I.F.E. Ministry\nReply STOP to opt out.`,
               from: process.env.TWILIO_PHONE_NUMBER,
               to: subscriber.contact,
             });
-            smsSent++;
-          } catch (err) {
-            const errMsg =
-              err instanceof Error ? err.message : "Unknown error";
-            errors.push(`SMS to ${subscriber.contact}: ${errMsg}`);
-          }
+            smsSent += 1;
+          } catch { smsFailures += 1; }
         }
       }
     }
 
-    // ─── Log the blast ───────────────────────────────────────────────────────
-    await addBlastLog({
-      subject,
-      message,
-      channels,
-      emailsSent,
-      smsSent,
-    });
-
-    return NextResponse.json({ emailsSent, smsSent, errors });
+    if (emailFailures) errors.push(`${emailFailures} email ${emailFailures === 1 ? "delivery" : "deliveries"} failed`);
+    if (smsFailures) errors.push(`${smsFailures} text-message ${smsFailures === 1 ? "delivery" : "deliveries"} failed`);
+    await addBlastLog({ subject, message, channels: channels as string[], emailsSent, smsSent });
+    return json({ emailsSent, smsSent, errors });
   } catch (error) {
-    console.error("Error sending blast:", error);
-    return NextResponse.json(
-      { error: "Failed to send blast" },
-      { status: 500 }
-    );
+    console.error("Blast send failed", error instanceof Error ? error.name : "UnknownError");
+    return json({ error: "Failed to send blast" }, { status: 500 });
   }
 }

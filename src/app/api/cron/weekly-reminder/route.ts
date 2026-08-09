@@ -1,151 +1,89 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getContent, getSubscribers, addBlastLog } from "@/lib/data";
+import { addBlastLog } from "@/lib/data";
+import { GatheringRepository, serializePublicGatherings } from "@/lib/gatherings";
+import { MessagingRepository, unsubscribeUrl } from "@/lib/messaging";
 
-function escapeHtml(str: string): string {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+function escapeHtml(value: string) {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+}
+
+function json(body: unknown, init?: ResponseInit) {
+  const response = NextResponse.json(body, init);
+  response.headers.set("Cache-Control", "no-store");
+  return response;
 }
 
 export async function GET(request: NextRequest) {
+  if (!process.env.CRON_SECRET) return json({ error: "Cron secret not configured" }, { status: 500 });
+  if (request.headers.get("authorization") !== `Bearer ${process.env.CRON_SECRET}`) {
+    return json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
-    if (!process.env.CRON_SECRET) {
-      return NextResponse.json({ error: "Cron secret not configured" }, { status: 500 });
-    }
+    const now = new Date();
+    const publicGatherings = serializePublicGatherings(await new GatheringRepository().getEffectiveStore(now), now);
+    const featured = publicGatherings.featured;
+    const gathering = featured && Date.parse(featured.endsAt) > now.getTime() ? featured : publicGatherings.upcoming[0];
+    if (!gathering) return json({ message: "No upcoming gathering to announce" });
+    const series = publicGatherings.series.find((item) => item.id === gathering.seriesId);
+    const gatheringName = series?.name ?? "Online Gathering";
+    const subject = gathering.title ? `${gatheringName}: ${gathering.title}` : `${gatheringName} Reminder`;
+    const details = [
+      gathering.title,
+      gathering.scripture ? `Scripture: ${gathering.scripture}` : "",
+      gathering.description,
+      `Join details: ${new URL(`/gatherings/${series?.slug ?? "sunday"}`, request.nextUrl.origin).toString()}`,
+    ].filter(Boolean).join("\n\n");
 
-    // Verify cron secret or allow if from Vercel
-    const authHeader = request.headers.get("authorization");
-    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const content = await getContent();
-    const subscribers = await getSubscribers();
-
-    if (subscribers.length === 0) {
-      return NextResponse.json({ message: "No subscribers to notify" });
-    }
-
-    // Build reminder message from This Sunday content
-    const sundayInfo = content.thisSunday;
-    const meetLink = content.googleMeetLink;
-
-    const subject = sundayInfo.title
-      ? `This Sunday: ${sundayInfo.title}`
-      : "Sunday Service Reminder";
-
-    let message = "";
-    if (sundayInfo.title) {
-      message += `${sundayInfo.title}\n\n`;
-    }
-    if (sundayInfo.scripture) {
-      message += `Scripture: ${sundayInfo.scripture}\n\n`;
-    }
-    if (sundayInfo.description) {
-      message += `${sundayInfo.description}\n\n`;
-    }
-    message += "Join us Sundays at 8:30 AM PST / 11:30 AM EST";
-    const safeMeetLink = meetLink && meetLink.startsWith("https://") ? meetLink : null;
-    if (safeMeetLink) {
-      message += `\n\nJoin online: ${safeMeetLink}`;
-    }
-
-    const emailSubscribers = subscribers.filter(
-      (s) => s.contactType === "email"
-    );
-    const phoneSubscribers = subscribers.filter(
-      (s) => s.contactType === "phone"
-    );
-
+    const subscribers = await new MessagingRepository().getActiveSubscribers(now);
+    if (subscribers.length === 0) return json({ message: "No active subscribers to notify" });
+    const emailSubscribers = subscribers.filter((subscriber) => subscriber.contactType === "email");
+    const phoneSubscribers = subscribers.filter((subscriber) => subscriber.contactType === "phone");
     let emailsSent = 0;
     let smsSent = 0;
+    let emailFailures = 0;
+    let smsFailures = 0;
     const errors: string[] = [];
 
-    // ─── Send Emails via Resend ──────────────────────────────────────────────
-    if (emailSubscribers.length > 0 && process.env.RESEND_API_KEY) {
+    if (emailSubscribers.length && process.env.RESEND_API_KEY) {
       const { Resend } = await import("resend");
       const resend = new Resend(process.env.RESEND_API_KEY);
-
       for (const subscriber of emailSubscribers) {
         try {
-          await resend.emails.send({
+          const optOut = unsubscribeUrl(request.nextUrl.origin, subscriber.id);
+          const result = await resend.emails.send({
             from: "L.I.F.E. Ministry <hello@lifeministry.com>",
             to: subscriber.contact,
-            subject: subject,
-            html: `
-              <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-                <h1 style="color: #0a1a2f; font-size: 24px; margin-bottom: 20px;">${escapeHtml(subject)}</h1>
-                <p style="color: #4a6580; font-size: 16px; line-height: 1.6;">${escapeHtml(message).replace(/\n/g, "<br>")}</p>
-                ${safeMeetLink ? `<a href="${escapeHtml(safeMeetLink)}" style="display: inline-block; background: #1a6fb5; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 20px; font-weight: 600;">Join Service Online</a>` : ""}
-                <hr style="border: none; border-top: 1px solid #e0eaf3; margin: 30px 0;">
-                <p style="color: #4a6580; font-size: 12px;">L.I.F.E. Ministry — Lord Is Forever Emmanuel</p>
-                <p style="color: #4a6580; font-size: 12px;">Join us Sundays at 8:30 AM PST / 11:30 AM EST</p>
-              </div>
-            `,
+            subject,
+            html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:40px 20px"><h1 style="color:#0a1a2f;font-size:24px;margin-bottom:20px">${escapeHtml(subject)}</h1><p style="color:#4a6580;font-size:16px;line-height:1.6">${escapeHtml(details).replace(/\n/g, "<br>")}</p><hr style="border:none;border-top:1px solid #e0eaf3;margin:30px 0"><p style="color:#4a6580;font-size:12px">L.I.F.E. Ministry — Lord Is Forever Emmanuel</p><p style="color:#4a6580;font-size:12px">You received this because you asked for gathering reminders. <a href="${escapeHtml(optOut)}">Unsubscribe</a>.</p></div>`,
           });
-          emailsSent++;
-        } catch (err) {
-          const errMsg = err instanceof Error ? err.message : "Unknown error";
-          errors.push(`Email to ${subscriber.contact}: ${errMsg}`);
-        }
+          if (result.error) throw new Error("Provider rejected email");
+          emailsSent += 1;
+        } catch { emailFailures += 1; }
       }
-    } else if (emailSubscribers.length > 0) {
-      errors.push("RESEND_API_KEY not configured — skipped email delivery");
-    }
+    } else if (emailSubscribers.length) errors.push("Email delivery is not configured");
 
-    // ─── Send SMS via Twilio ─────────────────────────────────────────────────
-    if (
-      phoneSubscribers.length > 0 &&
-      process.env.TWILIO_ACCOUNT_SID &&
-      process.env.TWILIO_AUTH_TOKEN &&
-      process.env.TWILIO_PHONE_NUMBER
-    ) {
+    if (phoneSubscribers.length && process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_PHONE_NUMBER) {
       const twilio = (await import("twilio")).default;
-      const twilioClient = twilio(
-        process.env.TWILIO_ACCOUNT_SID,
-        process.env.TWILIO_AUTH_TOKEN
-      );
-
+      const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
       for (const subscriber of phoneSubscribers) {
         try {
-          await twilioClient.messages.create({
-            body: `${subject}\n\n${message}\n\n— L.I.F.E. Ministry`,
+          await client.messages.create({
+            body: `${subject}\n\n${details}\n\n— L.I.F.E. Ministry\nReply STOP to opt out.`,
             from: process.env.TWILIO_PHONE_NUMBER,
             to: subscriber.contact,
           });
-          smsSent++;
-        } catch (err) {
-          const errMsg = err instanceof Error ? err.message : "Unknown error";
-          errors.push(`SMS to ${subscriber.contact}: ${errMsg}`);
-        }
+          smsSent += 1;
+        } catch { smsFailures += 1; }
       }
-    } else if (phoneSubscribers.length > 0) {
-      errors.push("Twilio credentials not configured — skipped SMS delivery");
-    }
+    } else if (phoneSubscribers.length) errors.push("Text-message delivery is not configured");
 
-    // ─── Log the blast ───────────────────────────────────────────────────────
-    await addBlastLog({
-      subject: `[Auto] ${subject}`,
-      message,
-      channels: ["email", "sms"],
-      emailsSent,
-      smsSent,
-    });
-
-    return NextResponse.json({
-      message: "Weekly reminder sent",
-      emailsSent,
-      smsSent,
-      errors,
-    });
+    if (emailFailures) errors.push(`${emailFailures} email ${emailFailures === 1 ? "delivery" : "deliveries"} failed`);
+    if (smsFailures) errors.push(`${smsFailures} text-message ${smsFailures === 1 ? "delivery" : "deliveries"} failed`);
+    await addBlastLog({ subject: `[Auto] ${subject}`, message: details, channels: ["email", "sms"], emailsSent, smsSent });
+    return json({ message: "Gathering reminder sent", emailsSent, smsSent, errors });
   } catch (error) {
-    console.error("Cron weekly reminder error:", error);
-    return NextResponse.json(
-      { error: "Failed to send weekly reminder" },
-      { status: 500 }
-    );
+    console.error("Scheduled reminder failed", error instanceof Error ? error.name : "UnknownError");
+    return json({ error: "Failed to send gathering reminder" }, { status: 500 });
   }
 }

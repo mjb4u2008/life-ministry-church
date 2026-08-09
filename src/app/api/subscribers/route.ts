@@ -1,189 +1,132 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSubscribers, addSubscriber, deleteSubscriber } from "@/lib/data";
 import { verifyToken } from "@/lib/auth";
+import {
+  ADMIN_CONSENT_VERSION,
+  MessagingRepository,
+  MessagingValidationError,
+  PUBLIC_CONSENT_VERSION,
+  SubscriberAlreadyActiveError,
+  SubscriberNotFoundError,
+  SubscriberSuppressedError,
+} from "@/lib/messaging";
+import { checkDurableRateLimit, requestIdentifier } from "@/lib/rate-limit";
 
-// GET all subscribers (requires auth)
+function bearer(request: NextRequest) {
+  const header = request.headers.get("authorization");
+  return header?.startsWith("Bearer ") ? header.slice(7) : null;
+}
+
+function json(body: unknown, init?: ResponseInit) {
+  const response = NextResponse.json(body, init);
+  response.headers.set("Cache-Control", "no-store");
+  return response;
+}
+
 export async function GET(request: NextRequest) {
+  const token = bearer(request);
+  if (!token || !verifyToken(token)) return json({ error: "Unauthorized" }, { status: 401 });
   try {
-    const authHeader = request.headers.get("authorization");
-    const token = authHeader?.replace("Bearer ", "");
-
-    if (!token || !verifyToken(token)) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
-    }
-
-    const subscribers = await getSubscribers();
-    return NextResponse.json({ subscribers });
+    const store = await new MessagingRepository().getStore();
+    return json({ subscribers: store.subscribers, revision: store.revision });
   } catch (error) {
-    console.error("Error fetching subscribers:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch subscribers" },
-      { status: 500 }
-    );
+    console.error("Subscriber read failed", error instanceof Error ? error.name : "UnknownError");
+    return json({ error: "Failed to fetch subscribers" }, { status: 500 });
   }
 }
 
-// POST new subscriber (public) or bulk import (requires auth)
 export async function POST(request: NextRequest) {
+  let authenticated = false;
   try {
-    const body = await request.json();
+    const body = await request.json() as Record<string, unknown>;
+    const token = bearer(request);
+    authenticated = token ? verifyToken(token) : false;
+    if (token && !authenticated) return json({ error: "Unauthorized" }, { status: 401 });
 
-    // ─── Bulk import mode (requires auth) ──────────────────────────────────
     if (body.bulk === true) {
-      const authHeader = request.headers.get("authorization");
-      const token = authHeader?.replace("Bearer ", "");
-
-      if (!token || !verifyToken(token)) {
-        return NextResponse.json(
-          { error: "Unauthorized" },
-          { status: 401 }
-        );
+      if (!authenticated) return json({ error: "Unauthorized" }, { status: 401 });
+      if (body.consentConfirmed !== true) {
+        return json({ error: "Confirm that every imported contact asked to receive ministry messages" }, { status: 400 });
       }
-
-      const contacts = body.contacts;
-      if (!Array.isArray(contacts) || contacts.length === 0) {
-        return NextResponse.json(
-          { error: "contacts array is required for bulk import" },
-          { status: 400 }
-        );
+      if (!Array.isArray(body.contacts) || body.contacts.length === 0 || body.contacts.length > 500) {
+        return json({ error: "Provide between 1 and 500 contacts" }, { status: 400 });
       }
-
       let added = 0;
       let skipped = 0;
-      const errors: string[] = [];
-
-      for (const c of contacts) {
+      const failedRows: number[] = [];
+      for (const [index, contact] of body.contacts.entries()) {
         try {
-          if (!c.name || !c.contactType || !c.contact) {
-            skipped++;
-            continue;
-          }
-          await addSubscriber({
-            name: c.name.trim(),
-            contactType: c.contactType,
-            contact: c.contact.trim(),
-          });
-          added++;
-        } catch (err) {
-          if (
-            err instanceof Error &&
-            err.message === "Already subscribed"
-          ) {
-            skipped++;
-          } else {
-            errors.push(c.contact || "unknown");
-          }
+          if (!contact || typeof contact !== "object" || Array.isArray(contact)) throw new MessagingValidationError(["Contact is invalid"]);
+          const input = contact as Record<string, unknown>;
+          await new MessagingRepository().add({
+            name: input.name as string,
+            contactType: input.contactType as "email" | "phone",
+            contact: input.contact as string,
+            consentSource: "admin-import",
+            consentVersion: ADMIN_CONSENT_VERSION,
+          }, new Date(), true);
+          added += 1;
+        } catch (error) {
+          if (error instanceof SubscriberAlreadyActiveError) skipped += 1;
+          else failedRows.push(index + 1);
         }
       }
-
-      return NextResponse.json(
-        { added, skipped, errors },
-        { status: 201 }
-      );
+      return json({ added, skipped, failedRows }, { status: 201 });
     }
 
-    // ─── Single subscriber mode (public) ───────────────────────────────────
-    const { name, contactType, contact } = body;
-
-    if (!name || name.trim() === "") {
-      return NextResponse.json(
-        { error: "Name is required" },
-        { status: 400 }
-      );
-    }
-
-    if (!contactType || !["email", "phone"].includes(contactType)) {
-      return NextResponse.json(
-        { error: "Contact type must be email or phone" },
-        { status: 400 }
-      );
-    }
-
-    if (!contact || contact.trim() === "") {
-      return NextResponse.json(
-        { error: "Contact information is required" },
-        { status: 400 }
-      );
-    }
-
-    // Validate email format
-    if (contactType === "email") {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(contact)) {
-        return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
+    if (authenticated) {
+      if (body.consentConfirmed !== true) {
+        return json({ error: "Confirm that this person asked to receive ministry messages" }, { status: 400 });
       }
-    }
-    // Validate phone format
-    if (contactType === "phone") {
-      const phoneRegex = /^\+?[\d\s\-()]{7,15}$/;
-      if (!phoneRegex.test(contact.replace(/\s/g, ""))) {
-        return NextResponse.json({ error: "Invalid phone number" }, { status: 400 });
-      }
+    } else {
+      const limit = await checkDurableRateLimit({
+        identifier: requestIdentifier(request.headers),
+        scope: "subscriber-create",
+        limit: 8,
+        windowSeconds: 600,
+      });
+      if (!limit.allowed) return json({ error: "Too many signup attempts. Please wait and try again." }, { status: 429 });
+      if (body.consent !== true) return json({ error: "Please agree to receive ministry reminders" }, { status: 400 });
     }
 
-    const newSubscriber = await addSubscriber({
-      name: name.trim(),
-      contactType,
-      contact: contact.trim(),
-    });
-
-    return NextResponse.json(newSubscriber, { status: 201 });
+    const source = authenticated
+      ? "admin-manual" as const
+      : body.signupContext === "reminder-form" ? "reminder-form" as const : "homepage" as const;
+    const subscriber = await new MessagingRepository().add({
+      name: body.name as string,
+      contactType: body.contactType as "email" | "phone",
+      contact: body.contact as string,
+      consentSource: source,
+      consentVersion: authenticated ? ADMIN_CONSENT_VERSION : PUBLIC_CONSENT_VERSION,
+    }, new Date(), authenticated);
+    return json(authenticated ? subscriber : { subscribed: true }, { status: 201 });
   } catch (error) {
-    if (error instanceof Error && error.message === "Already subscribed") {
-      return NextResponse.json(
-        { error: "You're already signed up for reminders!" },
-        { status: 409 }
-      );
+    if (error instanceof SubscriberAlreadyActiveError) {
+      return authenticated
+        ? json({ error: "This contact is already subscribed" }, { status: 409 })
+        : json({ subscribed: true }, { status: 201 });
     }
-    console.error("Error adding subscriber:", error);
-    return NextResponse.json(
-      { error: "Failed to subscribe" },
-      { status: 500 }
-    );
+    if (error instanceof SubscriberSuppressedError) {
+      return json({ subscribed: true }, { status: 201 });
+    }
+    if (error instanceof MessagingValidationError || error instanceof SyntaxError) {
+      return json({ error: error instanceof MessagingValidationError ? error.issues.join(". ") : "Invalid JSON body" }, { status: 400 });
+    }
+    console.error("Subscriber write failed", error instanceof Error ? error.name : "UnknownError");
+    return json({ error: "Failed to subscribe" }, { status: 500 });
   }
 }
 
-// DELETE subscriber (requires auth)
 export async function DELETE(request: NextRequest) {
+  const token = bearer(request);
+  if (!token || !verifyToken(token)) return json({ error: "Unauthorized" }, { status: 401 });
+  const id = request.nextUrl.searchParams.get("id");
+  if (!id) return json({ error: "Subscriber ID is required" }, { status: 400 });
   try {
-    const authHeader = request.headers.get("authorization");
-    const token = authHeader?.replace("Bearer ", "");
-
-    if (!token || !verifyToken(token)) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
-    }
-
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get("id");
-
-    if (!id) {
-      return NextResponse.json(
-        { error: "Subscriber ID is required" },
-        { status: 400 }
-      );
-    }
-
-    const deleted = await deleteSubscriber(id);
-
-    if (!deleted) {
-      return NextResponse.json(
-        { error: "Subscriber not found" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json({ success: true });
+    await new MessagingRepository().delete(id);
+    return json({ success: true });
   } catch (error) {
-    console.error("Error deleting subscriber:", error);
-    return NextResponse.json(
-      { error: "Failed to delete subscriber" },
-      { status: 500 }
-    );
+    if (error instanceof SubscriberNotFoundError) return json({ error: "Subscriber not found" }, { status: 404 });
+    console.error("Subscriber delete failed", error instanceof Error ? error.name : "UnknownError");
+    return json({ error: "Failed to delete subscriber" }, { status: 500 });
   }
 }

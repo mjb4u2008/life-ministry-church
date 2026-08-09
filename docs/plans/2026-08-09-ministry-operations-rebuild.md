@@ -531,13 +531,22 @@ npm run build
 
 ### PR-09 — Messaging trust and platform hardening
 
-- [ ] Add consent/source/version and suppression fields to subscriber records.
-- [ ] Add email unsubscribe flow.
-- [ ] Ensure scheduled/manual sends exclude suppressed contacts.
-- [ ] Redact PII from errors and logs.
-- [ ] Fail closed on missing production admin secret and tighten token validation.
-- [ ] Add validated content update allowlist and security headers.
-- [ ] Document Twilio STOP webhook as blocked until provider configuration is supplied.
+- [x] Add consent/source/version and suppression fields to subscriber records.
+- [x] Add email unsubscribe flow.
+- [x] Ensure scheduled/manual sends exclude suppressed contacts.
+- [x] Redact PII from errors and logs.
+- [x] Fail closed on missing production admin secret and tighten token validation.
+- [x] Add validated content update allowlist and security headers.
+- [x] Document Twilio STOP webhook as blocked until provider configuration is supplied.
+
+Evidence: legacy subscriber migration with backup, canonical delivery identities,
+admin-only suppression reactivation, confirm-to-unsubscribe links, suppression-
+aware Wednesday/Sunday scheduled and manual sends, aggregate error reporting,
+strict content payloads and URL hosts, no-store PII responses, and hardened global
+headers. Full unit suite passed 79/79, messaging Chromium and 320px mobile E2E
+passed 2/2 each, lint, typecheck, and production build passed. Independent final
+review found no remaining P1/P2 issues. Twilio inbound STOP synchronization remains
+explicitly blocked and documented in `docs/operations/messaging.md`.
 
 **Definition of Done**
 

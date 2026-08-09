@@ -1,15 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getContent, updateContent } from "@/lib/data";
 import { verifyToken } from "@/lib/auth";
+import { ContentUpdateValidationError, parseContentUpdate } from "@/lib/content-update";
+
+function json(body: unknown, init?: ResponseInit) {
+  const response = NextResponse.json(body, init);
+  response.headers.set("Cache-Control", "no-store");
+  return response;
+}
 
 // GET content (public)
 export async function GET() {
   try {
     const content = await getContent();
-    return NextResponse.json(content);
+    return json(content);
   } catch (error) {
-    console.error("Error fetching content:", error);
-    return NextResponse.json(
+    console.error("Content read failed", error instanceof Error ? error.name : "UnknownError");
+    return json(
       { error: "Failed to fetch content" },
       { status: 500 }
     );
@@ -23,19 +30,22 @@ export async function PUT(request: NextRequest) {
     const token = authHeader?.replace("Bearer ", "");
 
     if (!token || !verifyToken(token)) {
-      return NextResponse.json(
+      return json(
         { error: "Unauthorized" },
         { status: 401 }
       );
     }
 
-    const updates = await request.json();
+    const updates = parseContentUpdate(await request.json());
     const updatedContent = await updateContent(updates);
 
-    return NextResponse.json(updatedContent);
+    return json(updatedContent);
   } catch (error) {
-    console.error("Error updating content:", error);
-    return NextResponse.json(
+    if (error instanceof ContentUpdateValidationError || error instanceof SyntaxError) {
+      return json({ error: error instanceof ContentUpdateValidationError ? error.issues.join(". ") : "Invalid JSON body" }, { status: 400 });
+    }
+    console.error("Content update failed", error instanceof Error ? error.name : "UnknownError");
+    return json(
       { error: "Failed to update content" },
       { status: 500 }
     );

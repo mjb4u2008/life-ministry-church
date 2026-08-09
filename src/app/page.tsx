@@ -82,6 +82,7 @@ export default function HomePage() {
   const [nlSubmitting, setNlSubmitting] = useState(false);
   const [nlSuccess, setNlSuccess] = useState(false);
   const [nlError, setNlError] = useState("");
+  const [nlConsent, setNlConsent] = useState(false);
 
   /* Prayer/testimony preview state */
   const [previewPrayers, setPreviewPrayers] = useState<CommunityPreview[]>([]);
@@ -830,6 +831,8 @@ export default function HomePage() {
                           name: nlName,
                           contactType: "email",
                           contact: nlEmail,
+                          consent: nlConsent,
+                          signupContext: "homepage",
                         }),
                       });
                       if (!res.ok) {
@@ -839,6 +842,7 @@ export default function HomePage() {
                         setNlSuccess(true);
                         setNlName("");
                         setNlEmail("");
+                        setNlConsent(false);
                       }
                     } catch {
                       setNlError("Network error. Please try again.");
@@ -893,6 +897,16 @@ export default function HomePage() {
                       {nlSubmitting ? "Submitting..." : "Get Notified"}
                     </Button>
                   </div>
+                  <label className="sm:col-span-2 flex items-start gap-3 text-sm font-body leading-relaxed text-[#4a6580]">
+                    <input
+                      checked={nlConsent}
+                      className="mt-1 size-4 shrink-0 accent-[#1a6fb5]"
+                      onChange={(event) => setNlConsent(event.target.checked)}
+                      required
+                      type="checkbox"
+                    />
+                    I agree to receive service reminders and ministry updates by email. I can unsubscribe from any email.
+                  </label>
                   {nlError && (
                     <p className="sm:col-span-2 text-red-600 font-body text-sm">{nlError}</p>
                   )}

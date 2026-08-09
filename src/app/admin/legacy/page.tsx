@@ -121,7 +121,9 @@ interface Subscriber {
   name: string;
   contactType: "email" | "phone";
   contact: string;
-  timestamp: string;
+  createdAt: string;
+  consent?: { recordedAt: string; source: string; version: string };
+  suppressedAt?: string | null;
 }
 
 interface BlastLog {
@@ -433,6 +435,8 @@ export default function AdminPage() {
   const [bulkImportName, setBulkImportName] = useState("");
   const [isImporting, setIsImporting] = useState(false);
   const [isDeletingSubscriber, setIsDeletingSubscriber] = useState<string | null>(null);
+  const [contactConsentConfirmed, setContactConsentConfirmed] = useState(false);
+  const [importConsentConfirmed, setImportConsentConfirmed] = useState(false);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -1135,10 +1139,10 @@ export default function AdminPage() {
   // ═══════════════════════════════════════════════════════════════════════════
 
   const emailSubscriberCount = messagingSubscribers.filter(
-    (s) => s.contactType === "email"
+    (s) => s.contactType === "email" && !s.suppressedAt
   ).length;
   const phoneSubscriberCount = messagingSubscribers.filter(
-    (s) => s.contactType === "phone"
+    (s) => s.contactType === "phone" && !s.suppressedAt
   ).length;
 
   const handleAddContact = async () => {
@@ -1155,6 +1159,7 @@ export default function AdminPage() {
           name: newContactName.trim(),
           contactType: newContactType,
           contact: newContactValue.trim(),
+          consentConfirmed: contactConsentConfirmed,
         }),
       });
 
@@ -1163,6 +1168,7 @@ export default function AdminPage() {
         setMessagingSubscribers((prev) => [...prev, newSub]);
         setNewContactName("");
         setNewContactValue("");
+        setContactConsentConfirmed(false);
         setAddContactOpen(false);
         showToast("Contact added!", "success");
       } else {
@@ -1202,7 +1208,7 @@ export default function AdminPage() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ bulk: true, contacts }),
+        body: JSON.stringify({ bulk: true, contacts, consentConfirmed: importConsentConfirmed }),
       });
 
       if (res.ok) {
@@ -1213,6 +1219,7 @@ export default function AdminPage() {
         );
         setBulkImportText("");
         setBulkImportName("");
+        setImportConsentConfirmed(false);
         setBulkImportOpen(false);
         // Refresh subscribers
         if (token) {
@@ -2644,6 +2651,7 @@ export default function AdminPage() {
                                 >
                                   {sub.contactType}
                                 </Badge>
+                                {sub.suppressedAt && <Badge variant="outline" className="font-body text-xs shrink-0">suppressed</Badge>}
                               </div>
                               <Button
                                 variant="destructive"
@@ -2890,6 +2898,10 @@ export default function AdminPage() {
                         className="h-11 px-4 font-body"
                       />
                     </div>
+                    <label className="flex items-start gap-3 text-sm font-body leading-relaxed text-[#4a6580]">
+                      <input checked={contactConsentConfirmed} className="mt-1 size-4" onChange={(event) => setContactConsentConfirmed(event.target.checked)} type="checkbox" />
+                      This person asked to receive ministry messages.
+                    </label>
                     <div>
                       <label className={labelClass}>Contact Type</label>
                       <div className="flex gap-2">
@@ -2934,7 +2946,8 @@ export default function AdminPage() {
                       disabled={
                         isSavingContact ||
                         !newContactName.trim() ||
-                        !newContactValue.trim()
+                        !newContactValue.trim() ||
+                        !contactConsentConfirmed
                       }
                       className="bg-[#1a6fb5] hover:bg-[#155d99] text-white font-semibold font-body"
                     >
@@ -2987,6 +3000,10 @@ export default function AdminPage() {
                         email(s) detected
                       </p>
                     </div>
+                    <label className="flex items-start gap-3 text-sm font-body leading-relaxed text-[#4a6580]">
+                      <input checked={importConsentConfirmed} className="mt-1 size-4" onChange={(event) => setImportConsentConfirmed(event.target.checked)} type="checkbox" />
+                      Every person in this list asked to receive ministry messages.
+                    </label>
                   </div>
                   <DialogFooter>
                     <Button
@@ -2995,7 +3012,8 @@ export default function AdminPage() {
                         isImporting ||
                         bulkImportText
                           .split("\n")
-                          .filter((l) => l.trim().length > 0).length === 0
+                          .filter((l) => l.trim().length > 0).length === 0 ||
+                        !importConsentConfirmed
                       }
                       className="bg-[#1a6fb5] hover:bg-[#155d99] text-white font-semibold font-body"
                     >
