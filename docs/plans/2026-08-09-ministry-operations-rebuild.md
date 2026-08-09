@@ -477,11 +477,20 @@ npm run build
 
 ### PR-07 — Real events center
 
-- [ ] Add event repository, schemas, admin/public APIs, and calendar export.
-- [ ] Add admin event CRUD.
-- [ ] Replace fabricated public event listings.
-- [ ] Render published future events and relevant gathering occurrences.
-- [ ] Validate/escape dates, text, and external links.
+- [x] Add event repository, schemas, admin/public APIs, and calendar export.
+- [x] Add admin event CRUD.
+- [x] Replace fabricated public event listings.
+- [x] Render published future/active events and relevant gathering occurrences.
+- [x] Validate/escape dates, text, and external links.
+
+Evidence (2026-08-09): `npm run lint`, `npm run typecheck`, `npm run test`
+(58/58), desktop events E2E (6/6), mobile events E2E (6/6),
+`npm run build`, `git diff --check`, and the protected-route diff check all
+passed. The event repository uses server UUIDs, atomic revisions, safe draft
+migration and backup, strict URL/timezone validation, Meet join-window privacy,
+and UTF-8-folded injection-safe calendar exports. A fresh independent review
+found no remaining P1/P2 issues after active-window, ICS, truth-copy, and load
+recovery fixes.
 
 **Definition of Done**
 

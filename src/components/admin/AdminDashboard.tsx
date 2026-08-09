@@ -210,11 +210,11 @@ export function AdminDashboard({ token, logout }: { token: string; logout: () =>
               <h3 className="mt-3 font-display text-xl font-bold text-[#0a1a2f]">Pastoral care inbox</h3>
               <p className="mt-2 font-body text-sm text-[#4a6580]">Review private prayers and welcome first-time visitors.</p>
             </Link>
-            <div className="rounded-xl border border-dashed border-[#b8ccdc] bg-white/60 p-5">
+            <Link className="rounded-xl border border-[#dce8f2] bg-white p-5 shadow-sm hover:border-[#1a6fb5]" href="/admin/events">
               <CalendarDays className="size-6 text-[#1a6fb5]" />
               <h3 className="mt-3 font-display text-xl font-bold text-[#0a1a2f]">Events center</h3>
-              <p className="mt-2 font-body text-sm text-[#4a6580]">Create and publish real ministry events from one place.</p>
-            </div>
+              <p className="mt-2 font-body text-sm text-[#4a6580]">Create, publish, cancel, and update special events.</p>
+            </Link>
           </div>
         </section>
       </main>
