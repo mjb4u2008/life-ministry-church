@@ -166,6 +166,10 @@ body {
   font-family: inherit;
 }
 
+.life-modernist :is(.font-body, .font-display) {
+  font-family: inherit;
+}
+
 .life-modernist-rule {
   border-color: var(--modernist-rule);
 }

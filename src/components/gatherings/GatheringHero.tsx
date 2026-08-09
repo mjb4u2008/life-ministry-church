@@ -77,12 +77,12 @@ export function GatheringHero({
           <div className="grid items-center gap-9 py-9 sm:py-14 lg:grid-cols-2 lg:gap-[clamp(2.5rem,5vw,4.5rem)] lg:py-16">
             <div className="min-w-0">
               <div
-                className="inline-flex min-h-9 items-center gap-2 border-2 border-[#1677a8] px-3 py-1.5 text-[0.8rem] font-extrabold uppercase tracking-[0.1em] text-[#0b5e8e]"
+                className="inline-flex min-h-9 items-center gap-2 border-2 border-[var(--modernist-blue)] px-3 py-1.5 text-[0.8rem] font-extrabold uppercase tracking-[0.1em] text-[var(--modernist-deep-blue)]"
               >
                 {phase === "live" && <Radio className="size-3.5 animate-pulse" />}
                 <span>{phaseLabel[phase]}</span>
               </div>
-              <p className="mt-3 text-sm font-extrabold text-[#0b5e8e]" data-testid="gathering-visible-status">
+              <p className="mt-3 text-sm font-extrabold text-[var(--modernist-deep-blue)]" data-testid="gathering-visible-status">
                 {phaseLead[phase]}: {gatheringName}
               </p>
               <h1 className="mt-4 max-w-[16ch] font-display text-[clamp(2.5rem,5vw,4.25rem)] font-black leading-[0.98] tracking-[-0.035em] sm:mt-5">
@@ -116,7 +116,7 @@ export function GatheringHero({
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 src="/images/life-ministry-hero.jpg"
               />
-              <figcaption className="absolute inset-x-0 bottom-0 bg-[#1677a8] px-4 py-3 text-xs font-extrabold uppercase tracking-[0.11em] text-[#fffdf8] sm:inset-x-auto sm:left-0">
+              <figcaption className="absolute inset-x-0 bottom-0 bg-[var(--modernist-blue)] px-4 py-3 text-xs font-extrabold uppercase tracking-[0.11em] text-[#fffdf8] sm:inset-x-auto sm:left-0">
                 {phaseLead[phase]} · {gatheringName}
               </figcaption>
             </figure>
@@ -137,7 +137,7 @@ export function GatheringHero({
                 </>
               ) : (
                 <>
-                  <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#0b5e8e]">Status · {phaseLabel[phase]}</p>
+                  <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-[var(--modernist-deep-blue)]">Status · {phaseLabel[phase]}</p>
                   <p className="mt-4 text-lg font-semibold leading-7 text-[#201e1d]/75">
                     {phase === "replay"
                       ? "The latest message is ready whenever you are."
@@ -165,13 +165,13 @@ export function GatheringHero({
       </p>
       <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-10 px-5 py-12 sm:px-8 sm:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.8fr)] lg:items-center lg:gap-16 lg:px-[clamp(2rem,5vw,4.5rem)] lg:py-24">
         <div className="min-w-0">
-          <div className="inline-flex items-center gap-2 border-2 border-[#1677a8] px-3 py-1.5 text-sm font-black uppercase tracking-[0.12em] text-[#0b5e8e]">
+          <div className="inline-flex items-center gap-2 border-2 border-[var(--modernist-blue)] px-3 py-1.5 text-sm font-black uppercase tracking-[0.12em] text-[var(--modernist-deep-blue)]">
             {phase === "live" && <Radio className="size-3.5 animate-pulse" />}
             {phaseLabel[phase]}
           </div>
           <p className="mt-6 text-sm font-bold uppercase tracking-[0.16em] text-[#201e1d]/58">{gatheringName}</p>
           <h1 className="mt-3 break-words font-display text-5xl font-black leading-[0.98] sm:text-6xl" id={titleId}>{title}</h1>
-          {occurrence.scripture && <p className="mt-5 text-lg font-bold text-[#0b5e8e]">{occurrence.scripture}</p>}
+          {occurrence.scripture && <p className="mt-5 text-lg font-bold text-[var(--modernist-deep-blue)]">{occurrence.scripture}</p>}
           <p className="mt-5 text-base font-bold text-[#201e1d]/68">{formatGatheringDate(occurrence.startsAt)}</p>
           <div className="mt-6"><GatheringActions appearance="modernist" gatheringName={gatheringName} occurrence={occurrence} /></div>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-[#201e1d]/72">
@@ -187,7 +187,7 @@ export function GatheringHero({
             </div>
           ) : phase === "replay" ? (
             <div className="border-2 border-[#201e1d]/35 bg-[#e9eef2] p-7 sm:p-9">
-              <Play className="size-10 text-[#1677a8]" fill="currentColor" />
+              <Play className="size-10 text-[var(--modernist-blue)]" fill="currentColor" />
               <p className="mt-5 font-display text-3xl font-bold">Watch when you’re ready</p>
               <p className="mt-3 leading-7 text-[#201e1d]/65">Catch up on the full message and share it with someone who needs encouragement.</p>
             </div>

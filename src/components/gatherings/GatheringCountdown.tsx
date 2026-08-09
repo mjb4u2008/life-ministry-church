@@ -58,7 +58,7 @@ export function GatheringCountdown({
                 }`}
             key={label}
           >
-            <div className={`font-body text-2xl font-black tabular-nums min-[360px]:text-3xl sm:text-4xl ${appearance === "modernist" ? "text-[#1677a8]" : tone === "gold" ? "text-[#071521]" : "text-white"}`}>
+            <div className={`font-body text-2xl font-black tabular-nums min-[360px]:text-3xl sm:text-4xl ${appearance === "modernist" ? "text-[var(--modernist-blue)]" : tone === "gold" ? "text-[#071521]" : "text-white"}`}>
               {String(value).padStart(2, "0")}
             </div>
             <div className={`mt-1 truncate font-body text-xs font-bold uppercase tracking-wide ${appearance === "modernist" ? "text-[#201e1d]/65" : tone === "gold" ? "text-[#071521]/65" : "text-white/60"}`}>

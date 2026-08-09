@@ -32,7 +32,7 @@ export function GatheringExperience({ mode }: { mode: "home" | "watch" }) {
           <div className="max-w-xl">
             {mode === "home" && <h1 className="max-w-[16ch] font-display text-[clamp(2.5rem,5vw,4.25rem)] font-black leading-[0.98] tracking-[-0.035em]">Come as you are.<br />Worship from anywhere.</h1>}
             <div className={mode === "home" ? "mt-8" : ""}>
-              <LoaderCircle className="size-8 animate-spin text-[#1677a8]" />
+              <LoaderCircle className="size-8 animate-spin text-[var(--modernist-blue)]" />
               <p className="mt-4 text-lg font-extrabold">Loading the next gathering…</p>
               <p className="mt-3 text-[1.05rem] leading-7 text-[#201e1d]/68">
                 L.I.F.E. meets online every Wednesday and Sunday. If this is taking a while,
@@ -45,7 +45,7 @@ export function GatheringExperience({ mode }: { mode: "home" | "watch" }) {
           </div>
           <figure className="relative aspect-[16/10] overflow-hidden border-2 border-[#201e1d]/40 bg-[#eae9e9]">
             <Image alt="" aria-hidden="true" className="object-cover object-[67%_center] grayscale contrast-[1.08]" fill priority={mode === "home"} sizes="(min-width: 1024px) 50vw, 100vw" src="/images/life-ministry-hero.jpg" />
-            <figcaption className="absolute bottom-0 left-0 bg-[#1677a8] px-4 py-3 text-xs font-extrabold uppercase tracking-[0.11em] text-white">Finding the next service</figcaption>
+            <figcaption className="absolute bottom-0 left-0 bg-[var(--modernist-blue)] px-4 py-3 text-xs font-extrabold uppercase tracking-[0.11em] text-white">Finding the next service</figcaption>
           </figure>
         </div>
       </section>
@@ -63,12 +63,12 @@ export function GatheringExperience({ mode }: { mode: "home" | "watch" }) {
           <div className="max-w-xl">
             {mode === "home" && <h1 className="max-w-[16ch] font-display text-[clamp(2.5rem,5vw,4.25rem)] font-black leading-[0.98] tracking-[-0.035em]">Come as you are.<br />Worship from anywhere.</h1>}
             <div className={mode === "home" ? "mt-8" : ""}>
-              <AlertCircle className="size-9 text-[#1677a8]" />
+              <AlertCircle className="size-9 text-[var(--modernist-blue)]" />
               <h2 className="mt-5 font-display text-3xl font-black">Schedule temporarily unavailable</h2>
               <p className="mt-3 font-body text-[#201e1d]/70">{error}</p>
               <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row">
             <button
-              className="min-h-12 border-2 border-[#1677a8] bg-[#1677a8] px-6 py-3 font-body font-extrabold text-white hover:bg-[#0b5e8e]"
+              className="min-h-12 border-2 border-[var(--modernist-blue)] bg-[var(--modernist-blue)] px-6 py-3 font-body font-extrabold text-white hover:bg-[var(--modernist-deep-blue)]"
               onClick={retry}
               type="button"
             >
@@ -85,7 +85,7 @@ export function GatheringExperience({ mode }: { mode: "home" | "watch" }) {
           </div>
           <figure className="relative aspect-[16/10] overflow-hidden border-2 border-[#201e1d]/40 bg-[#eae9e9]">
             <Image alt="" aria-hidden="true" className="object-cover object-[67%_center] grayscale contrast-[1.08]" fill priority={mode === "home"} sizes="(min-width: 1024px) 50vw, 100vw" src="/images/life-ministry-hero.jpg" />
-            <figcaption className="absolute bottom-0 left-0 bg-[#1677a8] px-4 py-3 text-xs font-extrabold uppercase tracking-[0.11em] text-white">Help is available</figcaption>
+            <figcaption className="absolute bottom-0 left-0 bg-[var(--modernist-blue)] px-4 py-3 text-xs font-extrabold uppercase tracking-[0.11em] text-white">Help is available</figcaption>
           </figure>
         </div>
       </section>
@@ -99,7 +99,7 @@ export function GatheringExperience({ mode }: { mode: "home" | "watch" }) {
           <div className="min-w-0">
             {mode === "home" && <h1 className="max-w-[16ch] font-display text-[clamp(2.5rem,5vw,4.25rem)] font-black leading-[0.98] tracking-[-0.035em]">Come as you are.<br />Worship from anywhere.</h1>}
           <div className={`${mode === "home" ? "mt-8" : ""} max-w-xl border-2 border-[#201e1d]/35 bg-[#e9eef2] p-6`}>
-            <CalendarDays className="size-8 text-[#1677a8]" />
+            <CalendarDays className="size-8 text-[var(--modernist-blue)]" />
             <h2 className="mt-4 font-display text-2xl font-black">The next gathering is being prepared</h2>
             <p className="mt-3 font-body leading-relaxed text-[#201e1d]/70">
               Please check back soon for the Wednesday or Sunday time and joining details.
@@ -108,7 +108,7 @@ export function GatheringExperience({ mode }: { mode: "home" | "watch" }) {
           </div>
           <figure className="relative aspect-[16/10] overflow-hidden border-2 border-[#201e1d]/40 bg-[#eae9e9]">
             <Image alt="An open Bible in a worship setting" className="object-cover object-[67%_center] grayscale contrast-[1.08]" fill priority={mode === "home"} sizes="(min-width: 1024px) 50vw, 100vw" src="/images/life-ministry-hero.jpg" />
-            <figcaption className="absolute inset-x-0 bottom-0 bg-[#1677a8] px-4 py-3 text-xs font-extrabold uppercase tracking-[0.11em] text-white sm:inset-x-auto sm:left-0">Schedule coming soon</figcaption>
+            <figcaption className="absolute inset-x-0 bottom-0 bg-[var(--modernist-blue)] px-4 py-3 text-xs font-extrabold uppercase tracking-[0.11em] text-white sm:inset-x-auto sm:left-0">Schedule coming soon</figcaption>
           </figure>
         </div>
       </section>
@@ -127,7 +127,7 @@ export function GatheringExperience({ mode }: { mode: "home" | "watch" }) {
       {otherUpcoming.length > 0 && (
         <section className="life-modernist border-b-2 border-[#201e1d]/35 bg-[#f3f2f2] py-14 sm:py-20">
           <div className="mx-auto max-w-[1200px] px-5 sm:px-8 lg:px-[clamp(2rem,5vw,4.5rem)]">
-            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#0b5e8e]">More gatherings</p>
+            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-[var(--modernist-deep-blue)]">More gatherings</p>
             <h2 className="mt-3 font-display text-3xl font-black text-[#201e1d]">Also coming up</h2>
             <div className="mt-7 grid grid-cols-1 gap-5 md:grid-cols-2">
               {otherUpcoming.map((occurrence) => (
@@ -145,7 +145,7 @@ export function GatheringExperience({ mode }: { mode: "home" | "watch" }) {
       {mode === "watch" && (
         <section className="life-modernist border-b-2 border-[#201e1d]/35 bg-[#e9eef2] py-16 sm:py-24">
           <div className="mx-auto max-w-[1200px] px-5 sm:px-8 lg:px-[clamp(2rem,5vw,4.5rem)]">
-            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#0b5e8e]">Sermon archive</p>
+            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-[var(--modernist-deep-blue)]">Sermon archive</p>
             <h2 className="mt-3 font-display text-3xl font-black text-[#201e1d] sm:text-4xl">
               Past messages
             </h2>

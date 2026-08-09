@@ -51,7 +51,7 @@ export function GatheringActions({
 
   if (occurrence.joinUrl) {
     const primaryClass = appearance === "modernist"
-      ? "border-2 border-[#1677a8] bg-[#1677a8] px-6 py-3.5 text-white hover:border-[#0b5e8e] hover:bg-[#0b5e8e]"
+      ? "border-2 border-[var(--modernist-blue)] bg-[var(--modernist-blue)] px-6 py-3.5 text-white hover:border-[var(--modernist-deep-blue)] hover:bg-[var(--modernist-deep-blue)]"
       : "rounded-full bg-white px-7 py-3.5 text-[#071521] hover:bg-[#f3efe6]";
     const secondaryClass = appearance === "modernist"
       ? "border-2 border-[#201e1d]/40 px-5 py-3 text-[#201e1d] hover:bg-[#201e1d]/7"
@@ -83,7 +83,7 @@ export function GatheringActions({
 
   if (occurrence.replayUrl) {
     const replayClass = appearance === "modernist"
-      ? "border-2 border-[#1677a8] bg-[#1677a8] px-6 py-3.5 text-white hover:border-[#0b5e8e] hover:bg-[#0b5e8e]"
+      ? "border-2 border-[var(--modernist-blue)] bg-[var(--modernist-blue)] px-6 py-3.5 text-white hover:border-[var(--modernist-deep-blue)] hover:bg-[var(--modernist-deep-blue)]"
       : tone === "gold"
         ? "rounded-full bg-[#071521] px-7 py-3.5 text-white hover:bg-[#162c3b]"
         : "rounded-full bg-[#e4b75d] px-7 py-3.5 text-[#071521] hover:bg-[#f4d690]";
@@ -100,7 +100,7 @@ export function GatheringActions({
   }
 
   const reminderClass = appearance === "modernist"
-    ? "border-2 border-[#1677a8] bg-[#1677a8] px-6 py-3.5 text-white hover:border-[#0b5e8e] hover:bg-[#0b5e8e]"
+    ? "border-2 border-[var(--modernist-blue)] bg-[var(--modernist-blue)] px-6 py-3.5 text-white hover:border-[var(--modernist-deep-blue)] hover:bg-[var(--modernist-deep-blue)]"
     : tone === "gold"
       ? "rounded-full bg-[#071521] px-7 py-3.5 text-white hover:bg-[#162c3b]"
       : "rounded-full bg-[#e4b75d] px-7 py-3.5 text-[#071521] hover:bg-[#f4d690]";
