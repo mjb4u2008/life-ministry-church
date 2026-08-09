@@ -4,7 +4,7 @@ const MEET_URL = "https://meet.google.com/abc-defg-hij";
 const REPLAY_URL = "https://www.youtube.com/watch?v=life-message";
 
 function gatheringPayload(
-  state: "upcoming" | "live" | "replay",
+  state: "upcoming" | "joining" | "live" | "replay",
   service: "wednesday" | "sunday" = "wednesday",
 ) {
   const now = Date.now();
@@ -12,7 +12,11 @@ function gatheringPayload(
   const seriesId = isWednesday ? "wednesday-word" : "sunday-worship";
   const seriesName = isWednesday ? "Wednesday Word" : "Sunday Worship";
   const startsAt = new Date(
-    state === "upcoming" ? now + 3 * 86_400_000 : now - 15 * 60_000,
+    state === "upcoming"
+      ? now + 3 * 86_400_000
+      : state === "joining"
+        ? now + 20 * 60_000
+        : now - 15 * 60_000,
   );
   const endsAt = new Date(state === "replay" ? now - 5 * 60_000 : now + 75 * 60_000);
   const occurrence = {
@@ -30,7 +34,7 @@ function gatheringPayload(
           : isWednesday ? "Wisdom for Wednesday" : "Hope for Sunday",
     scripture: "James 1:5",
     description: "A practical word for everyday faith.",
-    ...(state === "live" ? { joinUrl: MEET_URL } : {}),
+    ...(state === "joining" || state === "live" ? { joinUrl: MEET_URL } : {}),
     ...(state === "replay" ? { replayUrl: REPLAY_URL } : {}),
   };
 
@@ -51,7 +55,7 @@ function gatheringPayload(
       },
     ],
     featured: occurrence,
-    upcoming: state === "upcoming" ? [occurrence] : [],
+    upcoming: state === "upcoming" || state === "joining" ? [occurrence] : [],
     recent: state === "replay" ? [occurrence] : [],
     generatedAt: new Date(now).toISOString(),
   };
@@ -59,7 +63,7 @@ function gatheringPayload(
 
 async function mockGatherings(
   page: Page,
-  state: "upcoming" | "live" | "replay",
+  state: "upcoming" | "joining" | "live" | "replay",
   service: "wednesday" | "sunday" = "wednesday",
 ) {
   await page.route("**/api/gatherings", (route) =>
@@ -152,7 +156,7 @@ test("gathering: Watch shows a real replay and no fabricated archive", async ({ 
 test("gathering: every homepage phase stays explicit and reachable on narrow screens", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "mobile-chrome", "Narrow viewport matrix runs once");
 
-  let state: "upcoming" | "live" | "replay" = "live";
+  let state: "upcoming" | "joining" | "live" | "replay" = "live";
   let service: "wednesday" | "sunday" = "wednesday";
   await page.route("**/api/gatherings", (route) =>
     route.fulfill({ contentType: "application/json", json: gatheringPayload(state, service) }),
@@ -201,6 +205,12 @@ test("gathering: every homepage phase stays explicit and reachable on narrow scr
     await page.goto("/");
     await expect(page.getByText("Live now", { exact: true })).toBeVisible();
     await assertVisibleStatus("Live now: Wednesday Word");
+    await assertPrimaryAction(/join wednesday now/i);
+
+    state = "joining";
+    await page.reload();
+    await expect(page.getByText("The room is open", { exact: true })).toBeVisible();
+    await assertVisibleStatus("Room open: Wednesday Word");
     await assertPrimaryAction(/join wednesday now/i);
 
     state = "replay";
