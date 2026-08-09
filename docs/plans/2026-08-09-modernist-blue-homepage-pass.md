@@ -55,9 +55,9 @@ The memorable element is the **blue broadcast rail**: a phase-aware line attache
 
 ### 1. Modernist foundation and navigation
 
-- [ ] Add Archivo as a scoped public visual-system font.
-- [ ] Add reusable modernist tokens/helpers without changing admin component behavior.
-- [ ] Recompose public header and footer with warm paper, ink, blue, square controls, and 2px rules.
+- [x] Add Archivo as a scoped public visual-system font.
+- [x] Add reusable modernist tokens/helpers without changing admin component behavior.
+- [x] Recompose public header and footer with warm paper, ink, blue, square controls, and 2px rules.
 
 Definition of Done:
 
@@ -69,10 +69,10 @@ Definition of Done:
 
 ### 2. Canonical gathering composition
 
-- [ ] Rebuild the home gathering hero as a responsive split editorial layout.
-- [ ] Introduce the blue phase-aware broadcast rail.
-- [ ] Restyle gathering actions and countdown without changing their behavior.
-- [ ] Restyle loading, error, and empty states consistently.
+- [x] Rebuild the home gathering hero as a responsive split editorial layout.
+- [x] Introduce the blue phase-aware broadcast rail.
+- [x] Restyle gathering actions and countdown without changing their behavior.
+- [x] Restyle loading, error, and empty states consistently.
 
 Definition of Done:
 
@@ -84,10 +84,10 @@ Definition of Done:
 
 ### 3. Homepage editorial rhythm
 
-- [ ] Convert rounded-card sections to ruled editorial sections.
-- [ ] Keep the real first-time visitor, L.I.F.E. mission, Scripture, Pastor Mike, prayer/testimony, reminder, and events pathways.
-- [ ] Use a single blue identity band as the primary color moment.
-- [ ] Tighten copy and spacing while retaining plain-language direction.
+- [x] Convert rounded-card sections to ruled editorial sections.
+- [x] Keep the real first-time visitor, L.I.F.E. mission, Scripture, Pastor Mike, prayer/testimony, reminder, and events pathways.
+- [x] Use a single blue identity band as the primary color moment.
+- [x] Tighten copy and spacing while retaining plain-language direction.
 
 Definition of Done:
 
@@ -99,9 +99,9 @@ Definition of Done:
 
 ### 4. Convergence and release proof
 
-- [ ] Capture desktop and 320px screenshots and visually critique both.
-- [ ] Run independent P1/P2 review, fix every finding, and re-review until clean.
-- [ ] Run the full raw release gates.
+- [x] Capture desktop and 320px screenshots and visually critique both.
+- [x] Run independent P1/P2 review, fix every finding, and re-review until clean.
+- [x] Run the full raw release gates.
 - [ ] Update and push the existing visual-experiment PR.
 
 Definition of Done:
@@ -112,3 +112,14 @@ Definition of Done:
 - `npm run build`
 - `npm run test:e2e`
 - Independent review returns no active P1/P2.
+
+## Verification evidence
+
+- Typecheck: passed.
+- ESLint: passed.
+- Unit tests: 108 passed across 20 files.
+- Production build: passed across all public, admin, and API routes.
+- Playwright: 55 passed; 1 intentional cross-project matrix skip.
+- Gathering phase matrix: upcoming, joining, live, and replay verified at 320, 390, 430, and 1440px with no horizontal overflow.
+- Primary gathering action: 56px tall, Archivo, L.I.F.E. blue, and at least 16px inside the viewport boundary.
+- Independent design and accessibility refresh reviews: no active P1/P2 findings.
