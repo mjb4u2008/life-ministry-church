@@ -1,3 +1,4 @@
+import { scheduledOccurrences } from "./recurrence";
 import type {
   GatheringOccurrence,
   GatheringSeries,
@@ -17,8 +18,9 @@ export function selectFeaturedOccurrence(
   now = new Date(),
 ): GatheringOccurrence | null {
   const nowMs = now.getTime();
-  const visible = store.occurrences.filter((occurrence) =>
-    PUBLIC_STATUSES.has(occurrence.status),
+  const enabled = new Set(store.series.filter((series) => series.enabled).map((series) => series.id));
+  const visible = scheduledOccurrences(store, now).filter((occurrence) =>
+    enabled.has(occurrence.seriesId) && PUBLIC_STATUSES.has(occurrence.status),
   );
   const active = visible
     .filter(
@@ -42,7 +44,7 @@ export function selectFeaturedOccurrence(
     visible
       .filter(
         (occurrence) =>
-          occurrence.status === "completed" && Boolean(occurrence.replayUrl),
+          Date.parse(occurrence.endsAt) <= nowMs && Boolean(occurrence.replayUrl),
       )
       .sort((a, b) => byStartAscending(b, a))[0] ?? null
   );
@@ -68,12 +70,15 @@ function publicOccurrence(
     localDate: occurrence.localDate,
     startsAt: occurrence.startsAt,
     endsAt: occurrence.endsAt,
-    status: occurrence.status as PublicGatheringOccurrence["status"],
+    status: Date.parse(occurrence.endsAt) <= now.getTime() ? "completed"
+      : Date.parse(occurrence.startsAt) > now.getTime() ? "published" : occurrence.status as PublicGatheringOccurrence["status"],
     title: occurrence.title,
     scripture: occurrence.scripture,
     description: occurrence.description,
     ...(occurrence.replayUrl ? { replayUrl: occurrence.replayUrl } : {}),
     ...(occurrence.bannerUrl ? { bannerUrl: occurrence.bannerUrl } : {}),
+    ...(occurrence.isRecurring ? { isRecurring: true } : {}),
+    ...(occurrence.dateUnknown ? { dateUnknown: true } : {}),
     ...(mayJoin && storedJoinUrl ? { joinUrl: storedJoinUrl } : {}),
   };
 }
@@ -85,12 +90,11 @@ export function serializePublicGatherings(
   const enabledSeries = store.series.filter((series) => series.enabled);
   const enabledIds = new Set(enabledSeries.map((series) => series.id));
   const seriesById = new Map(store.series.map((series) => [series.id, series]));
-  const publicOccurrences = store.occurrences.filter(
+  const publicOccurrences = scheduledOccurrences(store, now).filter(
     (occurrence) =>
       enabledIds.has(occurrence.seriesId) && PUBLIC_STATUSES.has(occurrence.status),
   );
-  const publicStore = { ...store, occurrences: publicOccurrences };
-  const featured = selectFeaturedOccurrence(publicStore, now);
+  const featured = selectFeaturedOccurrence(store, now);
   const serialize = (occurrence: GatheringOccurrence) =>
     publicOccurrence(occurrence, seriesById.get(occurrence.seriesId)!, now);
   const nowMs = now.getTime();
@@ -115,7 +119,7 @@ export function serializePublicGatherings(
     recent: publicOccurrences
       .filter(
         (occurrence) =>
-          occurrence.status === "completed" && Boolean(occurrence.replayUrl),
+          Date.parse(occurrence.endsAt) <= nowMs && Boolean(occurrence.replayUrl),
       )
       .sort((a, b) => byStartAscending(b, a))
       .map(serialize),

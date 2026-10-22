@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { NextRequest } from "next/server";
 
-const mocks = vi.hoisted(() => ({ getContent: vi.fn(), verifyToken: vi.fn() }));
-vi.mock("@/lib/data", () => ({ getContent: mocks.getContent, updateContent: vi.fn() }));
+const mocks = vi.hoisted(() => ({ getContent: vi.fn(), getAdminContent: vi.fn(), verifyToken: vi.fn() }));
+vi.mock("@/lib/data", () => ({ getContent: mocks.getContent, getAdminContent:mocks.getAdminContent, updateContent: vi.fn() }));
 vi.mock("@/lib/auth", () => ({ verifyToken: mocks.verifyToken }));
 
 import { GET } from "./route";
@@ -27,7 +27,7 @@ const content = {
 };
 
 describe("legacy content privacy", () => {
-  beforeEach(() => { mocks.getContent.mockReset().mockResolvedValue(content); mocks.verifyToken.mockReset(); });
+  beforeEach(() => { mocks.getContent.mockReset().mockResolvedValue(content);mocks.getAdminContent.mockReset().mockResolvedValue(content); mocks.verifyToken.mockReset(); });
 
   it("never exposes the stored Meet link or private legacy controls publicly", async () => {
     const response = await GET(new NextRequest("http://localhost/api/content"));
@@ -43,5 +43,11 @@ describe("legacy content privacy", () => {
     mocks.verifyToken.mockReturnValue(true);
     const response = await GET(new NextRequest("http://localhost/api/content?admin=1", { headers: { authorization: "Bearer valid" } }));
     expect((await response.json()).googleMeetLink).toBe(content.googleMeetLink);
+  });
+  it("fails closed for admin storage outages rather than returning editable defaults",async()=>{
+    mocks.verifyToken.mockReturnValue(true);mocks.getAdminContent.mockRejectedValue(new Error("Storage unavailable"));
+    const response=await GET(new NextRequest("http://localhost/api/content?admin=1",{headers:{authorization:"Bearer valid"}}));
+    expect(response.status).toBe(500);
+    expect(mocks.getContent).not.toHaveBeenCalled();
   });
 });

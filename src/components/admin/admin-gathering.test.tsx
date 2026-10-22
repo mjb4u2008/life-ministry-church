@@ -115,7 +115,7 @@ describe("pastor-simple gathering admin", () => {
     render(<AdminDashboard logout={vi.fn()} token="token" />);
 
     expect(await screen.findByText("Wednesday Word")).toBeVisible();
-    expect(screen.getByText("Sunday Worship")).toBeVisible();
+    expect(screen.getByRole("heading", { name: "Sunday Worship" })).toBeVisible();
     expect(screen.getByRole("link", { name: /flyer generator/i })).toHaveAttribute(
       "href",
       "/admin/legacy?tab=flyer",
@@ -126,7 +126,8 @@ describe("pastor-simple gathering admin", () => {
     );
     expect(screen.getByText("Pastoral care inbox")).toBeVisible();
     expect(screen.getByText("Events center")).toBeVisible();
-    expect(screen.getAllByText("Needs details")).toHaveLength(2);
+    expect(screen.getAllByText("Needs details")).toHaveLength(1);
+    expect(screen.getByText("On website")).toBeVisible();
     expect(screen.queryByText(/of 6 ready/i)).not.toBeInTheDocument();
   });
 
@@ -147,7 +148,7 @@ describe("pastor-simple gathering admin", () => {
     );
     render(<AdminDashboard logout={vi.fn()} token="token" />);
 
-    expect(await screen.findAllByText("Nothing scheduled yet.")).toHaveLength(2);
+    expect(await screen.findAllByText("Nothing scheduled yet.")).toHaveLength(1);
     expect(screen.queryByText("Cancelled message")).not.toBeInTheDocument();
   });
 
@@ -244,6 +245,63 @@ describe("pastor-simple gathering admin", () => {
       },
     });
     expect(fetchMock.mock.calls.some(([url]) => url === "/api/sermon-banner")).toBe(false);
+  });
+
+  it("adds a recording to an ended gathering without replacing the upcoming gathering", async () => {
+    const ended: GatheringOccurrence = { ...preparedWednesday, id: "wednesday-word:2020-08-12", localDate: "2020-08-12", startsAt: "2020-08-12T23:30:00.000Z", endsAt: "2020-08-13T01:30:00.000Z", title: "A past Wednesday message" };
+    const writes: Array<Record<string, unknown>> = [];
+    vi.stubGlobal("fetch", vi.fn(async (_url: string, init?: RequestInit) => {
+      if (!init?.method) return response(store(4, [ended, preparedWednesday]));
+      const command = JSON.parse(String(init.body)); writes.push(command);
+      return response(store(5, [command.occurrence, preparedWednesday]));
+    }));
+    const user = userEvent.setup(); renderEditor("wednesday-word");
+    await screen.findByDisplayValue("Midweek Wisdom");
+    expect(screen.getByLabelText("Past gathering")).toHaveValue(ended.id);
+    await user.type(screen.getByLabelText("Recording link"), "https://youtu.be/real-wednesday-recording");
+    await user.click(screen.getByRole("button", { name: "Save recording" }));
+    expect(await screen.findByText("The recording is now available on Watch.")).toBeVisible();
+    expect(writes).toHaveLength(1);
+    expect(writes[0]).toMatchObject({ operation: "upsert-occurrence", expectedRevision: 4, occurrence: { id: ended.id, status: "completed", endsAt: ended.endsAt, replayUrl: "https://youtu.be/real-wednesday-recording" } });
+    expect(screen.getByLabelText("Message title")).toHaveValue("Midweek Wisdom");
+  });
+
+  it("clears date-specific sermon details when choosing a different week", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(response(store(4, [preparedWednesday]))));
+    const user = userEvent.setup(); renderEditor("wednesday-word");
+    await screen.findByDisplayValue("Midweek Wisdom");
+    await user.clear(screen.getByLabelText("Date"));
+    await user.type(screen.getByLabelText("Date"), "2030-08-21");
+    expect(screen.getByLabelText("Message title")).toHaveValue("");
+    expect(screen.getByLabelText("Scripture")).toHaveValue("");
+    expect(screen.getByLabelText("Description")).toHaveValue("");
+    await user.clear(screen.getByLabelText("Date"));
+    await user.type(screen.getByLabelText("Date"), "2030-08-14");
+    expect(screen.getByLabelText("Message title")).toHaveValue("Midweek Wisdom");
+  });
+
+  it("preserves a date-specific Meet link and stored banner when only the message changes", async () => {
+    const custom = { ...preparedWednesday, meetUrlOverride: "https://meet.google.com/custom-room-abc", bannerUrl: "https://example.org/message.jpg" };
+    const writes: Array<Record<string, unknown>> = [];
+    vi.stubGlobal("fetch", vi.fn(async (_url: string, init?: RequestInit) => {
+      if (!init?.method) return response(store(4, [custom]));
+      writes.push(JSON.parse(String(init.body))); return response(store(5, [custom]));
+    }));
+    const user = userEvent.setup(); renderEditor("wednesday-word");
+    await screen.findByDisplayValue("Midweek Wisdom");
+    expect(screen.getByLabelText(/^Google Meet link/i)).toHaveValue(custom.meetUrlOverride);
+    await user.clear(screen.getByLabelText("Message title")); await user.type(screen.getByLabelText("Message title"), "Updated message");
+    await user.click(screen.getByRole("button", { name: "Put on website" }));
+    await vi.waitFor(() => expect(writes).toHaveLength(1));
+    expect(writes[0]).toMatchObject({ series: { defaultMeetUrl: "" }, occurrence: { title: "Updated message", meetUrlOverride: custom.meetUrlOverride, bannerUrl: custom.bannerUrl } });
+  });
+
+  it("starts an unconfigured Wednesday at the confirmed 7:30–9:30 PM Eastern", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(response(store())));
+    renderEditor("wednesday-word");
+    await screen.findByRole("heading", { name: /prepare wednesday word/i });
+    expect(screen.getByLabelText("Start time")).toHaveValue("19:30");
+    expect(screen.getByLabelText("End time")).toHaveValue("21:30");
   });
 
   it("generates the protected Sunday header only after an explicit click", async () => {

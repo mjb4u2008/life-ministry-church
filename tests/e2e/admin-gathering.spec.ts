@@ -53,6 +53,8 @@ async function authenticate(page: Page) {
   await page.route("**/api/auth", (route) =>
     route.fulfill({ contentType: "application/json", json: { authenticated: true } }),
   );
+  await page.route("**/api/content**", route => route.fulfill({ json: {} }));
+  await page.route("**/api/daily-scripture**", route => route.fulfill({ json: { verse: "", reference: "", reflection: "" } }));
 }
 
 async function expectNoHorizontalOverflow(page: Page) {
@@ -274,4 +276,29 @@ test("admin-gathering: pinned legacy tab opens the preserved flyer generator", a
 
   await expect(page.getByRole("heading", { name: "Flyer Generator" })).toBeVisible();
   await expect(page.getByText(/describe the flyer you want/i)).toBeVisible();
+});
+
+test("admin-gathering: dad attaches a past recording while automatic next date stays intact", async ({ page }, testInfo) => {
+  if (testInfo.project.name === "mobile-chrome") await page.setViewportSize({ width: 320, height: 700 });
+  await authenticate(page);
+  const base = gatheringStore(4);
+  const ended = { id: "sunday-worship:2020-08-16", seriesId: "sunday-worship", localDate: "2020-08-16", startsAt: "2020-08-16T15:30:00.000Z", endsAt: "2020-08-16T17:00:00.000Z", title: "A recorded Sunday message", scripture: "John 3:16", description: "A real old message.", status: "published", updatedAt: UPDATED_AT };
+  let saved: Record<string, unknown> | null = null;
+  await page.route("**/api/gatherings**", async route => {
+    if (route.request().method() === "PUT") {
+      saved = route.request().postDataJSON();
+      await route.fulfill({ json: { ...base, revision: 5, occurrences: [(saved as { occurrence: unknown }).occurrence] } });
+    } else await route.fulfill({ json: { ...base, occurrences: [ended] } });
+  });
+  await page.goto("/admin/gatherings/sunday-worship");
+  await expect(page.getByRole("heading", { name: /prepare sunday worship/i })).toBeVisible();
+  const nextDate = await page.getByLabel("Date", { exact: true }).inputValue();
+  await page.getByRole("combobox", { name: "Past gathering", exact: true }).selectOption(ended.id);
+  await page.getByLabel("Recording link", { exact: true }).fill("https://youtu.be/a-real-sunday-recording");
+  await page.getByRole("button", { name: "Save recording" }).click();
+  await expect(page.getByText("The recording is now available on Watch.")).toBeVisible();
+  expect(saved).toMatchObject({ operation: "upsert-occurrence", expectedRevision: 4, occurrence: { id: ended.id, status: "completed", replayUrl: "https://youtu.be/a-real-sunday-recording" } });
+  await expect(page.getByLabel("Date", { exact: true })).toHaveValue(nextDate);
+  await expectNoHorizontalOverflow(page);
+  await page.screenshot({ path: `/private/tmp/life-ministry-review/evidence/renewal-admin-replay-${testInfo.project.name}.png`, fullPage: true });
 });

@@ -1,17 +1,32 @@
 "use client";
 
-import { useState, useRef } from "react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight, BookOpen, LoaderCircle } from "lucide-react";
+import styles from "./page.module.css";
 
 interface ScriptureResponse {
-  scripture: {
-    text: string;
-    reference: string;
-  };
+  scripture: { text: string; reference: string };
   story: string;
-  exploreMore: {
-    reference: string;
-    description: string;
-  }[];
+  exploreMore: { reference: string; description: string }[];
+}
+
+const REQUEST_TIMEOUT_MS = 30_000;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function isText(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+function isScriptureResponse(value: unknown): value is ScriptureResponse {
+  return isRecord(value) && isRecord(value.scripture) &&
+    isText(value.scripture.text) && isText(value.scripture.reference) &&
+    isText(value.story) && Array.isArray(value.exploreMore) &&
+    value.exploreMore.length > 0 && value.exploreMore.every((item) =>
+      isRecord(item) && isText(item.reference) && isText(item.description));
 }
 
 export default function AskPage() {
@@ -21,368 +36,171 @@ export default function AskPage() {
   const [response, setResponse] = useState<ScriptureResponse | null>(null);
   const [userQuestion, setUserQuestion] = useState("");
   const [showSharePrompt, setShowSharePrompt] = useState(false);
-  const [shareStatus, setShareStatus] = useState<"idle" | "success" | "error">("idle");
+  const [shareStatus, setShareStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const answerHeadingRef = useRef<HTMLHeadingElement>(null);
+  const requestRef = useRef<AbortController | null>(null);
+  const shareRequestRef = useRef<AbortController | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
+  useEffect(() => () => {
+    requestRef.current?.abort();
+    shareRequestRef.current?.abort();
+  }, []);
 
+  useEffect(() => {
+    if (response) answerHeadingRef.current?.focus();
+  }, [response]);
+
+  const seekScripture = async () => {
     const question = input.trim();
+    if (!question || requestRef.current) return;
+    const controller = new AbortController();
+    requestRef.current = controller;
+    shareRequestRef.current?.abort();
+    shareRequestRef.current = null;
     setUserQuestion(question);
-    setInput("");
     setError("");
+    setResponse(null);
     setIsLoading(true);
     setShowSharePrompt(false);
     setShareStatus("idle");
-
+    const timeout = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
     try {
       const res = await fetch("/api/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: question }),
+        signal: controller.signal,
       });
-
-      if (res.ok) {
-        const data: ScriptureResponse = await res.json();
-        setResponse(data);
-      } else {
-        setError(
-          "Unable to seek Scripture right now. Please try again, or visit our Prayer Wall where our community can support you."
-        );
-      }
+      if (!res.ok) throw new Error("Scripture request failed");
+      const data: unknown = await res.json();
+      if (!isScriptureResponse(data)) throw new Error("Scripture response was incomplete");
+      if (!controller.signal.aborted) setResponse(data);
     } catch {
-      setError(
-        "Unable to connect right now. Please try again in a moment."
-      );
+      setError("We couldn’t load a Scripture reflection. Your question is still here. Please try again, or ask our community for prayer.");
+    } finally {
+      window.clearTimeout(timeout);
+      requestRef.current = null;
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   const handleShare = async () => {
-    if (!response) return;
-
+    if (!response || shareRequestRef.current || shareStatus === "success") return;
+    const controller = new AbortController();
+    shareRequestRef.current = controller;
+    setShareStatus("sending");
+    const timeout = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
     try {
-      await fetch("/api/ask/share", {
+      const res = await fetch("/api/ask/share", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          topic: userQuestion.substring(0, 100),
-          scripture: response.scripture.reference,
-        }),
+        body: JSON.stringify({ topic: userQuestion.substring(0, 100), scripture: response.scripture.reference }),
+        signal: controller.signal,
       });
-      setShareStatus("success");
-      setTimeout(() => setShowSharePrompt(false), 2000);
+      if (!res.ok) throw new Error("Sharing failed");
+      const receipt: unknown = await res.json();
+      if (!isRecord(receipt) || receipt.success !== true) throw new Error("Sharing was not confirmed");
+      if (!controller.signal.aborted) setShareStatus("success");
     } catch {
-      setShareStatus("error");
+      if (shareRequestRef.current === controller) setShareStatus("error");
+    } finally {
+      window.clearTimeout(timeout);
+      if (shareRequestRef.current === controller) shareRequestRef.current = null;
     }
   };
 
-  const handleAskAgain = () => {
+  const askAgain = () => {
+    shareRequestRef.current?.abort();
+    shareRequestRef.current = null;
     setResponse(null);
+    setInput("");
     setUserQuestion("");
     setError("");
     setShowSharePrompt(false);
     setShareStatus("idle");
-    // Focus the textarea after state updates
-    setTimeout(() => textareaRef.current?.focus(), 100);
+    textareaRef.current?.focus();
   };
 
-  const hasResponse = response !== null;
-
   return (
-    <div className="min-h-screen bg-[#fafcff]">
-      {/* Subtle paper texture */}
-      <div
-        className="fixed inset-0 pointer-events-none opacity-[0.03]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-        }}
-      />
+    <main className={styles.page}>
+      <div className={styles.container}>
+        <header className={styles.introduction}>
+          <BookOpen className={styles.book} aria-hidden="true" strokeWidth={1.2} />
+          <h1 className={styles.title}>Ask the Word.</h1>
+          <p>Bring what’s on your heart.<br />Find a place to begin in Scripture.</p>
+        </header>
 
-      {/* Gradient accents */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-gradient-to-br from-[#1a6fb5]/[0.04] to-transparent rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-gradient-to-tr from-[#0a1a2f]/[0.03] to-transparent rounded-full blur-3xl" />
-      </div>
+        <form className={styles.form} onSubmit={(event) => { event.preventDefault(); void seekScripture(); }} aria-busy={isLoading}>
+          <label htmlFor="scripture-question" className={styles.inputLabel}>What’s on your heart?</label>
+          <textarea
+            className={styles.input}
+            disabled={isLoading}
+            id="scripture-question"
+            maxLength={4000}
+            onChange={(event) => setInput(event.target.value)}
+            placeholder="I’m looking for peace. I’m finding it hard to forgive. I have a question about faith…"
+            ref={textareaRef}
+            rows={5}
+            value={input}
+            aria-describedby="question-help"
+          />
+          <div className={styles.formFooter}>
+            <p id="question-help">A quiet moment with the Word. You don’t need the perfect words.</p>
+            <button className={styles.primaryButton} disabled={!input.trim() || isLoading} type="submit">
+              {isLoading ? <><LoaderCircle className={styles.spinner} aria-hidden="true" /> Seeking Scripture…</> : <>Seek Scripture <ArrowUpRight aria-hidden="true" size={20} /></>}
+            </button>
+          </div>
+        </form>
 
-      {!hasResponse && !isLoading ? (
-        /* INPUT STATE */
-        <div className="relative min-h-screen flex items-center justify-center px-4 pt-16 pb-8">
-          <div className="max-w-xl w-full">
-            {/* Header */}
-            <div className="text-center mb-12">
-              {/* Decorative element */}
-              <div className="mb-8 flex justify-center">
-                <div className="relative">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#1a6fb5]/10 to-[#0a1a2f]/5 flex items-center justify-center">
-                    <svg
-                      className="w-8 h-8 text-[#1a6fb5]/60"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
+        {isLoading && <p className={styles.loading} role="status">Seeking Scripture for you. This may take a moment.</p>}
+        {error && <div className={styles.error} role="alert">
+          <p>{error}</p>
+          <div className={styles.actions}>
+            <button className={styles.secondaryButton} onClick={() => void seekScripture()} type="button">Try again</button>
+            <Link className={styles.textLink} href="/community">Ask for prayer</Link>
+          </div>
+        </div>}
 
-              <h1 className="font-display text-5xl md:text-7xl font-[900] text-[#0a1a2f] tracking-tight uppercase">
-                Ask The Word
-              </h1>
-
-              <p className="mt-6 text-xl text-[#4a6580] font-light">
-                What&apos;s weighing on you today?
+        {response && <div className={styles.answer}>
+          <section aria-labelledby="scripture-answer-heading">
+            <h2 className={styles.sectionHeading} id="scripture-answer-heading" ref={answerHeadingRef} tabIndex={-1}>Scripture for you</h2>
+            <blockquote className={styles.scripture}>
+              <p>
+                <span className={styles.srOnly}>{response.scripture.text}</span>
+                <span aria-hidden="true">{response.scripture.text.split(/\s+/).map((word, index) => <span className={styles.word} key={index} style={{ animationDelay: `${Math.min(index * 0.035, 1.4)}s` }}>{word}{" "}</span>)}</span>
               </p>
-            </div>
+              <cite>{response.scripture.reference}</cite>
+            </blockquote>
+          </section>
 
-            {/* Input Form */}
-            <form onSubmit={handleSubmit}>
-              <div className="relative">
-                <textarea
-                  ref={textareaRef}
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Share what's on your heart..."
-                  rows={5}
-                  className="w-full px-6 py-5 text-lg font-body bg-white rounded-xl border border-[#c8dded] focus:border-[#1a6fb5] focus:ring-0 outline-none transition-all resize-none shadow-sm placeholder:text-[#4a6580]/50 text-[#0a1a2f] leading-relaxed"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      handleSubmit(e);
-                    }
-                  }}
-                />
+          <section className={styles.explanation} aria-labelledby="reflection-heading">
+            <h2 className={styles.sectionHeading} id="reflection-heading">A moment to reflect</h2>
+            <p>{response.story}</p>
+          </section>
+
+          <section className={styles.explore} aria-labelledby="explore-heading">
+            <h2 className={styles.sectionHeading} id="explore-heading">Stay in the Word</h2>
+            <ul>{response.exploreMore.map((item, index) => <li key={`${item.reference}-${index}`}><h3>{item.reference}</h3><p>{item.description}</p></li>)}</ul>
+          </section>
+
+          <div className={styles.sharing}>
+            {!showSharePrompt && shareStatus !== "success" && <button className={styles.textLink} onClick={() => setShowSharePrompt(true)} type="button">Share this topic with Pastor Mike</button>}
+            {showSharePrompt && shareStatus !== "success" && <>
+              <p>Share the first 100 characters of your question and the Scripture reference with Pastor Mike? We don’t add your name or contact details. Your question may still include personal information, so leave out anything you would prefer to keep private.</p>
+              <div className={styles.actions}>
+                <button className={styles.secondaryButton} disabled={shareStatus === "sending"} onClick={() => void handleShare()} type="button">{shareStatus === "sending" ? "Sharing…" : "Share anonymously"}</button>
+                <button className={styles.textLink} disabled={shareStatus === "sending"} onClick={() => { setShowSharePrompt(false); setShareStatus("idle"); }} type="button">No thanks</button>
               </div>
-
-              <div className="mt-8 text-center">
-                <button
-                  type="submit"
-                  disabled={!input.trim() || isLoading}
-                  className="inline-flex items-center gap-3 bg-[#0a1a2f] text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-[#0a1a2f]/90 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                  <span>Seek Scripture</span>
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </form>
-
-            {/* Privacy note */}
-            <p className="mt-10 text-center text-sm text-[#4a6580]/60 flex items-center justify-center gap-2">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
-              Your reflection is private and not stored
-            </p>
-
-            {/* Error */}
-            {error && (
-              <div className="mt-6 text-center">
-                <p className="text-red-600/80 text-sm bg-red-50 rounded-xl px-6 py-4 inline-block">
-                  {error}
-                </p>
-              </div>
-            )}
+              {shareStatus === "error" && <p role="alert">Your topic wasn’t shared. Please try again.</p>}
+            </>}
+            {shareStatus === "success" && <p role="status">Thank you for sharing. Your topic was saved for Pastor Mike.</p>}
           </div>
-        </div>
-      ) : isLoading ? (
-        /* LOADING STATE */
-        <div className="relative min-h-screen flex items-center justify-center px-4 pt-16">
-          <div className="text-center">
-            <div className="relative w-20 h-20 mx-auto mb-8">
-              <div className="absolute inset-0 rounded-full border-2 border-[#1a6fb5]/10" />
-              <div
-                className="absolute inset-0 rounded-full border-2 border-[#1a6fb5]/30 border-t-[#1a6fb5] animate-spin"
-                style={{ animationDuration: "1.5s" }}
-              />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <svg
-                  className="w-8 h-8 text-[#1a6fb5]/40"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                  />
-                </svg>
-              </div>
-            </div>
-            <p className="text-[#4a6580] text-lg font-light">Seeking Scripture for you...</p>
-          </div>
-        </div>
-      ) : response ? (
-        /* RESPONSE STATE */
-        <div className="relative min-h-screen pt-24 pb-16 px-4">
-          <div className="max-w-2xl mx-auto">
-            {/* SECTION 1: Scripture for You */}
-            <section className="mb-16">
-              <div className="text-center mb-6">
-                <span className="text-xs uppercase tracking-[0.25em] text-[#1a6fb5]/70 font-bold">
-                  Scripture for You
-                </span>
-              </div>
+          <button className={styles.secondaryButton} onClick={askAgain} type="button">Ask another question</button>
+        </div>}
 
-              {/* Scripture Card - Hero */}
-              <div className="relative">
-                {/* Card background layers for depth */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#1a6fb5]/[0.02] to-[#0a1a2f]/[0.02] rounded-3xl transform rotate-1" />
-                <div className="absolute inset-0 bg-white rounded-2xl shadow-xl shadow-[#1a6fb5]/[0.08]" />
-
-                {/* Card content */}
-                <div className="relative px-8 py-12 md:px-12 md:py-16">
-                  {/* Decorative quote */}
-                  <div className="absolute top-6 left-6 text-7xl text-[#1a6fb5]/[0.08] font-display leading-none select-none">
-                    &ldquo;
-                  </div>
-
-                  {/* Scripture text */}
-                  <blockquote className="relative z-10">
-                    <p className="font-display text-2xl md:text-3xl font-bold text-[#0a1a2f] leading-relaxed text-center">
-                      {response.scripture.text}
-                    </p>
-                  </blockquote>
-
-                  {/* Reference */}
-                  <div className="mt-8 text-center">
-                    <span className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-[#1a6fb5]/10 to-[#1a6fb5]/5 text-[#1a6fb5] font-bold rounded-full">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                      </svg>
-                      {response.scripture.reference}
-                    </span>
-                  </div>
-
-                  {/* Decorative quote closing */}
-                  <div className="absolute bottom-6 right-6 text-7xl text-[#1a6fb5]/[0.08] font-display leading-none select-none rotate-180">
-                    &ldquo;
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* SECTION 2: The Story */}
-            <section className="mb-16">
-              <div className="text-center mb-6">
-                <span className="text-xs uppercase tracking-[0.25em] text-[#0a1a2f]/60 font-bold">
-                  Why This Speaks
-                </span>
-              </div>
-
-              <div className="bg-[#f0f4f8] rounded-2xl px-8 py-8">
-                <p className="text-lg text-[#0a1a2f]/80 leading-relaxed text-center font-light">
-                  {response.story}
-                </p>
-              </div>
-            </section>
-
-            {/* SECTION 3: Explore More */}
-            <section className="mb-16">
-              <div className="text-center mb-6">
-                <span className="text-xs uppercase tracking-[0.25em] text-[#4a6580]/70 font-bold">
-                  Explore More
-                </span>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-4">
-                {response.exploreMore.map((item, index) => (
-                  <div
-                    key={index}
-                    className="group bg-white rounded-xl p-5 border border-[#c8dded]/30 hover:border-[#1a6fb5] hover:shadow-md transition-all cursor-pointer"
-                  >
-                    <p className="font-bold text-[#0a1a2f] group-hover:text-[#1a6fb5] transition-colors">
-                      {item.reference}
-                    </p>
-                    <p className="mt-2 text-sm text-[#4a6580] leading-relaxed">
-                      {item.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Share Prompt */}
-            {!showSharePrompt && shareStatus !== "success" && (
-              <div className="text-center mb-8">
-                <button
-                  onClick={() => setShowSharePrompt(true)}
-                  className="text-sm text-[#4a6580]/70 hover:text-[#4a6580] transition-colors underline underline-offset-4 decoration-[#4a6580]/40 hover:decoration-[#4a6580]/70"
-                >
-                  Share this topic with Pastor Mike
-                </button>
-              </div>
-            )}
-
-            {showSharePrompt && shareStatus === "idle" && (
-              <div className="bg-[#f0f4f8] rounded-2xl p-6 mb-8 text-center">
-                <p className="text-sm text-[#4a6580] mb-4">
-                  Anonymously share the topic of your reflection? It helps Pastor Mike understand what our community is walking through.
-                </p>
-                <div className="flex gap-3 justify-center">
-                  <button
-                    onClick={handleShare}
-                    className="bg-[#1a6fb5]/10 text-[#1a6fb5] px-5 py-2 rounded-full text-sm font-bold hover:bg-[#1a6fb5]/20 transition-colors"
-                  >
-                    Share Anonymously
-                  </button>
-                  <button
-                    onClick={() => setShowSharePrompt(false)}
-                    className="text-[#4a6580]/70 px-5 py-2 rounded-full text-sm hover:text-[#4a6580] transition-colors"
-                  >
-                    No thanks
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {shareStatus === "success" && (
-              <div className="text-center mb-8">
-                <p className="text-[#1a6fb5] text-sm flex items-center justify-center gap-2">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  Thank you for sharing
-                </p>
-              </div>
-            )}
-
-            {/* Ask Again Button */}
-            <div className="text-center">
-              <button
-                onClick={handleAskAgain}
-                className="inline-flex items-center gap-2 bg-[#0a1a2f] text-white px-8 py-4 rounded-full font-bold hover:bg-[#0a1a2f]/90 transition-all"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-                <span>Ask Again</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
-    </div>
+        <p className={styles.note}>An AI-assisted reflection to help you explore Scripture. For a personal conversation, <Link href="/welcome">reach out to Pastor Mike</Link>.</p>
+      </div>
+    </main>
   );
 }

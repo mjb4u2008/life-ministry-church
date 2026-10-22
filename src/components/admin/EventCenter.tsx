@@ -46,14 +46,14 @@ export function EventCenter({ token, logout }: { token: string; logout: () => vo
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const reset = () => {
+  const reset = useCallback(() => {
     const date = tomorrow();
     setSelectedId(null); setTitle(""); setDescription(""); setStartDate(date); setEndDate(date);
     setStartTime("19:00"); setEndTime("20:30");
     setLocationType("online"); setLocationLabel("Online"); setMeetUrl(""); setRegistrationUrl(""); setStatus("draft"); setError(""); setSuccess("");
-  };
+  }, []);
 
-  const choose = (event: MinistryEvent) => {
+  const choose = useCallback((event: MinistryEvent) => {
     const start = localFields(event.startsAt, MINISTRY_TIMEZONE);
     const end = localFields(
       event.endsAt ?? new Date(Date.parse(event.startsAt) + 60 * 60_000).toISOString(),
@@ -63,18 +63,27 @@ export function EventCenter({ token, logout }: { token: string; logout: () => vo
     setStartDate(start.date); setStartTime(start.time); setEndDate(end.date); setEndTime(end.time);
     setLocationType(event.locationType); setLocationLabel(event.locationLabel ?? "");
     setMeetUrl(event.meetUrl ?? ""); setRegistrationUrl(event.registrationUrl ?? ""); setStatus(event.status); setError(""); setSuccess("");
-  };
+  }, []);
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (reloadSelectedId?: string | null) => {
     setLoading(true); setError("");
     try {
       const response = await fetch("/api/events?admin=1", { cache: "no-store", headers: { Authorization: `Bearer ${token}` } });
       if (response.status === 401 || response.status === 403) { logout(); return; }
       if (!response.ok) throw new Error("Unable to load events");
-      setStore(await response.json());
+      const latest: EventStoreV1 = await response.json();
+      setStore(latest);
+      if (reloadSelectedId) {
+        const selected = latest.events.find((event) => event.id === reloadSelectedId);
+        if (selected) choose(selected);
+        else {
+          reset();
+          setError("This event was deleted by another administrator. Create a new event if needed.");
+        }
+      }
     } catch { setError("Events could not be loaded. Please try again."); }
     finally { setLoading(false); }
-  }, [logout, token]);
+  }, [choose, logout, reset, token]);
   useEffect(() => { const timer = window.setTimeout(() => void load(), 0); return () => clearTimeout(timer); }, [load]);
 
   const preview = useMemo(() => {
@@ -155,7 +164,7 @@ export function EventCenter({ token, logout }: { token: string; logout: () => vo
                 {(locationType === "online" || locationType === "hybrid") && <label className="block text-sm font-bold">Google Meet link<Input className="mt-2 h-12 px-4 text-base" onChange={(event) => setMeetUrl(event.target.value)} placeholder="https://meet.google.com/..." type="url" value={meetUrl} /></label>}
                 <label className="block text-sm font-bold">Registration link (optional)<Input className="mt-2 h-12 px-4 text-base" onChange={(event) => setRegistrationUrl(event.target.value)} type="url" value={registrationUrl} /></label>
                 {preview && <p className="rounded-xl bg-[#f0f4f8] p-4 text-sm text-[#4a6580]">Preview: {new Intl.DateTimeFormat("en-US", { timeZone: MINISTRY_TIMEZONE, dateStyle: "full", timeStyle: "short" }).format(new Date(preview.startsAt))} ({MINISTRY_TIMEZONE_LABEL}) · {status}</p>}
-                {error && <div className="rounded-xl bg-red-50 p-4 text-sm text-red-700" aria-live="polite">{error}{error.includes("Reload") && <Button className="mt-3 block" onClick={() => void load()} variant="outline">Reload latest</Button>}</div>}
+                {error && <div className="rounded-xl bg-red-50 p-4 text-sm text-red-700" aria-live="polite">{error}{error.includes("Reload") && <Button className="mt-3 block" onClick={() => void load(selectedId)} variant="outline">Reload latest</Button>}</div>}
                 {success && <p className="rounded-xl bg-emerald-50 p-4 text-sm text-emerald-700" role="status">{success}</p>}
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
                   <Button className="min-h-12" disabled={saving} onClick={() => void save("draft")} variant="outline"><Save className="size-4" /> Save draft</Button>

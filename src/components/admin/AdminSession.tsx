@@ -98,15 +98,15 @@ export function AdminSession({
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#f0f4f8] pt-20">
+      <main className="flex min-h-screen items-center justify-center bg-[#f0f4f8] pt-20">
         <LoaderCircle className="size-8 animate-spin text-[#1a6fb5]" aria-label="Loading admin" />
-      </div>
+      </main>
     );
   }
 
   if (!token) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#f0f4f8] px-4 py-24">
+      <main className="flex min-h-screen items-center justify-center bg-[#f0f4f8] px-4 py-24">
         <Card className="w-full max-w-sm border-0 shadow-md">
           <CardContent className="p-7 text-center sm:p-8">
             <Image
@@ -139,7 +139,7 @@ export function AdminSession({
             </form>
           </CardContent>
         </Card>
-      </div>
+      </main>
     );
   }
 

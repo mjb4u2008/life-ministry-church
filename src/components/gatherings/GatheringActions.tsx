@@ -1,71 +1,18 @@
 "use client";
-
 import { useState } from "react";
-import { Bell, Check, Copy, ExternalLink, Play } from "lucide-react";
+import { ArrowUpRight,Check,Copy,Play } from "lucide-react";
 import type { PublicGatheringOccurrence } from "@/lib/gatherings";
 
-export function GatheringActions({
-  occurrence,
-  reminderHref = "/watch#reminded",
-}: {
-  occurrence: PublicGatheringOccurrence;
-  reminderHref?: string;
-}) {
-  const [copied, setCopied] = useState(false);
-
-  const copyJoinLink = async () => {
-    if (!occurrence.joinUrl) return;
-    try {
-      await navigator.clipboard.writeText(occurrence.joinUrl);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2_000);
-    } catch {
-      setCopied(false);
-    }
-  };
-
-  if (occurrence.joinUrl) {
-    return (
-      <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-        <a
-          className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#1a6fb5] px-6 py-3 font-body text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-[#145a94] sm:w-auto"
-          href={occurrence.joinUrl}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Join on Google Meet <ExternalLink className="size-4" />
-        </a>
-        <button
-          className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-white/25 px-5 py-3 font-body text-sm font-bold text-white transition-colors hover:bg-white/10 sm:w-auto"
-          onClick={copyJoinLink}
-          type="button"
-        >
-          {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
-          {copied ? "Copied" : "Copy link"}
-        </button>
-      </div>
-    );
-  }
-
-  if (occurrence.replayUrl) {
-    return (
-      <a
-        className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#1a6fb5] px-6 py-3 font-body text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-[#145a94] sm:w-auto"
-        href={occurrence.replayUrl}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Watch replay <Play className="size-4" fill="currentColor" />
-      </a>
-    );
-  }
-
-  return (
-    <a
-      className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-white/30 px-6 py-3 font-body text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-white/10 sm:w-auto"
-      href={reminderHref}
-    >
-      Get a reminder <Bell className="size-4" />
-    </a>
-  );
+export function GatheringActions({occurrence,reminderHref="/watch#reminded",now=new Date()}:{occurrence:PublicGatheringOccurrence;reminderHref?:string;now?:Date}){
+  const [copied,setCopied]=useState(false);
+  const [copyError,setCopyError]=useState(false);
+  const time=now.getTime(), ended=time>=Date.parse(occurrence.endsAt)||occurrence.status==="completed", live=!ended&&time>=Date.parse(occurrence.startsAt);
+  const copy=async()=>{try{await navigator.clipboard.writeText(occurrence.joinUrl!);setCopied(true);setCopyError(false);}catch{setCopyError(true);}};
+  if(!ended&&occurrence.joinUrl)return <div className="renewal-gathering-actions">
+    <a className="renewal-primary" href={occurrence.joinUrl} target="_blank" rel="noopener noreferrer" aria-label={live?"Join on Google Meet — join us live":"Join on Google Meet — the room is open"}>{live&&<span className="renewal-live-dot" aria-hidden="true"/>}{live?"Join us live":"Enter the room"}<ArrowUpRight size={19}/></a>
+    <button className="renewal-copy" onClick={()=>void copy()} type="button" aria-label={copied?"Join link copied":"Copy join link"}>{copied?<Check size={17}/>:<Copy size={17}/>}<span>{copied?"Copied":"Copy link"}</span></button>
+    {copyError&&<p role="status" className="renewal-small-note">Use the Join button to open the gathering.</p>}
+  </div>;
+  if(ended&&occurrence.replayUrl)return <a className="renewal-primary" href={occurrence.replayUrl} target="_blank" rel="noopener noreferrer">Watch replay <Play size={17}/></a>;
+  return <a className="renewal-primary" href={reminderHref}>Get a reminder <ArrowUpRight size={19}/></a>;
 }

@@ -39,7 +39,7 @@ export function GivingSettings({ token, logout }: { token: string; logout: () =>
       if (response.status === 401 || response.status === 403) { logout(); return; }
       const payload = await response.json();
       if (!response.ok) throw new Error(response.status === 409 ? "Giving settings changed. Reload before saving." : payload.error || "Save failed");
-      setSettings(payload); setUrl(payload.zeffyCampaignUrl); setSuccess(payload.zeffyCampaignUrl ? "Zeffy giving is live on the Give page." : "Online giving is now hidden until a Zeffy link is added.");
+      setSettings(payload); setUrl(payload.zeffyCampaignUrl); setSuccess(payload.zeffyCampaignUrl ? "Zeffy giving is live on the Give page." : "The Give page now uses the existing Stripe giving form.");
     } catch (saveError) { setError(saveError instanceof Error ? saveError.message : "Giving settings could not be saved."); }
     finally { setSaving(false); }
   };
@@ -56,7 +56,7 @@ export function GivingSettings({ token, logout }: { token: string; logout: () =>
             <label className="mt-7 block font-body text-sm font-bold">Zeffy donation-form URL
               <Input className="mt-2 h-12 px-4 text-base" onChange={(event) => setUrl(event.target.value)} placeholder="https://www.zeffy.com/en-US/donation-form/..." type="url" value={url} />
             </label>
-            <p className="mt-2 text-xs text-[#4a6580]">Only HTTPS donation links on zeffy.com are accepted. Clear the field to hide online giving.</p>
+            <p className="mt-2 text-xs text-[#4a6580]">Only HTTPS donation links on zeffy.com are accepted. Until a link is saved, the existing Stripe giving form stays available. Clear the field to return to Stripe.</p>
             {error && <div className="mt-5 rounded-xl bg-red-50 p-4 text-sm text-red-700" aria-live="polite">{error}{error.includes("Reload") && <Button className="mt-3 block" onClick={() => void load()} variant="outline">Reload latest</Button>}</div>}
             {success && <p className="mt-5 rounded-xl bg-emerald-50 p-4 text-sm text-emerald-700" role="status">{success}</p>}
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">

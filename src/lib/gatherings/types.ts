@@ -42,6 +42,8 @@ export interface GatheringOccurrence {
   meetUrlOverride?: string;
   replayUrl?: string;
   bannerUrl?: string;
+  isRecurring?: boolean;
+  dateUnknown?: boolean;
   publishedAt?: string;
   completedAt?: string;
   updatedAt: string;
@@ -61,6 +63,7 @@ export interface GatheringStoreV1 {
   series: GatheringSeries[];
   occurrences: GatheringOccurrence[];
   reminderDeliveries: ReminderDelivery[];
+  legacyRecordingsImported?: boolean;
   updatedAt: string;
 }
 
@@ -108,6 +111,8 @@ export interface PublicGatheringOccurrence {
   description: string;
   replayUrl?: string;
   bannerUrl?: string;
+  isRecurring?: boolean;
+  dateUnknown?: boolean;
   joinUrl?: string;
 }
 

@@ -174,7 +174,7 @@ describe("gathering public components", () => {
       });
     vi.stubGlobal("fetch", fetchMock);
     render(<GatheringExperience mode="home" />);
-    expect(await screen.findByText("No gathering is published yet")).toBeVisible();
+    expect(await screen.findByText("We’re preparing our next gathering.")).toBeVisible();
 
     cleanup();
     fetchMock.mockRejectedValueOnce(new Error("offline"));

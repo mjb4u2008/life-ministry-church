@@ -132,7 +132,9 @@ export function normalizeLegacySubscribers(value: unknown, now = new Date()): Su
     const createdAt = iso(input.timestamp) ? input.timestamp as string : now.toISOString();
     return parseSubscriber({
       id: typeof input.id === "string" && input.id.trim() ? input.id : crypto.randomUUID(),
-      name: input.name,
+      // Earlier signup/import accepted names without a length limit. Adapt the
+      // display field while retaining the original record in the migration backup.
+      name: typeof input.name === "string" ? input.name.trim().slice(0, 100) || "Ministry subscriber" : "Ministry subscriber",
       contactType,
       contact: input.contact,
       createdAt,

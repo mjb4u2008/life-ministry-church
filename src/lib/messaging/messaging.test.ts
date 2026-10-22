@@ -78,6 +78,22 @@ describe("messaging subscriber records", () => {
     storage.failWrites = true;
     await expect(new MessagingRepository(storage).add(adminInput, NOW)).rejects.toThrow("storage unavailable");
   });
+
+  it("migrates names accepted by the old API without disabling the whole list", async () => {
+    const storage = new MemoryStorage();
+    const legacy = [
+      { id: "long-name", name: "A".repeat(140), contactType: "email", contact: "long@example.test", timestamp: NOW.toISOString() },
+      { id: "normal", name: "Alex", contactType: "email", contact: "alex@example.test", timestamp: NOW.toISOString() },
+    ];
+    storage.values.set("subscribers", legacy);
+    const repository = new MessagingRepository(storage);
+    expect(await repository.getActiveSubscribers(NOW)).toHaveLength(2);
+    await repository.suppress("long-name", "unsubscribe", NOW);
+    expect(storage.values.get("subscribers:backup:v1")).toEqual(legacy);
+    expect((await repository.getStore(NOW)).subscribers[0].name).toHaveLength(100);
+    expect(await repository.getActiveSubscribers(NOW)).toHaveLength(1);
+    await expect(repository.add({ ...adminInput, name: "A".repeat(140) }, NOW)).rejects.toThrow("Name");
+  });
 });
 
 describe("unsubscribe tokens", () => {

@@ -203,7 +203,7 @@ describe("gathering time helpers", () => {
 });
 
 describe("legacy gathering normalization", () => {
-  it("preserves Sunday details and creates an unconfigured disabled Wednesday", () => {
+  it("preserves Sunday details and configures the confirmed Wednesday time with the shared Meet", () => {
     const normalized = normalizeLegacyGatherings(
       {
         thisSunday: {
@@ -236,8 +236,8 @@ describe("legacy gathering normalization", () => {
     });
     expect(normalized.series[1]).toMatchObject({
       id: "wednesday-word",
-      enabled: false,
-      schedule: null,
+      enabled: true,
+      schedule: { localTime: "19:30", durationMinutes: 120 },
     });
     expect(normalized.occurrences[0]).toMatchObject({
       title: "Grace for Today",
@@ -327,7 +327,8 @@ describe("gathering selection and public privacy", () => {
       new Date("2026-08-10T12:00:00.000Z"),
     );
     expect(result.featured?.id).toBe(sunday.id);
-    expect(result.upcoming.map((item) => item.id)).toEqual([sunday.id]);
+    expect(result.upcoming[0].id).toBe(sunday.id);
+    expect(result.upcoming.every((item) => item.seriesId === sunday.seriesId)).toBe(true);
   });
 });
 
@@ -706,7 +707,7 @@ describe("GatheringRepository", () => {
 
     expect(saved.revision).toBe(1);
     expect(saved.series).toEqual(existing.series);
-    expect(saved.occurrences).toEqual([sunday]);
+    expect(saved.occurrences).toEqual([sunday, { ...wednesday, status: "cancelled", updatedAt: "2026-08-10T13:00:00.000Z" }]);
     expect(saved.reminderDeliveries).toEqual([existing.reminderDeliveries[1]]);
     expect(storage.values.get(GATHERINGS_KEY)).toEqual(saved);
   });

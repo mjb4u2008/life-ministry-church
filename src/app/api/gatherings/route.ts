@@ -26,8 +26,8 @@ export async function GET(request: NextRequest) {
     const store = await repository.getEffectiveStore();
     const token = bearerToken(request);
 
-    if (token) {
-      if (!verifyToken(token)) {
+    if (token || request.nextUrl.searchParams.get("admin") === "1") {
+      if (!token || !verifyToken(token)) {
         return noStoreJson({ error: "Unauthorized" }, { status: 401 });
       }
       return noStoreJson(store);

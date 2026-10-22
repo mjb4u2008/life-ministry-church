@@ -14,7 +14,7 @@ export default async function UnsubscribePage({
   catch { validToken = false; }
 
   return (
-    <main className="min-h-screen bg-[#f0f4f8] px-4 pb-20 pt-32">
+    <main className="renewal-legacy-page min-h-screen bg-[#f0f4f8] px-4 pb-20 pt-32">
       <div className="mx-auto max-w-lg rounded-3xl bg-white p-8 text-center shadow-sm sm:p-12">
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#1a6fb5]">L.I.F.E. Ministry</p>
         {status === "success" ? (

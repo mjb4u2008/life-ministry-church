@@ -357,7 +357,7 @@ export default function CommunityPage() {
   };
 
   return (
-    <div className="pt-20">
+    <main className="renewal-legacy-page pt-20">
       {/* ── Hero ── */}
       <section className="bg-[#0a1a2f] text-white py-20 md:py-32">
         <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16">
@@ -1143,6 +1143,6 @@ export default function CommunityPage() {
           ))}
         </div>
       )}
-    </div>
+    </main>
   );
 }

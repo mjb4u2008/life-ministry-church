@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { ExternalLink, LoaderCircle, ShieldCheck } from "lucide-react";
 import type { PublicGivingSettings } from "@/lib/giving";
 import { Button } from "@/components/ui/button";
+import { LegacyGivingForm } from "./LegacyGivingForm";
 
 export function ZeffyPanel() {
   const [settings, setSettings] = useState<PublicGivingSettings | null>(null);
@@ -22,7 +23,7 @@ export function ZeffyPanel() {
 
   if (loading) return <div className="flex min-h-72 items-center justify-center"><LoaderCircle className="size-8 animate-spin text-[#1a6fb5]" aria-label="Loading online giving" /></div>;
   if (error) return <div className="rounded-2xl border border-red-200 bg-red-50 p-7 text-center text-red-800"><p>{error}</p><Button className="mt-4 min-h-11" onClick={() => void load()} variant="outline">Try again</Button></div>;
-  if (!settings?.configured || !settings.campaignUrl || !settings.embedUrl) return <div className="rounded-2xl border border-[#dce8f2] bg-white p-8 text-center"><ShieldCheck className="mx-auto size-10 text-[#1a6fb5]" /><h2 className="mt-4 font-display text-2xl font-bold text-[#0a1a2f]">Online giving is being configured.</h2><p className="mt-2 font-body text-[#4a6580]">Please check back soon.</p></div>;
+  if (!settings?.configured || !settings.campaignUrl || !settings.embedUrl) return <LegacyGivingForm />;
 
   return (
     <div className="space-y-5">

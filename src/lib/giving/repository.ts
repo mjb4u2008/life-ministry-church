@@ -1,4 +1,5 @@
 import { kv } from "@vercel/kv";
+import { compareAndSetRevision } from "@/lib/revision-storage";
 import { parseGivingSettings } from "./schema";
 import type { GivingSettingsV1 } from "./types";
 
@@ -20,23 +21,7 @@ export class GivingRevisionConflictError extends Error {
 const vercelStorage: GivingStorage = {
   get: <T>(key: string) => kv.get<T>(key),
   set: <T>(key: string, value: T) => kv.set(key, value),
-  compareAndSet: async <T>(key: string, expectedRevision: number, value: T) => {
-    const result = await kv.eval<[string, string], number>(
-      `
-        local current = redis.call("GET", KEYS[1])
-        if current then
-          local decoded = cjson.decode(current)
-          local actual = tonumber(decoded.revision)
-          if actual ~= tonumber(ARGV[1]) then return actual end
-        elseif tonumber(ARGV[1]) ~= 0 then return -1 end
-        redis.call("SET", KEYS[1], ARGV[2])
-        return tonumber(ARGV[1]) + 1
-      `,
-      [key],
-      [String(expectedRevision), JSON.stringify(value)],
-    );
-    return { saved: result === expectedRevision + 1, actualRevision: result };
-  },
+  compareAndSet: compareAndSetRevision,
 };
 
 function emptySettings(now = new Date()): GivingSettingsV1 {

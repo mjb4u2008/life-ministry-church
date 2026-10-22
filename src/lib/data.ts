@@ -1,4 +1,6 @@
 import { kv } from "@vercel/kv";
+import { withFeaturedVideos } from "./featured-videos";
+import { compareAndSetRevision } from "./revision-storage";
 
 // ─── Interfaces ────────────────────────────────────────────────────────────────
 
@@ -29,6 +31,7 @@ export interface TikTokVideo {
 }
 
 export interface SiteContent {
+  revision?: number;
   weeklyMessage: WeeklyMessage;
   serviceSchedule: ServiceSchedule;
   lobbyOpen: boolean;
@@ -37,6 +40,7 @@ export interface SiteContent {
   testMode: boolean;
   socialLinks: SocialLinks;
   tiktokVideos: TikTokVideo[];
+  featuredVideosInitialized?: boolean;
   lastUpdated: string;
   googleMeetLink: string;
   youtubeLatestUrl: string;
@@ -158,29 +162,56 @@ const DEFAULT_DAILY_SCRIPTURE: DailyScripture = {
 
 // ─── Content functions ─────────────────────────────────────────────────────────
 
+export class ContentRevisionConflictError extends Error {
+  constructor(public readonly expectedRevision: number, public readonly actualRevision: number) {
+    super("Content changed. Reload the latest version before saving.");
+    this.name = "ContentRevisionConflictError";
+  }
+}
+
+export async function getAdminContent(): Promise<SiteContent & { revision: number }> {
+  // Editing must never mistake an outage fallback for the saved media list.
+  const stored = await kv.get<SiteContent>("site-content");
+  const content = stored === null ? DEFAULT_CONTENT : stored;
+  if (!content || typeof content !== "object" || Array.isArray(content)) throw new Error("Stored content is invalid");
+  const revision = content.revision === undefined ? 0 : content.revision;
+  if (!Number.isSafeInteger(revision) || revision < 0) throw new Error("Stored content revision is invalid");
+  return { ...withFeaturedVideos(content), revision };
+}
+
 export async function getContent(): Promise<SiteContent> {
   try {
     const data = await kv.get<SiteContent>("site-content");
-    return data || DEFAULT_CONTENT;
+    return withFeaturedVideos(data || DEFAULT_CONTENT);
   } catch (error) {
     console.error("KV error:", error);
-    return DEFAULT_CONTENT;
+    return withFeaturedVideos(DEFAULT_CONTENT);
   }
 }
 
 export async function updateContent(
-  content: Partial<SiteContent>
+  content: Partial<SiteContent>,
+  expectedRevision?: number,
 ): Promise<SiteContent> {
   // Writes must not use the public read fallback: a transient read failure
   // must never turn into an apparently successful overwrite of real content.
-  const currentContent = await kv.get<SiteContent>("site-content") || DEFAULT_CONTENT;
-  const updatedContent: SiteContent = {
-    ...currentContent,
-    ...content,
-    lastUpdated: new Date().toISOString(),
-  };
-  await kv.set("site-content", updatedContent);
-  return updatedContent;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const current = await getAdminContent();
+    if (expectedRevision !== undefined && expectedRevision !== current.revision) {
+      throw new ContentRevisionConflictError(expectedRevision, current.revision);
+    }
+    const next: SiteContent = {
+      ...current, ...content,
+      revision: current.revision + 1,
+      lastUpdated: new Date().toISOString(),
+    };
+    const result = await compareAndSetRevision("site-content", current.revision, next);
+    if (result.saved) return next;
+    if (expectedRevision !== undefined || attempt === 2) {
+      throw new ContentRevisionConflictError(current.revision, result.actualRevision);
+    }
+  }
+  throw new Error("Unable to save content");
 }
 
 // ─── Prayer functions ──────────────────────────────────────────────────────────
@@ -403,7 +434,9 @@ export async function incrementBlessedCount(
   id: string
 ): Promise<Testimony | null> {
   const testimonies = await getTestimonies();
-  const index = testimonies.findIndex((t) => t.id === id);
+  // This helper is reachable without authentication. Knowing an ID must not
+  // reveal a testimony that has not passed moderation.
+  const index = testimonies.findIndex((t) => t.id === id && t.approved === true);
 
   if (index === -1) {
     return null;

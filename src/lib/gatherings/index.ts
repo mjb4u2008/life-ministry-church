@@ -4,3 +4,4 @@ export * from "./schema";
 export * from "./selectors";
 export * from "./time";
 export * from "./types";
+export * from "./recurrence";

@@ -1,5 +1,7 @@
 import { kv } from "@vercel/kv";
-import { normalizeLegacyGatherings } from "./legacy";
+import { compareAndSetRevision } from "@/lib/revision-storage";
+import { applyWeeklyDefaults, importLegacyRecordings, normalizeLegacyGatherings } from "./legacy";
+import { scheduledOccurrences } from "./recurrence";
 import { GatheringValidationError, parseGatheringStore } from "./schema";
 import type {
   GatheringOccurrence,
@@ -36,35 +38,7 @@ export class GatheringRevisionConflictError extends Error {
 const vercelStorage: GatheringStorage = {
   get: <T>(key: string) => kv.get<T>(key),
   set: <T>(key: string, value: T) => kv.set(key, value),
-  compareAndSet: async <T>(
-    key: string,
-    expectedRevision: number,
-    value: T,
-  ) => {
-    const nextRevision = expectedRevision + 1;
-    const result = await kv.eval<[string, string], number>(
-      `
-        local current = redis.call("GET", KEYS[1])
-        if current then
-          local decoded = cjson.decode(current)
-          local actual = tonumber(decoded.revision)
-          if actual ~= tonumber(ARGV[1]) then
-            return actual
-          end
-        elseif tonumber(ARGV[1]) ~= 0 then
-          return -1
-        end
-        redis.call("SET", KEYS[1], ARGV[2])
-        return tonumber(ARGV[1]) + 1
-      `,
-      [key],
-      [String(expectedRevision), JSON.stringify(value)],
-    );
-    return {
-      saved: result === nextRevision,
-      actualRevision: result,
-    };
-  },
+  compareAndSet: compareAndSetRevision,
 };
 
 export class GatheringRepository {
@@ -77,9 +51,12 @@ export class GatheringRepository {
 
   async getEffectiveStore(now = new Date()): Promise<GatheringStoreV1> {
     const persisted = await this.getPersistedStore();
-    if (persisted) return persisted;
-    const legacy = await this.storage.get<unknown>(LEGACY_CONTENT_KEY);
-    return normalizeLegacyGatherings(legacy, now);
+    const legacy = !persisted?.legacyRecordingsImported
+      ? await this.storage.get<unknown>(LEGACY_CONTENT_KEY)
+      : null;
+    return persisted
+      ? applyWeeklyDefaults(importLegacyRecordings(persisted, legacy, now))
+      : normalizeLegacyGatherings(legacy, now);
   }
 
   async upsertSeries(
@@ -98,6 +75,9 @@ export class GatheringRepository {
     expectedRevision: number,
     now = new Date(),
   ): Promise<GatheringStoreV1> {
+    if (occurrence.status === "completed" && Date.parse(occurrence.endsAt) > now.getTime()) {
+      throw new GatheringValidationError(["A replay can only be attached after the gathering ends"]);
+    }
     return this.saveChange(expectedRevision, now, (current) => ({
       ...current,
       occurrences: replaceById(current.occurrences, occurrence),
@@ -140,15 +120,17 @@ export class GatheringRepository {
     expectedRevision: number,
     now = new Date(),
   ): Promise<GatheringStoreV1> {
-    return this.saveChange(expectedRevision, now, (current) => ({
-      ...current,
-      occurrences: current.occurrences.filter(
-        (occurrence) => occurrence.id !== occurrenceId,
-      ),
-      reminderDeliveries: current.reminderDeliveries.filter(
-        (delivery) => delivery.occurrenceId !== occurrenceId,
-      ),
-    }));
+    return this.saveChange(expectedRevision, now, (current) => {
+      const occurrence = scheduledOccurrences(current, now, true).find((item) => item.id === occurrenceId);
+      if (!occurrence) throw new GatheringValidationError(["Gathering not found"]);
+      // Retain a date exception so automatic recurrence cannot recreate a skipped service.
+      const cancelled = { ...occurrence, status: "cancelled" as const, updatedAt: now.toISOString() };
+      return {
+        ...current,
+        occurrences: replaceById(current.occurrences, cancelled),
+        reminderDeliveries: current.reminderDeliveries.filter((delivery) => delivery.occurrenceId !== occurrenceId),
+      };
+    });
   }
 
   async claimReminderDelivery(
@@ -278,10 +260,12 @@ export class GatheringRepository {
     change: (current: GatheringStoreV1) => GatheringStoreV1,
   ): Promise<GatheringStoreV1> {
     const persisted = await this.getPersistedStore();
-    const legacy = persisted
-      ? null
-      : await this.storage.get<unknown>(LEGACY_CONTENT_KEY);
-    const current = persisted ?? normalizeLegacyGatherings(legacy, now);
+    const legacy = !persisted?.legacyRecordingsImported
+      ? await this.storage.get<unknown>(LEGACY_CONTENT_KEY)
+      : null;
+    const current = persisted
+      ? applyWeeklyDefaults(importLegacyRecordings(persisted, legacy, now))
+      : normalizeLegacyGatherings(legacy, now);
     if (current.revision !== expectedRevision) {
       throw new GatheringRevisionConflictError(
         expectedRevision,

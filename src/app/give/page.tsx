@@ -3,7 +3,7 @@ import { ZeffyPanel } from "@/components/giving";
 
 export default function GivePage() {
   return (
-    <main className="min-h-screen bg-[#fafcff] pb-24 pt-20">
+    <main className="renewal-legacy-page min-h-screen bg-[#fafcff] pb-24 pt-20">
       <section className="bg-[#0a1a2f] px-4 py-20 text-center text-white sm:py-28">
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#00d4ff]">Support the ministry</p>
         <h1 className="mt-5 font-display text-5xl font-black sm:text-7xl">Give Generously</h1>

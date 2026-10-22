@@ -180,3 +180,37 @@ test("events: admin load failure blocks edits and offers retry", async ({ page }
   await expect(page.getByRole("button", { name: "Try again" })).toBeVisible();
   await expect(page.getByLabel("Title")).toHaveCount(0);
 });
+
+test("events: an open page refreshes Join at the window and removes ended events", async ({ page }) => {
+  await page.clock.install({ time: new Date("2030-08-14T22:29:59.000Z") });
+  let reads = 0;
+  await page.route("**/api/events", (route) => {
+    reads += 1;
+    return route.fulfill({ contentType: "application/json", json: { events: [{ ...publishedEvent, ...(reads > 1 ? { joinUrl: "https://meet.google.com/abc-defg-hij" } : {}) }] } });
+  });
+  await page.route("**/api/gatherings", (route) => route.fulfill({ contentType: "application/json", json: { series: [], featured: null, upcoming: [], recent: [] } }));
+  await page.goto("/events");
+  await expect(page.getByRole("heading", { name: publishedEvent.title })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Join online" })).toHaveCount(0);
+  await page.clock.runFor(2_000);
+  await expect(page.getByRole("link", { name: "Join online" })).toHaveAttribute("href", "https://meet.google.com/abc-defg-hij");
+  await page.clock.fastForward(2 * 60 * 60_000 + 1_000);
+  await expect(page.getByRole("link", { name: "Join online" })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: publishedEvent.title })).toHaveCount(0);
+});
+
+test("events: a failed background refresh hides stale Join details and offers retry", async ({ page }) => {
+  await page.clock.install({ time: new Date("2030-08-14T22:45:00.000Z") });
+  let fail = false;
+  await page.route("**/api/events", (route) => route.fulfill({ contentType: "application/json", status: fail ? 503 : 200, json: fail ? { error: "unavailable" } : { events: [{ ...publishedEvent, joinUrl: "https://meet.google.com/abc-defg-hij" }] } }));
+  await page.route("**/api/gatherings", (route) => route.fulfill({ contentType: "application/json", json: { series: [], featured: null, upcoming: [], recent: [] } }));
+  await page.goto("/events");
+  await expect(page.getByRole("link", { name: "Join online" })).toBeVisible();
+  fail = true;
+  await page.clock.runFor(30_000);
+  await expect(page.getByText(/events couldn’t load/i)).toBeVisible();
+  await expect(page.getByRole("link", { name: "Join online" })).toHaveCount(0);
+  fail = false;
+  await page.getByRole("button", { name: "Try again" }).click();
+  await expect(page.getByRole("link", { name: "Join online" })).toBeVisible();
+});

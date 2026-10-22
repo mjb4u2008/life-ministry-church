@@ -29,15 +29,26 @@ test("giving: configured page embeds Zeffy with a permanent external fallback", 
   expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false);
 });
 
-test("giving: unconfigured state has no donation target or fake checkout", async ({ page, request }) => {
+test("giving: Stripe stays available until Zeffy is configured and preserves choices on failure", async ({ page }) => {
   await page.route("**/api/giving", (route) => route.fulfill({ contentType: "application/json", json: { configured: false } }));
-  await page.goto("/give");
-  await expect(page.getByRole("heading", { name: /online giving is being configured/i })).toBeVisible();
+  let checkout: unknown;
+  await page.route("**/api/checkout", async (route) => {
+    checkout = route.request().postDataJSON();
+    await route.fulfill({ contentType: "application/json", status: 503, json: { error: "Online giving is temporarily unavailable." } });
+  });
+  await page.goto("/give?success=true");
+  await expect(page.getByRole("heading", { name: /give securely through stripe/i })).toBeVisible();
   await expect(page.getByTitle("Donation form powered by Zeffy")).toHaveCount(0);
   await expect(page.getByRole("link", { name: /zeffy/i })).toHaveCount(0);
-
-  const legacyCheckout = await request.post("/api/checkout", { data: { amount: 100, card: "should-not-be-read" } });
-  expect(legacyCheckout.status()).toBe(404);
+  await page.getByLabel("Choose a fund").selectOption("missions");
+  await page.getByRole("button", { name: "$25", exact: true }).click();
+  await page.getByLabel("Make this a recurring gift").check();
+  await page.getByLabel("Frequency").selectOption("quarterly");
+  await page.getByRole("button", { name: "Continue to Payment" }).click();
+  await expect(page.getByRole("alert").filter({ hasText: "Online giving is temporarily unavailable." })).toHaveText("Online giving is temporarily unavailable.");
+  await expect(page.getByLabel("Amount in US dollars")).toHaveValue("25");
+  expect(checkout).toEqual({ amount: "25", fund: "missions", isRecurring: true, frequency: "quarterly" });
+  await expect(page.getByText(/payment was successful/i)).toHaveCount(0);
 });
 
 test("giving: admin validates and saves the Zeffy campaign link", async ({ page }, testInfo) => {

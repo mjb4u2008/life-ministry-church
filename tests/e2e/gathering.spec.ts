@@ -10,7 +10,7 @@ function gatheringPayload(
   const startsAt = new Date(
     state === "upcoming" ? now + 3 * 86_400_000 : now - 15 * 60_000,
   );
-  const endsAt = new Date(state === "replay" ? now - 5 * 60_000 : now + 75 * 60_000);
+  const endsAt = new Date(state === "replay" ? now - 5 * 60_000 : state === "upcoming" ? startsAt.getTime() + 90 * 60_000 : now + 75 * 60_000);
   const occurrence = {
     id: `wednesday-word:${startsAt.toISOString().slice(0, 10)}`,
     seriesId: "wednesday-word",
@@ -89,7 +89,7 @@ test("gathering: homepage uses the canonical upcoming Wednesday", async ({ page 
   await expect(page.getByText("Wednesday Word")).toBeVisible();
   await expect(page.getByLabel("Time until gathering")).toBeVisible();
   await expect(page.getByRole("link", { name: /get a reminder/i })).toBeVisible();
-  await expect(page.getByText("No public prayer requests have been shared yet.")).toBeVisible();
+  await expect(page.getByRole("link", { name: /ask for prayer/i })).toHaveAttribute("href", "/community");
   await expect(page.getByText("Sarah M.")).toHaveCount(0);
 
   const hasHorizontalOverflow = await page.evaluate(
@@ -116,7 +116,7 @@ test("gathering: Watch shows a real replay and no fabricated archive", async ({ 
   await page.goto("/watch");
 
   await expect(page.getByRole("heading", { name: "A Message to Remember" })).toBeVisible();
-  await expect(page.getByText("Latest replay")).toBeVisible();
+  await expect(page.getByText("Latest message")).toBeVisible();
   await expect(page.getByRole("link", { name: /watch replay/i })).toHaveAttribute(
     "href",
     REPLAY_URL,

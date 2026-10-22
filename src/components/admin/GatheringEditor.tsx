@@ -16,6 +16,8 @@ import {
   MINISTRY_TIMEZONE,
   MINISTRY_TIMEZONE_LABEL,
   buildOccurrenceTimesFromLocalRange,
+  occurrenceIdForDate,
+  scheduledOccurrences,
   type GatheringOccurrence,
   type GatheringSchedule,
   type GatheringSeries,
@@ -109,7 +111,7 @@ export function nextScheduledLocalDate(
 
 function currentOccurrence(store: GatheringStoreV1, seriesId: string) {
   const now = Date.now();
-  return store.occurrences
+  return scheduledOccurrences(store)
     .filter(
       (item) =>
         item.seriesId === seriesId &&
@@ -149,8 +151,8 @@ export function GatheringEditor({
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const [startTime, setStartTime] = useState("19:00");
-  const [endTime, setEndTime] = useState("20:30");
+  const [startTime, setStartTime] = useState("19:30");
+  const [endTime, setEndTime] = useState("21:30");
   const [meetUrl, setMeetUrl] = useState("");
 
   const [occurrenceId, setOccurrenceId] = useState<string | null>(null);
@@ -160,6 +162,9 @@ export function GatheringEditor({
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState<GatheringStatus>("draft");
   const [replayUrl, setReplayUrl] = useState("");
+  const [pastOccurrenceId, setPastOccurrenceId] = useState("");
+  const [recordingUrl, setRecordingUrl] = useState("");
+  const [recordingTitle, setRecordingTitle] = useState("");
 
   const [banner, setBanner] = useState<string | null>(null);
   const [bannerMime, setBannerMime] = useState<string | null>(null);
@@ -167,6 +172,9 @@ export function GatheringEditor({
   const [bannerError, setBannerError] = useState("");
 
   const series = store?.series.find((item) => item.id === seriesId);
+  const pastGatherings = useMemo(() => store ? scheduledOccurrences(store, new Date(), true)
+    .filter((item) => item.seriesId === seriesId && item.status !== "cancelled" && item.status !== "draft" && Date.parse(item.endsAt) <= Date.now())
+    .sort((a, b) => Date.parse(b.startsAt) - Date.parse(a.startsAt)) : [], [seriesId, store]);
 
   const populate = useCallback(
     (nextStore: GatheringStoreV1) => {
@@ -177,12 +185,12 @@ export function GatheringEditor({
         return;
       }
 
-      const fallbackTime = nextSeries.kind === "sunday" ? "10:00" : "19:00";
+      const fallbackTime = nextSeries.kind === "sunday" ? "11:30" : "19:30";
       const schedule = nextSeries.schedule ?? {
         dayOfWeek: expectedDay(nextSeries),
         localTime: fallbackTime,
         timezone: MINISTRY_TIMEZONE,
-        durationMinutes: 90,
+        durationMinutes: nextSeries.kind === "wednesday" ? 120 : 90,
       };
       const occurrence = currentOccurrence(nextStore, seriesId);
       const nextStartTime = occurrence
@@ -195,7 +203,7 @@ export function GatheringEditor({
       setStore(nextStore);
       setStartTime(nextStartTime);
       setEndTime(nextEndTime);
-      setMeetUrl(nextSeries.defaultMeetUrl);
+      setMeetUrl(occurrence?.meetUrlOverride || nextSeries.defaultMeetUrl);
       setOccurrenceId(occurrence?.id ?? null);
       setLocalDate(
         occurrence?.localDate ??
@@ -205,11 +213,17 @@ export function GatheringEditor({
             MINISTRY_TIMEZONE,
           ),
       );
-      setTitle(occurrence?.title ?? "");
+      setTitle(occurrence?.isRecurring ? "" : occurrence?.title ?? "");
       setScripture(occurrence?.scripture ?? "");
       setDescription(occurrence?.description ?? "");
       setStatus(occurrence?.status ?? "draft");
       setReplayUrl(occurrence?.replayUrl ?? "");
+      const past = scheduledOccurrences(nextStore, new Date(), true)
+        .filter((item) => item.seriesId === seriesId && item.status !== "cancelled" && item.status !== "draft" && Date.parse(item.endsAt) <= Date.now())
+        .sort((a, b) => Date.parse(b.startsAt) - Date.parse(a.startsAt))[0];
+      setPastOccurrenceId(past?.id ?? "");
+      setRecordingUrl(past?.replayUrl ?? "");
+      setRecordingTitle(past?.title ?? "");
       setBanner(null);
       setBannerMime(null);
       setBannerError("");
@@ -324,13 +338,26 @@ export function GatheringEditor({
     }
   };
 
+  const chooseDate = (date: string) => {
+    setLocalDate(date);
+    const occurrence = store?.occurrences.find((item) => item.seriesId === seriesId && item.localDate === date && !item.id.startsWith("legacy-recording:"));
+    const generated = store && scheduledOccurrences(store).find((item) => item.seriesId === seriesId && item.localDate === date);
+    setOccurrenceId(occurrence?.id ?? generated?.id ?? null);
+    setTitle(occurrence?.title ?? ""); setScripture(occurrence?.scripture ?? ""); setDescription(occurrence?.description ?? "");
+    setMeetUrl(occurrence?.meetUrlOverride || series?.defaultMeetUrl || meetUrl);
+    setReplayUrl(occurrence?.replayUrl ?? ""); setStatus(occurrence?.status ?? (generated ? "published" : "draft"));
+    const nextStart = occurrence ? localParts(new Date(occurrence.startsAt), MINISTRY_TIMEZONE).time : series?.schedule?.localTime ?? (series?.kind === "sunday" ? "11:30" : "19:30");
+    setStartTime(nextStart);
+    setEndTime(occurrence ? localParts(new Date(occurrence.endsAt), MINISTRY_TIMEZONE).time : addMinutes(nextStart, series?.schedule?.durationMinutes ?? (series?.kind === "wednesday" ? 120 : 90)));
+    setBanner(null); setBannerMime(null); setSuccess("");
+  };
+
   const publish = async () => {
     if (!store || !series) return;
     setSaving(true);
     setError("");
     setSuccess("");
     try {
-      if (!title.trim()) throw new Error("Add the message title.");
       if (!localDate || !previewTimes) {
         throw new Error("Choose a valid date, start time, and end time.");
       }
@@ -353,6 +380,7 @@ export function GatheringEditor({
       }
 
       const now = new Date().toISOString();
+      const existing = store.occurrences.find((item) => item.seriesId === series.id && item.localDate === localDate && !item.id.startsWith("legacy-recording:"));
       const nextSeries: GatheringSeries = {
         ...series,
         enabled: true,
@@ -362,25 +390,24 @@ export function GatheringEditor({
           timezone: MINISTRY_TIMEZONE,
           durationMinutes,
         },
-        defaultMeetUrl: meetUrl.trim(),
+        defaultMeetUrl: existing?.meetUrlOverride ? series.defaultMeetUrl : meetUrl.trim(),
         joinWindowMinutes: MINISTRY_JOIN_WINDOW_MINUTES,
         updatedAt: now,
       };
-      const existing = occurrenceId
-        ? store.occurrences.find((item) => item.id === occurrenceId)
-        : undefined;
       const occurrence: GatheringOccurrence = {
-        id: occurrenceId ?? `${series.id}:${localDate}`,
+        id: existing?.localDate === localDate ? existing.id : occurrenceIdForDate(series.id, localDate),
         seriesId: series.id,
         localDate,
         startsAt: previewTimes.startsAt,
         endsAt: previewTimes.endsAt,
         status: "published",
-        title: title.trim(),
+        title: title.trim() || series.name,
         scripture: scripture.trim(),
         description: description.trim(),
         updatedAt: now,
         publishedAt: existing?.publishedAt ?? now,
+        ...(existing?.meetUrlOverride ? { meetUrlOverride: meetUrl.trim() } : {}),
+        ...(existing?.bannerUrl ? { bannerUrl: existing.bannerUrl } : {}),
         ...(replayUrl.trim() ? { replayUrl: replayUrl.trim() } : {}),
       };
       const publishedStore = await put({
@@ -413,7 +440,7 @@ export function GatheringEditor({
   const remove = async () => {
     if (!store || !series || !occurrenceId) return;
     const confirmed = window.confirm(
-      `Delete ${title.trim() ? `“${title.trim()}”` : "this gathering"} from the website?`,
+      `Skip ${localDate} on the website? Other weekly gatherings will continue automatically.`,
     );
     if (!confirmed) return;
 
@@ -427,7 +454,7 @@ export function GatheringEditor({
         occurrenceId,
       });
       populate(nextStore);
-      setSuccess(`${series.name} was deleted from the website.`);
+      setSuccess(`${series.name} on ${localDate} was removed. Other weekly dates will continue automatically.`);
     } catch (deleteError) {
       setError(
         deleteError instanceof Error && deleteError.message === "SESSION_EXPIRED"
@@ -441,6 +468,29 @@ export function GatheringEditor({
     } finally {
       setSaving(false);
     }
+  };
+
+  const saveReplay = async () => {
+    if (!store) return;
+    const selected = pastGatherings.find((item) => item.id === pastOccurrenceId);
+    if (!selected) return;
+    setSaving(true); setError(""); setSuccess("");
+    try {
+      if (!recordingUrl.trim()) throw new Error("Add the recording link.");
+      const nextStore = await put({
+        operation: "upsert-occurrence", expectedRevision: store.revision,
+        occurrence: { ...selected, isRecurring: false, title: recordingTitle.trim() || selected.title,
+          status: "completed", replayUrl: recordingUrl.trim(), completedAt: selected.endsAt, updatedAt: new Date().toISOString() },
+      });
+      setStore(nextStore);
+      setSuccess("The recording is now available on Watch.");
+    } catch (saveError) {
+      setError(saveError instanceof Error && saveError.message === "CONFLICT"
+        ? "Someone else changed this gathering. Reload the latest version before saving again."
+        : saveError instanceof Error && saveError.message === "SESSION_EXPIRED"
+          ? "Your session expired. Please sign in again."
+          : saveError instanceof Error ? saveError.message : "The recording could not be saved.");
+    } finally { setSaving(false); }
   };
 
   const downloadBanner = () => {
@@ -470,7 +520,7 @@ export function GatheringEditor({
           Gathering not found
         </h1>
         <p className="mt-3 text-[#4a6580]">{error}</p>
-        <Button className="mt-6" render={<Link href="/admin" />}>
+        <Button className="mt-6" nativeButton={false} render={<Link href="/admin" />}>
           Back to admin
         </Button>
       </div>
@@ -494,8 +544,8 @@ export function GatheringEditor({
             Prepare {series.name}
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#4a6580] sm:text-base">
-            Add the message and time, generate the Sunday header if you want it,
-            then put this gathering on the website.
+            Weekly gatherings continue automatically. Update the message for one
+            date, or add a recording below after the gathering ends.
           </p>
         </div>
       </header>
@@ -532,7 +582,7 @@ export function GatheringEditor({
             <CardTitle>Gathering details</CardTitle>
             <p className="text-sm text-[#4a6580]">
               All dates and times use {MINISTRY_TIMEZONE_LABEL}. The website
-              automatically shows whichever published gathering comes next.
+              automatically shows the next weekly gathering, even when no new message is added.
             </p>
           </CardHeader>
           <CardContent className="space-y-5">
@@ -541,7 +591,7 @@ export function GatheringEditor({
                 Date
                 <Input
                   className="mt-2 h-12 px-4 text-base"
-                  onChange={(event) => setLocalDate(event.target.value)}
+                  onChange={(event) => chooseDate(event.target.value)}
                   type="date"
                   value={localDate}
                 />
@@ -566,9 +616,11 @@ export function GatheringEditor({
               </label>
             </div>
             <label className="block text-sm font-bold">
-              Message title
+              Message title <span className="font-normal text-[#4a6580]">(optional)</span>
               <Input
                 className="mt-2 h-12 px-4 text-base"
+                aria-label="Message title"
+                placeholder={series.name}
                 maxLength={120}
                 onChange={(event) => setTitle(event.target.value)}
                 value={title}
@@ -696,7 +748,7 @@ export function GatheringEditor({
               {series.name}
             </p>
             <h2 className="mt-2 break-words font-display text-3xl font-bold text-[#0a1a2f]">
-              {title || "Message title"}
+              {title || series.name}
             </h2>
             {scripture && (
               <p className="mt-2 font-semibold text-[#1a6fb5]">{scripture}</p>
@@ -712,6 +764,27 @@ export function GatheringEditor({
                 {formatEndTime(previewTimes.endsAt)}
               </p>
             )}
+          </CardContent>
+        </Card>
+
+        <Card className="border-0 shadow-sm" id="recordings">
+          <CardHeader><CardTitle>Add a past recording</CardTitle>
+            <p className="text-sm text-[#4a6580]">Choose the gathering that has ended. Its replay appears on Watch while the next gathering stays featured.</p>
+          </CardHeader>
+          <CardContent className="space-y-5">
+            {pastGatherings.length ? <>
+              <label className="block text-sm font-bold">Past gathering
+                <select className="mt-2 h-12 w-full rounded-lg border border-input bg-white px-4 text-base" value={pastOccurrenceId} onChange={(event) => {
+                  const selected = pastGatherings.find((item) => item.id === event.target.value);
+                  setPastOccurrenceId(event.target.value); setRecordingUrl(selected?.replayUrl ?? ""); setRecordingTitle(selected?.title ?? "");
+                }}>
+                  {pastGatherings.map((item) => <option key={item.id} value={item.id}>{item.dateUnknown ? "Recorded message" : item.localDate} — {item.title}</option>)}
+                </select>
+              </label>
+              <label className="block text-sm font-bold">Recording title<Input className="mt-2 h-12 px-4 text-base" maxLength={120} onChange={(event) => setRecordingTitle(event.target.value)} value={recordingTitle} /></label>
+              <label className="block text-sm font-bold">Recording link<Input className="mt-2 h-12 px-4 text-base" type="url" placeholder="https://youtube.com/watch?v=..." onChange={(event) => setRecordingUrl(event.target.value)} value={recordingUrl} /></label>
+              <Button className="min-h-12 bg-[#1a6fb5] text-white" disabled={saving || !recordingUrl.trim()} onClick={() => void saveReplay()}>Save recording</Button>
+            </> : <p className="text-sm text-[#4a6580]">Past gatherings will appear here after they end.</p>}
           </CardContent>
         </Card>
 

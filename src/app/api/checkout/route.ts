@@ -1,8 +1,14 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { GivingRepository } from "@/lib/giving";
+import { legacyStripeCheckout } from "./legacy-stripe-checkout";
 
-// The previous Stripe checkout is intentionally unavailable while giving is
-// handled by Zeffy. Its implementation remains beside this route as a dormant
-// rollback artifact until the production Zeffy campaign has been verified.
-export async function POST() {
-  return new NextResponse(null, { status: 404 });
+export async function POST(request: NextRequest) {
+  try {
+    // Keep existing giving available until an administrator configures Zeffy.
+    const settings = await new GivingRepository().get();
+    if (settings.zeffyCampaignUrl) return NextResponse.json({ error: "The giving form has changed. Refresh the Give page to continue." }, { status: 404 });
+    return await legacyStripeCheckout(request);
+  } catch {
+    return NextResponse.json({ error: "Giving is temporarily unavailable. Please try again." }, { status: 503 });
+  }
 }

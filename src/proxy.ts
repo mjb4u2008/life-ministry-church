@@ -72,8 +72,10 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    // API protection must run even when a caller supplies prefetch headers.
+    "/api/:path*",
     {
-      source: "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+      source: "/((?!api(?:/|$)|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
       missing: [
         { type: "header", key: "next-router-prefetch" },
         { type: "header", key: "purpose", value: "prefetch" },

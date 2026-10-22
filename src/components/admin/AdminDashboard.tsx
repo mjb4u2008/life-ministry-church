@@ -13,6 +13,7 @@ import {
   MessageSquareText,
   PlaySquare,
 } from "lucide-react";
+import { scheduledOccurrences } from "@/lib/gatherings";
 import type {
   GatheringOccurrence,
   GatheringSeries,
@@ -26,10 +27,10 @@ function currentOccurrence(
   seriesId: string,
 ): GatheringOccurrence | undefined {
   const now = Date.now();
-  const occurrences = store.occurrences
+  const occurrences = scheduledOccurrences(store)
     .filter(
       (item) =>
-        item.seriesId === seriesId && item.status !== "cancelled",
+        item.seriesId === seriesId && item.status !== "cancelled" && item.status !== "completed",
     )
     .sort((a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt));
   return occurrences.find((item) => Date.parse(item.endsAt) > now);
@@ -79,13 +80,13 @@ function GatheringReadinessCard({
             <p>Nothing scheduled yet.</p>
           )}
         </div>
-        <Button
-          className="mt-5 min-h-11 w-full bg-[#1a6fb5] font-body font-bold text-white hover:bg-[#155d99]"
-          render={<Link href={`/admin/gatherings/${series.id}`} />}
+        <Link
+          className="mt-5 flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#1a6fb5] px-4 py-2 font-body text-sm font-bold text-white hover:bg-[#155d99]"
+          href={`/admin/gatherings/${series.id}`}
         >
           {occurrence ? "View or update" : "Set up gathering"}
           <ChevronRight className="size-4" />
-        </Button>
+        </Link>
       </CardContent>
     </Card>
   );
@@ -136,7 +137,7 @@ export function AdminDashboard({ token, logout }: { token: string; logout: () =>
 
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         <p className="max-w-2xl font-body text-[#4a6580]">
-          Choose Wednesday or Sunday. Add the message and time, then put it on the website.
+          Wednesday and Sunday continue automatically. Choose a gathering to update its message or add a past recording.
         </p>
 
         {loading ? (
@@ -168,9 +169,10 @@ export function AdminDashboard({ token, logout }: { token: string; logout: () =>
           <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
               { href: "/admin/legacy?tab=flyer", label: "Flyer generator", icon: ImageIcon },
+              { href: "/admin/videos", label: "Pastor’s TikToks", icon: PlaySquare },
               { href: "/admin/legacy?tab=daily-scripture", label: "Daily Scripture", icon: BookOpen },
               { href: "/admin/legacy?tab=messaging", label: "Messaging", icon: MessageSquareText },
-              { href: "/admin/legacy?tab=past-lessons", label: "Messages & media", icon: PlaySquare },
+              { href: "/admin/gatherings/sunday-worship#recordings", label: "Past recordings", icon: PlaySquare },
             ].map((tool) => (
               <Link
                 className="flex min-h-20 items-center gap-3 rounded-xl border border-[#dce8f2] bg-white p-4 font-body font-bold text-[#0a1a2f] shadow-sm hover:border-[#1a6fb5]"

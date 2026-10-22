@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Calendar, CalendarPlus, Clock, ExternalLink, LoaderCircle, MapPin, Video } from "lucide-react";
 import type { PublicGatheringOccurrence } from "@/lib/gatherings";
@@ -22,7 +22,9 @@ function eventTime(startsAt: string, timezone: string) {
   }).format(new Date(startsAt));
 }
 
-function EventCard({ event }: { event: PublicMinistryEvent }) {
+function EventCard({ event, now }: { event: PublicMinistryEvent; now: number }) {
+  const closesAt = event.endsAt ? Date.parse(event.endsAt) : Date.parse(event.startsAt) + 4 * 60 * 60_000;
+  const mayJoin = now >= Date.parse(event.startsAt) - 30 * 60_000 && now < closesAt;
   return (
     <article className="rounded-2xl border border-[#dce8f2] bg-white p-6 shadow-sm sm:p-7">
       <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#1a6fb5]">Special event</p>
@@ -34,7 +36,7 @@ function EventCard({ event }: { event: PublicMinistryEvent }) {
       <p className="mt-5 whitespace-pre-wrap font-body leading-relaxed text-[#4a6580]">{event.description}</p>
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         {event.registrationUrl && <Button className="min-h-12 bg-[#1a6fb5] text-white" render={<a href={event.registrationUrl} rel="noopener noreferrer" target="_blank" />}>Register <ExternalLink className="size-4" /></Button>}
-        {event.joinUrl && <Button className="min-h-12 bg-emerald-700 text-white" render={<a href={event.joinUrl} rel="noopener noreferrer" target="_blank" />}>Join online <Video className="size-4" /></Button>}
+        {mayJoin && event.joinUrl && <Button className="min-h-12 bg-emerald-700 text-white" render={<a href={event.joinUrl} rel="noopener noreferrer" target="_blank" />}>Join online <Video className="size-4" /></Button>}
         <Button className="min-h-12" render={<a href={`/api/events/${encodeURIComponent(event.id)}/calendar`} />} variant="outline"><CalendarPlus className="size-4" /> Add to calendar</Button>
       </div>
     </article>
@@ -58,9 +60,13 @@ export default function EventsPage() {
   const [gatherings, setGatherings] = useState<GatheringView[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [now, setNow] = useState(() => Date.now());
+  const requestVersion = useRef(0);
 
-  const load = useCallback(async () => {
-    setLoading(true); setError("");
+  const load = useCallback(async (foreground = true) => {
+    const version = ++requestVersion.current;
+    setNow(Date.now());
+    if (foreground) setLoading(true);
     try {
       const [eventResponse, gatheringResponse] = await Promise.all([
         fetch("/api/events", { cache: "no-store" }),
@@ -69,6 +75,9 @@ export default function EventsPage() {
       if (!eventResponse.ok || !gatheringResponse.ok) throw new Error("Unable to load events");
       const eventPayload = await eventResponse.json();
       const gatheringPayload = await gatheringResponse.json();
+      if (!Array.isArray(eventPayload.events) || !Array.isArray(gatheringPayload.series) || !Array.isArray(gatheringPayload.upcoming)) throw new Error("Invalid calendar response");
+      if (version !== requestVersion.current) return;
+      setError("");
       setEvents(eventPayload.events ?? []);
       const candidates: PublicGatheringOccurrence[] = [
         ...(gatheringPayload.featured && Date.parse(gatheringPayload.featured.startsAt) > Date.now() ? [gatheringPayload.featured] : []),
@@ -76,14 +85,38 @@ export default function EventsPage() {
       ];
       const seriesTimezones = new Map<string, string>((gatheringPayload.series ?? []).map((series: { id: string; schedule?: { timezone?: string } | null }) => [series.id, series.schedule?.timezone ?? "UTC"]));
       setGatherings([...new Map(candidates.map((item) => [item.id, { ...item, timezone: seriesTimezones.get(item.seriesId) ?? "UTC" }])).values()].sort((a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt)));
-    } catch { setError("Events couldn’t load right now. Please try again."); }
-    finally { setLoading(false); }
+    } catch {
+      if (version === requestVersion.current) setError("Events couldn’t load right now. Please try again.");
+    }
+    finally { if (version === requestVersion.current) setLoading(false); }
   }, []);
-  useEffect(() => { const timer = window.setTimeout(() => void load(), 0); return () => clearTimeout(timer); }, [load]);
-  const sortedEvents = useMemo(() => [...events].sort((a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt)), [events]);
+  useEffect(() => {
+    const timer = window.setTimeout(() => void load(), 0);
+    const refresh = () => { if (document.visibilityState === "visible") void load(false); };
+    const interval = window.setInterval(refresh, 30_000);
+    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", refresh);
+    return () => {
+      clearTimeout(timer); clearInterval(interval); requestVersion.current += 1;
+      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", refresh);
+    };
+  }, [load]);
+  useEffect(() => {
+    const nextBoundary = events.flatMap((event) => [
+      Date.parse(event.startsAt) - 30 * 60_000,
+      event.endsAt ? Date.parse(event.endsAt) : Date.parse(event.startsAt) + 4 * 60 * 60_000,
+    ]).filter((boundary) => boundary > Date.now()).sort((a, b) => a - b)[0];
+    if (!nextBoundary) return;
+    const timer = window.setTimeout(() => void load(false), Math.min(nextBoundary - Date.now() + 50, 2_147_483_647));
+    return () => clearTimeout(timer);
+  }, [events, load]);
+  const sortedEvents = useMemo(() => events.filter((event) =>
+    (event.endsAt ? Date.parse(event.endsAt) : Date.parse(event.startsAt) + 4 * 60 * 60_000) > now,
+  ).sort((a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt)), [events, now]);
 
   return (
-    <main className="min-h-screen bg-[#fafcff] pb-24 pt-20">
+    <main className="renewal-legacy-page min-h-screen bg-[#fafcff] pb-24 pt-20">
       <section className="bg-[#0a1a2f] px-4 py-20 text-center text-white sm:py-28">
         <Calendar className="mx-auto size-9 text-[#00d4ff]" />
         <h1 className="mt-5 font-display text-5xl font-black sm:text-7xl">Events & Gatherings</h1>
@@ -95,7 +128,7 @@ export default function EventsPage() {
           : <>
             <section>
               <h2 className="font-display text-3xl font-bold text-[#0a1a2f]">Special events</h2>
-              {sortedEvents.length ? <div className="mt-6 space-y-5">{sortedEvents.map((event) => <EventCard event={event} key={event.id} />)}</div>
+              {sortedEvents.length ? <div className="mt-6 space-y-5">{sortedEvents.map((event) => <EventCard event={event} key={event.id} now={now} />)}</div>
                 : <div className="mt-6 rounded-2xl border border-[#dce8f2] bg-white p-8 text-center"><Calendar className="mx-auto size-9 text-[#1a6fb5]" /><h3 className="mt-4 font-display text-2xl font-bold text-[#0a1a2f]">No special events are scheduled right now.</h3>{gatherings.length > 0 && <p className="mt-2 text-[#4a6580]">You can still join one of the published weekly gatherings below.</p>}</div>}
             </section>
             <section className="mt-14">
