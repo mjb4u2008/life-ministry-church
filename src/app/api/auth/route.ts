@@ -1,8 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyPassword, generateToken, verifyToken } from "@/lib/auth";
+import { checkDurableRateLimit, trustedRequestIdentifier } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   try {
+    const limit = await checkDurableRateLimit({
+      identifier: trustedRequestIdentifier(request.headers),
+      scope: "admin-auth",
+      limit: 5,
+      windowSeconds: 60,
+    });
+    if (!limit.allowed) {
+      return NextResponse.json({ error: "Too many login attempts. Please try again in a minute." }, { status: 429 });
+    }
     const { password } = await request.json();
 
     if (!password) {

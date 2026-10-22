@@ -8,3 +8,6 @@ node_modules
 *.tsbuildinfo
 .DS_Store
 .playwright-mcp
+coverage
+playwright-report
+test-results

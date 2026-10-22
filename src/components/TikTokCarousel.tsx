@@ -1,299 +1,232 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-
-interface TikTokVideo {
-  id: string;
-  url: string;
-  title: string;
-}
+import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Pause, Play } from "lucide-react";
+import type { TikTokVideo } from "@/lib/data";
+import styles from "./TikTokCarousel.module.css";
 
 interface TikTokCarouselProps {
   videos: TikTokVideo[];
   tiktokProfileUrl?: string;
+  embedded?: boolean;
 }
 
-function extractVideoId(url: string): string | null {
-  const match = url.match(/\/video\/(\d+)/);
-  return match ? match[1] : null;
+interface DataConnection extends EventTarget { saveData?: boolean }
+const PLAYER_ORIGIN = "https://www.tiktok.com";
+const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
+
+function connection() {
+  return (navigator as Navigator & { connection?: DataConnection }).connection;
 }
 
-export function TikTokCarousel({ videos, tiktokProfileUrl }: TikTokCarouselProps) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
+function subscribePreferences(callback: () => void) {
+  const media = window.matchMedia?.(REDUCED_MOTION);
+  const network = connection();
+  media?.addEventListener?.("change", callback);
+  network?.addEventListener?.("change", callback);
+  return () => {
+    media?.removeEventListener?.("change", callback);
+    network?.removeEventListener?.("change", callback);
+  };
+}
 
-  const updateScrollButtons = () => {
-    if (!scrollRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-    setCanScrollLeft(scrollLeft > 0);
-    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+function autoplayAllowed() {
+  return !window.matchMedia?.(REDUCED_MOTION).matches && !connection()?.saveData;
+}
+
+function subscribeVisibility(callback: () => void) {
+  document.addEventListener("visibilitychange", callback);
+  return () => document.removeEventListener("visibilitychange", callback);
+}
+
+function safeTikTokUrl(value?: string): string | null {
+  if (!value) return null;
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && ["tiktok.com", "www.tiktok.com"].includes(url.hostname) && !url.username && !url.password && !url.port ? url.href : null;
+  } catch { return null; }
+}
+
+function videoIdFromUrl(url: string | null): string | null {
+  return url ? new URL(url).pathname.match(/^\/@[^/]+\/video\/(\d+)\/?$/)?.[1] ?? null : null;
+}
+
+function TikTokPlayer({ video }: { video: TikTokVideo }) {
+  const cardRef = useRef<HTMLElement>(null);
+  const frameRef = useRef<HTMLIFrameElement>(null);
+  const playIntentRef = useRef(false);
+  const allowAutoplay = useSyncExternalStore(subscribePreferences, autoplayAllowed, () => false);
+  const documentVisible = useSyncExternalStore(subscribeVisibility, () => document.visibilityState !== "hidden", () => true);
+  const [nearViewport, setNearViewport] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [manuallyLoaded, setManuallyLoaded] = useState(false);
+  const [pausedByUser, setPausedByUser] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const [playerState, setPlayerState] = useState<number | null>(null);
+  const [attempt, setAttempt] = useState(0);
+  const permalink = safeTikTokUrl(video.url);
+  const postId = videoIdFromUrl(permalink);
+  const shouldLoad = Boolean(postId) && (manuallyLoaded || (nearViewport && allowAutoplay));
+  const shouldPlay = shouldLoad && visible && documentVisible && !pausedByUser;
+  const playing = shouldPlay && playerState !== 0 && playerState !== 2;
+  const title = video.title.trim() || "A message from Pastor Mike";
+
+  // The outer observer warms the player near the rail. The second observer
+  // pauses it when its actual card leaves the viewport, including horizontal scroll.
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card || typeof IntersectionObserver === "undefined") return;
+    const near = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) setNearViewport(true);
+    }, { rootMargin: "120px" });
+    const onScreen = new IntersectionObserver(([entry]) => {
+      setVisible(entry.isIntersecting && entry.intersectionRatio >= 0.3);
+    }, { threshold: [0, 0.3] });
+    near.observe(card);
+    onScreen.observe(card);
+    return () => { near.disconnect(); onScreen.disconnect(); };
+  }, []);
+
+  useEffect(() => {
+    const receiveMessage = (event: MessageEvent) => {
+      if (event.origin !== PLAYER_ORIGIN || event.source !== frameRef.current?.contentWindow) return;
+      const data: unknown = event.data;
+      if (!data || typeof data !== "object" || !("x-tiktok-player" in data) || data["x-tiktok-player"] !== true || !("type" in data)) return;
+      if (data.type === "onPlayerReady") {
+        setReady(true);
+        const player = frameRef.current?.contentWindow;
+        player?.postMessage({ type: "mute", "x-tiktok-player": true }, PLAYER_ORIGIN);
+        player?.postMessage({ type: playIntentRef.current ? "play" : "pause", "x-tiktok-player": true }, PLAYER_ORIGIN);
+      }
+      if (data.type === "onStateChange" && "value" in data && typeof data.value === "number") setPlayerState(data.value);
+      if (data.type === "onPlayerError" || data.type === "onError") setFailed(true);
+    };
+    window.addEventListener("message", receiveMessage);
+    return () => window.removeEventListener("message", receiveMessage);
+  }, []);
+
+  useEffect(() => {
+    if (!shouldLoad || ready || failed) return;
+    const timeout = window.setTimeout(() => setFailed(true), 12_000);
+    return () => window.clearTimeout(timeout);
+  }, [shouldLoad, ready, failed, attempt]);
+
+  useEffect(() => {
+    playIntentRef.current = shouldPlay;
+    if (!ready || failed) return;
+    const player = frameRef.current?.contentWindow;
+    player?.postMessage({ type: "mute", "x-tiktok-player": true }, PLAYER_ORIGIN);
+    player?.postMessage({ type: shouldPlay ? "play" : "pause", "x-tiktok-player": true }, PLAYER_ORIGIN);
+  }, [ready, shouldPlay, failed]);
+
+  const togglePlayback = () => {
+    if (!playing) {
+      setManuallyLoaded(true);
+      setPausedByUser(false);
+      setPlayerState(null);
+      // A click is an explicit playback request, also in browsers without observers.
+      setVisible(true);
+      if (ready) frameRef.current?.contentWindow?.postMessage({ type: "play", "x-tiktok-player": true }, PLAYER_ORIGIN);
+    } else {
+      setPausedByUser(true);
+    }
+  };
+
+  const retryPlayer = () => {
+    setReady(false);
+    setPlayerState(null);
+    setFailed(false);
+    setAttempt((value) => value + 1);
+    setManuallyLoaded(true);
+    setPausedByUser(false);
+  };
+
+  return (
+    <article className={styles.card} ref={cardRef}>
+      <div className={styles.player}>
+        {shouldLoad && !failed ? <iframe
+          allow="autoplay; fullscreen"
+          allowFullScreen
+          className={styles.frame}
+          key={attempt}
+          onError={() => setFailed(true)}
+          ref={frameRef}
+          referrerPolicy="strict-origin-when-cross-origin"
+          src={`${PLAYER_ORIGIN}/player/v1/${postId}?autoplay=${allowAutoplay ? 1 : 0}&muted=1&loop=1&controls=1&description=0&music_info=0&rel=0`}
+          title={title}
+        /> : <div className={styles.playerFallback}>
+          <Play aria-hidden="true" size={36} strokeWidth={1.1} />
+          <p>{!postId ? "This video link isn’t available." : failed ? "We can’t play this video here. Open it on TikTok, or try the player again." : "A moment in the Word with Pastor Mike."}</p>
+          {failed && postId && <button className={styles.retryButton} onClick={retryPlayer} type="button">Try player again</button>}
+        </div>}
+      </div>
+      <div className={styles.caption}>
+        <h3>{title}</h3>
+        {postId && !failed && <button
+          aria-label={`${playing ? "Pause" : "Play"} video: ${title}`}
+          className={styles.playButton}
+          onClick={togglePlayback}
+          type="button"
+        >{playing ? <Pause size={16} aria-hidden="true" /> : <Play size={16} aria-hidden="true" />}{playing ? "Pause" : "Play"}</button>}
+      </div>
+      {permalink && <a className={styles.permalink} href={permalink} rel="noopener noreferrer" target="_blank">Open this video on TikTok <ArrowUpRight size={16} aria-hidden="true" /></a>}
+    </article>
+  );
+}
+
+export function TikTokCarousel({ videos, tiktokProfileUrl, embedded = false }: TikTokCarouselProps) {
+  const headingId = useId();
+  const railId = useId();
+  const railRef = useRef<HTMLDivElement>(null);
+  const [scrollState, setScrollState] = useState({ left: false, right: false });
+  const profileUrl = safeTikTokUrl(tiktokProfileUrl);
+
+  const updateScroll = () => {
+    if (!railRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = railRef.current;
+    setScrollState({ left: scrollLeft > 2, right: scrollLeft < scrollWidth - clientWidth - 2 });
   };
 
   useEffect(() => {
-    updateScrollButtons();
-    const container = scrollRef.current;
-    if (container) {
-      container.addEventListener("scroll", updateScrollButtons);
-      window.addEventListener("resize", updateScrollButtons);
-      return () => {
-        container.removeEventListener("scroll", updateScrollButtons);
-        window.removeEventListener("resize", updateScrollButtons);
-      };
-    }
-  }, [videos]);
+    const rail = railRef.current;
+    if (!rail) return;
+    const frame = window.requestAnimationFrame(updateScroll);
+    const resize = typeof ResizeObserver !== "undefined" ? new ResizeObserver(updateScroll) : null;
+    resize?.observe(rail);
+    window.addEventListener("resize", updateScroll);
+    return () => { window.cancelAnimationFrame(frame); resize?.disconnect(); window.removeEventListener("resize", updateScroll); };
+  }, [videos.length]);
 
-  const scroll = (direction: "left" | "right") => {
-    if (!scrollRef.current) return;
-    const scrollAmount = 320;
-    scrollRef.current.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
+  const scroll = (direction: -1 | 1) => {
+    const rail = railRef.current;
+    if (!rail) return;
+    const distance = rail.firstElementChild?.getBoundingClientRect().width ?? 320;
+    rail.scrollBy({ left: direction * (distance + 24), behavior: autoplayAllowed() ? "smooth" : "auto" });
   };
 
-  // Empty state
-  if (videos.length === 0) {
-    return (
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="text-water font-medium tracking-wider uppercase text-sm">
-              Daily Encouragement
-            </span>
-            <h2 className="text-3xl md:text-4xl font-display font-semibold text-deep mt-2">
-              Latest from Pastor Mike
-            </h2>
-          </div>
-
-          <div className="flex justify-center">
-            <div className="bg-white rounded-2xl shadow-sm shadow-water/10 p-12 text-center max-w-md">
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-deep/5 flex items-center justify-center">
-                <svg className="w-10 h-10 text-deep/30" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
-                </svg>
-              </div>
-              <p className="text-text-body text-lg mb-2">
-                Videos coming soon
-              </p>
-              <p className="text-text-body/70 text-sm">
-                Check back for daily encouragement!
-              </p>
-              {tiktokProfileUrl && (
-                <a
-                  href={tiktokProfileUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-6 text-water hover:text-water-dark font-medium transition-colors"
-                >
-                  Follow on TikTok
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  // Single video - centered display
-  if (videos.length === 1) {
-    const video = videos[0];
-    const videoId = extractVideoId(video.url);
-
-    return (
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="text-water font-medium tracking-wider uppercase text-sm">
-              Daily Encouragement
-            </span>
-            <h2 className="text-3xl md:text-4xl font-display font-semibold text-deep mt-2">
-              Latest from Pastor Mike
-            </h2>
-          </div>
-
-          <div className="flex justify-center">
-            <div className="w-[300px]">
-              <div className="bg-white rounded-2xl shadow-md shadow-water/10 overflow-hidden">
-                {videoId ? (
-                  <iframe
-                    src={`https://www.tiktok.com/embed/v2/${videoId}`}
-                    className="w-full h-[530px]"
-                    allowFullScreen
-                    allow="encrypted-media"
-                  />
-                ) : (
-                  <div className="w-full h-[530px] bg-deep/5 flex items-center justify-center">
-                    <p className="text-text-body text-sm">Invalid video URL</p>
-                  </div>
-                )}
-                {video.title && (
-                  <div className="p-4 border-t border-deep/5">
-                    <p className="text-deep text-sm font-medium line-clamp-2">
-                      {video.title}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {tiktokProfileUrl && (
-            <div className="text-center mt-8">
-              <a
-                href={tiktokProfileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-water hover:text-water-dark font-medium transition-colors"
-              >
-                Follow @pastormike on TikTok
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              </a>
-            </div>
-          )}
-        </div>
-      </section>
-    );
-  }
-
-  // Multiple videos - carousel
   return (
-    <section className="py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <span className="text-water font-medium tracking-wider uppercase text-sm">
-            Daily Encouragement
-          </span>
-          <h2 className="text-3xl md:text-4xl font-display font-semibold text-deep mt-2">
-            Latest from Pastor Mike
-          </h2>
-          <p className="text-text-body text-lg mt-4 max-w-2xl mx-auto">
-            Get daily encouragement and stay connected with our community throughout the week.
-          </p>
+    <section aria-label={embedded ? "Messages from Pastor Mike" : undefined} aria-labelledby={embedded ? undefined : headingId} className={`${styles.section} ${embedded ? styles.embedded : ""}`}>
+      {!embedded && <div className={styles.heading}>
+        <div>
+          <h2 id={headingId}>A word for your everyday.</h2>
+          <p>Scripture and encouragement from Pastor Mike, wherever the week finds you.</p>
         </div>
-      </div>
-
-      {/* Carousel container */}
-      <div className="relative group">
-        {/* Left arrow - desktop only */}
-        {canScrollLeft && (
-          <button
-            onClick={() => scroll("left")}
-            className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg shadow-water/10 items-center justify-center text-deep hover:bg-white hover:text-water transition-all opacity-0 group-hover:opacity-100"
-            aria-label="Scroll left"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-        )}
-
-        {/* Right arrow - desktop only */}
-        {canScrollRight && (
-          <button
-            onClick={() => scroll("right")}
-            className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg shadow-water/10 items-center justify-center text-deep hover:bg-white hover:text-water transition-all opacity-0 group-hover:opacity-100"
-            aria-label="Scroll right"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        )}
-
-        {/* Left fade gradient */}
-        {canScrollLeft && (
-          <div className="hidden md:block absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-[1] pointer-events-none" />
-        )}
-
-        {/* Right fade gradient */}
-        {canScrollRight && (
-          <div className="hidden md:block absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-[1] pointer-events-none" />
-        )}
-
-        {/* Scrollable container */}
-        <div
-          ref={scrollRef}
-          className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-hide px-4 md:px-8 pb-4"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          {/* Left padding for centering on larger screens */}
-          <div className="hidden lg:block flex-shrink-0 w-[calc((100vw-1280px)/2+32px)]" />
-
-          {videos.map((video) => {
-            const videoId = extractVideoId(video.url);
-            return (
-              <div
-                key={video.id}
-                className="flex-shrink-0 w-[300px] snap-center"
-              >
-                <div className="bg-white rounded-2xl shadow-md shadow-water/10 overflow-hidden hover:shadow-lg hover:shadow-water/15 transition-shadow">
-                  {videoId ? (
-                    <iframe
-                      src={`https://www.tiktok.com/embed/v2/${videoId}`}
-                      className="w-full h-[530px]"
-                      allowFullScreen
-                      allow="encrypted-media"
-                    />
-                  ) : (
-                    <div className="w-full h-[530px] bg-deep/5 flex items-center justify-center">
-                      <p className="text-text-body text-sm">Invalid video URL</p>
-                    </div>
-                  )}
-                  {video.title && (
-                    <div className="p-4 border-t border-deep/5">
-                      <p className="text-deep text-sm font-medium line-clamp-2">
-                        {video.title}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-
-          {/* Follow card at the end */}
-          {tiktokProfileUrl && (
-            <div className="flex-shrink-0 w-[300px] snap-center">
-              <a
-                href={tiktokProfileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block h-full min-h-[530px] bg-gradient-to-br from-deep to-ocean rounded-2xl shadow-md shadow-water/10 overflow-hidden hover:shadow-lg transition-all group/card"
-              >
-                <div className="h-full flex flex-col items-center justify-center p-8 text-center">
-                  <div className="w-24 h-24 mb-6 rounded-full bg-white/10 flex items-center justify-center group-hover/card:bg-white/20 transition-colors">
-                    <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-white text-xl font-display font-semibold mb-2">
-                    Follow on TikTok
-                  </h3>
-                  <p className="text-white/70 text-sm mb-6">
-                    More encouragement, behind-the-scenes, and daily inspiration
-                  </p>
-                  <div className="flex items-center gap-2 text-white font-medium group-hover/card:gap-3 transition-all">
-                    @pastormike
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </div>
-                </div>
-              </a>
-            </div>
-          )}
-
-          {/* Right padding for centering on larger screens */}
-          <div className="hidden lg:block flex-shrink-0 w-[calc((100vw-1280px)/2+32px)]" />
+        {profileUrl && <a className={styles.profileLink} href={profileUrl} target="_blank" rel="noopener noreferrer">Visit Pastor Mike on TikTok <ArrowUpRight size={18} aria-hidden="true" /></a>}
+      </div>}
+      {videos.length ? <>
+        <div aria-label="Pastor Mike’s videos" className={styles.rail} id={railId} onScroll={updateScroll} ref={railRef} role="region" tabIndex={0}>
+          {videos.map((video) => <TikTokPlayer key={`${video.id}-${video.url}`} video={video} />)}
         </div>
-      </div>
+        <div className={styles.railFooter}>
+          <p>Videos play silently. Open a video on TikTok to listen.</p>
+          {videos.length > 1 && <div className={styles.scrollControls}>
+            <button aria-controls={railId} aria-label="Previous video" disabled={!scrollState.left} onClick={() => scroll(-1)} type="button"><ArrowLeft size={20} aria-hidden="true" /></button>
+            <button aria-controls={railId} aria-label="Next video" disabled={!scrollState.right} onClick={() => scroll(1)} type="button"><ArrowRight size={20} aria-hidden="true" /></button>
+          </div>}
+        </div>
+      </> : <div className={styles.empty}><p>Pastor Mike’s videos will appear here when they’re added.</p><p>In the meantime, join us for the next gathering or explore a message.</p><a className={styles.profileLink} href="/watch">Join or watch a gathering <ArrowUpRight size={18} aria-hidden="true" /></a></div>}
+      {embedded && profileUrl && <a className={styles.profileLink} href={profileUrl} target="_blank" rel="noopener noreferrer">Visit Pastor Mike on TikTok <ArrowUpRight size={18} aria-hidden="true" /></a>}
     </section>
   );
 }

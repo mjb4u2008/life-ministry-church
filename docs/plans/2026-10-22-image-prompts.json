@@ -1,0 +1,22 @@
+[
+  {
+    "asset": "/images/renewal/living-water-hero.webp",
+    "tool": "built-in image_gen",
+    "use": "hero",
+    "prompt": "Use case: stylized-concept. Asset: 4K landscape full-bleed website hero for L.I.F.E. Ministry, a Christian online ministry meaning Lord Is Forever Emmanuel. Reference image: existing water-cross logo, conceptual reference ONLY. Create an extraordinary, art-directed cinematic photograph-like scene: a tall cross made entirely from clear flowing living water rises from a dark, still ocean. The water-cross is a graceful sculptural silhouette with realistic caustics and tiny suspended droplets, illuminated by soft silver morning light and a subtle sea-glass green tint. Deep charcoal-teal ocean, rolling low mist, immense quiet atmosphere, fine film grain, believable natural light. Wide 16:9 composition 3840x2160: main cross in upper-right/center-right, plenty of calm dark negative space across lower-left for a real HTML sermon title overlay. Beautiful water reflections extending to foreground. The cross should feel sacred, hopeful and refined, not neon, sci-fi, aggressive, metallic, or a glowing gaming logo. No people, no lettering, no logo text, no interface, no frame, no watermark. Preserve only the original logo's central living-water cross idea, elevate it dramatically.",
+    "reference": "public/logo-water-cross.png"
+  },
+  {
+    "asset": "/images/renewal/water-cross-mark.webp",
+    "tool": "built-in image_gen",
+    "use": "logo",
+    "prompt": "Use case: logo-brand. Asset: refined transparent brand symbol for L.I.F.E. Ministry (Lord Is Forever Emmanuel). Reference existing image for idea ONLY: cross formed from living water. Create ONE elegant cross symbol, no text. A recognizable upright Christian cross, longer lower vertical stem, made of two graceful fluid glass-water ribbons with a small natural droplet detail. Clean simplified silhouette, exceptionally restrained premium identity, silver-white and a whisper of pale sea-glass. Crisp shape recognizable at 32 pixels on a dark teal site header; thick enough strokes for small sizes. Subtle translucent water refraction, NOT a detailed splash illustration, not 3D chrome, not a medical plus, no border, no badge, no blue rectangular background, no slogan. Center on a real transparent background with moderate tight padding. No shadow outside the mark. The mark is a contemporary evolution of the reference's water-cross idea.",
+    "reference": "public/logo-water-cross.png"
+  },
+  {
+    "asset": "/images/renewal/trinity-light.webp",
+    "tool": "built-in image_gen",
+    "use": "trinity",
+    "prompt": "Use case: stylized-concept. Asset: breathtaking photographic artwork for a dark Christian ministry website, landscape 16:9. A quiet symbolic image of the Holy Trinity: a white dove suspended over dark living water, wings open in a gentle downward flight, a faint cross-shaped shaft of warm dawn light coming through clouds above and reflecting on the water below. Father represented by light, Son by a subtle cross of light, Holy Spirit by dove. Reverent sophisticated cinematic realism, beautiful water caustics, tactile dark stone at edge, deep charcoal teal, silver and soft ivory gold, atmospheric mist. Uncluttered single composition, no text, no literal human depiction of God, no imagined pastor, no hands/faces, no charts, no watermark, not a generic religious poster. Fine art photography feel with natural light and deep tonal shadows. Wide enough to crop elegantly on mobile; keep dove and light-cross close to center."
+  }
+]

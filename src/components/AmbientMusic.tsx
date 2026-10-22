@@ -1,20 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 
 export function AmbientMusic() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
-
-  useEffect(() => {
-    // Check localStorage for saved preference
-    const saved = localStorage.getItem("lifeMinistryMusic");
-    if (saved === "playing") {
-      setHasInteracted(true);
-      // Don't auto-play, but show that it was playing before
-    }
-  }, []);
 
   const togglePlay = async () => {
     if (!audioRef.current) return;
@@ -27,7 +17,6 @@ export function AmbientMusic() {
       } else {
         await audioRef.current.play();
         setIsPlaying(true);
-        setHasInteracted(true);
         localStorage.setItem("lifeMinistryMusic", "playing");
       }
     } catch (error) {

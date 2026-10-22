@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 
 interface TimeLeft {
   days: number;
@@ -15,6 +15,8 @@ interface ServiceSchedule {
   minute: number;
   timezone: string;
 }
+
+const subscribeToClient = () => () => {};
 
 function getNextService(schedule: ServiceSchedule): Date {
   const now = new Date();
@@ -79,11 +81,13 @@ export function ServiceCountdown() {
     minute: 0,
     timezone: "America/New_York",
   });
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    subscribeToClient,
+    () => true,
+    () => false
+  );
 
   useEffect(() => {
-    setMounted(true);
-
     // Fetch content from API
     async function fetchContent() {
       try {
