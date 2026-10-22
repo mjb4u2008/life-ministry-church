@@ -20,7 +20,7 @@ export function GatheringExperience({mode}:{mode:"home"|"watch"}){
   const featured=data?(now?currentPublicGathering(data,now):data.featured):null;
   const findSeries=(item:PublicGatheringOccurrence)=>data?.series.find(series=>series.id===item.seriesId);
   if(!featured)return <section className="renewal-schedule-fallback" id="next-gathering">
-    <Image className="renewal-hero-art" src="/images/renewal/living-water-hero.webp" alt="" fill sizes="100vw" preload/><div className="renewal-hero-shade"/>
+    <Image className="renewal-hero-art" src="/images/renewal/living-water-hero.webp" alt="" fill sizes="(max-aspect-ratio: 16/9) max(1156px, 157svh), 100vw" preload/><div className="renewal-hero-shade"/>
     <div><span className="renewal-small-note">L.I.F.E. Ministry · Lord Is Forever Emmanuel</span><h1>{loading&&!data?"There’s a place for you here.":error?"Schedule temporarily unavailable":"We’re preparing our next gathering."}</h1><p aria-live="polite">{loading&&!data?"Loading gathering details…":error||"Wednesday and Sunday. Scripture, prayer, and a church family to grow with. Check back for the next gathering."}</p><div className="renewal-gathering-actions">{error?<button onClick={retry} className="renewal-primary" type="button">Try again</button>:<Link className="renewal-primary" href="/welcome">I’m new here</Link>}<Link className="renewal-text-link" href="/welcome">Get help joining</Link></div></div>
   </section>;
   const other=data!.upcoming.filter(item=>item.id!==featured.id&&Date.parse(item.endsAt)>(now?.getTime()??0)).slice(0,2);

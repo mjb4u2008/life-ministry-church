@@ -13,6 +13,7 @@ test("messaging: homepage signup requires explicit versioned-consent input", asy
   });
   const response = await page.goto("/");
   const section = page.locator("#reminded");
+  await section.locator("summary").click();
   await section.getByLabel("Name").fill("Alex");
   await section.getByLabel("Email", { exact: true }).fill("alex@example.com");
   const submit = section.getByRole("button", { name: "Remind me" });

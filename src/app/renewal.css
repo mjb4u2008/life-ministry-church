@@ -63,43 +63,50 @@
 .renewal-site .renewal-brand-mark{height:auto}
 .renewal-site .renewal-primary{min-height:52px}
 .renewal-video-loading{min-height:180px;color:var(--renewal-muted);border-top:1px solid #aecdc329;padding-block:28px;font-size:14px}
-.renewal-gospel>*{min-width:0}
 .renewal-stale-notice button{text-decoration:underline;min-height:44px}
-.renewal-heart{padding-block:100px 110px}
-.renewal-intro{font-size:15px;color:var(--renewal-muted);line-height:1.8;margin-bottom:54px}
-.renewal-heart-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:100px;align-items:start}
-.renewal-site .renewal-heart h2{font-size:clamp(40px,4.7vw,68px);line-height:1.08}
-.renewal-heart-grid>div>p{font-size:17px;line-height:1.95;color:#b9ccc4;margin-bottom:20px;max-width:48ch}
+.renewal-heart{padding-block:110px 130px}
+.renewal-heart-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:100px;align-items:center}
+.renewal-heart-grid>*{min-width:0}
+.renewal-site .renewal-heart h2{font-size:32px;line-height:1.25;margin-bottom:36px}
+.renewal-heart-copy>p{font-size:17px;line-height:1.95;color:#b9ccc4;margin-bottom:20px;max-width:48ch}
 .renewal-text-link{display:inline-flex;align-items:center;gap:16px;min-height:44px;color:var(--renewal-accent);font-size:14px;font-weight:550}
 .renewal-text-link:hover{text-decoration:underline;text-underline-offset:5px}
-.renewal-life-meaning{display:flex;justify-content:space-between;gap:24px;padding-top:70px;margin-top:58px;border-top:1px solid #aecdc329}
-.renewal-life-meaning>span{display:flex;align-items:center;gap:16px;color:var(--renewal-muted);font-size:13px}
-.renewal-life-meaning b{font-family:var(--font-renewal-display),serif;font-size:62px;font-weight:400;line-height:1;color:var(--renewal-text)}
-.renewal-gospel{display:grid;grid-template-columns:1.12fr 1fr;min-height:690px;background:#0d2529}
-.renewal-gospel-image{position:relative;min-height:540px}
-.renewal-gospel-image img{object-fit:cover;object-position:center}
-.renewal-gospel-copy{padding:80px clamp(32px,5vw,100px);align-self:center}
+.renewal-life-meaning{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;max-width:550px}
+.renewal-life-meaning dt{font:400 clamp(100px,12vw,178px)/1 var(--font-renewal-display),serif;color:var(--renewal-text)}
+.renewal-life-meaning dd{font-size:13px;color:var(--renewal-muted);margin-top:16px}
+.renewal-faith{position:relative;isolation:isolate;min-height:820px;display:flex;align-items:flex-end;background:#07181c}
+.renewal-faith>img{object-fit:cover;object-position:50% 45%;z-index:-3}
+.renewal-faith-shade{position:absolute;inset:0;z-index:-2;background:linear-gradient(0deg,#041418fa 0%,#041418b3 24%,#04141808 70%),linear-gradient(90deg,#04141860,transparent 70%)}
+.renewal-faith-content{display:grid;grid-template-columns:1.2fr 1fr;gap:100px;align-items:end;padding-block:300px 70px}
+.renewal-site .renewal-faith h2{font-size:clamp(84px,10.4vw,154px);line-height:.96;letter-spacing:-.035em;text-wrap:initial}
+.renewal-faith-copy{max-width:39ch}
+.renewal-faith-copy>p{font-size:17px;line-height:1.85;margin-bottom:20px;color:#dfebe3}
+.renewal-faith-copy .renewal-faith-trinity{font-size:12px;color:var(--renewal-muted);margin-top:28px;margin-bottom:8px}
 .renewal-small-note{font-size:12px;color:var(--renewal-muted);line-height:1.7}
-.renewal-site .renewal-gospel h2{font-size:clamp(44px,4.8vw,68px);line-height:1.05;margin:24px 0}
-.renewal-gospel-copy>p{color:#bdcfc7;font-size:16px;line-height:1.9;max-width:43ch;margin-bottom:20px}
-.renewal-trinity{display:flex;align-items:center;gap:18px;margin:30px 0 18px}
-.renewal-trinity>svg{color:var(--renewal-muted)}
-.renewal-trinity p{font-size:13px;line-height:1.7;color:var(--renewal-muted)}
-.renewal-trinity strong{font-weight:500;color:var(--renewal-text)}
 .renewal-pastor{padding-block:110px 70px}
 .renewal-pastor-heading{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:90px;margin-bottom:45px}
 .renewal-site .renewal-pastor-heading h2{font-size:clamp(40px,4.8vw,66px)}
 .renewal-pastor-heading p{color:var(--renewal-muted);font-size:16px;line-height:1.9;max-width:46ch}
-.renewal-scripture{padding:100px 24px 110px;text-align:center;background:#0b2024}
-.renewal-scripture>p:first-child{color:var(--renewal-muted);font-size:13px;margin-bottom:30px}
-.renewal-scripture blockquote{max-width:900px;margin-inline:auto;font-family:var(--font-renewal-display),serif;font-size:clamp(30px,3.6vw,50px);line-height:1.45}
+.renewal-scripture{display:grid;grid-template-columns:1fr 2.4fr;gap:30px 70px;padding:110px max(24px,calc((100vw - 1280px)/2));text-align:left}
+.renewal-scripture>p:first-child{color:var(--renewal-muted);font-size:14px;line-height:1.8;padding-top:10px}
+.renewal-scripture blockquote{max-width:900px;font-family:var(--font-renewal-display),serif;font-size:clamp(32px,3.5vw,50px);line-height:1.4}
 .renewal-scripture cite{display:block;margin-top:26px;font-family:var(--font-renewal-body),sans-serif;font-size:13px;font-style:normal;color:var(--renewal-accent)}
-.renewal-scripture .renewal-scripture-reflection{max-width:54ch;font-size:15px;line-height:1.9;color:var(--renewal-muted);margin:26px auto 0}
-.renewal-care{text-align:center;padding-block:110px}
-.renewal-care>svg{margin:0 auto 30px;color:var(--renewal-muted)}
-.renewal-site .renewal-care h2{font-size:clamp(44px,5vw,72px);line-height:1.1}
-.renewal-care>p{font-size:16px;color:var(--renewal-muted);line-height:1.9;margin:26px 0}
-.renewal-care-actions{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:28px;margin-bottom:24px}
+.renewal-scripture .renewal-scripture-reflection{grid-column:2;max-width:54ch;font-size:15px;line-height:1.9;color:var(--renewal-muted)}
+.renewal-connections{padding-block:20px 100px}
+.renewal-connection{display:flex;justify-content:space-between;align-items:center;gap:30px;padding:32px 0;border-top:1px solid #aecdc340}
+.renewal-connection>span{min-width:0}
+.renewal-connection-title{display:block;font:400 clamp(32px,4.2vw,62px)/1.2 var(--font-renewal-display),serif}
+.renewal-connection-description{display:block;margin-top:12px;font-size:14px;line-height:1.8;color:var(--renewal-muted)}
+.renewal-connection>svg{width:64px;height:64px;flex:none;transition:transform .2s}
+.renewal-connection:hover>svg{transform:translate(4px,-4px);color:var(--renewal-accent)}
+.renewal-connection-privacy{font-size:11px;color:var(--renewal-muted);margin:0 0 42px;line-height:1.8}
+.renewal-reminder-disclosure{border-top:1px solid #aecdc340;border-bottom:1px solid #aecdc340}
+.renewal-reminder-disclosure summary{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:88px;padding-block:20px;font-size:20px;cursor:pointer;list-style:none}
+.renewal-reminder-disclosure summary::-webkit-details-marker{display:none}
+.renewal-reminder-disclosure summary>svg{flex:none;transition:transform .2s}
+.renewal-reminder-disclosure details[open] summary>svg{transform:rotate(45deg)}
+.renewal-reminder-reveal{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding-block:8px 40px}
+.renewal-reminder-reveal>p{max-width:36ch;font-size:16px;line-height:1.9;color:var(--renewal-muted)}
 .renewal-reminders{background:var(--renewal-surface);padding-block:80px}
 .renewal-reminder-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center}
 .renewal-site .renewal-reminder-grid h2{font-size:clamp(38px,4vw,56px);line-height:1.15;margin-bottom:24px}
@@ -130,31 +137,30 @@
 .renewal-message h3{font-family:var(--font-renewal-display),serif!important;font-size:32px;line-height:1.2;font-weight:400;overflow-wrap:anywhere}
 .renewal-message .renewal-message-date{margin-top:15px;font-size:13px}
 .renewal-message .renewal-text-link{margin-top:18px}
-.renewal-footer{padding:70px clamp(24px,4vw,72px) 24px;background:#051215}
-.renewal-footer-top{display:grid;grid-template-columns:1.4fr 1fr auto;gap:45px;align-items:center}
-.renewal-footer-brand{display:flex;align-items:center;gap:24px}
-.renewal-footer-brand>img{object-fit:contain;width:44px;height:auto}
-.renewal-footer-brand>p{font-family:var(--font-renewal-display),serif;font-size:28px;line-height:1.3}
-.renewal-footer-top>p{font-size:13px;line-height:1.9;color:var(--renewal-muted)}
-.renewal-link-light{display:inline-flex;align-items:center;gap:22px;min-height:44px;font-size:14px}
-.renewal-footer-links{display:flex;gap:32px;flex-wrap:wrap;margin:60px 0 38px;padding-top:28px;border-top:1px solid #aecdc329;font-size:13px}
-.renewal-footer-links>a{min-height:44px;display:inline-flex;align-items:center}
+.renewal-footer{padding:65px clamp(24px,4vw,72px) 24px;background:#051518}
+.renewal-footer-directory{display:grid;grid-template-columns:1.1fr 1fr;gap:100px;align-items:start}
+.renewal-footer-gather{display:inline-flex;min-height:44px;align-items:center;gap:24px;font:400 clamp(30px,3.5vw,48px)/1.3 var(--font-renewal-display),serif}
+.renewal-footer-times{margin-top:20px;font-size:14px;line-height:1.9;color:var(--renewal-muted)}
+.renewal-footer-links{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;font-size:14px}
+.renewal-footer-links>a{min-height:44px;display:flex;align-items:center}
+.renewal-footer-wordmark{font:400 clamp(128px,28vw,440px)/.9 var(--font-renewal-display),serif;letter-spacing:.025em;text-align:center;margin:75px 0 50px}
 .renewal-footer-bottom{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;color:#91ada1;font-size:11px;line-height:1.8;padding-top:20px;border-top:1px solid #aecdc322}
-.renewal-footer-bottom>a{min-height:30px}
+.renewal-footer-bottom>a{min-height:44px;display:inline-flex;align-items:center}
 .ministry-admin .renewal-footer{display:none}
 .renewal-admin-header{position:absolute;inset:0 0 auto;min-height:76px;padding:14px 24px;background:#fff;border-bottom:1px solid #dce8f2;display:flex;align-items:center;justify-content:space-between;gap:20px;color:#0a1a2f;z-index:40}
 .renewal-admin-header nav{display:flex;gap:22px;font-size:13px}
 .renewal-admin-header nav a{min-height:44px;display:flex;align-items:center;gap:5px}
 @keyframes renewal-live-breathe{0%,100%{box-shadow:0 0 0 3px #ff625c20}50%{box-shadow:0 0 0 7px #ff625c08}}
 @media(min-width:1100px){.renewal-menu-button,.renewal-mobile-nav{display:none}}
-@media(max-width:1099px){.renewal-desktop-nav{display:none}.renewal-menu-button{display:flex}.renewal-container{width:calc(100% - 64px)}.renewal-heart-grid{gap:50px}.renewal-hero-content{gap:30px}.renewal-hero-side{width:250px}.renewal-countdown{gap:18px}.renewal-gospel-copy{padding:60px 32px}.renewal-reminder-grid{gap:45px}}
+@media(max-width:1099px){.renewal-desktop-nav{display:none}.renewal-menu-button{display:flex}.renewal-container{width:calc(100% - 64px)}.renewal-heart-grid{gap:50px}.renewal-hero-content{gap:30px}.renewal-hero-side{width:250px}.renewal-countdown{gap:18px}.renewal-faith-content{gap:45px}.renewal-reminder-grid{gap:45px}.renewal-scripture{gap:30px 40px;padding-inline:32px}}
 @media(max-width:767px){
 .renewal-header{min-height:80px;padding:14px 20px;gap:14px}.renewal-brand-mark{width:30px;height:42px}.renewal-wordmark{font-size:21px}.renewal-wordmark span{font-size:8px}.renewal-header-join{min-height:44px;font-size:11px;padding:10px 14px;gap:8px}.renewal-header-join svg{width:14px}.renewal-container{width:calc(100% - 44px)}
 .renewal-hero{min-height:620px;height:100svh;max-height:930px}.renewal-hero--watch{height:100svh;min-height:620px}.renewal-hero-art{object-position:63% 28%}.renewal-hero-shade{background:linear-gradient(0deg,#041418fc 3%,#041418b8 39%,#04141808 79%)}.renewal-hero-note{top:118px;left:24px;font-size:11px;gap:20px}.renewal-hero-note>a{display:none}.renewal-hero-content{display:block;padding:250px 24px 28px}.renewal-hero-main{max-width:100%}.renewal-site .renewal-hero h1{font-size:clamp(38px,10.5vw,60px);max-width:16ch;line-height:1.03;margin:14px 0 10px}.renewal-gathering-label{font-size:11px;gap:8px}.renewal-hero-scripture{font-size:13px;margin-bottom:8px}.renewal-hero-date{font-size:12px;margin-bottom:18px}.renewal-hero-side{width:100%;display:flex;align-items:center;flex-wrap:wrap;gap:12px 20px;margin-top:25px}.renewal-hero-side>p{font-size:11px;margin:0;max-width:16ch}.renewal-countdown{gap:22px}.renewal-countdown strong{font-size:25px}.renewal-countdown span{font-size:9px}.renewal-hero-footnote{margin:0;width:100%;font-size:9px}.renewal-primary{min-height:50px;padding:13px 23px;font-size:13px}.renewal-copy{font-size:12px}.renewal-gathering-actions{gap:18px}.renewal-hero-side .renewal-live-invitation{font-size:20px;max-width:28ch}
-.renewal-heart{padding-block:65px}.renewal-intro{font-size:12px;margin-bottom:32px}.renewal-heart-grid{grid-template-columns:1fr;gap:30px}.renewal-heart-grid>div>p{font-size:15px}.renewal-life-meaning{gap:12px;padding-top:32px;margin-top:32px}.renewal-life-meaning>span{flex-direction:column;gap:9px;font-size:10px;align-items:flex-start}.renewal-life-meaning b{font-size:44px}
-.renewal-gospel{grid-template-columns:1fr}.renewal-gospel-image{min-height:380px;aspect-ratio:1/1}.renewal-gospel-copy{padding:48px 24px 55px}.renewal-gospel-copy>p{font-size:15px}.renewal-site .renewal-gospel h2{font-size:46px}.renewal-pastor{padding-block:65px 40px}.renewal-pastor-heading{grid-template-columns:1fr;gap:22px;margin-bottom:24px}.renewal-pastor-heading p{font-size:15px}.renewal-scripture{padding:65px 24px}.renewal-care{padding-block:70px}.renewal-care>p{font-size:15px}.renewal-care-actions{gap:14px}.renewal-care .renewal-small-note{font-size:10px}.renewal-reminders{padding-block:50px}.renewal-reminder-grid{grid-template-columns:1fr;gap:32px}.renewal-reminder-form{max-width:none}.renewal-reminder-grid>div>p{font-size:15px}.renewal-reminder-inputs{grid-template-columns:1fr}
-.renewal-message-list{padding-block:50px}.renewal-message-grid{grid-template-columns:1fr}.renewal-message-list h2{font-size:38px}.renewal-footer{padding:50px 24px 24px}.renewal-footer-top{grid-template-columns:1fr;gap:24px}.renewal-footer-brand>p{font-size:26px}.renewal-footer-top>p{margin-left:0}.renewal-footer-links{gap:8px 24px;margin-top:35px;font-size:12px}.renewal-footer-bottom{gap:15px;flex-direction:column;font-size:10px}.renewal-admin-header{padding:12px 18px}.renewal-admin-header nav{gap:12px;font-size:11px}.renewal-admin-header .renewal-wordmark{font-size:18px}
+.renewal-heart{padding-block:65px 75px}.renewal-heart-grid{grid-template-columns:1fr;gap:40px}.renewal-site .renewal-heart h2{font-size:28px;margin-bottom:24px}.renewal-heart-copy>p{font-size:15px}.renewal-life-meaning{gap:12px;max-width:450px}.renewal-life-meaning dt{font-size:clamp(76px,20vw,118px)}.renewal-life-meaning dd{font-size:11px;margin-top:10px}
+.renewal-faith{min-height:900px}.renewal-faith>img{object-position:52% 30%}.renewal-faith-shade{background:linear-gradient(0deg,#041418fc 0%,#041418e8 38%,#04141808 78%)}.renewal-faith-content{display:block;padding-block:440px 55px}.renewal-site .renewal-faith h2{font-size:clamp(68px,19vw,112px)}.renewal-faith-copy{margin-top:32px;max-width:42ch}.renewal-faith-copy>p{font-size:15px;line-height:1.9}
+.renewal-pastor{padding-block:65px 40px}.renewal-pastor-heading{grid-template-columns:1fr;gap:22px;margin-bottom:24px}.renewal-pastor-heading p{font-size:15px}.renewal-scripture{display:block;padding:65px 24px 55px}.renewal-scripture>p:first-child{padding:0;margin-bottom:26px;font-size:12px}.renewal-scripture blockquote{font-size:34px}.renewal-scripture .renewal-scripture-reflection{margin-top:24px;font-size:14px}.renewal-connections{padding-block:15px 65px}.renewal-connection{padding-block:28px;gap:16px}.renewal-connection-title{font-size:32px}.renewal-connection-description{font-size:12px;max-width:28ch}.renewal-connection>svg{width:36px;height:36px}.renewal-connection-privacy{font-size:10px;margin-bottom:32px}.renewal-reminder-disclosure summary{font-size:18px;min-height:80px}.renewal-reminder-reveal{grid-template-columns:1fr;gap:25px;padding-bottom:30px}.renewal-reminder-reveal>p{font-size:14px}.renewal-reminders{padding-block:50px}.renewal-reminder-grid{grid-template-columns:1fr;gap:32px}.renewal-reminder-form{max-width:none}.renewal-reminder-grid>div>p{font-size:15px}.renewal-reminder-inputs{grid-template-columns:1fr}
+.renewal-message-list{padding-block:50px}.renewal-message-grid{grid-template-columns:1fr}.renewal-message-list h2{font-size:38px}.renewal-footer{padding:50px 24px 24px}.renewal-footer-directory{grid-template-columns:1fr;gap:32px}.renewal-footer-times{font-size:12px}.renewal-footer-links{gap:0 24px;font-size:12px}.renewal-footer-wordmark{margin-block:50px 35px}.renewal-footer-bottom{gap:10px;flex-direction:column;font-size:10px}.renewal-admin-header{padding:12px 18px}.renewal-admin-header nav{gap:12px;font-size:11px}.renewal-admin-header .renewal-wordmark{font-size:18px}
 }
 @media(max-width:359px){.renewal-header{padding-inline:14px}.renewal-header-join{font-size:10px;padding-inline:10px}.renewal-hero-content{padding-inline:20px;padding-bottom:22px}.renewal-countdown{gap:15px}.renewal-site .renewal-hero h1{font-size:37px}.renewal-gathering-label{font-size:10px}.renewal-hero-side{margin-top:18px}.renewal-hero-note{top:105px;font-size:10px}}
 @media(prefers-reduced-motion:reduce){.renewal-site *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
-@media(max-width:767px){.renewal-gospel-image{min-height:0;height:380px;aspect-ratio:auto;width:100%}.renewal-hero--long{height:auto;max-height:none;min-height:100svh}.renewal-hero--long .renewal-hero-content{padding-top:195px}.renewal-site .renewal-hero--long h1{font-size:32px;max-width:none}}
+@media(max-width:767px){.renewal-hero--long{height:auto;max-height:none;min-height:100svh}.renewal-hero--long .renewal-hero-content{padding-top:195px}.renewal-site .renewal-hero--long h1{font-size:32px;max-width:none}}

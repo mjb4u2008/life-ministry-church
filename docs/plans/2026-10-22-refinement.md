@@ -1,0 +1,15 @@
+# LIFE visual refinement
+
+Continue PR #3 on its existing isolated branch. User approved the water-cross hero and dark style, requests a genuine 4K hero, LIFE letters and meanings at left with church description at right, and rejects the feature-panel faith section and conventional lower-page promotions.
+
+Reference: inspected 2819church.org live DOM/computed CSS and desktop/mobile screenshots. Borrow its hierarchy, open composition, large wordmark, restrained actions and generous spacing; do not reuse its code, copy or assets. Evidence lives in /private/tmp/life-ministry-review/evidence/refinement/.
+
+Keep the approved Abyss/foam/sea-glass palette and Manrope/Bodoni/Caveat roles. Reorganize the welcome as an identity lockup and body column. Replace the faith split panel with a full-width image/statement, with readable text in deliberate dark areas. Make daily Scripture asymmetric, and replace the centered care/newsletter promotions with useful large action rows and a native disclosure for reminders. End with a large LIFE wordmark and compact directory. Mobile stacks cleanly with readable image crops and 24px gutters. No perpetual decorative animation.
+
+The built-in image tool returned 1672×941 for a 3840×2160 edit request; do not call that 4K or silently resize and label it native. API fallback permission is pending. Preserve the currently approved hero until a verified replacement is available. When available, use a 4K source with responsive delivery and verify the browser actually requests a sufficiently large image.
+
+Checks: browser layout/keyboard at 320/390/768/1440, direct reminder anchor and repeated reopening, explicit consent and failure/success behavior, unchanged gathering/live controls; lint, TypeScript/build; independent review of changed UI and behavior. Update existing PR, no production writes or deployment.
+
+Independent review found a real image-delivery issue: `sizes="100vw"` selected a 640px landscape image for a portrait cover crop needing about 1660px. Responsive sizes now account for the covered landscape width; the real mobile browser requests 1920px variants. This improves delivered detail from the existing source; it does not turn the source into native 4K. The home hero’s reminder action now targets its own disclosure, including repeated activation while the same fragment is present. Keyboard operation, preserved form values/consent, direct fragments, viewport bounds and both fixes were independently verified in 12 browser cases, with no active P1/P2 in that scope.
+
+Final refinement gates: 34 affected desktop/mobile browser cases passed against the optimized build; 11 affected gathering unit tests passed; lint, TypeScript and production build passed. The review fixture datastore was restarted with synthetic data only. The optimized preview remains at http://127.0.0.1:3114/. Native 4K generation remains pending the user’s API-workflow confirmation; the approved 1672×940 hero has not been replaced with an upscale or mislabeled as 4K.

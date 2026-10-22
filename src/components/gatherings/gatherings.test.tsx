@@ -89,7 +89,7 @@ describe("gathering public components", () => {
     expect(screen.getByText("Wednesday Word")).toBeVisible();
     expect(screen.getByRole("link", { name: /get a reminder/i })).toHaveAttribute(
       "href",
-      "/watch#reminded",
+      "#reminded",
     );
     expect(screen.getByLabelText("Time until gathering")).toBeVisible();
   });

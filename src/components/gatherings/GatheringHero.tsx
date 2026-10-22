@@ -19,7 +19,7 @@ export function GatheringHero({occurrence,series,now,mode="home"}:{occurrence:Pu
   const phase=getGatheringPhase(occurrence,now);
   const name=series?.name??"L.I.F.E. Ministry";
   return <section className={"renewal-hero"+(mode==="watch"?" renewal-hero--watch":"")+(occurrence.title.length>75?" renewal-hero--long":"")} id="next-gathering" data-gathering-phase={phase} aria-labelledby="gathering-title">
-    <Image className="renewal-hero-art" src="/images/renewal/living-water-hero.webp" alt="A cross formed from living water rises above a dark ocean at dawn" fill sizes="100vw" preload/>
+    <Image className="renewal-hero-art" src="/images/renewal/living-water-hero.webp" alt="A cross formed from living water rises above a dark ocean at dawn" fill sizes="(max-width: 767px) max(1104px, 178svh), (max-aspect-ratio: 16/9) max(1156px, 178svh), 100vw" preload/>
     <div className="renewal-hero-shade"/>
     <div className="renewal-hero-note"><span>Wherever you are,<br/>you belong here.</span><Link href="/welcome">Your first visit <span aria-hidden="true">↗</span></Link></div>
     <div className="renewal-hero-content">
@@ -28,7 +28,7 @@ export function GatheringHero({occurrence,series,now,mode="home"}:{occurrence:Pu
         <h1 id="gathering-title">{occurrence.title||name}</h1>
         {occurrence.scripture&&<p className="renewal-hero-scripture">{occurrence.scripture}</p>}
         <p className="renewal-hero-date">{occurrence.dateUnknown?"Recorded message":formatGatheringDate(occurrence.startsAt)}</p>
-        <GatheringActions occurrence={occurrence} now={now}/>
+        <GatheringActions occurrence={occurrence} now={now} reminderHref={mode==="home"?"#reminded":"/watch#reminded"}/>
       </div>
       <div className="renewal-hero-side">
         {(phase==="upcoming"||phase==="joining")?<><p>We gather in</p><GatheringCountdown startsAt={occurrence.startsAt}/></>:phase==="live"?<p className="renewal-live-invitation">The Word is open.<br/>Come join the conversation.</p>:phase==="replay"?<p>Make a little room<br/>for the Word today.</p>:<p>This gathering has ended.<br/>We’ll gather again soon.</p>}
