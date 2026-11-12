@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { ServiceCountdown } from "@/components/ServiceCountdown";
 import { ReminderSignup } from "@/components/ReminderSignup";
+import { useWeeklyService } from "@/components/useWeeklyService";
+import type { ServiceContent } from "@/lib/service-schedule";
 
 interface WeeklyMessage {
   title: string;
@@ -25,7 +27,7 @@ interface YouTubeVideo {
   scripture: string;
 }
 
-interface ContentData {
+interface ContentData extends ServiceContent {
   weeklyMessage: WeeklyMessage;
   thisSunday?: ThisSunday;
   meetLink?: string;
@@ -66,6 +68,7 @@ const fallbackPastServices = [
 
 export default function WatchPage() {
   const [content, setContent] = useState<ContentData | null>(null);
+  const session = useWeeklyService(content);
   const [pastServices, setPastServices] = useState(fallbackPastServices);
 
   useEffect(() => {
@@ -117,14 +120,14 @@ export default function WatchPage() {
           <h1
             className="font-display uppercase tracking-tight leading-[0.9] mb-8"
             style={{
-              fontSize: "clamp(3.5rem, 12vw, 10rem)",
+              fontSize: session?.kind === "wednesday" ? "clamp(2.25rem, 10vw, 10rem)" : "clamp(3.5rem, 12vw, 10rem)",
               fontWeight: 900,
               color: "#0a1a2f",
             }}
           >
             Join Us
             <br />
-            This Sunday
+            This {session?.day ?? "Week"}
           </h1>
 
           {/* Gradient accent line */}
@@ -142,13 +145,13 @@ export default function WatchPage() {
             style={{ color: "#4a6580" }}
           >
             Connect face-to-face with our community from wherever you are.
-            Every Sunday — 8:30 AM PST / 11:30 AM EST
+            {session?.weeklyScheduleLabel || "Sundays and Wednesdays, Eastern Time"}
           </p>
 
           {/* Google Meet Button — PROMINENT */}
           <div className="mb-14">
             <a
-              href={content?.googleMeetLink || content?.meetLink || "https://meet.google.com/hqk-sryh-ado"}
+              href={session?.meetLink || content?.googleMeetLink || content?.meetLink || "https://meet.google.com/hqk-sryh-ado"}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block text-center px-12 py-5 text-white font-body font-bold text-lg uppercase tracking-[0.08em] rounded-xl hover:opacity-90 transition-all shadow-[0_8px_30px_rgba(26,111,181,0.3)]"
@@ -159,7 +162,7 @@ export default function WatchPage() {
           </div>
 
           {/* Countdown */}
-          <ServiceCountdown />
+          <ServiceCountdown service={session} />
         </div>
       </section>
 
@@ -184,9 +187,9 @@ export default function WatchPage() {
                 color: "#0a1a2f",
               }}
             >
-              {content?.thisSunday?.title || content?.weeklyMessage?.title || "Sunday Service"}
+              {session?.title || "Our Next Service"}
             </h2>
-            {(content?.thisSunday?.scripture || content?.weeklyMessage?.scripture) && (
+            {session?.scripture && (
               <p
                 className="font-body font-bold text-lg flex items-center justify-center gap-2 mb-6 uppercase tracking-wide"
                 style={{ color: "#1a6fb5" }}
@@ -204,14 +207,14 @@ export default function WatchPage() {
                     d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
                   />
                 </svg>
-                {content?.thisSunday?.scripture || content?.weeklyMessage?.scripture}
+                {session.scripture}
               </p>
             )}
             <p
               className="font-body text-lg max-w-2xl mx-auto leading-relaxed"
               style={{ color: "#4a6580" }}
             >
-              {content?.thisSunday?.description || content?.weeklyMessage?.description ||
+              {session?.description ||
                 "Join us for worship, fellowship, and an encouraging word from Scripture."}
             </p>
           </div>
@@ -229,17 +232,17 @@ export default function WatchPage() {
                     From Pastor Mike
                   </p>
                   <p className="font-body text-sm" style={{ color: "#4a6580" }}>
-                    What to expect this Sunday
+                    What to expect this {session?.day ?? "week"}
                   </p>
                 </div>
               </div>
               <p className="font-body text-base md:text-lg leading-relaxed" style={{ color: "#0a1a2f" }}>
-                {content?.thisSunday?.description || content?.weeklyMessage?.description ||
-                  "This Sunday we'll be diving deep into God's Word together. Join us for a time of worship, teaching, and fellowship. Come as you are — there's a place for you here. We can't wait to see you!"}
+                {session?.description ||
+                  "Join us for a time of worship, teaching, and fellowship. Come as you are — there's a place for you here."}
               </p>
               <div className="mt-8 pt-6" style={{ borderTop: "1px solid #e8edf2" }}>
                 <a
-                  href={content?.googleMeetLink || content?.meetLink || "https://meet.google.com/hqk-sryh-ado"}
+                  href={session?.meetLink || content?.googleMeetLink || content?.meetLink || "https://meet.google.com/hqk-sryh-ado"}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 font-body font-bold text-sm uppercase tracking-[0.08em] px-6 py-3 rounded-xl text-white transition-all hover:opacity-90"
@@ -248,7 +251,7 @@ export default function WatchPage() {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                   </svg>
-                  Join This Sunday
+                  Join This {session?.day ?? "Week"}
                 </a>
               </div>
             </div>

@@ -1,128 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import type { WeeklyService } from "@/lib/service-schedule";
 
-interface TimeLeft {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-}
-
-interface ServiceSchedule {
-  dayOfWeek: number;
-  hour: number;
-  minute: number;
-  timezone: string;
-}
-
-function getNextService(schedule: ServiceSchedule): Date {
-  const now = new Date();
-  const nextService = new Date(now);
-
-  const daysUntilService = (schedule.dayOfWeek - now.getDay() + 7) % 7;
-
-  // If it's the service day, check if we're past the service time
-  if (daysUntilService === 0) {
-    const currentHour = now.getHours();
-    const currentMinute = now.getMinutes();
-    // If we're 2+ hours past start time, next service is next week
-    if (
-      currentHour > schedule.hour + 2 ||
-      (currentHour === schedule.hour + 2 && currentMinute > 0)
-    ) {
-      nextService.setDate(now.getDate() + 7);
-    }
-  } else {
-    nextService.setDate(now.getDate() + daysUntilService);
-  }
-
-  nextService.setHours(schedule.hour, schedule.minute, 0, 0);
-  return nextService;
-}
-
-function calculateTimeLeft(targetDate: Date): TimeLeft {
-  const now = new Date();
-  const difference = targetDate.getTime() - now.getTime();
-
-  if (difference <= 0) {
-    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-  }
-
-  return {
-    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-    hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-    minutes: Math.floor((difference / 1000 / 60) % 60),
-    seconds: Math.floor((difference / 1000) % 60),
-  };
-}
-
-function formatScheduleTime(schedule: ServiceSchedule): string {
-  const days = ["Sundays", "Mondays", "Tuesdays", "Wednesdays", "Thursdays", "Fridays", "Saturdays"];
-  const hour = schedule.hour % 12 || 12;
-  const ampm = schedule.hour >= 12 ? "PM" : "AM";
-  const minute = schedule.minute > 0 ? `:${String(schedule.minute).padStart(2, "0")}` : ":00";
-  return `${days[schedule.dayOfWeek]} at ${hour}${minute} ${ampm}`;
-}
-
-export function ServiceCountdown() {
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
-  const [isLive, setIsLive] = useState(false);
-  const [schedule, setSchedule] = useState<ServiceSchedule>({
-    dayOfWeek: 0,
-    hour: 10,
-    minute: 0,
-    timezone: "America/New_York",
-  });
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-
-    // Fetch content from API
-    async function fetchContent() {
-      try {
-        const res = await fetch("/api/content");
-        if (res.ok) {
-          const data = await res.json();
-          setIsLive(data.serviceLive || false);
-          if (data.serviceSchedule) {
-            setSchedule(data.serviceSchedule);
-          }
-        }
-      } catch (error) {
-        console.error("Failed to fetch content:", error);
-      }
-    }
-
-    fetchContent();
-    // Poll for live status every 30 seconds
-    const pollInterval = setInterval(fetchContent, 30000);
-
-    return () => clearInterval(pollInterval);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
-
-    const updateCountdown = () => {
-      if (isLive) return;
-      const nextService = getNextService(schedule);
-      setTimeLeft(calculateTimeLeft(nextService));
-    };
-
-    updateCountdown();
-    const interval = setInterval(updateCountdown, 1000);
-
-    return () => clearInterval(interval);
-  }, [mounted, isLive, schedule]);
-
-  if (!mounted) {
+export function ServiceCountdown({ service }: { service: WeeklyService | null }) {
+  if (!service) {
     return (
       <div className="flex flex-col items-center">
         <p className="text-sm uppercase tracking-wider text-text-light mb-4">
@@ -146,7 +27,7 @@ export function ServiceCountdown() {
     );
   }
 
-  if (isLive) {
+  if (service.isLive) {
     return (
       <div className="flex flex-col items-center">
         <div className="inline-flex items-center gap-3 bg-water text-white px-6 py-3 rounded-full text-lg font-medium animate-pulse-soft">
@@ -157,17 +38,17 @@ export function ServiceCountdown() {
           Service is Live!
         </div>
         <p className="mt-4 text-text-body">
-          Join us now for Sunday worship
+          Join us now for {service.day} worship
         </p>
       </div>
     );
   }
 
   const timeUnits = [
-    { value: timeLeft.days, label: "Days" },
-    { value: timeLeft.hours, label: "Hours" },
-    { value: timeLeft.minutes, label: "Mins" },
-    { value: timeLeft.seconds, label: "Secs" },
+    { value: service.countdown.d, label: "Days" },
+    { value: service.countdown.h, label: "Hours" },
+    { value: service.countdown.m, label: "Mins" },
+    { value: service.countdown.s, label: "Secs" },
   ];
 
   return (
@@ -190,7 +71,7 @@ export function ServiceCountdown() {
         ))}
       </div>
       <p className="mt-4 text-sm text-text-body">
-        {formatScheduleTime(schedule)}
+        {service.scheduleLabel}
       </p>
     </div>
   );

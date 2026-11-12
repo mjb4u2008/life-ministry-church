@@ -23,47 +23,11 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { DailyScriptureSection } from "@/components/DailyScripture";
+import { useWeeklyService } from "@/components/useWeeklyService";
 
 /* ─────────────────────────────────────────────
    Countdown Hook
    ───────────────────────────────────────────── */
-function useCountdown() {
-  const getNext = () => {
-    const now = new Date();
-    const sunday = new Date(now);
-    sunday.setHours(11, 30, 0, 0); // 11:30 AM EST = 8:30 AM PST
-    const day = now.getDay();
-    const daysUntil = day === 0 && now < sunday ? 0 : (7 - day) % 7 || 7;
-    sunday.setDate(now.getDate() + daysUntil);
-    return sunday;
-  };
-
-  const [target] = useState(getNext);
-  const [diff, setDiff] = useState({ d: 0, h: 0, m: 0, s: 0 });
-
-  useEffect(() => {
-    const tick = () => {
-      const ms = target.getTime() - Date.now();
-      if (ms <= 0) {
-        setDiff({ d: 0, h: 0, m: 0, s: 0 });
-        return;
-      }
-      const total = Math.floor(ms / 1000);
-      setDiff({
-        d: Math.floor(total / 86400),
-        h: Math.floor((total % 86400) / 3600),
-        m: Math.floor((total % 3600) / 60),
-        s: total % 60,
-      });
-    };
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
-  }, [target]);
-
-  return diff;
-}
-
 /* ─────────────────────────────────────────────
    Placeholder Data
    ───────────────────────────────────────────── */
@@ -150,12 +114,13 @@ const beliefs = [
    ───────────────────────────────────────────── */
 export default function HomePage() {
   const heroRef = useRef<HTMLElement>(null);
-  const countdown = useCountdown();
   const [activeTab, setActiveTab] = useState<"prayers" | "testimonies">(
     "prayers"
   );
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [content, setContent] = useState<any>(null);
+  const session = useWeeklyService(content);
+  const countdown = session?.countdown ?? { d: 0, h: 0, m: 0, s: 0 };
 
   /* Newsletter form state */
   const [nlName, setNlName] = useState("");
@@ -276,7 +241,7 @@ export default function HomePage() {
               className="bg-[#1a6fb5] hover:bg-[#145a94] text-white font-body font-bold text-sm uppercase tracking-wider px-8 py-6 rounded-xl cursor-pointer"
               render={<Link href="/watch" />}
             >
-              Join This Sunday
+              Join This {session?.day ?? "Week"}
               <ArrowRight className="ml-2 size-4" />
             </Button>
             <Button
@@ -300,27 +265,27 @@ export default function HomePage() {
             {/* LEFT COLUMN */}
             <div className="flex flex-col gap-6">
               <Badge className="w-fit bg-[#00d4ff]/15 text-[#00d4ff] border-[#00d4ff]/30 font-body font-bold text-xs uppercase tracking-widest px-4 py-1 h-auto rounded-full">
-                This Sunday
+                {session?.isLive ? "Live Now" : `This ${session?.day ?? "Week"}`}
               </Badge>
 
               <h2
                 className="font-display text-4xl md:text-5xl leading-[1.05]"
                 style={{ fontWeight: 800 }}
               >
-                {content?.thisSunday?.title || content?.weeklyMessage?.title || "Walking in the Spirit"}
+                {session?.title || "Our Next Service"}
               </h2>
 
               <p className="text-white/60 font-body text-base tracking-wide">
-                {content?.thisSunday?.scripture || content?.weeklyMessage?.scripture || "Galatians 5:16-25"}
+                {session?.scripture}
               </p>
 
               <p className="text-white/70 font-body text-base leading-relaxed max-w-lg">
-                {content?.thisSunday?.description || content?.weeklyMessage?.description || "Discover what it means to live a life guided by the Spirit. Join us as we explore Paul\u2019s letter to the Galatians and uncover the fruit that grows when we walk in step with God."}
+                {session?.description || "Join us for worship, Scripture, and fellowship."}
               </p>
 
               <div className="flex items-center gap-3 text-white/50 font-body text-sm tracking-wide">
                 <Clock className="size-4" />
-                <span>Every Sunday &mdash; 8:30 AM PST / 11:30 AM EST</span>
+                <span>{session?.scheduleLabel || "Sunday mornings and Wednesday evenings, Eastern Time"}</span>
               </div>
 
               <Button
@@ -328,7 +293,7 @@ export default function HomePage() {
                 className="w-fit bg-gradient-to-r from-[#1a6fb5] to-[#00b4d8] hover:from-[#145a94] hover:to-[#0096b7] text-white font-body font-bold text-sm uppercase tracking-wider px-8 py-6 rounded-xl mt-2 cursor-pointer"
                 render={
                   <a
-                    href={content?.googleMeetLink || "https://meet.google.com/hqk-sryh-ado"}
+                    href={session?.meetLink || content?.googleMeetLink || "https://meet.google.com/hqk-sryh-ado"}
                     target="_blank"
                     rel="noopener noreferrer"
                   />
@@ -366,7 +331,7 @@ export default function HomePage() {
                 ))}
               </div>
               <p className="text-white/40 font-body text-sm uppercase tracking-widest">
-                until next service
+                {session?.isLive ? "Service is live" : "until next service"}
               </p>
             </div>
           </div>
@@ -379,7 +344,7 @@ export default function HomePage() {
       <section style={{ background: "linear-gradient(90deg, #1a6fb5, #00d4ff)" }} className="py-4">
         <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-white font-body font-semibold text-sm md:text-base tracking-wide">
-            Never miss a Sunday — get reminded before each service
+            {session?.weeklyScheduleLabel || "Join us on Sundays and Wednesdays"}
           </p>
           <a
             href="/watch#reminded"
