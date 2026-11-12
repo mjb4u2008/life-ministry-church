@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
+import { WednesdaySessionEditor } from "@/components/admin/WednesdaySessionEditor";
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -54,6 +55,13 @@ interface SiteContent {
   }[];
   lastUpdated: string;
   googleMeetLink: string;
+  wednesdayMeetLink?: string;
+  thisWednesday?: {
+    date: string;
+    title: string;
+    scripture: string;
+    description: string;
+  };
   youtubeLatestUrl: string;
   thisSunday: {
     date: string;
@@ -136,6 +144,7 @@ interface BlastLog {
 
 type Tab =
   | "this-sunday"
+  | "this-wednesday"
   | "daily-scripture"
   | "past-lessons"
   | "flyer"
@@ -512,7 +521,7 @@ export default function AdminPage() {
       try {
         const [contentRes, prayersRes, testimoniesRes, scriptureRes, insightsRes, subscribersRes, blastLogsRes] =
           await Promise.all([
-            fetch("/api/content"),
+            fetch("/api/content?admin=1", { headers: { Authorization: `Bearer ${t}` } }),
             fetch("/api/prayers"),
             fetch("/api/testimonies", {
               headers: { Authorization: `Bearer ${t}` },
@@ -1284,6 +1293,7 @@ export default function AdminPage() {
 
   const tabs: { id: Tab; label: string }[] = [
     { id: "this-sunday", label: "This Sunday" },
+    { id: "this-wednesday", label: "This Wednesday" },
     { id: "daily-scripture", label: "Daily Scripture" },
     { id: "past-lessons", label: "Past Lessons" },
     { id: "flyer", label: "Flyer Generator" },
@@ -1693,6 +1703,10 @@ export default function AdminPage() {
                   </CardContent>
                 </Card>
               </div>
+            </TabsContent>
+
+            <TabsContent value="this-wednesday" keepMounted>
+              {token && content ? <WednesdaySessionEditor token={token} content={content} onSaved={setContent} /> : <p role="alert" className="text-sm font-body text-red-800">The saved content could not be loaded. Reload the page before editing Wednesday’s session.</p>}
             </TabsContent>
 
             {/* ═════════════════════════════════════════════════════════════════

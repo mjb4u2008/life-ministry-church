@@ -37,6 +37,13 @@ export interface SiteContent {
   tiktokVideos: TikTokVideo[];
   lastUpdated: string;
   googleMeetLink: string;
+  wednesdayMeetLink?: string;
+  thisWednesday?: {
+    date: string;
+    title: string;
+    scripture: string;
+    description: string;
+  };
   youtubeLatestUrl: string;
   thisSunday: {
     date: string;
@@ -127,8 +134,8 @@ const DEFAULT_CONTENT: SiteContent = {
   },
   serviceSchedule: {
     dayOfWeek: 0,
-    hour: 10,
-    minute: 0,
+    hour: 11,
+    minute: 30,
     timezone: "America/New_York",
   },
   lobbyOpen: false,
@@ -166,6 +173,10 @@ const DEFAULT_DAILY_SCRIPTURE: DailyScripture = {
 
 // ─── Content functions ─────────────────────────────────────────────────────────
 
+export async function getAdminContent(): Promise<SiteContent> {
+  return await kv.get<SiteContent>("site-content") || DEFAULT_CONTENT;
+}
+
 export async function getContent(): Promise<SiteContent> {
   try {
     const data = await kv.get<SiteContent>("site-content");
@@ -180,7 +191,7 @@ export async function updateContent(
   content: Partial<SiteContent>
 ): Promise<SiteContent> {
   try {
-    const currentContent = await getContent();
+    const currentContent = await getAdminContent();
     const updatedContent: SiteContent = {
       ...currentContent,
       ...content,
@@ -190,8 +201,7 @@ export async function updateContent(
     return updatedContent;
   } catch (error) {
     console.error("KV error:", error);
-    const currentContent = await getContent();
-    return { ...currentContent, ...content, lastUpdated: new Date().toISOString() };
+    throw error;
   }
 }
 

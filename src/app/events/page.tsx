@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useWeeklyService } from "@/components/useWeeklyService";
+import { getWeeklyService, type ServiceContent } from "@/lib/service-schedule";
 import {
   ArrowRight,
   Calendar,
@@ -14,31 +15,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
-/* ─────────────────────────────────────────────
-   Compute next 3 Sundays dynamically
-   ───────────────────────────────────────────── */
-function getNextSundays(count: number): Date[] {
-  const sundays: Date[] = [];
-  const now = new Date();
-  const current = new Date(now);
-  current.setHours(11, 30, 0, 0); // 11:30 AM EST
-
-  // Start from today or next Sunday
-  const day = current.getDay();
-  if (day !== 0 || now > current) {
-    current.setDate(current.getDate() + ((7 - day) % 7 || 7));
-  }
-
-  for (let i = 0; i < count; i++) {
-    sundays.push(new Date(current));
-    current.setDate(current.getDate() + 7);
-  }
-
-  return sundays;
-}
-
 function formatDate(date: Date): string {
   return date.toLocaleDateString("en-US", {
+    timeZone: "America/New_York",
     weekday: "long",
     month: "long",
     day: "numeric",
@@ -48,13 +27,24 @@ function formatDate(date: Date): string {
 
 function formatShortDate(date: Date): string {
   return date.toLocaleDateString("en-US", {
+    timeZone: "America/New_York",
     month: "short",
     day: "numeric",
   });
 }
 
 export default function EventsPage() {
-  const nextSundays = useMemo(() => getNextSundays(3), []);
+  const [content, setContent] = useState<ServiceContent | null>(null);
+  const service = useWeeklyService(content);
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch("/api/content", { signal: controller.signal }).then(async (response) => {
+      if (response.ok) setContent(await response.json());
+    }).catch(() => {});
+    return () => controller.abort();
+  }, []);
+  const sessions = service ? [service] : [];
+  while (sessions.length > 0 && sessions.length < 3) sessions.push(getWeeklyService(content, sessions[sessions.length - 1].endsAt));
 
   return (
     <div>
@@ -89,13 +79,13 @@ export default function EventsPage() {
           {/* Section heading */}
           <div className="text-center mb-6">
             <Badge className="mb-6 bg-[#1a6fb5]/10 text-[#1a6fb5] border-[#1a6fb5]/20 font-body font-bold text-xs uppercase tracking-widest px-4 py-1 h-auto rounded-full">
-              Sunday Services
+              Wednesday &amp; Sunday Services
             </Badge>
             <h2
               className="font-display text-3xl md:text-4xl lg:text-5xl tracking-tight"
               style={{ fontWeight: 900, color: "#0a1a2f" }}
             >
-              Join Us This Sunday
+              Join Us This Week
             </h2>
           </div>
 
@@ -105,35 +95,35 @@ export default function EventsPage() {
 
           {/* Event Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-            {nextSundays.map((sunday, i) => (
+            {sessions.map((session) => (
               <Card
-                key={i}
+                key={`${session.kind}:${session.date}`}
                 className="bg-white ring-1 ring-[#e0eaf3] rounded-xl hover:shadow-lg transition-shadow duration-300 py-0"
               >
                 <CardContent className="p-6 md:p-8">
                   <Badge className="mb-4 bg-[#00d4ff]/10 text-[#0a1a2f] border-[#00d4ff]/30 font-body font-bold text-xs px-3 py-1 h-auto rounded-full">
                     <Calendar className="size-3 mr-1.5" />
-                    {formatShortDate(sunday)}
+                    {formatShortDate(session.startsAt)}
                   </Badge>
 
                   <h3
                     className="font-display text-xl md:text-2xl mb-3"
                     style={{ fontWeight: 800, color: "#0a1a2f" }}
                   >
-                    L.I.F.E. Sunday Worship
+                    L.I.F.E. {session.day} {session.kind === "wednesday" ? "Session" : "Worship"}
                   </h3>
 
                   <div className="space-y-2 mb-6">
                     <div className="flex items-center gap-2 text-sm font-body" style={{ color: "#4a6580" }}>
                       <Clock className="size-4 text-[#1a6fb5]" />
-                      <span>8:30 AM PST / 11:30 AM EST</span>
+                      <span>{session.scheduleLabel}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm font-body" style={{ color: "#4a6580" }}>
                       <MapPin className="size-4 text-[#1a6fb5]" />
                       <span>Online via Google Meet</span>
                     </div>
                     <p className="text-sm font-body leading-relaxed mt-3" style={{ color: "#4a6580" }}>
-                      {formatDate(sunday)} — Join us for an uplifting time of worship, prayer, and the Word. Everyone is welcome.
+                      {formatDate(session.startsAt)} — Join us for an uplifting time of worship, prayer, and the Word. Everyone is welcome.
                     </p>
                   </div>
 
@@ -141,7 +131,7 @@ export default function EventsPage() {
                     className="w-full bg-[#1a6fb5] hover:bg-[#145a94] text-white font-body font-bold text-xs uppercase tracking-wider rounded-lg cursor-pointer"
                     render={
                       <a
-                        href="https://meet.google.com/hqk-sryh-ado"
+                        href={session.meetLink}
                         target="_blank"
                         rel="noopener noreferrer"
                       />
